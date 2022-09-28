@@ -1,0 +1,11 @@
+htmlFarben={'Pink':['LightPink','HotPink','DeepPink','PaleVioletRed','MediumVioletRed'],
+'Rot':['LightSalmon','Salmon','DarkSalmon','LightCoral','IndianRed','Crimson','FireBrick','DarkRed','Red'],
+'Orange':['OrangeRed','Tomato','Coral','DarkOrange','Orange'],
+'Gelb':['Yellow	LightYellow','LemonChiffon','LightGoldenrodYellow','PapayaWhip','Moccasin','PeachPuff','PaleGoldenrod','Khaki','DarkKhaki','Gold'],
+'Braun':['Cornsilk','BlanchedAlmond','Bisque','NavajoWhite','Wheat','BurlyWood','Tan','RosyBrown','SandyBrown','Goldenrod','DarkGoldenrod','Peru','Chocolate','SaddleBrown','Sienna','Brown','Maroon'],
+'Grün':['DarkOliveGreen','Olive','OliveDrab','YellowGreen','LimeGreen','Lime','LawnGreen','Chartreuse','GreenYellow','SpringGreen','MediumSpringGreen','LightGreen','PaleGreen','DarkSeaGreen','MediumSeaGreen','SeaGreen','ForestGreen','Green','DarkGreen'],
+'Cyan':['MediumAquamarine','Aqua','Cyan','LightCyan','PaleTurquoise','Aquamarine','Turquoise','MediumTurquoise','DarkTurquoise','LightSeaGreen','CadetBlue','DarkCyan','Teal'],
+'Blau':['LightSteelBlue','PowderBlue','LightBlue','SkyBlue','LightSkyBlue','DeepSkyBlue','DodgerBlue','CornflowerBlue','SteelBlue','RoyalBlue','Blue','MediumBlue','DarkBlue','Navy','MidnightBlue'],
+'Violett':['Lavender','Thistle','Plum','Violet','Orchid','Fuchsia','Magenta','MediumOrchid','MediumPurple','BlueViolet','DarkViolet','DarkOrchid','DarkMagenta','Purple','Indigo','DarkSlateBlue','SlateBlue','MediumSlateBlue','RebeccaPurple'],
+'Weiß':['White','Snow','Honeydew','MintCream','Azure','AliceBlue','GhostWhite','WhiteSmoke','Seashell','Beige','OldLace','FloralWhite','Ivory','AntiqueWhite','Linen','LavenderBlush','MistyRose'],
+'Grau/Schwarz':['Gainsboro','LightGray','Silver','DarkGray','Gray','DimGray','LightSlateGray','SlateGray','DarkSlateGray','Black']}

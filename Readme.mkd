@@ -1,0 +1,87 @@
+# Arbeitsblätter mit Python und Latex erzeugen
+
+## Inhalt
+* [Vorbemerkung](#vorbemerkung)
+* [Idee hinter dem Projekt](#idee-hinter-dem-projekt)
+* [Allgemeine Informationen](#allgemeine-informationen)
+* [Voraussetzungen](#voraussetzungen)
+* [Nutzung](#nutzung)
+* [Website](#website)
+* [Beschreibung](#beschreibung)
+* [Probleme](#probleme)
+
+## Vorbemerkung
+Ich habe mit diesem Projekt Python gelernt. Dadurch sind viele Funktionen in diesem Projekt je nach Kenntnisstand unterschiedlich aufgebaut. Außerdem hatte ich anfangs ich noch keine Ahnung, wie Module in Python funktionieren und wie man diese erstellt. Dadurch wird dies Skript unter Verwendung von exec(open("").read()) ausgeführt und nicht mit import. Ich hatte mal versucht, dieses Skript auf Module umzustellen, hatte es aus Zeitgründen nicht geschafft. Gleiche Probleme stellen sich an verschiedenen Stellen des Projektes. Z.B gilt für die Webseite, dass ich vor diesem Projekt noch keine Webseite erstellt hatte, weshalb auch hier verschiedene Kenntnisstände aufeinander treffen.
+
+## Idee hinter dem Projekt
+Als ich als Lehrer anfing, wurde sehr schnell klar, dass meine Schülerinnen und Schüler Probleme haben, Inhalte zu bearbeiten, wenn zwischen der Einführung und erneuten Behandlung ein halbes Jahr oder mehr vergangen ist. Es fehlt die regelmäßige Übung, um die Lerninhalte zu festigen. Weiter fehlte es mir aber auch an Material, um den Schülerinnen regelmäßige Übungsaufgaben zur Verfügung zu stellen. Und bei den Aufgaben, die ich hatte, fehlten entweder die Lösungen oder diese waren nur sehr kurz und knapp gehalten. Ich wollte aber meinen Schülerinnen regelmäßige Übungsaufgaben zur Verfügung stellen, welche sehr ausführlichen Lösungen haben, damit sie sich selber Schritt für Schritt kontrollieren können.
+Als das Projekt entsprechend gewachsen war, wollte ich es meinen Kollegen zur Verfügung stellen. Es ist daher nun so ausgelegt, dass eine Webseite erstellt wird, mit der man verschiedene Aufgaben auswählen kann. Python erzeugt entsprechend dieser Auswahl eine PDF Datei mit Aufgaben und ausführlichen Lösungen. Das Skript soll auf einem Raspberry Pi oder anderem Linux-Webserver laufen, damit ein im Umgang mit Computer erfahrener Kollege seinem Kollegium den Generator zur Verfügung stellen kann.
+
+## Voraussetzungen und Installation
+* Raspberry Pi
+* Python 3.8 oder höher
+* xelatex
+* Python Module: numpy  matplotlib datetime sympy flask flask_wtf wtforms
+### Installation der Voraussetzungen:
+```
+sudo apt install texlive texlive-lang-german texlive-latex-extra texlive-generic-extra texlive-xetex texlive-pstricks python3-pip libatlas-base-dev
+pip3 install numpy  matplotlib datetime sympy flask flask_wtf wtforms psutil
+```
+### Installation des Skriptes
+Kopiere die gesamte Ordnerstruktur unter /home/pi/abgen.
+
+
+## Website
+Starte das Skript mit dem Befehl
+```
+python3 starteSkriptDurchWebseite.py
+```
+In einem Webbrowser findet sich dann der Generator bei:
+
+http://127.0.0.1:5000
+
+### Service
+Im Ordner *serverDateien* befinden sich das Skript *abgen.service* mit dem man den Generator als Service starten kann, welcher im Hintergrund läuft. Kopiere die Datei nach */lib/systemd/system* und aktivere den Service mit 
+
+```
+sudo systemctl enable abgen
+sudo systemctl daemon-reload
+sudo systemctl start abgen
+```
+### Apache2 Configdatei
+Die Datei *abgenerator.ddns.net.conf* enthält eine Beispielkonfiguration, wie man mit einem als Reverse Proxy konfigurierten Apache-Server den Generator über eine Adresse aufrufen kann.
+
+
+## Programmaufbau und Ablauf
+### Aufbau
+Das Programm besteht aus folgenden Ordner: Aufrufe, Ausgabe, Erklaerungen, Funktionen.
+In Aufrufe befinden sich die Skripte, mit denen man unter Verwendung der Skripte im Ordner Funktionen Arbeitsblätter erstellen kann. Dies wird aber nur noch benötigt, wenn man die Webseite nicht nutzen möchte.
+In der Ausgabe wird das fertige Arbeitsblatt gespeichert.
+Im Ordner Erklaerungen sollen besondere Schwierigkeiten näher beleuchtet werden.
+Im Ordner Funktionen befinden sich die Skripte zum Erzeugen der verschiedenen Aufgaben.
+### Programmablauf, nach dem auf "senden" gedrückt wird.
+Jeder ausgewählten Aufgabe wird ein Bezeichner zugewiesen. Dieser Bezeichner und andere gewählte Optionen von der Webseite werden dem Skript *erzeugeTaeglicheRechnungenArgs* als Parameter übergeben. Dies Skript findet sich unter "Aufrufe/taeglicheUebungen".
+
+Das Skript *erzeugeTaeglicheRechnungenArgs* ruft die Funktion *erzeugeArbeitsblattTaeglicheUebungen()* auf. Diese Funktion ruft die einzelnen Funktionen auf, die zusammen ein LaTeX Dokument erzeugen. Dabei ruft es auch die Funktion *erzeuge10minRechnung()* aus der Datei "funktionenRechenBezeichnungen.py" auf. Diese Funktion besteht im Grunde nur aus einem Dictionary, welchem jedem Bezeichner von der Webseite einen Funktionsaufruf zuordnet. Je nach ausgewählten Bezeichner wird dann eine andere Funktion aufgerufen, welche die gewählte Aufgabe im LaTeX-Format erzeugt.
+
+##Eine neue Aufgabe der Webseite hinzufügen
+1. Erzeuge eine neue Funktion in einer vorhandenen Skriptdatei oder in einer neuen, mit dem Namensformat *funktionenNeuerName.py*.
+2. **Wichtig:** Die Funktion muss eine Rückgabe der Form **[aufgabe,loesung,[werte]]** haben.
+2. Gib der Funktionen einen eindeutigen Bezeichner und füge diesem dem Dictionary in der Funktion *erzeuge10minRechnung()* hinzu.
+3. Füge in der Funktion *MoeglicheRechnungen()* einem neuen Eintrag in dem Dictionary listeRechnungen hinzu.
+4. Erzeuge dazu einen neuen Tuple im Format **('Bezeichner','Beschreibung der Funktion')** zu einem vorhanden Listeneintrag hinzu.
+5. Oder erzeuge einen neuen Listeneintrag im Format **'NameErstesDropdownMenueAufWebseite':[('Bezeichner','Beschreibung der Funktion')]**
+## Aufruf ohne Homepage
+### Einfaches Beispiel
+Das Beispiel *"einfachesArbeitsblatt.py"* gibt einen einfachen Einstieg wie die Skripte funktionieren. In einer Main-Funktion werden allgemeine Informationen wie Datum, Titel, Anzahl an Rechnungen und sonstiges gesetzt. Diese Main-Funktion ruft eine Funktion auf, die zuerst die Aufgaben erzeugt und dann mit diesen Aufgaben und den in Main gesetzten Parametern ein LateX Dokument generiert. Mit den Befehlen *os.system()*, *os.rename()* wird dann mit XeLateX ein Dokument newFile.pdf erzeugt, welches in den gewünschten Dokumentenname umbenannt wird. *os.remove()* entfernt zum Schluss die LateX Dateien.
+
+### Aufgaben Erzeugen
+Aufgaben werden in Funktionen erzeugt, die folgende Rückgabe enthalten müssen: *[afg,lsg,zahlen]*. *afg* enthält die gesamte Aufgabe, mit Beschreibung, Anweisungen und Bildern. Diese kann in Form einer Liste oder einem String vorliegen. *lsg* enthält passend zu *afg* eine ausführliche Lösung der Aufgabe. Möchte man von dem vorgegebenen Format der Aufgabe abweichen, kann man mit den Zahlen in *zahlen* einen eigenen Aufgabetext erzeugen.
+
+### Tägliche Übungen
+Das Skript "*erzeugeTaeglicheRechnungenKlasse8.py*" benutzt die Klasse *rechnungsFunktionen* die in der Funktion "*erzeuge10minRechnung(art)*" gespeichert ist. Diese Klasse enthält Beispielaufrufe von den verschiedenen Funktionen um kurze Aufgaben zu erzeugen.
+
+
+## Probleme
+### Modules und Packages
+Ich würde gerne das Paket in Form eines Python Moduls aufbauen, aber ich habe die Dateien und Funktionen so ineinander verschachtelt, dass ich einen Großteil umschreiben muss. Ich hoffe, irgendwann dafür Zeit zu finden.
