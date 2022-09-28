@@ -89,4 +89,4 @@ Ich würde gerne das Paket in Form eines Python Moduls aufbauen, aber ich habe d
 ## Kaffee
 Ich habe viele Stunden an dem Generator gesessen. Sollte er dir gefallen und du ihn gerne Nutzen würde ich mich über einen kleinen Kaffee freuen, damit ich mehr Energie zum Erweitern habe.
 
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/buttons/manage/MYJRLQJQH39LG)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=MYJRLQJQH39LG)
