@@ -3,11 +3,10 @@
 ## Inhalt
 * [Vorbemerkung](#vorbemerkung)
 * [Idee hinter dem Projekt](#idee-hinter-dem-projekt)
-* [Allgemeine Informationen](#allgemeine-informationen)
-* [Voraussetzungen](#voraussetzungen)
-* [Nutzung](#nutzung)
+* [Voraussetzungen und Installation](#voraussetzungen-und-installation)
 * [Website](#website)
-* [Beschreibung](#beschreibung)
+* [Programmaufbau und Ablauf](#programmaufbau-und-ablauf)
+* [Aufruf ohne Homepage](#aufruf-ohne-homepage)
 * [Probleme](#probleme)
 
 ## Vorbemerkung
