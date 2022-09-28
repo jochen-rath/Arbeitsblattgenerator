@@ -10,7 +10,7 @@
 * [Probleme](#probleme)
 
 ## Vorbemerkung
-Ich habe mit diesem Projekt Python gelernt. Dadurch sind viele Funktionen in diesem Projekt je nach Kenntnisstand unterschiedlich aufgebaut. Außerdem hatte ich anfangs ich noch keine Ahnung, wie Module in Python funktionieren und wie man diese erstellt. Dadurch wird dies Skript unter Verwendung von exec(open("").read()) ausgeführt und nicht mit import. Ich hatte mal versucht, dieses Skript auf Module umzustellen, hatte es aus Zeitgründen nicht geschafft. Gleiche Probleme stellen sich an verschiedenen Stellen des Projektes. Z.B gilt für die Webseite, dass ich vor diesem Projekt noch keine Webseite erstellt hatte, weshalb auch hier verschiedene Kenntnisstände aufeinander treffen.
+Ich habe mit diesem Projekt Python gelernt. Dadurch sind viele Funktionen in diesem Projekt je nach Kenntnisstand unterschiedlich aufgebaut. Außerdem hatte ich anfangs ich noch keine Ahnung, wie Module in Python funktionieren und wie man diese erstellt. Dadurch wird dies Skript unter Verwendung von exec(open("").read()) ausgeführt und nicht mit import. Ich hatte mal versucht, dieses Skript auf Module umzustellen, hatte es aus Zeitgründen nicht geschafft. Gleiche Probleme stellen sich an verschiedenen Stellen des Projektes. Z. B. gilt für die Webseite, dass ich vor diesem Projekt noch keine Webseite erstellt hatte, weshalb auch hier verschiedene Kenntnisstände aufeinander treffen.
 
 ## Idee hinter dem Projekt
 Als ich als Lehrer anfing, wurde sehr schnell klar, dass meine Schülerinnen und Schüler Probleme haben, Inhalte zu bearbeiten, wenn zwischen der Einführung und erneuten Behandlung ein halbes Jahr oder mehr vergangen ist. Es fehlt die regelmäßige Übung, um die Lerninhalte zu festigen. Weiter fehlte es mir aber auch an Material, um den Schülerinnen regelmäßige Übungsaufgaben zur Verfügung zu stellen. Und bei den Aufgaben, die ich hatte, fehlten entweder die Lösungen oder diese waren nur sehr kurz und knapp gehalten. Ich wollte aber meinen Schülerinnen regelmäßige Übungsaufgaben zur Verfügung stellen, welche sehr ausführlichen Lösungen haben, damit sie sich selber Schritt für Schritt kontrollieren können.
@@ -90,3 +90,6 @@ Ich würde gerne das Paket in Form eines Python Moduls aufbauen, aber ich habe d
 Ich habe viele Stunden an dem Generator gesessen. Sollte er dir gefallen und du ihn gerne Nutzen würde ich mich über einen kleinen Kaffee freuen, damit ich mehr Energie zum Erweitern habe.
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=MYJRLQJQH39LG)
+
+##Danksagung
+Ich danke meiner Schule der Haupt- und Realschule Loxstedt, dass sie mir die Möglichkeit geschaffen hat, meinen Arbeitsblattgenerator durch dem Erstellen des Zugriffes über die Webseite anderen Lehrern zur Verfügung zu stellen.
