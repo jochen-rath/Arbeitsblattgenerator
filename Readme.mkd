@@ -84,3 +84,7 @@ Das Skript "*erzeugeTaeglicheRechnungenKlasse8.py*" benutzt die Klasse *rechnung
 ## Probleme
 ### Modules und Packages
 Ich würde gerne das Paket in Form eines Python Moduls aufbauen, aber ich habe die Dateien und Funktionen so ineinander verschachtelt, dass ich einen Großteil umschreiben muss. Ich hoffe, irgendwann dafür Zeit zu finden.
+
+## Kaffee
+Ich habe viele Stunden an dem Generator gesessen. Sollte er dir gefallen und du ihn gerne Nutzen würde ich mich über einen kleinen Kaffee freuen, damit ich mehr Energie zum erweitern habe.
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/buttons/manage/MYJRLQJQH39LG)
