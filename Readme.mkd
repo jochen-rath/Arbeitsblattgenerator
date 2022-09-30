@@ -67,8 +67,7 @@ Das Skript *erzeugeTaeglicheRechnungenArgs* ruft die Funktion *erzeugeArbeitsbla
 1. Erzeuge eine neue Funktion in einer vorhandenen oder in einer neuen Skriptdatei mit dem Namensformat *funktionenNeuerName.py*.
 2. **Wichtig:** Die Funktion muss eine Rückgabe der Form **[aufgabe,loesung,[werte]]** haben.
 2. Gib der Funktionen einen eindeutigen Bezeichner und füge diesem dem Dictionary in der Funktion *erzeuge10minRechnung()* hinzu.
-3. Füge in der Funktion *MoeglicheRechnungen()* einem neuen Eintrag in dem Dictionary *listeRechnungen* hinzu.
-4. Erzeuge dazu einen neuen Tuple im Format **('Bezeichner','Beschreibung der Funktion')** zu einem vorhanden Listeneintrag hinzu.
+3. Füge in der Funktion *MoeglicheRechnungen()* einem neuen Eintrag in dem Dictionary *listeRechnungen* hinzu, indem ein neues Tuple im Format **('Bezeichner','Beschreibung der Funktion')** in einer vorhanden Liste eingetragen wird.
 5. Oder erzeuge einen neuen Listeneintrag im Format **'NameErstesDropdownMenueAufWebseite':[('Bezeichner','Beschreibung der Funktion')]**
 ## Aufruf ohne Homepage
 ### Einfaches Beispiel
