@@ -64,7 +64,7 @@ Jeder ausgewählten Aufgabe wird ein Bezeichner zugewiesen. Dieser Bezeichner un
 Das Skript *erzeugeTaeglicheRechnungenArgs* ruft die Funktion *erzeugeArbeitsblattTaeglicheUebungen()* auf. Diese Funktion ruft die einzelnen Funktionen auf, die zusammen ein LaTeX Dokument erzeugen. Dabei ruft es auch die Funktion *erzeuge10minRechnung()* aus der Datei "funktionenRechenBezeichnungen.py" auf. Diese Funktion besteht im Grunde nur aus einem Dictionary, welchem jedem Bezeichner von der Webseite einen Funktionsaufruf zuordnet. Je nach ausgewählten Bezeichner wird dann eine andere Funktion aufgerufen, welche die gewählte Aufgabe im LaTeX-Format erzeugt.
 
 ## Eine neue Aufgabe der Webseite hinzufügen
-1. Erzeuge eine neue Funktion in einer vorhandenen Skriptdatei oder in einer neuen, mit dem Namensformat *funktionenNeuerName.py*.
+1. Erzeuge eine neue Funktion in einer vorhandenen oder in einer neuen Skriptdatei mit dem Namensformat *funktionenNeuerName.py*.
 2. **Wichtig:** Die Funktion muss eine Rückgabe der Form **[aufgabe,loesung,[werte]]** haben.
 2. Gib der Funktionen einen eindeutigen Bezeichner und füge diesem dem Dictionary in der Funktion *erzeuge10minRechnung()* hinzu.
 3. Füge in der Funktion *MoeglicheRechnungen()* einem neuen Eintrag in dem Dictionary listeRechnungen hinzu.
