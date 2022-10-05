@@ -77,7 +77,7 @@ def loeseGleichungEinfachMitEinerVariabel(G="2*x+6=3*x-2",variable='x',mitTikzUm
     operator='+0'
 #Solange Links nicht nur die Variabel steht, soll umgeformt werden.
     loopCounter=0
-    while not (L==variable or L==variable+'**2') and loopCounter<10 or (variable in R):
+    while (not (L==variable or L==variable+'**2') or (variable in R)) and loopCounter<10:
         print(L+'='+R)
         Lsplit,Rsplit=spliteSeiteAddSub(L),spliteSeiteAddSub(R)
 #1. Überprüfen ob Links noch eine reine Zahl steht. Achtung, wenn die Zahl nurnoch Null ist, entsteht eine Dauerschleife

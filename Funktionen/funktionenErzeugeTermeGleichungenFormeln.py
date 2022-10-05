@@ -76,7 +76,7 @@ def erzeugeTerm(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,maxMulti=5,m
     return term+unterterme[-1]
 
 
-def erzeugeTermAufgaben(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,mitKlammer=False):
+def erzeugeTermAufgaben(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,mitKlammer=False,mitText=True):
 #Diese Funktion erezeugt einen Term, der umgeschrieben und vereinfacht werden soll. Ausgegeben wird auch eine Lösung:
 #
 #           [afg,lsg,term]=erzeugeTermAufgaben(variablen='x y z',anzahl=3)
@@ -88,7 +88,7 @@ def erzeugeTermAufgaben(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,mitK
 #         lsg: Lösung
 #         term: term ohne Vorwort
     term=erzeugeTerm(variablen=variablen,anzahl=anzahl,variMaxAnzProUnterterm=variMaxAnzProUnterterm,mitKlammer=mitKlammer)
-    afg=['Vereinfache: $$'+term.replace('*','\\cdot ')+'$$']
+    afg=[F'{"Vereinfache:" if mitText else ""}$${term}$$'.replace("*","\\cdot")]
     lsg=sympy.sympify(term)
 #    lsg=['$'+term.replace('*','\\cdot ')+'='+str(lsg).replace('**','^').replace('*','\\cdot ')+'$']
     lsg=['$'+term.replace('*','\\cdot ')+'='+str(lsg).replace('**','^').replace('*','')+'$']
@@ -96,7 +96,7 @@ def erzeugeTermAufgaben(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,mitK
 
 
 
-def erzeugeEinfacheGleichung(variabel='x',mitKlammer=False,mitQuadrat=False,ohneKomma=False):
+def erzeugeEinfacheGleichung(variabel='x',mitKlammer=False,mitQuadrat=False,ohneKomma=False,mitText=True):
 #Diese Funktion erzeugt eine Gleichung mit einem x ohne Potenz.
 #
 #Aufruf 
@@ -132,12 +132,12 @@ def erzeugeEinfacheGleichung(variabel='x',mitKlammer=False,mitQuadrat=False,ohne
                             term1=term1+('+' if not (potenzTerm[0][0]=='+' or potenzTerm[0][0]=='-') else '')+potenzTerm[0]
                         enthaeltNichtGenauEinePotenz=False
             G=term1+'='+term2
-        afg=['Berechne die Variable'+'$$'+G.replace('**','^').replace('*','\\cdot ')+'$$']
-        print(F'G: {G}')
+        afg=[('Berechne die Variable' if mitText else '')+'$$'+G.replace('**','^').replace('*','\\cdot ')+'$$']
+#        print(F'G: {G}')
         lsg=loeseGleichungEinfachMitEinerVariabel(G=G,variable=variabel,mitProbe=True)
         if (not lsg=='Error') and ohneKomma:
             erg=loeseGleichungEinfachMitEinerVariabel(G=G,variable=variabel,mitProbe=True,latexAusgabe=False)
-            print(F'erg: {erg}')
+#            print(F'erg: {erg}')
             if ('.' in erg) or ('/' in erg) or int(erg.split('=')[1])==0:
                 lsg='Error'
     return [afg,lsg,G]
