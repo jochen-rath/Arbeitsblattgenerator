@@ -1,4 +1,4 @@
-# Arbeitsblätter mit Python und LaTex erzeugen
+# Arbeitsblätter mit Python und LaTeX erzeugen
 
 ## Inhalt
 * [Vorbemerkung](#vorbemerkung)
