@@ -1,4 +1,4 @@
-# Arbeitsblätter mit Python und Latex erzeugen
+# Arbeitsblätter mit Python und LaTex erzeugen
 
 ## Inhalt
 * [Vorbemerkung](#vorbemerkung)
@@ -73,7 +73,7 @@ Das Skript *erzeugeTaeglicheRechnungenArgs* ruft die Funktion *erzeugeArbeitsbla
 5. Oder erzeuge einen neuen Listeneintrag im Format **'NameErstesDropdownMenueAufWebseite':[('Bezeichner','Beschreibung der Funktion')]**
 ## Aufruf ohne Homepage
 ### Einfaches Beispiel
-Das Beispiel *"einfachesArbeitsblatt.py"* gibt einen einfachen Einstieg wie die Skripte funktionieren. In einer Main-Funktion werden allgemeine Informationen wie Datum, Titel, Anzahl an Rechnungen und sonstiges gesetzt. Diese Main-Funktion ruft eine Funktion auf, die zuerst die Aufgaben erzeugt und dann mit diesen Aufgaben und den in Main gesetzten Parametern ein LateX Dokument generiert. Mit den Befehlen *os.system()*, *os.rename()* wird dann mit XeLateX ein Dokument newFile.pdf erzeugt, welches in den gewünschten Dokumentenname umbenannt wird. *os.remove()* entfernt zum Schluss die LateX Dateien.
+Das Beispiel *"einfachesArbeitsblatt.py"* gibt einen einfachen Einstieg wie die Skripte funktionieren. In einer Main-Funktion werden allgemeine Informationen wie Datum, Titel, Anzahl an Rechnungen und sonstiges gesetzt. Diese Main-Funktion ruft eine Funktion auf, die zuerst die Aufgaben erzeugt und dann mit diesen Aufgaben und den in Main gesetzten Parametern ein LaTeX Dokument generiert. Mit den Befehlen *os.system()*, *os.rename()* wird dann mit XeLaTeX ein Dokument newFile.pdf erzeugt, welches in den gewünschten Dokumentenname umbenannt wird. *os.remove()* entfernt zum Schluss die LaTeX Dateien.
 
 ### Aufgaben Erzeugen
 Aufgaben werden in Funktionen erzeugt, die folgende Rückgabe enthalten müssen: *[afg,lsg,zahlen]*. *afg* enthält die gesamte Aufgabe, mit Beschreibung, Anweisungen und Bildern. Diese kann in Form einer Liste oder einem String vorliegen. *lsg* enthält passend zu *afg* eine ausführliche Lösung der Aufgabe. Möchte man von dem vorgegebenen Format der Aufgabe abweichen, kann man mit den Zahlen in *zahlen* einen eigenen Aufgabetext erzeugen.
