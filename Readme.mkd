@@ -93,4 +93,4 @@ Ich habe viele Stunden an dem Generator gesessen. Sollte er dir gefallen und du 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate/?hosted_button_id=MYJRLQJQH39LG)
 
 ## Danksagung
-Ich danke meiner Schule der Haupt- und Realschule Loxstedt, dass sie mir die Möglichkeit geschaffen hat, meinen Arbeitsblattgenerator durch dem Erstellen des Zugriffes über die Webseite anderen Lehrern zur Verfügung zu stellen.
+Ich danke meiner Schule der Haupt- und Realschule Loxstedt, dass sie mir die Möglichkeit geschaffen hat, die Webseite zu erstellen und somit anderen Lehrern den Zugriff auf den Generator ermöglichte.
