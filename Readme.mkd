@@ -8,6 +8,8 @@
 * [Programmaufbau und Ablauf](#programmaufbau-und-ablauf)
 * [Aufruf ohne Homepage](#aufruf-ohne-homepage)
 * [Probleme](#probleme)
+* [Kaffee](#kaffee)
+* [Danksagung](#danksagung)
 
 ## Vorbemerkung
 Ich habe mit diesem Projekt Python gelernt. Dadurch sind viele Funktionen in diesem Projekt je nach Kenntnisstand unterschiedlich aufgebaut. Außerdem hatte ich anfangs ich noch keine Ahnung, wie Module in Python funktionieren und wie man diese erstellt. Dadurch wird dies Skript unter Verwendung von exec(open("").read()) ausgeführt und nicht mit import. Ich hatte mal versucht, dieses Skript auf Module umzustellen, hatte es aus Zeitgründen nicht geschafft. Gleiche Probleme stellen sich an verschiedenen Stellen des Projektes. Z. B. gilt für die Webseite, dass ich vor diesem Projekt noch keine Webseite erstellt hatte, weshalb auch hier verschiedene Kenntnisstände aufeinander treffen.
