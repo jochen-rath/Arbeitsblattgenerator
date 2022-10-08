@@ -26,6 +26,10 @@ Als das Projekt entsprechend gewachsen war, wollte ich es meinen Kollegen zur Ve
 ### Installation der Voraussetzungen:
 ```
 sudo apt install texlive texlive-lang-german texlive-latex-extra texlive-generic-extra texlive-xetex texlive-pstricks python3-pip libatlas-base-dev
+pip3 install -r requirements.txt
+```
+bzw.
+```
 pip3 install numpy  matplotlib datetime sympy flask flask_wtf wtforms psutil
 ```
 ### Installation des Skriptes
