@@ -1,0 +1,8 @@
+numpy 
+matplotlib
+datetime
+sympy
+flask==2.0.1
+flask_wtf==0.15.1
+wtforms==2.3.3
+psutil
