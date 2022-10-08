@@ -88,7 +88,7 @@ def erzeugeTermAufgaben(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,mitK
 #         lsg: Lösung
 #         term: term ohne Vorwort
     term=erzeugeTerm(variablen=variablen,anzahl=anzahl,variMaxAnzProUnterterm=variMaxAnzProUnterterm,mitKlammer=mitKlammer)
-    afg=[F'{"Vereinfache:" if mitText else ""}$${term}$$'.replace("*","\\cdot")]
+    afg=[F'{"Vereinfache:" if mitText else ""}$${term}$$'.replace("*"," \\cdot ")]
     lsg=sympy.sympify(term)
 #    lsg=['$'+term.replace('*','\\cdot ')+'='+str(lsg).replace('**','^').replace('*','\\cdot ')+'$']
     lsg=['$'+term.replace('*','\\cdot ')+'='+str(lsg).replace('**','^').replace('*','')+'$']
