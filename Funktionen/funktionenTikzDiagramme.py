@@ -70,7 +70,7 @@ def diagrammTikzVorgBreiteHoehe(zuPlotten=['x','black'],koordinaten=[],streckenz
     xTickDist,xMin,xMax,breite=setzeAchsenEinteilungLaenge(xAchse)
     yTickDist,yMin,yMax,hoehe=setzeAchsenEinteilungLaenge(yAchse)
 #    print(urspr)
-    tikzcommand.append('\\begin{axis}[    axis lines = middle, scale only axis=true, at={('+str(urspr[0])+'cm,'+str(urspr[1])+'cm)},')
+    tikzcommand.append(F'\\begin{{axis}}[    axis lines = middle, scale only axis=true, at={{({urspr[0]}cm,{urspr[1]}cm)}},')
     tikzcommand.append('    width='+str(breite)+' cm, xmin = '+str(xMin)+', xmax = '+str(xMax)+',xtick distance = '+str(xTickDist)+',')
     tikzcommand.append('    height='+str(hoehe)+'cm, ymin = '+str(yMin)+', ymax = '+str(yMax)+', ytick distance = '+str(yTickDist)+',')
     tikzcommand.append('    xlabel = {'+xlabel+'},x label style={at={(current axis.right of origin)},anchor=north, below=5mm},')
@@ -78,7 +78,7 @@ def diagrammTikzVorgBreiteHoehe(zuPlotten=['x','black'],koordinaten=[],streckenz
     if einzelplot:
         if len(zuPlotten)>0:
             plot=zuPlotten[0]
-            tikzcommand.append('    \\addplot[domain = '+str(xAchse[0])+':'+str(xAchse[1])+',samples = 200,smooth,thick,'+plot[1]+' ] { ('+plot[0]+')};')
+            tikzcommand.append(F'    \\addplot[domain = {xAchse[0]}:{xAchse[1]},samples = 200,smooth,thick,{zuPlotten[1]} ] {{ ({zuPlotten[0]})}};')
     else:
         for plot in zuPlotten:
             if isinstance(plot[0], str):
@@ -91,8 +91,8 @@ def diagrammTikzVorgBreiteHoehe(zuPlotten=['x','black'],koordinaten=[],streckenz
     if len(streckenzug)>0:
         tikzcommand.append('    \\addplot[thick, color=red] coordinates {  '+' '.join(['('+str(x[0])+','+str(x[1])+')'for x in streckenzug])+' };')
     for node in textNode:
-        print(node)
-        tikzcommand.append('    \\node['+str(node[3])+('' if len(node)<5 else (',text='+node[4]))+'] at (axis cs:'+str(node[0])+','+str(node[1])+') {'+str(node[2])+'};')
+#        print(node)
+        tikzcommand.append(F'    \\node[{("" if len(node)<4 else node[3])+("" if len(node)<5 else (",text="+node[4]))}] at (axis cs:{node[0]},{node[1]}) {{{node[2]}}};')
     tikzcommand.append('\\end{axis}')
     if (yMin < 0 ) and (yMax > 0)  and  (xMin < 0 ) and (xMax > 0):
         tikzcommand.append('\\node[below] at ('+str(urspr[0]-xMin/xTickDist)+','+str(urspr[1]-yMin/yTickDist)+') {0};')

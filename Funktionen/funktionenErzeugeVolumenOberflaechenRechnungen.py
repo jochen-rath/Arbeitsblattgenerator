@@ -6,7 +6,7 @@
 
 
 
-def erzeugeQuaderOberVolBerech(breitePbox='\\textwidth',maxDim=14,einheit='cm'):
+def erzeugeQuaderOberVolBerech(breitePbox='\\hsize',maxDim=14,einheit='cm'):
 #Diese Funktion erzeugt eine Aufgabe und Lösung zum Addieren und Subtrahieren von Dezimalzahlen
 #Ausgabe: [aufg,lsg]=erzeugeQuaderOberVolBerech(breitePbox)
     aufg=['\\pbox{'+str(breitePbox)+'cm}{Berechne das Volumen und die Oberfläche von:\\\\']
