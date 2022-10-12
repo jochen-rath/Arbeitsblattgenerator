@@ -78,7 +78,10 @@ def diagrammTikzVorgBreiteHoehe(zuPlotten=['x','black'],koordinaten=[],streckenz
     if einzelplot:
         if len(zuPlotten)>0:
             plot=zuPlotten[0]
-            tikzcommand.append(F'    \\addplot[domain = {xAchse[0]}:{xAchse[1]},samples = 200,smooth,thick,{zuPlotten[1]} ] {{ ({zuPlotten[0]})}};')
+            if isinstance(plot, list):
+                tikzcommand.append(F'    \\addplot[domain = {xAchse[0]}:{xAchse[1]},samples = 200,smooth,thick,{plot[1]} ] {{ ({plot[0]})}};')
+            else:
+                tikzcommand.append(F'    \\addplot[domain = {xAchse[0]}:{xAchse[1]},samples = 200,smooth,thick,{zuPlotten[1]} ] {{ ({zuPlotten[0]})}};')
     else:
         for plot in zuPlotten:
             if isinstance(plot[0], str):
@@ -92,7 +95,8 @@ def diagrammTikzVorgBreiteHoehe(zuPlotten=['x','black'],koordinaten=[],streckenz
         tikzcommand.append('    \\addplot[thick, color=red] coordinates {  '+' '.join(['('+str(x[0])+','+str(x[1])+')'for x in streckenzug])+' };')
     for node in textNode:
 #        print(node)
-        tikzcommand.append(F'    \\node[{("" if len(node)<4 else node[3])+("" if len(node)<5 else (",text="+node[4]))}] at (axis cs:{node[0]},{node[1]}) {{{node[2]}}};')
+#        tikzcommand.append(F'    \\node[{("" if len(node)<4 else node[3])+("" if len(node)<5 else (",text="+node[4]))}] at (axis cs:{node[0]},{node[1]}) {{{node[2]}}};')
+        tikzcommand.append(F'    \\node[{",".join(node[3:])}] at (axis cs:{node[0]},{node[1]}) {{{node[2]}}};')
     tikzcommand.append('\\end{axis}')
     if (yMin < 0 ) and (yMax > 0)  and  (xMin < 0 ) and (xMax > 0):
         tikzcommand.append('\\node[below] at ('+str(urspr[0]-xMin/xTickDist)+','+str(urspr[1]-yMin/yTickDist)+') {0};')
