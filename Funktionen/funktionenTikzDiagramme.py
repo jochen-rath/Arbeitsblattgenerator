@@ -40,7 +40,7 @@ def diagrammTikzVorgBreiteHoehe(zuPlotten=['x','black'],koordinaten=[],streckenz
 #       oder
 #       Funktion=Liste mit Coordinaten
 #       Farbe=Liste mit Eigenschaften für die Marker: [farbe,markerOptions]
-#    streckenzug=[Liste mit Coordinaten]     Bsp: [[1,0],[1,1],[0,1]]
+#    streckenzug=[Liste mit Coordinaten]  oder [anzZuege,[streckenzug1, streckenzug2,...]]    Bsp: [[1,0],[1,1],[0,1]]
 #    textNode=[[posX,posY,'Text','below' (or 'right', 'above' ...],...]
 #    xAchse=[xMin,xMax,Laenge]
 #       xMin=Minimaler x Wert
@@ -92,7 +92,11 @@ def diagrammTikzVorgBreiteHoehe(zuPlotten=['x','black'],koordinaten=[],streckenz
         tikzcommand.append('    \\node[circle,draw=black, fill=white,inner sep=1.5pt] at (axis cs:'+str(koord[0])+','+str(koord[1])+') {};')
     pkte=''
     if len(streckenzug)>0:
-        tikzcommand.append('    \\addplot[thick, color=red] coordinates {  '+' '.join(['('+str(x[0])+','+str(x[1])+')'for x in streckenzug])+' };')
+        if isinstance(streckenzug[0],int):
+            for strZug in streckenzug[1:]:
+                tikzcommand.append('    \\addplot[thick, color=red] coordinates {  '+' '.join(['('+str(x[0])+','+str(x[1])+')' for x in strZug])+' };')
+        else:
+            tikzcommand.append('    \\addplot[thick, color=red] coordinates {  '+' '.join(['('+str(x[0])+','+str(x[1])+')'for x in streckenzug])+' };')
     for node in textNode:
 #        print(node)
 #        tikzcommand.append(F'    \\node[{("" if len(node)<4 else node[3])+("" if len(node)<5 else (",text="+node[4]))}] at (axis cs:{node[0]},{node[1]}) {{{node[2]}}};')

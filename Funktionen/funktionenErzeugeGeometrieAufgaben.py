@@ -82,3 +82,43 @@ def erzeugeStrahlensaetzeAufgaben(mitText=True):
     lsg=lsg+['\\end{aligned}$']
     lsg=lsg+['}']
     return [afg,lsg,[]]
+
+def erzeugeMittelsenkrechteAufgabe(mitText=True):
+    laenge=random.randint(30,90)/10
+    afg=F'Zeichne die Mittelsenkrechte durch eine Linie der Länge von {strNW(laenge)} cm' if mitText else F'l={strNW(laenge)} cm'
+    lsg=mittelsenkrechte(laenge)
+    return [afg,lsg,[]]
+
+def erzeugeWinkelhalbbierendeAufgabe(mitText=True):
+    alpha=random.randint(20,160)
+    afg=['\\pbox{5cm}{']
+    afg=afg+([F'Zeichne die Winkelhalbierende für:\\\\']  if mitText else [])
+    afg=afg+winkelhalbierende(winkel=alpha,mitLsg=False)+['}']
+    lsg=winkelhalbierende(alpha)
+    return [afg,lsg,[]]
+
+def erzeugeDreieckSSSKonstruktion(mitText=True):
+    a,b,c=random.randint(20,60)/10,random.randint(20,60)/10,random.randint(20,60)/10
+    afg=['\\pbox{5cm}{']
+    afg=afg+([F'Konstruiere das Dreieck mit den Seiten\\\\']  if mitText else [])
+    afg=afg+[F'a={strNW(a)} cm \\\\']
+    afg=afg+[F'b={strNW(b)} cm \\\\']
+    afg=afg+[F'c={strNW(c)} cm \\\\']
+    afg=afg+['}']
+    lsg=dreieckSSSKonstruktion(a,b,c)
+    return [afg,lsg,[]]
+
+def erzeugeDreieckSWSKonstruktion(mitText=True):
+    auswahl=random.randint(0,2)
+    winkelBez=['alpha','beta','gamma']
+    seitenBez=[['c','b'],['a','c'],['b','a']]
+    l1,l2=random.randint(20,60)/10,random.randint(20,60)/10
+    winkel=random.randint(20,140)
+    afg=['\\pbox{5cm}{']
+    afg=afg+([F'Konstruiere das Dreieck aus folgenden Werten:\\\\']  if mitText else [])
+    afg=afg+[F'{seitenBez[auswahl][0]}={strNW(l1)} cm \\\\']
+    afg=afg+[F'$\\{winkelBez[auswahl]}={winkel}^\\circ$ \\\\']
+    afg=afg+[F'{seitenBez[auswahl][1]}={strNW(l2)} cm \\\\']
+    afg=afg+['}']
+    lsg=dreieckSWSKonstruktion(l1=l1,winkel=winkel,l2=l2,winkelBei=winkelBez[auswahl])
+    return [afg,lsg,[]]
