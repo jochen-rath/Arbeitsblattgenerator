@@ -125,3 +125,63 @@ def dreieckSWSKonstruktion(l1=4,winkel=55,l2=3,winkelBei='alpha'):
         tikzcommand.append(F'\\node[red] at ({xZahl},{yZahl}) {{${gamma}^\\circ$}} ;')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
+
+def dreieckWSWKonstruktion(w1=40,l=5,w2=110,seite='c'):
+    if seite not in ['a','b','c']:
+        return []
+    if seite=='a':
+        a=l
+        beta=w1
+        gamma=w2
+        alpha=180-beta-gamma
+        b=a/math.sin(math.radians(alpha))*math.sin(math.radians(beta))
+        c=a/math.sin(math.radians(alpha))*math.sin(math.radians(gamma))
+    if seite=='b':
+        b=l
+        gamma=w1
+        alpha=w2
+        beta=180-alpha-gamma
+        a=b/math.sin(math.radians(beta))*math.sin(math.radians(alpha))
+        c=b/math.sin(math.radians(beta))*math.sin(math.radians(gamma))
+    if seite=='c':
+        c=l
+        alpha=w1
+        beta=w2
+        gamma=180-alpha-beta
+        a=c/math.sin(math.radians(gamma))*math.sin(math.radians(alpha))
+        b=c/math.sin(math.radians(gamma))*math.sin(math.radians(beta))
+    bogenR=0.75
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    x=c+bogenR*0.75*math.cos((180-beta/2)*math.pi/180)
+    y=0+bogenR*0.75*math.sin((180-beta/2)*math.pi/180)
+    xBogen=(b-bogenR)*math.cos(alpha*math.pi/180)
+    yBogen=(b-bogenR)*math.sin(alpha*math.pi/180)
+    xZahl=b*math.cos(math.radians(alpha))+bogenR*0.75*math.cos((180+alpha+gamma/2)*math.pi/180)
+    yZahl=b*math.sin(math.radians(alpha))+bogenR*0.75*math.sin((180+alpha+gamma/2)*math.pi/180)
+    if seite=='c':
+        tikzcommand.append(F'\\draw[thick,black] (0,0) node[left]{{A}} --node[below]{{{strNW(c)} cm}} ({c},0) node[right]{{B}};')
+        tikzcommand.append(F'\\draw[thick,black] (0,0)  --node[left]{{b}} ({alpha}:{b}) node[above]{{C}};')
+        tikzcommand.append(F'\\draw[thick,black] ({c},0)  --node[right]{{a}} ({alpha}:{b}) ;')
+        tikzcommand.append(F'\\draw[thick,red] ({bogenR},0) arc (0:{alpha}:{bogenR} cm) ;')
+        tikzcommand.append(F'\\node[red] at ({alpha/2}:{bogenR*0.75}) {{${alpha}^\\circ$}} ;')
+        tikzcommand.append(F'\\draw[thick,red] ({c-bogenR},0) arc (180:{180-beta}:{bogenR} cm) ;')
+        tikzcommand.append(F'\\node[red] at ({x},{y}) {{${beta}^\\circ$}} ;')
+    if seite=='a':
+        tikzcommand.append(F'\\draw[thick,black] (0,0) node[left]{{A}} --node[below]{{c}} ({c},0) node[right]{{B}};')
+        tikzcommand.append(F'\\draw[thick,black] (0,0)  -- node[left]{{b}} ({alpha}:{b}) node[above]{{C}};')
+        tikzcommand.append(F'\\draw[thick,black] ({c},0)  --node[right]{{{strNW(a)} cm}} ({alpha}:{b}) ;')
+        tikzcommand.append(F'\\draw[thick,red] ({c-bogenR},0) arc (180:{180-beta}:{bogenR} cm) ;')
+        tikzcommand.append(F'\\node[red] at ({x},{y}) {{${beta}^\\circ$}} ;')
+        tikzcommand.append(F'\\draw[thick,red] ({xBogen},{yBogen}) arc ({180+alpha}:{180+alpha+gamma}:{bogenR} cm) ;')
+        tikzcommand.append(F'\\node[red] at ({xZahl},{yZahl}) {{${gamma}^\\circ$}} ;')
+    if seite=='b':
+        tikzcommand.append(F'\\draw[thick,black] (0,0) node[left]{{A}} --node[below]{{c}} ({c},0) node[right]{{B}};')
+        tikzcommand.append(F'\\draw[thick,black] (0,0)  --node[left]{{{strNW(b)} cm}} ({alpha}:{b}) node[above]{{C}};')
+        tikzcommand.append(F'\\draw[thick,black] ({c},0)  --node[right]{{a}} ({alpha}:{b}) ;')
+        tikzcommand.append(F'\\draw[thick,red] ({xBogen},{yBogen}) arc ({180+alpha}:{180+alpha+gamma}:{bogenR} cm) ;')
+        tikzcommand.append(F'\\node[red] at ({xZahl},{yZahl}) {{${gamma}^\\circ$}} ;')
+        tikzcommand.append(F'\\draw[thick,red] ({bogenR},0) arc (0:{alpha}:{bogenR} cm) ;')
+        tikzcommand.append(F'\\node[red] at ({alpha/2}:{bogenR*0.75}) {{${alpha}^\\circ$}} ;')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand

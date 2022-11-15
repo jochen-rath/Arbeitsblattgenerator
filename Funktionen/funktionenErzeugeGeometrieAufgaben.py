@@ -122,3 +122,19 @@ def erzeugeDreieckSWSKonstruktion(mitText=True):
     afg=afg+['}']
     lsg=dreieckSWSKonstruktion(l1=l1,winkel=winkel,l2=l2,winkelBei=winkelBez[auswahl])
     return [afg,lsg,[]]
+def erzeugeDreieckWSWKonstruktion(mitText=True):
+    auswahl=random.randint(0,2)
+    seiten=['a','b','c']
+    winkelBez=[['beta','gamma'],['gamma','alpha'],['alpha','beta']]
+    w1,w2=100,100
+    while w1+w2>140:
+        w1,w2=random.randint(20,140),random.randint(20,140)
+    l=random.randint(20,60)/10
+    afg=['\\pbox{5cm}{']
+    afg=afg+([F'Konstruiere das Dreieck aus folgenden Werten:\\\\']  if mitText else [])
+    afg=afg+[F'$\\{winkelBez[auswahl][0]}={strNW(w1)}^\\circ$ \\\\']
+    afg=afg+[F'{seiten[auswahl]}={strNW(l)} cm\\\\']
+    afg=afg+[F'$\\{winkelBez[auswahl][1]}={strNW(w2)}^\\circ$  \\\\']
+    afg=afg+['}']
+    lsg=dreieckWSWKonstruktion(w1=w1,l=l,w2=w2,seite=seiten[auswahl])
+    return [afg,lsg,[]]
