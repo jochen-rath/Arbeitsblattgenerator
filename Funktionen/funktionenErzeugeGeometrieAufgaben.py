@@ -129,6 +129,9 @@ def erzeugeDreieckWSWKonstruktion(mitText=True):
     w1,w2=100,100
     while w1+w2>140:
         w1,w2=random.randint(20,140),random.randint(20,140)
+    if random.randint(0,9)<1:
+        w1=random.randint(80,110)
+        w2=(180-w1)+random.randint(5,30)
     l=random.randint(20,60)/10
     afg=['\\pbox{5cm}{']
     afg=afg+([F'Konstruiere das Dreieck aus folgenden Werten:\\\\']  if mitText else [])

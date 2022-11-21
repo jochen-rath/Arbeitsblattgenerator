@@ -1,0 +1,19 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+\begin{document}
+\begin{tikzpicture}
+\node at (0,0) {x};
+\node[below] at (0,0) {Nullpunkt};
+\node at (8,2) {x};
+\node[below] at (8,2) {P(8|2)};
+\node[below] at (-10:5) {Startpunkt bei $-10^\circ$ und R=5 cm};
+\draw[thick,black] (-10:5) arc  (-10:100:5) node[above]{Bogen für (-10:5) arc  (-10:100:5)} ;
+\draw[dashed,thick,black] (-10:5) -- ([shift=({8cm,2cm})]-10:5);
+\draw[thick,black] ([shift=({8cm,2cm})]-10:5) arc  (-10:100:5) node[above]{Bogen für ([shift=(\{8cm,2cm\})]-10:5)  arc  (-10:100:5)} ;
+\node (A) at (60:4) {x};
+\draw[thick,black] let \p1=(A) in ([shift=({\x1,\y1})]-10:5) arc  (-10:100:5) node[above]{Pythagorasverschiebung mit let} ;
+
+\end{tikzpicture}
+\end{document}

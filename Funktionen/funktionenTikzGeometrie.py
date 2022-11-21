@@ -127,8 +127,23 @@ def dreieckSWSKonstruktion(l1=4,winkel=55,l2=3,winkelBei='alpha'):
     return tikzcommand
 
 def dreieckWSWKonstruktion(w1=40,l=5,w2=110,seite='c'):
+    bogenR=0.75
     if seite not in ['a','b','c']:
         return []
+    if w1+w2>180:
+        x=l+l*math.cos(math.radians(180-w2))
+        y=0+l*math.sin(math.radians(180-w2))
+        tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+        tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+        tikzcommand.append(F'\\draw[thick,black] (0,0)  -- node[below]{{{l} cm}}({l},0) ;')
+        tikzcommand.append(F'\\draw[thick,black] (0,0)--({w1}:{l}) ;')
+        tikzcommand.append(F'\\draw[thick,black] ({l},0) --({x},{y}) ;')
+        tikzcommand.append(F'\\draw[thick,red] ({bogenR},0) arc (0:{w1}:{bogenR} cm) ;')
+        tikzcommand.append(F'\\node[red] at ({w1/2}:{bogenR*0.75}) {{${w1}^\\circ$}} ;')
+        tikzcommand.append(F'\\draw[thick,red] ({l-bogenR},0) arc ({180}:{180-w2}:{bogenR} cm) ;')
+        tikzcommand.append(F'\\node[red] at ({l+bogenR*0.75*math.cos(math.radians(180-w2/2))},{bogenR*0.75*math.sin(math.radians(180-w2/2))}) {{${w2}^\\circ$}} ;')
+        tikzcommand.append('\\end{tikzpicture}')
+        return tikzcommand
     if seite=='a':
         a=l
         beta=w1
@@ -150,7 +165,6 @@ def dreieckWSWKonstruktion(w1=40,l=5,w2=110,seite='c'):
         gamma=180-alpha-beta
         a=c/math.sin(math.radians(gamma))*math.sin(math.radians(alpha))
         b=c/math.sin(math.radians(gamma))*math.sin(math.radians(beta))
-    bogenR=0.75
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid]')
     x=c+bogenR*0.75*math.cos((180-beta/2)*math.pi/180)

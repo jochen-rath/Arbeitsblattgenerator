@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # coding: utf8
+import random
+
 
 #Aufruf:
 #       exec(open("Funktionen/funktionErzeugeFlaechenUmfangAufgaben.py").read())
@@ -115,3 +117,21 @@ def erzeugeZusammengesetzRechteckeSchwer(n=3,gesamtlaenge=5,maxHoehe=8,mitText=T
     lsg.append('\n'.join(zusammengesetzteRechteckeSchwer(rechtecke,mitLsg=True)))
     lsg.append('}')    
     return [afg,lsg,rechtecke]
+
+def erzeugeFlaechenDreieckAufgabe(mitText=True,mitBeschr=True):
+    g=random.randint(20,50)/10
+    h=random.randint(20,50)/10
+    drehung=random.randint(0,360)
+    dx=random.randint(0,int(g)+2)-g
+    afg=['\\pbox{5cm}{']
+    afg=afg+([F'Berechne den Flächeninhalt von:\\\\']  if mitText else [])
+    afg=afg+dreieckFuerFlaechenBer(g=g,h=h,drehung=drehung,dx=dx,mitBeschr=mitBeschr)
+    afg=afg+['}']
+    lsg=['\\pbox{5cm}{']
+    lsg=lsg+[F'$\\begin{{aligned}}']
+    lsg=lsg+[F'A&=g\cdot \\frac{{h}}{{2}} \\\\']
+    lsg=lsg+[F'&={strNW(g)}\cdot \\frac{{{strNW(h)}}}{{2}}={strNW(g*h/2,2)}~cm^2']
+    lsg=lsg+[F'\\end{{aligned}}$']
+    lsg=lsg+dreieckFuerFlaechenBer(g=g,h=h,drehung=drehung,dx=dx,mitBeschr=True)
+    lsg=lsg+['}']
+    return [afg,lsg,[]]
