@@ -18,7 +18,8 @@ def main():
     lsgText='Loesungen '+title
     dateiName='01_SkalenErzeugen'
     datum='\\rule{4cm}{0.15mm}'    #Wird kein Datum angeben, wird das morgige Datum genommen.
-    parameter=[[1,1,28],[2,1,76],[3,0.5,40],[5,0.5,75],[3,0.6,36],[5,0.7,10],[4,0.8,87],[3,0.6,43]]
+#    parameter=[[1,1,28],[2,1,76],[3,0.5,40],[5,0.5,75],[3,0.6,36],[5,0.7,10],[4,0.8,87],[3,0.6,43]]
+    parameter=[[1,1,43]]
 #    parameter=[[random.randint(1,3),random.randint(4,10)/10,random.randint(5,95)] for i in range(8)]
 #    parameter=[[random.randint(1,3),random.choice([0.5,1.0]),random.randint(5,95)] for i in range(4)]
 #    parameter=[[random.randint(1,3),[1.0,1.0,0.5,0.5][i],random.randint(5,95)] for i in range(4)]

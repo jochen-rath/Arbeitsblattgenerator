@@ -135,3 +135,39 @@ def erzeugeFlaechenDreieckAufgabe(mitText=True,mitBeschr=True):
     lsg=lsg+dreieckFuerFlaechenBer(g=g,h=h,drehung=drehung,dx=dx,mitBeschr=True)
     lsg=lsg+['}']
     return [afg,lsg,[]]
+
+def erzeugeFlaechenParallelogrammAufgabe(mitText=True,mitBeschr=True):
+    g=random.randint(20,50)/10
+    h=random.randint(20,50)/10
+    drehung=random.randint(0,360)
+    dx=random.randint(0,30)/10
+    afg=['\\pbox{5cm}{']
+    afg=afg+([F'Berechne den Flächeninhalt von:\\\\']  if mitText else [])
+    afg=afg+parallogrammFuerFlaechenBer(g=g,h=h,dx=dx,drehung=drehung,mitBeschr=mitBeschr)
+    afg=afg+['}']
+    lsg=['\\pbox{5cm}{']
+    lsg=lsg+[F'$\\begin{{aligned}}']
+    lsg=lsg+[F'A&=g\cdot h \\\\']
+    lsg=lsg+[F'&={strNW(g)}\cdot {strNW(h)}={strNW(g*h,2)}~cm^2']
+    lsg=lsg+[F'\\end{{aligned}}$']
+    lsg=lsg+parallogrammFuerFlaechenBer(g=g,h=h,dx=dx,drehung=drehung,mitBeschr=True)
+    lsg=lsg+['}']
+    return [afg,lsg,[]]
+
+def erzeugeFlaechenDrachenAufgabe(mitText=True,mitBeschr=True,mitEundF=True,istRaute=False):
+    e=random.randint(20,50)/10
+    f=random.randint(20,50)/10
+    drehung=random.randint(0,360)
+    dx=e/2 if istRaute else random.randint(5,int(e*10))/10
+    afg=['\\pbox{5cm}{']
+    afg=afg+([F'Berechne den Flächeninhalt von:\\\\']  if mitText else [])
+    afg=afg+dracheFuerFlaechenBer(e=e,f=f,dx=dx,drehung=drehung,mitBeschr=mitBeschr,mitEundF=mitEundF)
+    afg=afg+['}']
+    lsg=['\\pbox{5cm}{']
+    lsg=lsg+[F'$\\begin{{aligned}}']
+    lsg=lsg+[F'A&=\\frac{{1}}{{2}}\\cdot e\\cdot f \\\\']
+    lsg=lsg+[F'&=\\frac{{1}}{{2}}\\cdot{strNW(e)}\cdot {strNW(f)}={strNW(0.5*e*f,2)}~cm^2']
+    lsg=lsg+[F'\\end{{aligned}}$']
+    lsg=lsg+dracheFuerFlaechenBer(e=e,f=f,dx=dx,drehung=drehung,mitBeschr=mitBeschr)
+    lsg=lsg+['}']
+    return [afg,lsg,[]]

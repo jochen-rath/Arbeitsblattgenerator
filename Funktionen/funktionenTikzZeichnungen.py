@@ -22,6 +22,33 @@ def dreieckFuerFlaechenBer(g=4,h=2,drehung=30,dx=-1,mitBeschr=True):
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
+def parallogrammFuerFlaechenBer(g=4,h=2,dx=2,drehung=0,mitBeschr=True):
+#rotate in draw geht nur mit relativen Koordinaten und nicht, wenn die Koordinaten mit
+#\cordinate (A) at (0,0);vorher definiert werden.
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    tikzcommand.append(
+        F'\\draw[thick,black,rotate={drehung}] (0,0) -- node{{{F"g={strNW(g)} cm" if mitBeschr else ""}}} ++({g},0) -- ++({dx},{h}) -- ++({-g},0) --cycle;')
+    if mitBeschr:
+        tikzcommand.append(F'\\draw[dashed,black,rotate={drehung}] ({g/2},0)  -- node{{h={strNW(h)} cm}} ++(0,{h});')
+        if dx>g/2:
+            tikzcommand.append(F'\\draw[dashed,black,rotate={drehung},red] ({g/2},{h})  -- ++({dx-g/2},0);')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+
+def dracheFuerFlaechenBer(e=4,f=2,dx=1,drehung=0,mitBeschr=True,mitEundF=True):
+#rotate in draw geht nur mit relativen Koordinaten und nicht, wenn die Koordinaten mit
+#\cordinate (A) at (0,0);vorher definiert werden.
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    if mitEundF:
+        tikzcommand.append(F'\\draw[thick,dashed,black,rotate={drehung}] (0,0) -- node{{{F"e={strNW(e)} cm" if mitBeschr else ""}}} ++({e},0);')
+        tikzcommand.append(F'\\draw[thick,dashed,rotate={drehung}] ({dx},{f/2}) -- node[above]{{{F"f={strNW(f)} cm" if mitBeschr else ""}}} ++(0,{-f});')
+    tikzcommand.append(F'\\draw[thick,black,rotate={drehung}] (0,0) -- ++({dx},{f/2}) -- ++({e-dx},{-f/2}) -- ++({-e+dx},{-f/2}) --cycle;')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+
+
 def strahlensatz(A=[4,1],B=[3,5],k=1.5,farben=['green','violet','blue','orange','purple','brown'],punkte=['S','A','B',"A'","B'"],strecken=buchstabenKlein[0:6]):
 #Diese Funktion erzeugt ein Dreieck für den Strahlensatz
 # Das Zentrum S,Z ist im Ursprung.
