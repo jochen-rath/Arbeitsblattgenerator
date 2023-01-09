@@ -8,6 +8,7 @@
 def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,anfang,anzSpalten=[2,2],seitenumbruch=False,mitText=True,karoBereich=0,extraKaroseite=False,agfLsgGetrennt=False):
     ausgabeName='newFile'
     dateiName,datum=filename(dateiName,datum=(datetime.date.today() + datetime.timedelta(days=1)).strftime("%d.%m.%Y") if datum=="KeinDatum" else datum)
+    ausgabeName=dateiName
     kopfzeile='' if datum=="KeinDatum" else ('Datum: '+datum)
 #Erzeuge Aufgaben:
 #if True:
@@ -44,6 +45,9 @@ def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,
         os.system(F'xelatex {ausgabeName}_lsg.tex')
         os.rename(F'{ausgabeName}_lsg.pdf',F'{dateiName}_lsg.pdf')
         os.system(F'zip {dateiName}.zip {dateiName}.pdf {dateiName}_lsg.pdf')
-#    [os.remove(file) for file in os.listdir() if ausgabeName in file]
+        for endung in ['aux','log','out']:
+            os.remove(ausgabeName+'_lsg.'+endung)
+    for endung in ['aux','log','out']:
+        os.remove(ausgabeName+'.'+endung)
     os.chdir('..')
     return F'{dateiName}.{"zip" if agfLsgGetrennt else "pdf"}'

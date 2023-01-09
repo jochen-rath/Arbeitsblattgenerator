@@ -139,6 +139,22 @@ def hilfe_form():
     # show the form, it wasn't submitted
     return render_template_string('\n'.join(hilfeSeite()))
 
+@app.route('/impressum', methods=['GET', 'POST'])
+def impressum_form():
+    if request.method == 'POST':
+        # do stuff when the form is submitted
+
+        # redirect to end the POST handling
+        # the redirect can be to the same route or somewhere else
+        return redirect(url_for('viewAuswahlRechnungen'))
+
+    # show the form, it wasn't submitted
+    impressum=['']
+    if os.path.isfile(os.path.join(os.path.expanduser('~'),'impressum.html')):
+        with open(os.path.join(os.path.expanduser('~'),'impressum.html')) as datei:
+            impressum=datei.read()
+    return render_template_string(impressum)
+
 @app.route('/rechnungen/<auswahl>')
 def rechnungen(auswahl):
 #Diese Funktion schreibt die möglichen Rechnungen in ein Array, welches als JSON an die Homepage gesendet wird.
@@ -216,6 +232,8 @@ def htmlScriptAufrufSeite(anzahlAuswahl=4):
     html=html+setzeDropDownAnzahlJava(anzahlAuswahl)
     html.append('    </script>')
     html.append(F'    <p><a href="{{{{ url_for({chr(39)}hilfe_form{chr(39)}) }}}}">Hilfe und Beschreibung</a></p>')
+    if os.path.isfile(os.path.join(os.path.expanduser('~'), 'impressum.html')):
+        html.append(F'    <p><a href="{{{{ url_for({chr(39)}impressum_form{chr(39)}) }}}}">Impressum</a></p>')
     html.append('</body>')
     return html
 

@@ -85,31 +85,6 @@ def erzeugeGeschwindigkeitsBerechnungen(typ='',einheit='m/s',umrechnen=False,ein
             lsg=F'$s=v\\cdot t={strNW(v,True)}\\cdot{t}={strNW(s)}~{laenge}$'
     return [afg,lsg,[t,s,v,laenge,zeit]]
 #aufruf=0
-def erzeugeDiagrammErstellAufgaben(typ='Zeit-Weg',diagrammVorgegeben=True,mitText=True,nurText=False):
-    v=random.randint(1,20)
-#    global  aufruf
-#    v=[2,5,10,0.5][aufruf]
-#    aufruf=aufruf+1
-    tMax=6
-    vMax=math.ceil((v*tMax)/10)*10
-    if nurText:
-        afg=[F'Erstelle die Tabelle und das Diagramm für die Geschwindigkeit v={v} m/s.' if mitText else F'v={v} m/s' ]
-    else:
-        afg=['\\pbox{14cm}{']
-        afg=afg+[F'{"Übertrage die Werte" if diagrammVorgegeben else "Erstelle aus den Werten"} des Weges {"in das " if diagrammVorgegeben else "ein"} Diagramm.\\\\' if mitText else '\\phantom{e}']
-    tabelle=tikzTabelle(tabelle=[['t in s','s in m']]+[[strNW(t),strNW(v*t)]for t in range(tMax+1)],dim=[1.5,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[-4.5,4.5])
-    if diagrammVorgegeben:
-        diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=[0,6,7],yAchse=[0,vMax,11],xlabel='t in s',ylabel='s in  m',urspr=[0,0],mitUmrandung=False)
-    else:
-        diagramm=[F'\\node at (7,11) {{ }};']
-    afg=afg+ ([] if nurText else (tabelle[:-1]+diagramm+[tabelle[-1]]))
-    afg=afg+ ([] if nurText else ['}'])
-    tabelle=tikzTabelle(tabelle=[['t in s','s in m']]+[[t,v*t]for t in range(tMax)],dim=[1.5,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[-4.5,4.5])
-    diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{v}*x','black']],xAchse=[0,6,7],yAchse=[0,vMax,11],xlabel='t in s',ylabel='s in  m',urspr=[0,0],mitUmrandung=False)
-    lsg=tabelle[:-1]+diagramm+[tabelle[-1]]
-    return [afg,lsg,[v]]
-
-
 def erzeugeBeschlBerechnungen(typ='',mitText=True):
 #Diese Funktion erstellt Aufgaben zur Berechnung der Geschwindigkeit, Zeit oder Strecke bei Gegebenen Strecken, Zeit
 #oder Geschwindigkeitsangaben:
@@ -143,3 +118,28 @@ def erzeugeBeschlBerechnungen(typ='',mitText=True):
         afg=afg.replace('XXXX','\\')
         lsg=[F'$v=a\\cdot t={strNW(a,True)}\\cdot{strNW(t,True)}={strNW(v,True)}~\\frac{{m}}{{s}}$']
     return [afg,lsg,[]]
+
+
+def erzeugeDiagrammErstellAufgaben(typ='Zeit-Weg',diagrammVorgegeben=True,mitText=True,nurText=False):
+    v=random.randint(1,20)
+#    global  aufruf
+#    v=[2,5,10,0.5][aufruf]
+#    aufruf=aufruf+1
+    tMax=6
+    vMax=math.ceil((v*tMax)/10)*10
+    if nurText:
+        afg=[F'Erstelle die Tabelle und das Diagramm für die Geschwindigkeit v={v} m/s.' if mitText else F'v={v} m/s' ]
+    else:
+        afg=['\\pbox{14cm}{']
+        afg=afg+[F'{"Übertrage die Werte" if diagrammVorgegeben else "Erstelle aus den Werten"} des Weges {"in das " if diagrammVorgegeben else "ein"} Diagramm.\\\\' if mitText else '\\phantom{e}']
+    tabelle=tikzTabelle(tabelle=[['t in s','s in m']]+[[strNW(t),strNW(v*t)]for t in range(tMax+1)],dim=[1.5,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[-4.5,4.5])
+    if diagrammVorgegeben:
+        diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=[0,6,7],yAchse=[0,vMax,11],xlabel='t in s',ylabel='s in  m',urspr=[0,0],mitUmrandung=False)
+    else:
+        diagramm=[F'\\node at (7,11) {{ }};']
+    afg=afg+ ([] if nurText else (tabelle[:-1]+diagramm+[tabelle[-1]]))
+    afg=afg+ ([] if nurText else ['}'])
+    tabelle=tikzTabelle(tabelle=[['t in s','s in m']]+[[t,v*t]for t in range(tMax)],dim=[1.5,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[-4.5,4.5])
+    diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{v}*x','black']],xAchse=[0,6,7],yAchse=[0,vMax,11],xlabel='t in s',ylabel='s in  m',urspr=[0,0],mitUmrandung=False)
+    lsg=tabelle[:-1]+diagramm+[tabelle[-1]]
+    return [afg,lsg,[v]]

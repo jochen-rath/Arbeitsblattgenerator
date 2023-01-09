@@ -19,9 +19,9 @@ def tikzPropTabelle(l=[4,8],r=[5,10],title=['Anzahl','\euro{}'],tikzUmrandung=Tr
     wert= strNW(l[1]/l[0] if l[1]/l[0] > 1 else l[0]/l[1])
 
     tikzcommand.append('\\draw[black] (0cm,0cm) -- (0cm,-2cm);')
-    tikzcommand.append('\\draw[black] (-1.5 cm,-0.5cm) -- (1.5cm,-0.5cm);')
-    tikzcommand.append(F'\\node[below] at (-0.75 cm,0cm) {{{title[0]}}};')
-    tikzcommand.append(F'\\node[below] at  (0.75 cm,0cm) {{{title[1]}}};')
+    tikzcommand.append('\\draw[black] (-2.5 cm,-0.5cm) -- (2.5cm,-0.5cm);')
+    tikzcommand.append(F'\\node[below] at (-1.25 cm,0cm) {{{title[0]}}};')
+    tikzcommand.append(F'\\node[below] at  (1.25 cm,0cm) {{{title[1]}}};')
     tikzcommand.append(F'\\node[circle] (A) at (-0.75 cm,-0.75cm) {{{l[0]}}};')
     tikzcommand.append(F'\\node[circle] (B) at (-0.75 cm,-1.75cm) {{{l[1]}}};')
     tikzcommand.append(F'\\node[circle] (C) at (0.75 cm,-0.75cm) {{{r[0]}}};')
