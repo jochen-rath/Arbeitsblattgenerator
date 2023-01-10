@@ -5,6 +5,7 @@
 * [Idee hinter dem Projekt](#idee-hinter-dem-projekt)
 * [Voraussetzungen und Installation](#voraussetzungen-und-installation)
 * [Website](#website)
+* [Impressum](#impressum)
 * [Programmaufbau und Ablauf](#programmaufbau-und-ablauf)
 * [Aufruf ohne Homepage](#aufruf-ohne-homepage)
 * [Probleme](#probleme)
@@ -25,7 +26,7 @@ Als das Projekt entsprechend gewachsen war, wollte ich es meinen Kollegen zur Ve
 * Python Module: numpy  matplotlib datetime sympy flask flask_wtf wtforms
 ### Installation der Voraussetzungen:
 ```
-sudo apt install texlive texlive-lang-german texlive-latex-extra texlive-generic-extra texlive-xetex texlive-pstricks python3-pip libatlas-base-dev
+sudo apt install texlive texlive-lang-german texlive-latex-extra texlive-xetex texlive-pstricks python3-pip libatlas-base-dev
 pip3 install -r requirements.txt
 ```
 bzw.
@@ -56,6 +57,8 @@ sudo systemctl start abgen
 ### Apache2 Configdatei
 Die Datei *abgenerator.ddns.net.conf* enthält eine Beispielkonfiguration, wie man mit einem als Reverse Proxy konfigurierten Apache-Server den Generator über eine Adresse aufrufen kann.
 
+##Impressum
+Um ein Impressum einzubinden, erzeuge die Datei "impressum.html" im Homeverzeichnis. Ist diese Datei vorhanden, bindet erzeugt der Arbeitsblattgenerator ein Link auf der Webseite zum Impressum.
 
 ## Programmaufbau und Ablauf
 ### Aufbau

@@ -32,3 +32,4 @@ def tikzPropTabelle(l=[4,8],r=[5,10],title=['Anzahl','\euro{}'],tikzUmrandung=Tr
     if tikzUmrandung:
             tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
+
