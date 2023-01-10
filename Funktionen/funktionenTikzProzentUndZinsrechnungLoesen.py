@@ -9,7 +9,7 @@
 
     
 
-def dreiSatz(links=['50','1','100'],rechts=['50','$\ $','$\ $'],title=['\%','\euro{}'],startPos=[0,0],tikzUmrandung=True,ohneKlammernRechts=False,breit=False):
+def dreiSatz(links=['50','1','100'],rechts=['50','$\ $','$\ $'],title=['\%','\euro{}'],startPos=[0,0],tikzUmrandung=True,ohneKlammernRechts=False,ohneKlammernLinks=False,breit=False):
 #Diese Funktion erzeugt eine Tikz-Zeichnung zum Dreisatz.
 #Aufruf: 
 #     tikzcommand=dreiSatz(links=['50','1','100'],rechts=['50','$\ $','$\ $'],title=['\%','\euro{}'],startPos=[0,0])
@@ -33,8 +33,9 @@ def dreiSatz(links=['50','1','100'],rechts=['50','$\ $','$\ $'],title=['\%','\eu
     tikzcommand.append('\\node[circle] (4) at ('+str(startPos[0]+0.75)+' cm,'+str(startPos[1]-0.75)+'cm) {'+rechts[0]+'};')
     tikzcommand.append('\\node[circle] (5) at ('+str(startPos[0]+0.75)+' cm,'+str(startPos[1]-1.75)+'cm) {'+rechts[1]+'};')
     tikzcommand.append('\\node[circle] (6) at ('+str(startPos[0]+0.75)+' cm,'+str(startPos[1]-2.75)+'cm) {'+rechts[2]+'};')
-    tikzcommand.append('\\draw[->] (1) to [out=190,in=170] node[left] {$:'+links[0]+'$}  (2) ;')
-    tikzcommand.append('\\draw[->] (2) to [out=190,in=170] node[left] {$\cdot '+links[2]+'$}  (3) ;')
+    if not ohneKlammernLinks:
+        tikzcommand.append('\\draw[->] (1) to [out=190,in=170] node[left] {$:'+links[0]+'$}  (2) ;')
+        tikzcommand.append('\\draw[->] (2) to [out=190,in=170] node[left] {$\cdot '+links[2]+'$}  (3) ;')
     if not ohneKlammernRechts:
         tikzcommand.append('\\draw[->] (4) to [out=350,in=10] node[right] {$:'+links[0]+'$}  (5) ;')
         tikzcommand.append('\\draw[->] (5) to [out=350,in=10] node[right] {$\cdot '+links[2]+'$}  (6) ;')

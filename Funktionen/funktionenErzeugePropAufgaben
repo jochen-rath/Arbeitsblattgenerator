@@ -41,3 +41,17 @@ def erzeugePropDiagrammAufgaben(diagrammVorgegeben=True,mitText=True):
     diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{v}*x','black']],xAchse=[0,6,7],yAchse=[0,vMax,11],xlabel='t in s',ylabel='s in  m',urspr=[0,0],mitUmrandung=False)
     lsg=tabelle[:-1]+diagramm+[tabelle[-1]]
     return [afg,lsg,[v]]
+
+def propDreisatz():
+    paare=[['Anzahl', 'Preis in \euro{}'], ['Zeit in min', 'Preis in \euro{}'], ['Anzahl', 'Volumen in l'],
+           ['Tage', 'Strecke in km'], ['Kinder', 'Gruppen'], ['Anzahl', 'Kartons'], ['Zeit in min', 'Anzahl']]
+    auswahl=random.choice(paare)
+    xStart=random.randint(2,10)
+    xZiel=random.randint(2,10)
+    while xStart==xZiel:
+        xZiel=random.randint(2, 12)
+    yStart=random.randint(2,5)
+    afg=dreiSatz(links=[strNW(x, True) for x in [xStart, '', xZiel]],rechts=[strNW(yStart*xStart),'',''],title=auswahl, breit=True,ohneKlammernLinks=True,ohneKlammernRechts=True)
+    lsg=dreiSatz(links=[strNW(x, True) for x in [xStart, '1', xZiel]],
+                 rechts=[strNW(x, True) for x in [yStart*xStart, yStart, yStart*xZiel]],title=auswahl, breit=True)
+    return [afg,lsg,[]]
