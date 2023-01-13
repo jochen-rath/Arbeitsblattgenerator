@@ -20,6 +20,24 @@ def erzeugePropTabllenAufgaben(mitPfeilen=True,mitBeschr=True):
     lsg=tikzPropTabelle(l,r,title=title,mitLsg=True)
     return [afg,lsg,[[]]]
 
+def erzeugeAntiPropTabllenAufgaben(mitPfeilen=True,mitBeschr=True):
+    paare=[['Pferde','Tage'],['Stuhlreihen','Stühle'],['Tage','Betrag in €'],['Anzahl','Stücklänge in cm'],['Arbeiter','Zeit in h'],['Tage','Strecke pro Tag'],['Tage','Kosten'],['Anzahl Personen','Gewinn in €'],['Schrittlänge in cm','Anzahl Schritte']]
+    title=random.choice(paare)
+    op=random.choice(['*','/'])
+    d1,d2,multi=[random.randint(1,12),random.randint(1,12),random.randint(2,12)]
+    if d1==d2:
+        d2=d2*random.randint(2,4)
+    if op=='*':
+        l=[d1,d1*multi]
+        r=[d2*multi,d2]
+    else:
+        l=[d1*multi,d1]
+        r=[d2,d2*multi]
+    afg=tikzPropTabelle(l,r,title=title,mitPfeilen=mitPfeilen,mitBeschr=mitBeschr,mitLsg=False,anitProp=True)
+    lsg=tikzPropTabelle(l,r,title=title,mitLsg=True,anitProp=True)
+    return [afg,lsg,[[]]]
+
+
 def erzeugePropDiagrammAufgaben(diagrammVorgegeben=True,mitText=True):
     paare=[['Anzahl', 'Preis in \euro{}'], ['Zeit in min', 'Preis in \euro{}'], ['Anzahl', 'Volumen in l'],
            ['Tage', 'Strecke in km'], ['Kinder', 'Gruppen'], ['Anzahl', 'Kartons'], ['Zeit in min', 'Anzahl']]

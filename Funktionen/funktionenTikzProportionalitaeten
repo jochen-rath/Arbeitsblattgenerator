@@ -6,7 +6,7 @@
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
 
-def tikzPropTabelle(l=[4,8],r=[5,10],title=['Anzahl','\euro{}'],tikzUmrandung=True,mitPfeilen=True,mitBeschr=True,mitLsg=True):
+def tikzPropTabelle(l=[4,8],r=[5,10],title=['Anzahl','\euro{}'],tikzUmrandung=True,mitPfeilen=True,mitBeschr=True,mitLsg=True,anitProp=False):
 #Diese Funktion erzeugt eine Tikz-Zeichnung.
 #Aufruf:
 #   tikzPropTabelle(l,r,title,tikzUmrandung,mitPfeilen,mitBeschr,mitLsg):
@@ -15,7 +15,8 @@ def tikzPropTabelle(l=[4,8],r=[5,10],title=['Anzahl','\euro{}'],tikzUmrandung=Tr
         tikzcommand.append('\\begin{tikzpicture}[show background grid]')
     else:
         tikzcommand=['']
-    op='\\cdot' if l[1]/l[0] > 1 else ':'
+    op1='\\cdot' if l[1]/l[0] > 1 else ':'
+    op2=op1 if not anitProp else ('\\cdot' if op1==':' else ':')
     wert= strNW(l[1]/l[0] if l[1]/l[0] > 1 else l[0]/l[1])
 
     tikzcommand.append('\\draw[black] (0cm,0cm) -- (0cm,-2cm);')
@@ -25,10 +26,10 @@ def tikzPropTabelle(l=[4,8],r=[5,10],title=['Anzahl','\euro{}'],tikzUmrandung=Tr
     tikzcommand.append(F'\\node[circle] (A) at (-0.75 cm,-0.75cm) {{{l[0]}}};')
     tikzcommand.append(F'\\node[circle] (B) at (-0.75 cm,-1.75cm) {{{l[1]}}};')
     tikzcommand.append(F'\\node[circle] (C) at (0.75 cm,-0.75cm) {{{r[0]}}};')
-    tikzcommand.append(F'\\node[circle] (D) at (0.75 cm,-1.75cm) {{{r[1] if mitLsg else " "}}};')
+    tikzcommand.append(F'\\node[circle] (D) at (0.75 cm,-1.75cm) {{{r[1] if mitLsg else "$~$"}}};')
     if mitPfeilen or mitLsg:
-        tikzcommand.append(F'\\draw[->] (A) to [out=190,in=170] node[left] {{${(op+wert) if mitBeschr or mitLsg else ""}$}}  (B) ;')
-        tikzcommand.append(F'\\draw[->] (C) to  [out=350,in=10] node[right]  {{${(op+wert) if mitBeschr or mitLsg else ""}$}}  (D) ;')
+        tikzcommand.append(F'\\draw[->] (A) to [out=190,in=170] node[left] {{${(op1+wert) if mitBeschr or mitLsg else ""}$}}  (B) ;')
+        tikzcommand.append(F'\\draw[->] (C) to  [out=350,in=10] node[right]  {{${(op2+wert) if mitBeschr or mitLsg else ""}$}}  (D) ;')
     if tikzUmrandung:
             tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
