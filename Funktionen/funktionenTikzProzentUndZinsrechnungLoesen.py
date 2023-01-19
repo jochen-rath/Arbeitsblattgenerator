@@ -9,39 +9,6 @@
 
     
 
-def dreiSatz(links=['50','1','100'],rechts=['50','$\ $','$\ $'],title=['\%','\euro{}'],startPos=[0,0],tikzUmrandung=True,ohneKlammernRechts=False,ohneKlammernLinks=False,breit=False):
-#Diese Funktion erzeugt eine Tikz-Zeichnung zum Dreisatz.
-#Aufruf: 
-#     tikzcommand=dreiSatz(links=['50','1','100'],rechts=['50','$\ $','$\ $'],title=['\%','\euro{}'],startPos=[0,0])
-    if tikzUmrandung:
-        tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
-        tikzcommand.append('\\begin{tikzpicture}[show background grid]')
-    else:
-        tikzcommand=['']
-    breite=2.5 if breit else 1.5
-    tikzcommand.append('\\draw[black] ('+str(startPos[0])+'cm,'+str(startPos[1])+'cm) -- ('+str(startPos[0])+'cm,'+str(startPos[1]-3)+'cm); ')
-    tikzcommand.append(F'\\draw[black] ({startPos[0]-breite} cm,{startPos[1]-0.5}cm) -- ({startPos[0]+breite}cm,{startPos[1]-0.5}cm); ')
-    if breit:
-        tikzcommand.append(F'\\node[left] at ({startPos[0]} cm,{startPos[1]-0.25}cm) {{{title[0]}}};')
-        tikzcommand.append(F'\\node[right] at ({startPos[0]} cm,{startPos[1]-0.255}cm) {{{title[1]}}};')
-    else:
-        tikzcommand.append('\\node[below] at ('+str(startPos[0]-0.75)+' cm,'+str(startPos[1])+'cm) {'+title[0]+'};')
-        tikzcommand.append('\\node[below] at  ('+str(startPos[0]+0.75)+' cm,'+str(startPos[1])+'cm) {'+title[1]+'};')
-    tikzcommand.append('\\node[circle] (1) at ('+str(startPos[0]-0.75)+' cm,'+str(startPos[1]-0.75)+'cm) {'+links[0]+'};')
-    tikzcommand.append('\\node[circle] (2) at ('+str(startPos[0]-0.75)+' cm,'+str(startPos[1]-1.75)+'cm) {'+links[1]+'};')
-    tikzcommand.append('\\node[circle] (3) at ('+str(startPos[0]-0.75)+' cm,'+str(startPos[1]-2.75)+'cm) {'+links[2]+'};')
-    tikzcommand.append('\\node[circle] (4) at ('+str(startPos[0]+0.75)+' cm,'+str(startPos[1]-0.75)+'cm) {'+rechts[0]+'};')
-    tikzcommand.append('\\node[circle] (5) at ('+str(startPos[0]+0.75)+' cm,'+str(startPos[1]-1.75)+'cm) {'+rechts[1]+'};')
-    tikzcommand.append('\\node[circle] (6) at ('+str(startPos[0]+0.75)+' cm,'+str(startPos[1]-2.75)+'cm) {'+rechts[2]+'};')
-    if not ohneKlammernLinks:
-        tikzcommand.append('\\draw[->] (1) to [out=190,in=170] node[left] {$:'+links[0]+'$}  (2) ;')
-        tikzcommand.append('\\draw[->] (2) to [out=190,in=170] node[left] {$\cdot '+links[2]+'$}  (3) ;')
-    if not ohneKlammernRechts:
-        tikzcommand.append('\\draw[->] (4) to [out=350,in=10] node[right] {$:'+links[0]+'$}  (5) ;')
-        tikzcommand.append('\\draw[->] (5) to [out=350,in=10] node[right] {$\cdot '+links[2]+'$}  (6) ;')
-    if tikzUmrandung:
-        tikzcommand.append('\\end{tikzpicture}')
-    return tikzcommand
 
 def grundwertBerechnen(inhalte=[['2a',678,5,'Bücher'],['2b',329,4.7,'Autos']],bez=['G','W','p\\%']):
 #Diese Funktion erzeugt eine Latex-Ausgabe, welche die Lösung einer gesuchten Grundwertaufgabe entspricht.

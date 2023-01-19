@@ -2,10 +2,13 @@
 # coding: utf8
 import random
 
+def proportionalPaar(anti=False):
+    paare=[['Anzahl','Preis in \euro{}'],['Zeit in min','Preis in \euro{}'],['Anzahl','Volumen in l'],['Tage','Strecke in km'],['Kinder','Gruppen'],['Anzahl','Kartons'],['Zeit in min','Anzahl']]
+    paareAnti=[['Pferde', 'Tage'], ['Stuhlreihen', 'Stühle'], ['Tage', 'Betrag in €'], ['Anzahl', 'Stücklänge in cm'],['Arbeiter', 'Zeit in h'], ['Tage', 'Strecke pro Tag'], ['Tage', 'Kosten'],['Anzahl Personen', 'Gewinn in €'], ['Schrittlänge in cm', 'Anzahl Schritte']]
+    return paareAnti if anti else paare
 
 def erzeugePropTabllenAufgaben(mitPfeilen=True,mitBeschr=True):
-    paare=[['Anzahl','Preis in \euro{}'],['Zeit in min','Preis in \euro{}'],['Anzahl','Volumen in l'],['Tage','Strecke in km'],['Kinder','Gruppen'],['Anzahl','Kartons'],['Zeit in min','Anzahl']]
-    title=random.choice(paare)
+    title=random.choice(proportionalPaar())
     op=random.choice(['*','/'])
     d1,d2,multi=[random.randint(1,12),random.randint(1,12),random.randint(1,12)]
     if d1==d2:
@@ -21,8 +24,7 @@ def erzeugePropTabllenAufgaben(mitPfeilen=True,mitBeschr=True):
     return [afg,lsg,[[]]]
 
 def erzeugeAntiPropTabllenAufgaben(mitPfeilen=True,mitBeschr=True):
-    paare=[['Pferde','Tage'],['Stuhlreihen','Stühle'],['Tage','Betrag in €'],['Anzahl','Stücklänge in cm'],['Arbeiter','Zeit in h'],['Tage','Strecke pro Tag'],['Tage','Kosten'],['Anzahl Personen','Gewinn in €'],['Schrittlänge in cm','Anzahl Schritte']]
-    title=random.choice(paare)
+    title=random.choice(proportionalPaar(anti=True))
     op=random.choice(['*','/'])
     d1,d2,multi=[random.randint(1,12),random.randint(1,12),random.randint(2,12)]
     if d1==d2:
@@ -39,9 +41,7 @@ def erzeugeAntiPropTabllenAufgaben(mitPfeilen=True,mitBeschr=True):
 
 
 def erzeugePropDiagrammAufgaben(diagrammVorgegeben=True,mitText=True):
-    paare=[['Anzahl', 'Preis in \euro{}'], ['Zeit in min', 'Preis in \euro{}'], ['Anzahl', 'Volumen in l'],
-           ['Tage', 'Strecke in km'], ['Kinder', 'Gruppen'], ['Anzahl', 'Kartons'], ['Zeit in min', 'Anzahl']]
-    auswahl=random.choice(paare)
+    auswahl=random.choice(proportionalPaar())
     multi=random.randint(2,10)
     afg=afg+[F'{"Übertrage die Werte" if diagrammVorgegeben else "Erstelle aus den Werten"} der Tabelle {"in das " if diagrammVorgegeben else "ein"} Diagramm.\\\\' if mitText else '\\phantom{e}']
     xwerte=[1]
@@ -61,9 +61,7 @@ def erzeugePropDiagrammAufgaben(diagrammVorgegeben=True,mitText=True):
     return [afg,lsg,[v]]
 
 def propDreisatz():
-    paare=[['Anzahl', 'Preis in \euro{}'], ['Zeit in min', 'Preis in \euro{}'], ['Anzahl', 'Volumen in l'],
-           ['Tage', 'Strecke in km'], ['Kinder', 'Gruppen'], ['Anzahl', 'Kartons'], ['Zeit in min', 'Anzahl']]
-    auswahl=random.choice(paare)
+    auswahl=random.choice(proportionalPaar())
     xStart=random.randint(2,10)
     xZiel=random.randint(2,10)
     while xStart==xZiel:
@@ -72,6 +70,17 @@ def propDreisatz():
     afg=dreiSatz(links=[strNW(x, True) for x in [xStart, '', xZiel]],rechts=[strNW(yStart*xStart),'',''],title=auswahl, breit=True,ohneKlammernLinks=True,ohneKlammernRechts=True)
     lsg=dreiSatz(links=[strNW(x, True) for x in [xStart, '1', xZiel]],
                  rechts=[strNW(x, True) for x in [yStart*xStart, yStart, yStart*xZiel]],title=auswahl, breit=True)
+    return [afg,lsg,[]]
+
+def propAntiDreisatz():
+    auswahl=random.choice(proportionalPaar(anti=True))
+    xStart=random.randint(2,12)
+    xZiel=random.randint(2,12)
+    while xStart==xZiel:
+        xZiel=random.randint(2, 12)
+    yStart=random.randint(2,5)
+    afg=dreiSatz(links=[strNW(x, True) for x in [xStart, '',xZiel]],rechts=[strNW(yStart*xZiel),'',''],title=auswahl, breit=True,ohneKlammernLinks=True,ohneKlammernRechts=True,antiProp=True)
+    lsg=dreiSatz(links=[strNW(x, True) for x in [xStart,'1',xZiel]],rechts=[strNW(x, True) for x in [yStart*xZiel, yStart*xZiel*xStart, yStart*xStart]],title=auswahl,breit=True,antiProp=True)
     return [afg,lsg,[]]
 
 def erzeugeTabelleAusfuellen(komma=False,mitText=True):
