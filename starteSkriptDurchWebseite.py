@@ -182,7 +182,7 @@ def hilfeSeite():
     html.append('</head>')
     html.append('<body>')
     html.append('<h2>Idee</h2>')
-    html.append('<p>Als ich als Lehrer anfing, wurde sehr schnell klar, dass meine Schülerinnen und Schüler Probleme haben, Inhalte zu bearbeiten, wenn zwischen der Einführung und erneuten Behandlung ein halbes Jahr oder mehr vergangen ist. Es fehlt die regelmäßige Übung, um die Lerninhalte zu festigen. Weiter fehlte es mir aber auch an Material, um den Schülerinnen regelmäßige Übungsaufgaben zur Verfügung zu stellen. Und bei den Aufgaben, die ich hatte, fehlten entweder die Lösungen oder diese waren nur sehr kurz und knapp gehalten. Ich wollte aber meinen Schülerinnen regelmäßige Übungsaufgaben zur Verfügung mit sehr ausführlichen Lösungen zur Verfügung stellen, mit denen diese sich selber Schritt für Schritt kontrollieren können.</p>')
+    html.append('<p>Als ich als Lehrer anfing, wurde sehr schnell klar, dass meine Schülerinnen und Schüler Probleme haben, Inhalte zu bearbeiten, wenn zwischen der Einführung und erneuten Behandlung ein halbes Jahr oder mehr vergangen ist. Es fehlt die regelmäßige Übung, um die Lerninhalte zu festigen. Weiter fehlte es mir aber auch an Material, um den Schülerinnen regelmäßige Übungsaufgaben zur Verfügung zu stellen. Und bei den Aufgaben, die ich hatte, fehlten entweder die Lösungen oder diese waren nur sehr kurz und knapp gehalten. Ich wollte aber meinen Schülerinnen regelmäßige Übungsaufgaben mit sehr ausführlichen Lösungen zur Verfügung stellen, mit denen diese sich selber Schritt für Schritt kontrollieren können.</p>')
     html.append('<h2>Beschreibungen</h2>')
     html.append('<ul>')
     html.append('<li><u>Title:</u> Überschrift und Dateiname</li>')
