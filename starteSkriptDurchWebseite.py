@@ -198,6 +198,7 @@ def hilfeSeite():
     html.append('<li><u>Aufgaben und Lösungen getrennt ausgeben:</u> Normal werden Aufgaben und Lösungen in einer Datei geschrieben. Wenn man die getrennt haben will, bekommt man eine Zip-Datei.</li>')
     html.append('<li><u>Anzahl an Auswählbaren Aufgaben:</u> Um die Webseite übersichtlich zu lassen, kann man anfangs nur 6 verschiedene Aufgabentypen aussuchen. Braucht man mehr, kann man die Anzahl hier wählen. Wichtig, erst Alle Anzahlen auf 0 bringen, damit die Seite neu geladen werden kann.</li>')
     html.append('</ul>')
+    html.append('<h2>Source Code</h2>')
     html.append(F'Der Source-Code des Generators findet sich hier: <br>')
     html.append(F'    <p><a href=https://github.com/jochen-rath/Arbeitsblattgenerator>Source Code auf Github</a></p>')
     html.append('    <form method="post">')
