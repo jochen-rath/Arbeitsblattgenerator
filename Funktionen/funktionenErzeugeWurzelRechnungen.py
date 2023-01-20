@@ -79,7 +79,8 @@ def wurzelOberflaecheWurfel(zusammengesetzt=False):
 def zwischenWelcheNatZahlen(mitText=True):
     quadratzahlen=np.array([x**2 for x in range(50)])
     zahl=random.choice([random.randint(1,100)]*4+[random.randint(100,400)]*3+[random.randint(400,700)])
-    afg='Zwischen welchen natürlichen Zahlen liegt die Quadratwurzel von $\\sqrt{'+strNW(zahl)+'}$?'
+#    afg='Zwischen welchen natürlichen Zahlen liegt die Quadratwurzel von $\\sqrt{'+strNW(zahl)+'}$?'
+    afg=F'Zwischen welchen natürlichen Zahlen liegt die Quadratwurzel von {strNW(zahl)}?'
     afg=afg if mitText else '$\\sqrt{'+strNW(zahl)+'}$'
     lsg='$'+strNW(int(zahl**0.5))+' < \\sqrt{'+str(zahl)+'} < '+strNW(int(zahl**0.5)+1)+'$'
     lsg=('$\\sqrt{'+strNW(zahl)+'}='+strNW(zahl**0.5)+'$') if zahl in quadratzahlen else lsg
