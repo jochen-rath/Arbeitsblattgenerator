@@ -136,34 +136,36 @@ def einheitspaare():
     paare.append(['Eier Anzahl','Preis \\euro{}',[0.25,0.5]])
     return paare
 
-def erzeugeAntiProportionaleDreisatzRechnungen(komma=False,mitText=True):
+def erzeugeAntiProportionaleDreisatzRechnungen(einfach=False,komma=False,mitText=True):
     # Diese Funktion erzeugt eine Aufgabe zur Prozentrechnung:
     # Aufruf:
     #         rechnung=erzeugeProzentRechnungen()
     #
     #      rechnung=[G,W,pP,Einheit]
-    E = ['Anzahl Arbeiter','Arbeitsstunden h',[10,30]]
+    maxWert=5 if einfach else 20
+    antiPaar=[['Anzahl Arbeiter','Arbeitsstunden h',[2,maxWert]],['Zeit h','Geschw. $\\frac{km}{h}$',[2,maxWert]]]
+    E = random.choice(antiPaar)
     grundwert=random.randint(E[2][0]*100,E[2][1]*100)/100 if komma else random.randint(E[2][0],E[2][1])
     xStart,xZiel=1,1
     while xStart==xZiel:
-        xStart=random.randint(10,2000)/100 if komma else random.randint(2,20)
-        xZiel=random.randint(10,2000)/100 if komma else random.randint(2,20)
-#    yStart=grundwert:xStart
+        xStart=random.randint(10,maxWert*100)/100 if komma else random.randint(2,maxWert)
+        xZiel=random.randint(10,maxWert*100)/100 if komma else random.randint(2,maxWert)
+    yStart=grundwert*xStart
     art1,einh1=E[0].split(" ")
     art2,einh2=E[1].split(" ")
-    if ein1=='Arbeiter':
-        afg=F'Wielange brauchen {strNW(xZiel,True)} {einh} für die Arbeit, wenn {strNW(xStart,True)} {einh} {strNW(yStart,True)} {einh2} brauchen?'
-        afg=afg if mitText else (F'{art}:$${strNW(xStart,True)}~{einh}\hat{{=}} {strNW(yStart,True)}~\\mbox{{\\euro{{}}}} \\rightarrow {strNW(xZiel,True)}~{einh}=\\mbox{{?}}$$')
-    elif 'h'==einh:
-        afg=F'Welche Strecke wurde in  {strNW(xZiel,True)} {einh} zurückgelegt, wenn man in {strNW(xStart,True)} {einh} {strNW(yStart,True)} km schafft.'
-        afg=afg if mitText else (F'Bewegung:$${strNW(xStart,True)}~{einh}\hat{{=}} {strNW(yStart,True)}~\\mbox{{km}} \\rightarrow {strNW(xZiel,True)}~{einh}=\\mbox{{?}}$$')
-    elif 'Anzahl'==einh:
+    if einh1=='Arbeiter':
+        afg=F'Wie lange brauchen {strNW(xZiel,True)} {einh1} für die Arbeit, wenn {strNW(xStart,True)} {einh1} {strNW(yStart*xZiel,True)} {einh2} brauchen?'
+        afg=afg if mitText else (F'{art}:$${strNW(xStart,True)}~{einh1}\hat{{=}} {strNW(yStart,True)}~\\mbox{{h}} \\rightarrow {strNW(xZiel,True)}~{einh1}=\\mbox{{?}}$$')
+    elif 'h' == einh1:
+        afg=F'Du brauchst für {yStart*xZiel*xStart} km {xStart} h, fährst also {yStart*xZiel} $\\frac{{km}}{{h}}$. Welche Geschwindigkeit brauchst du für {yStart*xZiel*xStart} km, wenn du {xZiel} h fahren willst.'
+        afg=afg if mitText else (F'Geschwindigkeit:$${strNW(xStart,True)}~{einh1}\hat{{=}} {strNW(yStart*xZiel,True)}~\\frac{{km}}{{h}} \\rightarrow {strNW(xZiel,True)}~{einh1}=\\mbox{{?}}$$')
+    elif 'Anzahl'==einh1:
         xStart=int(xStart)
         xZiel=int(xZiel)
         afg=F'Berechne den Preis für {strNW(xZiel,True)} {art}, wenn {strNW(xStart,True)} {art} {strNW(yStart,True)} \\euro{{}} kosten.'
         afg=afg if mitText else (F'{art}:$${strNW(xStart,True)}\hat{{=}} {strNW(yStart,True)}~\\mbox{{\\euro{{}}}} \\rightarrow {strNW(xZiel,True)}=\\mbox{{?}}$$')
     else:
         afg='Noch nichts.'
-    lsg=dreiSatz(links=[strNW(x,True) for x in [xStart,'1',xZiel]],rechts=[strNW(x,True) for x in [yStart,yStart/xStart,yStart/xStart*xZiel]],title=E,breit=True)
+    lsg=dreiSatz(links=[strNW(x,True) for x in [xStart,'1',xZiel]],rechts=[strNW(x,True) for x in [yStart*xZiel, yStart*xZiel*xStart, yStart*xStart]],title=E,breit=True,antiProp=True)
     return [afg,lsg,[xStart,xZiel,yStart]]
 

@@ -62,7 +62,7 @@ def erzeugeZusammengesetzRechtecke(n=3,gesamtlaenge=5,hoehe=8,mitText=True):
             endlaenge=endlaenge-punkte[-1][0]
     afg=['\pbox{'+str(gesamtlaenge)+'cm}{']
     if mitText:
-        afg.append('Berechne die Flaeche von')
+        afg.append('Berechne die Fläche von')
     afg.append('\n'.join(zusammengesetzteRechtecke(punkte,mitLsg=False)))
     afg.append('}') 
     lsg=['\pbox{'+str(gesamtlaenge)+'cm}{']
@@ -101,7 +101,7 @@ def erzeugeZusammengesetzRechteckeSchwer(n=3,gesamtlaenge=5,maxHoehe=8,mitText=T
             endlaenge=endlaenge-rechtecke[-1][1][0]
     afg=['\pbox{'+str(gesamtlaenge)+'cm}{']
     if mitText:
-        afg.append('Berechne die Flaeche von')
+        afg.append('Berechne die Fläche von')
     afg.append('\n'.join(zusammengesetzteRechteckeSchwer(rechtecke,mitLsg=False)))
     afg.append('}')             
     lsg=['\pbox{'+str(gesamtlaenge)+'cm}{']
