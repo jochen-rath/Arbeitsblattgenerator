@@ -4,7 +4,7 @@ import random
 
 def proportionalPaar(anti=False):
     paare=[['Anzahl','Preis in \euro{}'],['Zeit in min','Preis in \euro{}'],['Anzahl','Volumen in l'],['Tage','Strecke in km'],['Kinder','Gruppen'],['Anzahl','Kartons'],['Zeit in min','Anzahl']]
-    paareAnti=[['Pferde', 'Tage'], ['Stuhlreihen', 'Stühle'], ['Tage', 'Betrag in €'], ['Anzahl', 'Stücklänge in cm'],['Arbeiter', 'Zeit in h'], ['Tage', 'Strecke pro Tag'], ['Tage', 'Kosten'],['Anzahl Personen', 'Gewinn in €'], ['Schrittlänge in cm', 'Anzahl Schritte']]
+    paareAnti=[ ['Stuhlreihen', 'Stühle'], ['Anzahl', 'Stücklänge in cm'],['Arbeiter', 'Zeit in h'], ['Entfernung in km', 'Geschw. in $\\frac{km}{h}'],['Anzahl Personen', 'Gewinn in €'], ['Schrittlänge in cm', 'Anzahl Schritte']]
     return paareAnti if anti else paare
 
 def erzeugePropTabllenAufgaben(mitPfeilen=True,mitBeschr=True):
@@ -142,8 +142,8 @@ def erzeugeAntiProportionaleDreisatzRechnungen(einfach=False,komma=False,mitText
     #         rechnung=erzeugeProzentRechnungen()
     #
     #      rechnung=[G,W,pP,Einheit]
-    maxWert=5 if einfach else 20
-    antiPaar=[['Anzahl Arbeiter','Arbeitsstunden h',[2,maxWert]],['Zeit h','Geschw. $\\frac{km}{h}$',[2,maxWert]]]
+    maxWert=9 if einfach else 20
+    antiPaar=[['Anzahl Arbeiter','Arbeitsstunden h',[2,maxWert]],['Zeit h','Geschw. $\\frac{km}{h}$',[2,maxWert]],['Stuhlreihen ','Anzahl Stühle',[2,maxWert]]]
     E = random.choice(antiPaar)
     grundwert=random.randint(E[2][0]*100,E[2][1]*100)/100 if komma else random.randint(E[2][0],E[2][1])
     xStart,xZiel=1,1
@@ -159,10 +159,10 @@ def erzeugeAntiProportionaleDreisatzRechnungen(einfach=False,komma=False,mitText
     elif 'h' == einh1:
         afg=F'Du brauchst für {yStart*xZiel*xStart} km {xStart} h, fährst also {yStart*xZiel} $\\frac{{km}}{{h}}$. Welche Geschwindigkeit brauchst du für {yStart*xZiel*xStart} km, wenn du {xZiel} h fahren willst.'
         afg=afg if mitText else (F'Geschwindigkeit:$${strNW(xStart,True)}~{einh1}\hat{{=}} {strNW(yStart*xZiel,True)}~\\frac{{km}}{{h}} \\rightarrow {strNW(xZiel,True)}~{einh1}=\\mbox{{?}}$$')
-    elif 'Anzahl'==einh1:
+    elif len(einh1)<=1:
         xStart=int(xStart)
         xZiel=int(xZiel)
-        afg=F'Berechne den Preis für {strNW(xZiel,True)} {art}, wenn {strNW(xStart,True)} {art} {strNW(yStart,True)} \\euro{{}} kosten.'
+        afg=F'Wieviel Stühlre stehen in {strNW(xZiel,True)} Reihen, wenn {yStart*xZiel} Stühle in {xStart} Stuhlreihen stehen?'
         afg=afg if mitText else (F'{art}:$${strNW(xStart,True)}\hat{{=}} {strNW(yStart,True)}~\\mbox{{\\euro{{}}}} \\rightarrow {strNW(xZiel,True)}=\\mbox{{?}}$$')
     else:
         afg='Noch nichts.'
