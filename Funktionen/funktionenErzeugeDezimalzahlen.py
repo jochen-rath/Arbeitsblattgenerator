@@ -113,7 +113,7 @@ def deziZahlenMultiDivi(nachkommastellen=3,operator=''):
         zahl2=dezi(nachkommestellen=nk2)
     else:
         quotient=dezi(nachkommestellen=nachkommastellen)
-        zahl2=random.randint(1,12)
+        zahl2=random.randint(2,12)
         zahl1=quotient*zahl2
     afg=F'${strNW(zahl1)}~{"XXXcdot" if op=="*" else ":"}~{strNW(zahl2)}=$'
     afg=[afg.replace('XXX','\\')]
