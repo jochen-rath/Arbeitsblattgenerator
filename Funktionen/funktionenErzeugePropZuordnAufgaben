@@ -4,7 +4,7 @@ import random
 
 def proportionalPaar(anti=False):
     paare=[['Anzahl','Preis in \euro{}'],['Zeit in min','Preis in \euro{}'],['Anzahl','Volumen in l'],['Tage','Strecke in km'],['Kinder','Gruppen'],['Anzahl','Kartons'],['Zeit in min','Anzahl']]
-    paareAnti=[ ['Stuhlreihen', 'Stühle'], ['Anzahl', 'Stücklänge in cm'],['Arbeiter', 'Zeit in h'], ['Entfernung in km', 'Geschw. in $\\frac{km}{h}'],['Anzahl Personen', 'Gewinn in €'], ['Schrittlänge in cm', 'Anzahl Schritte']]
+    paareAnti=[ ['Stuhlreihen', 'Stühle'], ['Anzahl', 'Stücklänge in cm'],['Arbeiter', 'Zeit in h'], ['Entfernung in km', 'Geschw. in $\\frac{km}{h}$'],['Anzahl Personen', 'Gewinn in €'], ['Schrittlänge in cm', 'Anzahl Schritte']]
     return paareAnti if anti else paare
 
 def erzeugePropTabllenAufgaben(mitPfeilen=True,mitBeschr=True):
