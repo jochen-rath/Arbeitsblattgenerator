@@ -111,6 +111,9 @@ def deziZahlenMultiDivi(nachkommastellen=3,operator=''):
         nk2=random.randint(nachkommastellen-nk1,nachkommastellen)
         zahl1=dezi(nachkommestellen=nk1)
         zahl2=dezi(nachkommestellen=nk2)
+        while zahl1==1 or zahl2 ==1:
+            zahl1=dezi(nachkommestellen=nk1)
+            zahl2=dezi(nachkommestellen=nk2)
     else:
         quotient=dezi(nachkommestellen=nachkommastellen)
         zahl2=random.randint(2,12)
