@@ -150,6 +150,9 @@ def erzeugeAntiProportionaleDreisatzRechnungen(einfach=False,komma=False,mitText
     while xStart==xZiel:
         xStart=random.randint(10,maxWert*100)/100 if komma else random.randint(2,maxWert)
         xZiel=random.randint(10,maxWert*100)/100 if komma else random.randint(2,maxWert)
+        if 'Geschw' in E[1]:
+            if grundwert*xStart*xZiel > 200:
+                xStart=xZiel
     yStart=grundwert*xStart
     art1,einh1=E[0].split(" ")
     art2,einh2=E[1].split(" ")
@@ -162,7 +165,7 @@ def erzeugeAntiProportionaleDreisatzRechnungen(einfach=False,komma=False,mitText
     elif len(einh1)<=1:
         xStart=int(xStart)
         xZiel=int(xZiel)
-        afg=F'Wieviel Stühlre stehen in {strNW(xZiel,True)} Reihen, wenn {yStart*xZiel} Stühle in {xStart} Stuhlreihen stehen?'
+        afg=F'Wie viel Stühle stehen in {strNW(xZiel,True)} Reihen, wenn {yStart*xZiel} Stühle in {xStart} Stuhlreihen stehen?'
         afg=afg if mitText else (F'{art}:$${strNW(xStart,True)}\hat{{=}} {strNW(yStart,True)}~\\mbox{{\\euro{{}}}} \\rightarrow {strNW(xZiel,True)}=\\mbox{{?}}$$')
     else:
         afg='Noch nichts.'
