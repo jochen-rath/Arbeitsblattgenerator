@@ -59,14 +59,14 @@ def addiereSubtrahiereEinheiten(art='',mitKomma=False,einheitPaar=[]):
 #Mit round werden Lösungen wie 10.003,0000000000000001 verhindert.
             lsgZahl=round(eval(str(d1)+'*'+str(groessen[E1])+op+str(d2)+'*'+str(groessen[E2])),6)
             lsg=['$\\begin{aligned}']
-            lsg.append(afg[0][1:-2]+' &='+strNW(eval(str(d1)+'*'+str(groessen[E1])+'/'+str(groessen[klE])))+'~'+klE+' '+op+' '+strNW(eval(str(d2)+'*'+str(groessen[E2])+'/'+str(groessen[klE])))+'~'+klE+'\\\\')
+            lsg.append(afg[0][1:-2]+' &='+strNW(eval(str(d1)+'*'+str(groessen[E1])+'/'+str(groessen[klE])),True)+'~'+klE+' '+op+' '+strNW(eval(str(d2)+'*'+str(groessen[E2])+'/'+str(groessen[klE])),True)+'~'+klE+'\\\\')
             if not klE==grE:
-                lsg.append(' &='+strNW(eval(str(lsgZahl)+'/'+str(groessen[klE])))+'~'+klE+'\\\\')
+                lsg.append(' &='+strNW(eval(str(lsgZahl)+'/'+str(groessen[klE])),True)+'~'+klE+'\\\\')
             if art=='zeit':
                 h,min,s=str(datetime.timedelta(seconds=lsgZahl)).replace('days','~\\mbox{Tage}').replace('day','~\\mbox{Tag}').split(':')
-                lsg.append(' &='+h+'\\mbox{ Stunden, }'+str(int(min))+'\\mbox{ Minuten, }'+str(int(s))+'\\mbox{ Sekunden, }'+'\\\\')
+                lsg.append(' &='+h+'\\mbox{ Stunden, }'+strNW(float(min))+'\\mbox{ Minuten, }'+strNW(float(s))+'\\mbox{ Sekunden, }'+'\\\\')
             else:
-                lsg.append(' &='+strNW(eval(str(lsgZahl)+'/'+str(groessen[grE])))+'~'+grE+'\\\\')
+                lsg.append(' &='+strNW(eval(str(lsgZahl)+'/'+str(groessen[grE])),True)+'~'+grE+'\\\\')
             lsg.append('\\end{aligned}$')  
             if  groessen[grE] / groessen[klE] > 1e6:
                 lsgZahl=-1
