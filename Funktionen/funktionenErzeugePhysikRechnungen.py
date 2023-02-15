@@ -155,9 +155,10 @@ def listeDerAtome():
         atomDict[k]=[namen[i],i+1,atommassen[i],anzahlElektroneProSchale[i]]
     return atomDict
 
-def erkenneDasAtom(ion=0,mitText=True):
+def erkenneDasAtom(ion=0,wenig=False,mitText=True):
     atome=listeDerAtome()
-    atom=random.choice(list(atome.keys())[0:18])
+    max=12 if wenig else 18
+    atom=random.choice(list(atome.keys())[0:max])
     afg=[F'\\pbox{{6cm}}{{{"Welches Atom ist" if mitText else ""}']+(['\\\\'] if mitText else [])
     afg=afg+erzeugeAtom(n=atome[atom][1],massenzahl=int(round(atome[atom][2])),anzahlElektroneProSchale=atome[atom][3],ion=ion)
     afg=afg+['}']
