@@ -12,7 +12,7 @@ import random
 
 def bogenlaengeSpirale(p,a):
     return (a/2)*(p*((1+p**2)**0.5)+math.log(p+(1+p**2)**0.5))
-def erzeugeAtom(n=11,massenzahl=0,ion=0,pfeile=False):
+def erzeugeAtom(n=11,massenzahl=0,anzahlElektroneProSchale=[],ion=0,pfeile=False):
 #Hintergrund: Die Protonen und Neutronen werden auf einer Spirale angeordnent.
 #Damit die sich zufällig überlagern und die Spiralform nicht erkennbar ist, wird die Liste der
 #Spiralpositionen gemischt.
@@ -22,11 +22,19 @@ def erzeugeAtom(n=11,massenzahl=0,ion=0,pfeile=False):
 #  massenzahl=2*n+massenzahl wenn massenzahl kleiner als n ist, sonst n
 #         ion=Anzahl Elektronen = n+ion
 #if True:
-    massenzahl=2*n+massenzahl if massenzahl < n else massenzahl
     a=0.00075  #Durch Versuch bestimmt
     minAbstand=0.01
-    anzahlElektroneProSchale=[2*i**2 for i in range(10)]
-    anzahlGesElektronen=[sum(anzahlElektroneProSchale[0:i]) for i in range(len(anzahlElektroneProSchale))][1:]
+    if isinstance(n, str):
+        atom=n
+        atome=listeDerAtome()
+        anzahlElektroneProSchale=atome[atom][3]
+        massenzahl=int(round(atome[atom][2]))
+        n=list(t.keys()).index(atom)+1
+        print(atome[atom])
+    else:
+        massenzahl=2*n+massenzahl if massenzahl < n else massenzahl
+        anzahlElektroneProSchale=[2*i**2 for i in range(10)] if len(anzahlElektroneProSchale)==0 else anzahlElektroneProSchale
+    anzahlGesElektronen=[sum(anzahlElektroneProSchale[0:i]) for i in range(len(anzahlElektroneProSchale)+1)][1:]
     anzahlSchalen=anzahlGesElektronen.index(next(x for x in anzahlGesElektronen if x>=n+ion))
 #Bestimme Winkel auf Spirale. Alle Atome gleichen Abstand auf Spirale zueinander.
     winkel=[0]
