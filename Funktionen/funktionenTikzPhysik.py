@@ -29,7 +29,7 @@ def erzeugeAtom(n=11,massenzahl=0,anzahlElektroneProSchale=[],ion=0,pfeile=False
         atome=listeDerAtome()
         anzahlElektroneProSchale=atome[atom][3]
         massenzahl=int(round(atome[atom][2]))
-        n=list(t.keys()).index(atom)+1
+        n=list(atome.keys()).index(atom)+1
         print(atome[atom])
     else:
         massenzahl=2*n+massenzahl if massenzahl < n else massenzahl

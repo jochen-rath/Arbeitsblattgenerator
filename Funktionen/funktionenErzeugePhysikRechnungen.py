@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf8
-
+import os
 #Inhalt
 
 #Aufruf:
@@ -157,8 +157,8 @@ def listeDerAtome():
 
 def erkenneDasAtom(ion=0,wenig=False,mitText=True):
     atome=listeDerAtome()
-    max=12 if wenig else 18
-    atom=random.choice(list(atome.keys())[0:max])
+    max=12 if wenig else 19
+    atom=random.choice(list(atome.keys())[1:max])
     afg=[F'\\pbox{{6cm}}{{{"Welches Atom ist" if mitText else ""}']+(['\\\\'] if mitText else [])
     afg=afg+erzeugeAtom(n=atome[atom][1],massenzahl=int(round(atome[atom][2])),anzahlElektroneProSchale=atome[atom][3],ion=ion)
     afg=afg+['}']
@@ -173,3 +173,19 @@ def zeichneDasAtom(mitText=True):
     lsg=[F'\\pbox{{\\textwidth}}{{{atome[atom][0]}: \\\\']
     lsg=lsg+erzeugeAtom(n=atome[atom][1],massenzahl=int(round(atome[atom][2])))+['}']
     return [afg, lsg, [atom]]
+
+def schreibeAlleAtomeInDateien():
+    atome=listeDerAtome()
+    for i,atom in enumerate(list(atome.keys())):
+        tikzAtom=erzeugeAtom(atom, ion=0)
+        hoehe=[x for x in tikzAtom if 'circle' in x][-1].split('circle')[-1]
+        result=re.search('\((.*)\)', hoehe)
+        h=eval(result.group(1))
+        tikzAtom.insert(4,F'\\node at (0,{h+0.5}) {{{atome[atom][0]}: $_{{{atome[atom][1]}}}^{{{atome[atom][2]}}}${atom}}};')
+        erzeugeEinfachesLatexdokument(inhalt=tikzAtom,file=F'Atom_{str(i+1).zfill(3)}_{atome[atom][0]}.tex',standalone=True)
+    with zipfile.ZipFile(os.path.join('Ausgabe','alleAtome.zip'), 'w') as myzip:
+        for x in [x for x in os.listdir('Ausgabe') if x.startswith('Atom_') and x.endswith('pdf')]:
+            myzip.write(os.path.join('Ausgabe',x))
+    for x in [x for x in os.listdir('Ausgabe') if x.startswith('Atom_')]:
+        os.remove(os.path.join('Ausgabe',x))
+    return 'alleAtome.zip'

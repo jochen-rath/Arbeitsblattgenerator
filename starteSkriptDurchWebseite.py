@@ -107,7 +107,8 @@ def viewAuswahlRechnungen():
                 allesKorrekt=False
 #Wenn alles Korrekt ist und auch ein paar Aufgaben gefwählt wurde, Starte das Skript.
             if len(anzRech)>0 and allesKorrekt:
-                filename,rc=run_command(['timeout','90',sys.executable, script,titel,beschreibung,datum,anzSpalten,seitenumbruch,mitText,karoBereich,extraKaroseite,agfLsgGetrennt]+anzRech)
+                warteZeit=180 if erzeugeAlleAtome in anzRech else 90
+                filename,rc=run_command(['timeout',F'{warteZeit}',sys.executable, script,titel,beschreibung,datum,anzSpalten,seitenumbruch,mitText,karoBereich,extraKaroseite,agfLsgGetrennt]+anzRech)
                 if rc==0:
                     globaleMitteilung='Fertig.'
                     return send_from_directory(os.path.join(os.getcwd(),"Ausgabe"), filename, as_attachment=True)

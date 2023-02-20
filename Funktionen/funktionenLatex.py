@@ -9,16 +9,24 @@ import os
 
 buchstaben="A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split()+"a b c d e f g h i j k l m n o p q e s t u v w x y z".split()
 
-def erzeugeEinfachesLatexdokument(inhalt,size=2):
+def erzeugeEinfachesLatexdokument(inhalt,size=2,file='newFile.tex',standalone=False):
     pfad='Ausgabe'
     if not os.path.exists(pfad):
         os.mkdir(pfad)
-    file='newFile.tex'
     ausgabeName=os.path.join(pfad,file)
-    writeLatexDoc(latexHead(size=size)+beginDoc()+inhalt+['\\end{document}'],ausgabeName)
+    writeLatexDoc((latexHeadTikz() if standalone else (latexHead(size=size)+beginDoc()))+inhalt+['\\end{document}'],ausgabeName)
     os.chdir(pfad)
     os.system('xelatex '+file)
     os.chdir('..')
+
+def latexHeadTikz():
+    head=[]
+    head.append('\\documentclass[tikz]{standalone}')
+    head.append('\\usepackage{tikz}')
+    head.append('\\usetikzlibrary{arrows,calc,decorations.markings,backgrounds,decorations.pathreplacing}')
+    head.append('\\begin{document}')
+    return head
+
 
 def latexHead(arraystretch=False,size=2):
     head=[]

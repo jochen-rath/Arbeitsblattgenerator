@@ -14,6 +14,8 @@ def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,
 #if True:
     afg=[]
     lsg=[]
+    if 'erzeugeAlleAtome' in auswahl:
+        return schreibeAlleAtomeInDateien()
     for i,aus in enumerate(auswahl):
         print(aus)
         a,l,d=erzeuge10minRechnung(aus,mitText)
