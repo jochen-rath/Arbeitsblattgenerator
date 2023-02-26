@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # coding: utf8
+import random
+
 
 #Diese Datei enthält verschiedene Funktionen, zur Erzeugung von Aufgaben zur Prozentrechnung
 
@@ -7,6 +9,43 @@
 #       exec(open("Funktionen/funktionen.py").read())
 
 
+def erzeugeProzentzeichnen(mitVorgabe=False,mitText=True):
+    laenge=random.randint(3,5 if mitVorgabe else 10)
+    prozent=random.randint(1,10)*10
+    if mitVorgabe:
+        afg=[F'\\pbox{{5cm}}{{Schraffiere {prozent} \% von: \\\\']
+        afg=afg+rechteckTeilsGefuelt(laenge,prozent,mitLsg=False)
+        afg=afg+['}']
+    else:
+        afg=F'Zeichne ein {laenge} cm langes und {strNW(laenge/2)} cm hohes Rechtecks. Schraffiere {prozent} \% davon.'
+        afg=afg if mitText else F'l={laenge} cm, h={strNW(laenge/2)} cm, p={prozent}\%'
+    lsg=rechteckTeilsGefuelt(laenge,prozent,mitLsg=True)
+    return [afg,lsg,[laenge,prozent]]
+
+def erkenneProzent(mitText=True):
+    laenge=random.randint(3,6)
+    prozent=random.randint(1,10)*10
+    if mitText:
+        afg=[F'\\pbox{{5cm}}{{Wieviel Prozent sind schraffiert?\\\\']
+        afg=afg+rechteckTeilsGefuelt(laenge,prozent,mitLsg=True)
+        afg=afg+['}']
+    else:
+        afg=rechteckTeilsGefuelt(laenge, prozent, mitLsg=True)
+    lsg=F'Gesamtlänge: {strNW(laenge*10)} mm, Länge der Schraffur: {strNW(laenge*10*prozent/100)} mm. Das bedeutet:'
+    lsg=lsg+F'$$\\frac{{{strNW(laenge*10*prozent/100)}}}{{{strNW(laenge*10)}}}={strNW((laenge*10*prozent/100)/(laenge*10),True)}={prozent}\%$$'
+    return [afg,lsg,[laenge,prozent]]
+
+def erkenneProzentKreis(mitText=True):
+    teile=random.choice([2,3,4,5,8,10,20,25])
+    anzahl=random.randint(0,teile)
+    if mitText:
+        afg=[F'\\pbox{{5cm}}{{Wieviel Prozent sind schraffiert?\\\\']
+        afg=afg+kreisTeilsGefuelt(teile=teile,anzahl=anzahl,mitSchraffur=True)
+        afg=afg+['}']
+    else:
+        afg=kreisTeilsGefuelt(teile=teile, anzahl=anzahl, mitSchraffur=True)
+    lsg=F'$$\\frac{{{anzahl}}}{{{teile}}}={strNW(anzahl/teile,True)}={strNW(anzahl/teile*100,True)}\%$$'
+    return [afg,lsg,[teile,anzahl]]
 def erzeugeProzentRechnungen(E='',kapital=False):
 #Diese Funktion erzeugt eine Aufgabe zur Prozentrechnung:
 #Aufruf:

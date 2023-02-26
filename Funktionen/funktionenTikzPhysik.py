@@ -97,3 +97,18 @@ def erzeugeAtom(n=11,massenzahl=0,anzahlElektroneProSchale=[],ion=0,pfeile=False
             tikzcommand.append(F'\draw[<-,line width=2pt,blue] ({neutronPfeilWinkel[i]}:{a*neutronPfeilWinkel[i]}) to ++({neutronPfeilWinkel[i]}:{a*neutronPfeilWinkel[i]+2}) node {{\LARGE {i+1+n}}} ;')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
+
+def zeichneZerfallsreihen(reihe=[[238, 92, 'U', '\\alpha'], ['?', 90, 'Th', '\\beta']]):
+    tikzcommand=[]
+    tikzcommand.append('\\begin{tikzpicture}')
+    tikzcommand.append(F'\\pgfmathsetmacro{{\\laengeReihe}}{{{int(len(reihe))}}}')
+    tikzcommand.append('\\foreach \\x/\\y  [count=\\xi] in  {'+",".join([F"_{{{{{x[1]}}}}}^{{{{{x[0]}}}}}{x[2]}/{x[3]}" for x in reihe])+'}')
+    tikzcommand.append('{')
+    tikzcommand.append('\\draw (2*\\xi ,0) circle (0.75cm) ;')
+    tikzcommand.append('\\node at (2*\\xi ,0){\\Large$\\x$}; ')
+    tikzcommand.append('\\ifnum\\xi<\\laengeReihe\\draw[->] (2*\\xi+0.75 ,0) to node[above]{$\\y$} (2*\\xi+1.25 ,0);\\fi')
+    tikzcommand.append('\\draw (2*\\xi ,0) circle (0.75cm) ;')
+    tikzcommand.append('}')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+

@@ -189,3 +189,29 @@ def schreibeAlleAtomeInDateien():
     for x in [x for x in os.listdir('Ausgabe') if x.startswith('Atom_')]:
         os.remove(os.path.join('Ausgabe',x))
     return 'alleAtome.zip'
+
+def zerfallsreihen():
+    reihe1=[[238,92,'U','\\alpha'],[234,90,'Th','\\beta'],[234,91,'Pa','\\beta'],[234,92,'U','\\alpha'],[230,90,'Th','\\alpha'],[226,88,'Ra','\\alpha'],[222,86,'Rn','\\alpha'],[218,84,'Po','\\alpha'],[214,82,'Pb','\\beta'],[214,83,'Bi','\\beta'],[214,84,'Po','\\alpha'],[210,82,'Pb','\\beta'],[210,83,'Bi','\\beta'],[210,84,'Po','\\alpha'],[206,82,'Pb','XX']]
+    reihe2=[[237,93,'Np','\\alpha'],[233,91,'Pa','\\beta'],[233,92,'U','\\beta'],[229,90,'Th','\\alpha'],[225,88,'Ra','\\beta'],[225,89,'Ac','\\alpha'],[221,87,'Fr','\\alpha'],[217,85,'At','\\alpha'],[213,83,'Bi','\\beta'],[213,84,'Po','\\alpha'],[209,82,'Pb','\\beta'],[209,83,'Bi','\\alpha'],[205,81,'Tl','XX']]
+    return random.choice([reihe1,reihe2])
+
+def bestimmeZerfall(n=2):
+    r=zerfallsreihen()
+    i=random.randint(0,len(r)-n)
+    r=r[i:i+n]
+    rZufall=copy.deepcopy(r)
+    for i in range(n-1):
+        zufall=random.choice(['strahlung','gesamtesAtom','Atomname','Atomwert'])
+        if zufall=='strahlung':
+            rZufall[random.randint(0,len(r)-2)][-1]='?'
+        atomwahl=random.randint(0,len(r)-1)
+        if zufall=='gesamtesAtom':
+            rZufall[atomwahl][0:3]=['?']*3
+        if zufall=='Atomname':
+            rZufall[atomwahl][2]='?'
+        if zufall=='Atomwert':
+            rZufall[atomwahl][random.randint(0,1)]='?'
+    afg=zeichneZerfallsreihen(reihe=rZufall)
+    lsg=zeichneZerfallsreihen(reihe=r)
+    return [afg,lsg,[r]]
+

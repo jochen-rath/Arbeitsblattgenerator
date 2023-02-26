@@ -265,3 +265,33 @@ def zeichneKreis(r=2,alpha=360,mitUmrandung=True):
     if mitUmrandung:
         tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
+
+
+def rechteckTeilsGefuelt(laenge,prozent,mitLsg=True):
+    tikzcommand=[]
+    tikzcommand.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
+    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    tikzcommand.append(F'\\pgfmathsetmacro{{\\laenge}}{{{laenge}}}  ')
+    tikzcommand.append('\\pgfmathsetmacro{\\hoehe}{\laenge/2}  ')
+    tikzcommand.append(F'\\pgfmathsetmacro{{\\percent}}{{{prozent}/100}}  ')
+    tikzcommand.append('\\draw[thick] (0,0) rectangle ++ (\\laenge,\\hoehe);')
+    if mitLsg:
+        tikzcommand.append('\\draw[thick,pattern=north west lines, pattern color=black!40] (0,0) rectangle ++ (\\laenge*\\percent,\\hoehe);')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+
+def kreisTeilsGefuelt(teile=2,anzahl=1,mitSchraffur=True):
+    winkel=[i*360/teile+90 for i in range(teile)]
+    auswahl=random.sample(winkel,anzahl)
+    tikzcommand=[]
+    tikzcommand.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
+    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    tikzcommand.append(F'\\pgfmathsetmacro{{\R}}{{2}}   ')
+    tikzcommand.append(F'\\draw[thick] (0,0) circle (\R); ')
+    for i in range(teile):
+        tikzcommand.append(F'\\draw[thick] (0,0) -- ({winkel[i]}:\R);')
+    if mitSchraffur:
+        for w in auswahl:
+            tikzcommand.append(F'\\draw[thick,pattern=north west lines, pattern color=black!40] (0,0) -- ({w}:\R) arc ({w}:{w+360/teile}:\R) -- (0,0);')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
