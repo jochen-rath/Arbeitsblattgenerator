@@ -131,7 +131,7 @@ def zylinder(R=3, h=4, ursprung=[0,0],buchstabe='Z',rName='R',hName='h'):
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
-def quaderMitLoch(a=6, b=4, c=9,R=1.5, ursprung=[0,0],buchstabe='Q',aName='a',bName='b',cName='c',rName='r'):
+def quaderMitLochAlt(a=6, b=4, c=9,R=1.5, ursprung=[0,0],buchstabe='Q',aName='a',bName='b',cName='c',rName='r'):
 #Diese Funktion erzeugt einen Tikz-code mit dem man einen Quader darstellen.
 #Aufruf:
 #        tikzcommand=quaderMitLoch(a, b, c,R,ursprung,buchstabe)
@@ -169,4 +169,33 @@ def quaderMitLoch(a=6, b=4, c=9,R=1.5, ursprung=[0,0],buchstabe='Q',aName='a',bN
     tikzcommand.append('\\draw[thick] ('+buchstabe+'6) -- ('+buchstabe+'7);')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
-    
+
+def quaderMitLoch(a=6, b=4, c=9,R=1.5, ursprung=[0,0],buchstabe='Q',aName='a',bName='b',cName='c',rName='r'):
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    tikzcommand.append(F'\\pgfmathsetmacro{{\\R}}{{{R}}}  ')
+    tikzcommand.append(F'\\pgfmathsetmacro{{\\winkelA}}{{160}}  ')
+    tikzcommand.append(F'\\pgfmathsetmacro{{\\winkelB}}{{335}}  ')
+    tikzcommand.append(F'\\pgfmathsetmacro{{\\a}}{{{a}}}  ')
+    tikzcommand.append(F'\\pgfmathsetmacro{{\\b}}{{{c}}} ')
+    tikzcommand.append(F'\\pgfmathsetmacro{{\\h}}{{{b}}}')
+    tikzcommand.append(F'   \\fill[gray!60] ({{\\R*cos(\\winkelA)}},0,{{\\R*sin(\\winkelA)}} ) -- ({{\\R*cos(\\winkelA)}},\\h,{{\\R*sin(\\winkelA)}} ) -- ({{\\R*cos(\\winkelB)}},\\h,{{\\R*sin(\\winkelB)}} ) --({{\\R*cos(\\winkelB)}},0,{{\\R*sin(\\winkelB)}} );')
+    tikzcommand.append(F'\\begin{{scope}}[canvas is xz plane at y=\\h]')
+    tikzcommand.append(F'\\draw[fill=gray!60,thick] (0,0) circle (\\R cm);')
+    tikzcommand.append(F'\\draw (-\\a/2,-\\b/2) rectangle ++(\\a,\\b);')
+    tikzcommand.append(F'\\end{{scope}}')
+    tikzcommand.append(F'\\begin{{scope}}[canvas is xz plane at y=0]')
+    tikzcommand.append(F'\\draw[fill=gray!60,dashed] (0,0) circle (\\R cm);')
+    tikzcommand.append(F'\\draw (-\\a/2,\\b/2) --  node[below] {{a={strNW(a)} cm}} (\\a/2,\\b/2);')
+    tikzcommand.append(F'\\draw (\\a/2,\\b/2) -- node[right] {{c={strNW(b)} cm}} (\\a/2,-\\b/2);')
+    tikzcommand.append(F'\\draw[dashed] (\\a/2,-\\b/2) -- (-\\a/2,-\\b/2);')
+    tikzcommand.append(F'\\draw[dashed] (-\\a/2,-\\b/2) --  (-\\a/2,\\b/2);')
+    tikzcommand.append(F'\\draw[dashed] (0,0) -- node[below] {{r={strNW(R)} cm}} (-\\R,0);')
+    tikzcommand.append(F'\\end{{scope}}')
+    tikzcommand.append(F'\\draw[thick] (-\\a/2,0,\\b/2) -- (-\\a/2,\\h,\\b/2);')
+    tikzcommand.append(F'\\draw[thick] (\\a/2,0,-\\b/2) -- node[right] {{b={strNW(c)} cm}} (\\a/2,\\h,-\\b/2);')
+    tikzcommand.append(F'\\draw[thick,dashed] (-\\a/2,0,-\\b/2) -- (-\\a/2,\\h,-\\b/2);')
+    tikzcommand.append(F'\\draw[thick] (\\a/2,0,\\b/2) --(\\a/2,\\h,\\b/2);')
+    tikzcommand.append(F'\\draw[thick] (-\\a/2,\\h,\\b/2) --(\\a/2,\\h,\\b/2);')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand

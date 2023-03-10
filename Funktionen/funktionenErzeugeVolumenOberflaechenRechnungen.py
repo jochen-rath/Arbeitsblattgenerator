@@ -146,7 +146,9 @@ def erzeugeQuaderMitLochBerech(breitePbox='\\textwidth',maxDim=14,einheit='cm',w
     lsg=['\\pbox{'+str(breitePbox)+('' if 'textwidth' in str(breitePbox) else 'cm')+'}{']
     if len(werte)==0:
         a,b,c=[random.randint(1,maxDim) for i in range(3)]
-        R=random.randint(1,min(a,c))/2.0
+        while min(a-1,c-1) <2:
+            a, b, c=[random.randint(1, maxDim) for i in range(3)]
+        R=random.randint(1,min(a-1,c-1))/2.0
     else:
         a,b,c,R=werte
     h=b

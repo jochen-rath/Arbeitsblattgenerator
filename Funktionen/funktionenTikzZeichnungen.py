@@ -295,3 +295,21 @@ def kreisTeilsGefuelt(teile=2,anzahl=1,mitSchraffur=True):
             tikzcommand.append(F'\\draw[thick,pattern=north west lines, pattern color=black!40] (0,0) -- ({w}:\R) arc ({w}:{w+360/teile}:\R) -- (0,0);')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
+
+def kreisDiagramm(prozente=[10,35,15,40]):
+    winkel=[90]
+    for p in prozente:
+        winkel.append(winkel[-1]+p*360/100)
+    tikzcommand=[]
+    tikzcommand.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
+    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    tikzcommand.append(F'\\pgfmathsetmacro{{\R}}{{2}}   ')
+    tikzcommand.append(F'\\draw[thick] (0,0) circle (\R); ')
+    for i in range(len(winkel[:-1])):
+        tikzcommand.append(F'\\draw[thick] (0,0) -- ({winkel[i]}:\R);')
+    for i,w in enumerate(winkel[:-1]):
+        tikzcommand.append(F'\\draw[thick,fill={tikzFarben[i]}!40] (0,0) -- ({w}:\R) arc ({w}:{winkel[i+1]}:\R) -- (0,0);')
+    if sum(prozente)>100:
+        tikzcommand.append('\\node at  (0,-\\R-0.5) {Achtung mehr als 100\%};')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand

@@ -31,7 +31,8 @@ def erkenneProzent(mitText=True):
         afg=afg+['}']
     else:
         afg=rechteckTeilsGefuelt(laenge, prozent, mitLsg=True)
-    lsg=F'Gesamtlänge: {strNW(laenge*10)} mm, Länge der Schraffur: {strNW(laenge*10*prozent/100)} mm. Das bedeutet:'
+    lsg=F'Gesamtlänge: {strNW(laenge*10)} mm, Länge der Schraffur: {strNW(laenge*10*prozent/100)} mm. Das bedeutet,'
+#    lsg=lsg+F'{strNW(laenge)} mm sind 10 \% und ${strNW(laenge*10*prozent/100)}\\cdot{}'
     lsg=lsg+F'$$\\frac{{{strNW(laenge*10*prozent/100)}}}{{{strNW(laenge*10)}}}={strNW((laenge*10*prozent/100)/(laenge*10),True)}={prozent}\%$$'
     return [afg,lsg,[laenge,prozent]]
 
