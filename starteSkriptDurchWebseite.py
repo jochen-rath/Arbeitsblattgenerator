@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf8
 
+import sys, errno
+import inspect
 from flask import Flask, flash, render_template_string, request, jsonify, send_from_directory,redirect,url_for
 from flask_wtf import FlaskForm, Form
 from wtforms import TextField, IntegerField, TextAreaField, SubmitField, RadioField, SelectField, validators, BooleanField
@@ -83,7 +85,6 @@ def viewAuswahlRechnungen():
             anzRech=[]
             for i in range(anzahlAuswahl):
                 anzRech=anzRech+[rechnungen[i]]*int('0' if anzahl[i] is None else anzahl[i])
-            print([sys.executable, script,titel,beschreibung,datum,anzSpalten,seitenumbruch,mitText,karoBereich,agfLsgGetrennt]+anzRech)
 #Ich bin paranoid, und habe Angst, dass mir Leute durch manipulierte Browser auch Sonderzeichen durch das Datumfeld oder
 #den Auswahlfeldern schicken können, die sonstwas machen, wenn ich mein Skript aufrufe. Von daher überprüfe ich, ob auch nur zugelassene Zeichen gesendet wurden.
             allesKorrekt=True
@@ -108,7 +109,9 @@ def viewAuswahlRechnungen():
 #Wenn alles Korrekt ist und auch ein paar Aufgaben gefwählt wurde, Starte das Skript.
             if len(anzRech)>0 and allesKorrekt:
                 warteZeit=300 if 'erzeugeAlleAtome' in anzRech else 90
+                print([sys.executable,script, titel,beschreibung,datum, anzSpalten,seitenumbruch,mitText, karoBereich,extraKaroseite, agfLsgGetrennt]+anzRech)
                 filename,rc=run_command(['timeout',F'{warteZeit}',sys.executable, script,titel,beschreibung,datum,anzSpalten,seitenumbruch,mitText,karoBereich,extraKaroseite,agfLsgGetrennt]+anzRech)
+                print('Run')
                 if rc==0:
                     globaleMitteilung='Fertig.'
                     return send_from_directory(os.path.join(os.getcwd(),"Ausgabe"), filename, as_attachment=True)

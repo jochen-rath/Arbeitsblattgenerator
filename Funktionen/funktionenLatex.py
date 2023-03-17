@@ -83,6 +83,7 @@ def latexHead(arraystretch=False,size=2):
     head.append('\\usepackage{amsmath}')
     head.append('\\usepackage{booktabs}')
 #Folgende Zeilen sind dazu da, um anzugeben ob die Werte in den Zellen Zentriert, Links- oder Rechtsbündig geschrieben werden sollen.
+#    head.append('\\renewcommand\\tabularxcolumn[1]{m{#1}}% for vertical centering text in X column')
     head.append('\\newcolumntype{L}[1]{>{\\raggedright\\let\\newline\\\\\\arraybackslash\\hspace{0pt}}m{#1}}')
     head.append('\\newcolumntype{C}[1]{>{\\centering\\let\\newline\\\\\\arraybackslash\\hspace{0pt}}m{#1}}')
     head.append('\\newcolumntype{R}[1]{>{\\raggedleft\\let\\newline\\\\\\arraybackslash\\hspace{0pt}}m{#1}}')

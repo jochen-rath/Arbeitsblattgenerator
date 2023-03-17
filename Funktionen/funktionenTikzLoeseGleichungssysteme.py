@@ -26,7 +26,9 @@ def loeseGleichungEinfachMitZweiVariabeln(G="2*x+6=3*y-2", variable='x y', lsgVo
     for i,vorgabe in enumerate(lsgVorgabe):
         latexcommand.append('\\mbox{Lsg '+str(i+1)+': }'+vorgabe+'\\\\')
         Glsg=G.replace(vorgabe.split('=')[0],vorgabe.split('=')[1])
-        latexcommand=latexcommand+loeseGleichungEinfachMitEinerVariabel(Glsg,variable.replace(vorgabe.split('=')[0],'').replace(' ',''),mitTikzUmrandung=False,latexAusgabe=True)
+        glLsg=loeseGleichungEinfachMitEinerVariabel(Glsg,variable.replace(vorgabe.split('=')[0],'').replace(' ',''),mitTikzUmrandung=False,latexAusgabe=True)
+        print(glLsg)
+        latexcommand=latexcommand+glLsg
         latexcommand[-1]=vorgabe+'~\\rightarrow '+latexcommand[-1]+'\\\\'
         latexcommand.append(latexcommand[-1])
         latexcommand[-2]='\\makebox[0pt][l]{\\uline{\phantom{$'+latexcommand[-2].replace('&','')+'$}}}'

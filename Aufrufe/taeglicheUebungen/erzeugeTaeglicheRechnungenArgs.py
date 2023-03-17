@@ -4,6 +4,7 @@
 #Diese Skript erzeugt 8 verschiedene Rechnungen, die am Anfang der Stunde gerechnet werden sollen.
 #Aufruf:
 #	python3 Aufrufe/taeglicheUebungen/erzeugeTaeglicheRechnungenArgs.py Titel Datum anzSpalten SeitenumbruchAfg Auswahl1 Auswahl2 ...
+
 exec(open("Funktionen/startup.py").read())
 exec(open("Funktionen/funktionen.py").read())
 
@@ -27,8 +28,6 @@ def main():
     filename=erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,'' if not 'datum' in locals() else datum ,'' if not 'anfang' in locals() else anfang,2 if not 'anzSpalten' in locals() else anzSpalten,seitenumbruch=seitenumbruch,mitText=mitText,karoBereich=karoBereich,extraKaroseite=extraKaroseite,agfLsgGetrennt=agfLsgGetrennt)
     print('Dateiname:'+filename)
     return 
-
-
 
 
 

@@ -7,7 +7,7 @@
 #       exec(open("Funktionen/funktionen.py").read())
 
 
-def erzeugeGleichungmitZweiVariablen(variabel='x y',mitKlammer=False):
+def erzeugeGleichungmitZweiVariablen(variabel='x y',mitKlammer=False,mitText=True):
 #Aufruf
 #           [afg,lsg,G]=erzeugeGleichungmitZweiVariablen(variabel)
 #
@@ -17,11 +17,11 @@ def erzeugeGleichungmitZweiVariablen(variabel='x y',mitKlammer=False):
         term1=erzeugeTerm(variablen=variabel,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=12,mitKlammer=False)
         term2=erzeugeTerm(variablen=variabel,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=12,mitKlammer=False)
         G=term1+'='+term2
-    afg=['Gib 3 Lösungen folgender Gleichung an:']+['$$'+G.replace('**','^').replace('*','\\cdot ')+'$$']
+    afg=(['Gib 3 Lösungen folgender Gleichung an:'] if mitText else [])+['$$'+G.replace('**','^').replace('*','\\cdot ')+'$$']
     lsg=loeseGleichungEinfachMitZweiVariabeln(G=G,variable=variabel)
     return [afg,lsg,G]
 
-def erzeugeGleichungmitZweiVariablenZeichnen(variabel='x y',mitKlammer=False):
+def erzeugeGleichungmitZweiVariablenZeichnen(variabel='x y',mitKlammer=False,mitText=True):
 #Diese Funktion erzeugt eine Gleichung mit zwei Varibablen ohne Potenz.
 #
 #Aufruf

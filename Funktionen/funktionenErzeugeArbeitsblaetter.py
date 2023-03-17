@@ -17,7 +17,6 @@ def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,
     if 'erzeugeAlleAtome' in auswahl:
         return schreibeAlleAtomeInDateien()
     for i,aus in enumerate(auswahl):
-        print(aus)
         a,l,d=erzeuge10minRechnung(aus,mitText)
         if isinstance(a,list):
             a='\n'.join(a)
@@ -35,6 +34,8 @@ def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,
     begin=beginDoc(kopf=kopfzeile,title=title,anfang=anfang)
     karo=(leeresKaro(groesse=[16,karoBereich]) +['\\\\'] ) if karoBereich>0 else []
     extraKaro=leeresKaro(groesse=[16,25]) if extraKaroseite else []
+#    with open('readme.txt', 'a') as f:
+#        f.write(F'In {inspect.currentframe().f_code.co_name}: Vor writeLatexDoc\n')
     if not agfLsgGetrennt:
         writeLatexDoc(head+begin+tabAfg+karo+extraKaro+seitenwechsel(kopfzeile,lsgTitle)+tabLsg+['\\end{document}'],os.path.join('Ausgabe',ausgabeName+'.tex'))
     else:

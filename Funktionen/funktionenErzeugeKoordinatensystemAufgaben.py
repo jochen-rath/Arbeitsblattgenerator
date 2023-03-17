@@ -85,8 +85,8 @@ def koordinatenFiguren(auswahl='auto',faktor=1,negZahlen=False):
 def zeichneFigurImKoordsystem(auswahl='auto',negZahlen=False,faktor=1,mitKoordsystem=False,mitText=True):
     [streckenzug,xAchse,yAchse]=koordinatenFiguren(auswahl=auswahl, faktor=faktor,negZahlen=negZahlen)
     punkte=[]
-    afgText='Zeichne und verbinde folgende Punkte in ein Koordinatensystem. Jeder Buchstabe ist ein einzelner Streckenzug von Anfang bis Ende.'
-    afg=['\\pbox{\\hsize}{']+[afgText if mitText else '']+['\\\\']
+    afgText='Zeichne und verbinde folgende Punkte in ein Koordinatensystem. Jeder Buchstabe ist ein einzelner Streckenzug von Anfang bis Ende.\\\\'
+    afg=['\\pbox{\\hsize}{'+(afgText if mitText else '')]
     if isinstance(streckenzug[0],int):
         nr=0
         for strZug in streckenzug[1:]:

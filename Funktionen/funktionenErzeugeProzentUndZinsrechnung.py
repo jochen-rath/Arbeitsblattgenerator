@@ -47,7 +47,7 @@ def erkenneProzentKreis(mitText=True):
         afg=kreisTeilsGefuelt(teile=teile, anzahl=anzahl, mitSchraffur=True)
     lsg=F'$$\\frac{{{anzahl}}}{{{teile}}}={strNW(anzahl/teile,True)}={strNW(anzahl/teile*100,True)}\%$$'
     return [afg,lsg,[teile,anzahl]]
-def erzeugeProzentRechnungen(E='',kapital=False):
+def erzeugeProzentRechnungen(E='',kapital=False,HS=False):
 #Diese Funktion erzeugt eine Aufgabe zur Prozentrechnung:
 #Aufruf:
 #         rechnung=erzeugeProzentRechnungen()
@@ -56,18 +56,25 @@ def erzeugeProzentRechnungen(E='',kapital=False):
     einheiten=['\euro{}','km','m','g','l','kg','cm','Schüler','Schülerinnen','Mädchen','Jungs','Autos','LKW','Bleistifte','Buntstifte','Knöpfe','Tickets']
     E=E if len(E)>0 else random.choice(einheiten)
     G=1.1
-    while G-int(G)>0:
-        pP=random.randint(1,99)+ (random.randint(1,10)/10 if random.randint(1,10)<5 else 0.0)
-        if kapital:
-            pP=random.randint(1,20)+ (random.randint(1,10)/10 if random.randint(1,10)<5 else 0.0)
-        W=random.randint(1,300) if random.randint(1,10)<3 else random.randint(1,100)
-        if kapital:
-            W=random.randint(20,300)
-        G=W*100/pP
+    HS_GWerte=[20,25,50,100,200,400,500,1000]
+    if HS:
+        pP=1.1
+        while pP-int(pP)>0:
+            G=random.choice(HS_GWerte)
+            W=random.randint(1,G)
+            pP=W*100/G
+    else:
+        while G-int(G)>0:
+            pP=random.randint(1,99)+ (random.randint(1,10)/10 if random.randint(1,10)<5 else 0.0)
+            if kapital:
+                pP=random.randint(1,20)+ (random.randint(1,10)/10 if random.randint(1,10)<5 else 0.0)
+            W=random.randint(1,300) if random.randint(1,10)<3 else random.randint(1,100)
+            if kapital:
+                W=random.randint(20,300)
+            G=W*100/pP
     return [int(G),W,pP,E]
 
-
-def erzeugeProzentwertAufgaben(n=12,lsgMitDreisatz=True,bez=['Grundwert','Prozentsatz'],einheit=''):
+def erzeugeProzentwertAufgaben(n=12,lsgMitDreisatz=True,bez=['Grundwert','Prozentsatz'],einheit='',HS=False):
 #Aufruf 
 #     ausgabe=erzeugeProzentsatzAufgaben(Anzahl)
 #
@@ -76,12 +83,12 @@ def erzeugeProzentwertAufgaben(n=12,lsgMitDreisatz=True,bez=['Grundwert','Prozen
     dezi=[]
     benennung=['G','W','p'] if ('Grundwert' in bez) or ('Prozentsatz' in bez) else ['K','Z','p']
     for i in range(n):
-        r=erzeugeProzentRechnungen(E=einheit,kapital=True if 'K' in benennung else False)
+        r=erzeugeProzentRechnungen(E=einheit,kapital=True if 'K' in benennung else False,HS=HS)
         rechnungen.append(bez[0]+'~'+strNW(r[0])+'~'+r[3]+';  '+bez[1]+'~'+strNW(r[2])+'~\%')
         lsgen=ausgabeProzentwertBerechnenFuerTabelle(inhalte=[['',r[0],r[2],r[3]]],mitDreisatz=lsgMitDreisatz,bez=benennung)
     return [rechnungen,lsgen,dezi]
 
-def erzeugeProzentsatzAufgaben(n=12,lsgMitDreisatz=True,bez=['Grundwert','Prozentwert'],einheit=''):
+def erzeugeProzentsatzAufgaben(n=12,lsgMitDreisatz=True,bez=['Grundwert','Prozentwert'],einheit='',HS=False):
 #Aufruf 
 #     ausgabe=erzeugeProzentsatzAufgaben(Anzahl)
 #
@@ -90,12 +97,12 @@ def erzeugeProzentsatzAufgaben(n=12,lsgMitDreisatz=True,bez=['Grundwert','Prozen
     dezi=[]
     benennung=['G','W','p'] if ('Grundwert' in bez) or ('Prozentsatz' in bez) else ['K','Z','p']
     for i in range(n):
-        r=erzeugeProzentRechnungen(E=einheit,kapital=True if 'K' in benennung else False)
+        r=erzeugeProzentRechnungen(E=einheit,kapital=True if 'K' in benennung else False,HS=HS)
         rechnungen.append(bez[0]+'~'+strNW(r[0])+'~'+r[3]+';  '+bez[1]+'~'+strNW(r[1])+'~'+r[3])
         lsgen=ausgabeProzentsatzBerechnenFuerTabelle(inhalte=[['',r[0],r[1],r[3]]],mitDreisatz=lsgMitDreisatz,bez=benennung)
     return [rechnungen,lsgen,dezi]
 
-def erzeugeGrundwertAufgaben(n=12,lsgMitDreisatz=True,bez=['Prozentwert','Prozentsatz'],einheit=''):
+def erzeugeGrundwertAufgaben(n=12,lsgMitDreisatz=True,bez=['Prozentwert','Prozentsatz'],einheit='',HS=False):
 #Aufruf 
 #     ausgabe=erzeugeProzentsatzAufgaben(Anzahl)
 #
@@ -104,7 +111,7 @@ def erzeugeGrundwertAufgaben(n=12,lsgMitDreisatz=True,bez=['Prozentwert','Prozen
     dezi=[]
     benennung=['G','W','p'] if ('Grundwert' in bez) or ('Prozentsatz' in bez) else ['K','Z','p']
     for i in range(n):
-        r=erzeugeProzentRechnungen(E=einheit,kapital=True if 'K' in benennung else False)
+        r=erzeugeProzentRechnungen(E=einheit,kapital=True if 'K' in benennung else False,HS=HS)
         rechnungen.append(bez[0]+'~'+strNW(r[1])+'~'+r[3]+';  '+bez[1]+'~'+strNW(r[2])+'~\%')
         lsgen=ausgabeGrundwertBerechnenFuerTabelle(inhalte=[['',r[1],r[2],r[3]]],mitDreisatz=lsgMitDreisatz,bez=benennung)
     return [rechnungen,lsgen,dezi]
