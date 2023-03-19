@@ -47,7 +47,7 @@ def erkenneProzentKreis(mitText=True):
         afg=kreisTeilsGefuelt(teile=teile, anzahl=anzahl, mitSchraffur=True)
     lsg=F'$$\\frac{{{anzahl}}}{{{teile}}}={strNW(anzahl/teile,True)}={strNW(anzahl/teile*100,True)}\%$$'
     return [afg,lsg,[teile,anzahl]]
-def erzeugeProzentRechnungen(E='',kapital=False,HS=False):
+def erzeugeProzentRechnungen(E='',kapital=False,HS=False,G=False):
 #Diese Funktion erzeugt eine Aufgabe zur Prozentrechnung:
 #Aufruf:
 #         rechnung=erzeugeProzentRechnungen()
@@ -56,13 +56,22 @@ def erzeugeProzentRechnungen(E='',kapital=False,HS=False):
     einheiten=['\euro{}','km','m','g','l','kg','cm','Schüler','Schülerinnen','Mädchen','Jungs','Autos','LKW','Bleistifte','Buntstifte','Knöpfe','Tickets']
     E=E if len(E)>0 else random.choice(einheiten)
     G=1.1
-    HS_GWerte=[20,25,50,100,200,400,500,1000]
     if HS:
-        pP=1.1
-        while pP-int(pP)>0:
-            G=random.choice(HS_GWerte)
-            W=random.randint(1,G)
-            pP=W*100/G
+        if G:
+            HS_GWerte=[20,25,50,200,400,500,1000]
+            pP_Werte=[1,2,4,5,10]
+            W=1.1
+            while W-int(W)>0:
+                G=random.choice(HS_GWerte)
+                pP=random.choice(pP_Werte)
+                W=pP*G/100
+        else:
+            HS_GWerte=[20,25,50,100,200,400,500,1000]
+            pP=1.1
+            while pP-int(pP)>0:
+                G=random.choice(HS_GWerte)
+                W=random.randint(1,G)
+                pP=W*100/G
     else:
         while G-int(G)>0:
             pP=random.randint(1,99)+ (random.randint(1,10)/10 if random.randint(1,10)<5 else 0.0)
@@ -111,7 +120,7 @@ def erzeugeGrundwertAufgaben(n=12,lsgMitDreisatz=True,bez=['Prozentwert','Prozen
     dezi=[]
     benennung=['G','W','p'] if ('Grundwert' in bez) or ('Prozentsatz' in bez) else ['K','Z','p']
     for i in range(n):
-        r=erzeugeProzentRechnungen(E=einheit,kapital=True if 'K' in benennung else False,HS=HS)
+        r=erzeugeProzentRechnungen(E=einheit,kapital=True if 'K' in benennung else False,HS=HS,G=True)
         rechnungen.append(bez[0]+'~'+strNW(r[1])+'~'+r[3]+';  '+bez[1]+'~'+strNW(r[2])+'~\%')
         lsgen=ausgabeGrundwertBerechnenFuerTabelle(inhalte=[['',r[1],r[2],r[3]]],mitDreisatz=lsgMitDreisatz,bez=benennung)
     return [rechnungen,lsgen,dezi]
