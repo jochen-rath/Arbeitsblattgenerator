@@ -125,6 +125,12 @@ def erzeugeGrundwertAufgaben(n=12,lsgMitDreisatz=True,bez=['Prozentwert','Prozen
         lsgen=ausgabeGrundwertBerechnenFuerTabelle(inhalte=[['',r[1],r[2],r[3]]],mitDreisatz=lsgMitDreisatz,bez=benennung)
     return [rechnungen,lsgen,dezi]
 
+
+def zufaelligeProzentaufgabe(HS=False):
+    aufgaben=[F'erzeugeProzentwertAufgaben(n=1,HS={HS})',F'erzeugeProzentsatzAufgaben(n=1,HS={HS})',F'erzeugeGrundwertAufgaben(n=1,HS={HS})']
+    return eval(random.choice(aufgaben))
+
+
 def erzeugeVerminderteGrundwertAufgaben(n=12,lsgMitDreisatz=True):
 #Aufruf 
 #     ausgabe=erzeugeProzentsatzAufgaben(Anzahl)

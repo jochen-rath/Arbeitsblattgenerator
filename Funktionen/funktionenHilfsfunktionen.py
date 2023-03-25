@@ -11,7 +11,7 @@ buchstabenGross=[chr(i) for i in range(65,65+26)]
 buchstabenKlein=[chr(i) for i in range(97,97+26)]
 
 tikzFarben=['black','red','green','blue','yellow','cyan','magenta','olive','orange','pink','purple','brown','darkgray','gray','lightgray','lime','teal','violet','white']
-
+zahlenWoerter=['Null','Eins','Zwei','Drei','Vier','Fuenf','Sechs','Sieben','Acht','Neun','Zehn','Elf','Zwoelf']
 def spliteSeiteAddSub(S):
 #Am Anfang der Gleichung muss ein Plus oder Minus stehen, damit bei der Termumformung die richtige Operation gewählt werden kann.
     if not (S[0]=='-' or S[0]=='+'):

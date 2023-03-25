@@ -125,6 +125,7 @@ def erzeuge10minRechnung(art,mitText=True):
         'ProzRechPWertHS':'erzeugeProzentwertAufgaben(n=1,HS=True)',
         'ProzRechPsatzWertHS':'erzeugeProzentsatzAufgaben(n=1,HS=True)',
         'ProzRechGWertHS':'erzeugeGrundwertAufgaben(n=1,HS=True)',
+        'PreozRechGemischtHS':F'zufaelligeProzentaufgabe(n=1,HS=True)',
         'ZinsenBerechnen':'erzeugeProzentwertAufgaben(n=1,bez=["Kapital","Zinssatz"],einheit="\\euro{}")',
         'ZinsatzBerechnen':'erzeugeProzentsatzAufgaben(n=1,bez=["Kapital","Zinsen"],einheit="\\euro{}")',
         'KapitalBerechnen':'erzeugeGrundwertAufgaben(n=1,bez=["Zinsen","Zinssatz"],einheit="\\euro{}")',
@@ -216,7 +217,7 @@ def erzeuge10minRechnung(art,mitText=True):
     return eval(rechnungsFunktionen[art])
 
 
-def MoeglicheRechnungen(auswahl='keys'):
+def MoeglicheRechnungen(auswahl='keys',gebeListeZurueck=False):
     listeRechnungen={'Basisaufgaben':[('Basis','Plus, Minus, Mal, Geteil'),('Kopf','Kopfrechenaufgaben')],
                      'Schriftliche Add-Sub':[('addSchriftLeicht','Addition Leicht'),('addSchrift','Addition Normal'),('addSchriftSchwer','Addition Schwer'),('subSchriftLeicht','Subtraktion Leicht'),('subSchrift','Subtraktion Normal'),('subSchriftSchwer','Subtraktion Schwer'),('addSubSchriftLeicht','Zufällig Leicht'),('addSubSchrift','Zufällig Normal'),('addSubSchriftSchwer','Zufällig Schwer')],
                      'Schriftl. Multi.-Division':[('multiSchrEinFaktorOhneUbertrag','Multi. Fakt einstellig ohne Übertrag'),('multiSchrEinFaktorMitUbertrag','Multi. Fakt einstellig mit Übertrag'),('multiSchr','Schriftliche Multiplikation'),('multiSchrSchwer','Schrft. Multiplikation Schwer'),('diviSchr','Division'),('diviSchr2stellig','Division 2 Stellig'),('diviSchrMitRest','Division mit Rest'),('diviSchrLinienVorg','Div. Linien Vorgegeben'),('diviSchrSubtrSchritt','Division Subtraktionsschritt'),('diviSchrMultiSchritt','Division Multiplikationsschritt'),('diviSchrRunterzSchritt','Division Runterziehen'),('diviSchrResteintr','Division Rest eintragen'),('diviSchrErgEintrSchritt','Division Ergebnis Eintragen')],
@@ -239,6 +240,8 @@ def MoeglicheRechnungen(auswahl='keys'):
                      'Funktionen':[('propFktZeichnen','Proportionale Fkten zeichnen'),('propFktErkennen','Proportionale Fkten erkennen'),('lineareFktZeichnen','Lineare Fkten zeichnen'),('lineareFktErkennen','Lineare Fkten erkennen'),('umfangsFunktionRechteck','Bestimme Rechteck Umfangsfunktion'),('umfangsFunktionDreieck','Bestimme Dreieck Umfangsfunktion')],
                      'Physik': [('geschwGeschwBerechnen', 'Berechne die Geschw.'),('geschwGeschwBerechnenHS', 'Berechne die Geschw. für HS'),('geschwBeliebigBerechnen', 'Berechne fehl. Wert Geschw.'),('geschwBeliebigBerechnenHS', 'Berechne fehl. Wert Geschw. für HS'),('geschwGeschwBerechnenSchwer', 'Berechne die Geschw. mit Komma'),('geschwBeliebigBerechnenSchwer', 'Berechne fehl. Wert Geschw. mit Komma'),('geschwGeschwBerechnenEinheitBeliebig', 'Berechne Gesch. mit bel. Einheiten.'),('geschwBeliebigBerechnenEinheitBeliebig', 'Berechne fehl. Wert mit bel. Einheiten.'),('zeitWegDiagramm','Zeit Weg Diagramm'),('zeitWegDiagrammOhneDiaVorgabe','Zeit Weg Dia ohne Dia. Vorgabe'),('zeitWegDiagrammNurText','Zeit Weg Dia ohne Vorgabe'),('beschlBeliebigBerechnen', 'Berechne fehl. Wert Beschl.'),('atomErkennenEinfach','Atom bestimmen Einfach'),('atomErkennen','Atom bestimmen'),('atomZeichnen','Atom zeichnen'),('atomIonErkennen','Ion bestimmen'),('erzeugeAlleAtome','Schreibe alle Atome in pdf-Dateien'),('bestimmeZerfall','Zerfall Bestimmen'),('bestimmeZerfalln3','Zerfall Bestimmen mit 3')]
     }
+    if gebeListeZurueck:
+        return listeRechnungen
     if auswahl in listeRechnungen.keys():
         return listeRechnungen[auswahl]
     else:
