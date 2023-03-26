@@ -32,6 +32,7 @@ def latexHead(arraystretch=False,size=2):
     head=[]
     head.append('\\documentclass[12pt]{article}')
     head.append('\\usepackage[table]{xcolor}')
+    head.append('\\usepackage[shortlabels]{enumitem}')
     head.append('\\usepackage{tabularx}')
     head.append('\\usepackage{graphicx}')
     head.append('\\usepackage{hyperref}')
@@ -267,5 +268,28 @@ def erzeugeArbeitLatex(dateiName,punkte=[]):
     arbeit.append(F'\\pgfmathsetmacro{{\\gesPkte}}{{{gesPkte}+\\sauberkeitsPkte}}')
     arbeit.append(F'\\input{{{dateiName}_01_Kopfseite.tex}}')
     for i in range(len(punkte)):
-        arbeit.append(F'\\input{{{dateiName}_{i+1:02d}_Aufgabe{i:02d}.tex}}')
+        arbeit.append(F'\\input{{{dateiName}_{i+2:02d}_Aufgabe{i+1:02d}.tex}}')
     return  arbeit
+
+def erzeugeVorlageTextaufgabenArbeit(dateiName,nr):
+    textafg=[]
+    textafg.append(F'\\newpage')
+    textafg.append(F'\\section{{Textaufgaben}}')
+    textafg.append(F"\\begin{{enumerate}}[a)]")
+    textafg.append(F"\\item Bearbeite diese Liste nach bedarf.")
+    textafg.append(F"\\item Führe dazu folgende Schritte durch.")
+    textafg.append(F"\\begin{{enumerate}}[1.]")
+    textafg.append(F"\\item Das item ist ein Listeneintrag")
+    textafg.append(F"\\item Ändere items zu eigenen Aufgaben")
+    textafg.append(F"\\item Füge neue items hinzu.")
+    textafg.append(F"\\item Oder entferne die, die zu viel sind.")
+    textafg.append(F"\\end{{enumerate}}")
+    textafg.append(F"\\item Denke auch an die korrekte Punktevergabe.")
+    textafg.append(F"\\item Brauchst du keine Textaufgabe, lösche den Inhalt dieser Datei und setze die Punkte auf 0")
+    textafg.append(F"\\item Solltest du vor den Textaufgaben keine neue Seite wünschen, entferne den Befehl \\textbackslash newpage.")
+    textafg.append(F"\\end{{enumerate}}")
+    textafg.append(F'\\begin{{flushright}}')
+    textafg.append(F'\\underline{{\\hspace{{2cm}}/ \\pkteAfg{zahlenWoerter[nr]}~Punkte}}')
+    textafg.append(F'\\end{{flushright}}')
+    with open(os.path.join('Ausgabe',F'{dateiName}_{nr+1:02d}_Aufgabe{nr:02d}.tex'), 'w') as f:
+        f.write('\n'.join(textafg))

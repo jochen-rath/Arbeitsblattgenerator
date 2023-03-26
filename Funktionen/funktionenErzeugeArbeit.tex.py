@@ -34,7 +34,7 @@ def sortiereRechnungenInDictionaryNachThemen(auswahl=['addSubSchriftSchwer','dez
     return rechnungenSortiert
 
 def erzeugeArbeit(auswahl,title,dateiName,datum,anfang):
-    mitText=True
+    mitText=False
     aufgaben=sortiereRechnungenInDictionaryNachThemen(auswahl)
     dateiName,datum=filename(dateiName,datum=(datetime.date.today() + datetime.timedelta(days=1)).strftime("%d.%m.%Y") if datum=="KeinDatum" else datum)
 #Erzeuge Arbeitsaufgaben
@@ -42,12 +42,17 @@ def erzeugeArbeit(auswahl,title,dateiName,datum,anfang):
     punkte=[]
     for i,key in enumerate(aufgaben.keys()):
         aufgabenLatex=[]
+        aufgabenLatex.append(F'\\newpage')
         aufgabenLatex.append(F'\\section{{{key}}}')
+        beschreibungstext=F'Füge hier bitte einen Beschreibungstext ein. Behalte die beiden Backslash \\textbackslash\\textbackslash. Die bedeuten eine neue Zeile. Soll die Aufgabe nicht auf einer neuen Seite beginnen, entferne den Befehl \\textbackslash newpage am Anfang der tex-Datei.\\\\'
+        if len(aufgaben[key])==1:
+            aufgabenLatex.append(beschreibungstext)
         p=0
         for key2 in aufgaben[key]:
             afg=[]
-            if len(aufgaben[key])>0:
+            if len(aufgaben[key])>1:
                 aufgabenLatex.append(F'\\subsection{{{key2}}}')
+                aufgabenLatex.append(beschreibungstext)
             for j,aus in enumerate(aufgaben[key][key2]):
                 a,l,d=erzeuge10minRechnung(aus,mitText)
                 if isinstance(a,list):
@@ -59,13 +64,17 @@ def erzeugeArbeit(auswahl,title,dateiName,datum,anfang):
             aufgabenLatex=aufgabenLatex+erzeugeEinfacheTabelle(afg,1)
             p=p+len(afg)
         aufgabenLatex.append(F'\\begin{{flushright}}')
-        aufgabenLatex.append(F'\\underline{{\\hspace{{2cm}}/ \\pkteAfg{zahlenWoerter[i+1]} Punkte}}')
+        aufgabenLatex.append(F'\\underline{{\\hspace{{2cm}}/ \\pkteAfg{zahlenWoerter[i+1]}~Punkte}}')
         aufgabenLatex.append(F'\\end{{flushright}}')
-        with open(os.path.join('Ausgabe',F'{dateiName}_{i+1:02d}_Aufgabe{i:02d}.tex'), 'w') as f:
+        with open(os.path.join('Ausgabe',F'{dateiName}_{i+2:02d}_Aufgabe{i+1:02d}.tex'), 'w') as f:
             f.write('\n'.join(aufgabenLatex))
         punkte.append(p)
+    punkte.append(8)    #Für die Textaufgabe.
+    fach='Physik' if 'Physik' in title else 'Mathematik'
+    title=title.replace(fach,'')
     with open(os.path.join('Ausgabe', F'{dateiName}_01_Kopfseite.tex'), 'w') as f:
-        f.write('\n'.join(schreibeArbeitKopfseite(fach='Mathematik', title=title, jahr='2022/2023',datum=datum,punkte=punkte)))
+        f.write('\n'.join(schreibeArbeitKopfseite(fach=fach, title=title, jahr='2022/2023',datum=datum,punkte=punkte)))
+    erzeugeVorlageTextaufgabenArbeit(dateiName, len(punkte))
     tabLsg=erzeugeEinfacheTabelleMitSeitenumbruch(lsg,1)
     erzeugeEinfachesLatexdokument(tabLsg, size=2, file=F'{dateiName}_lsg.tex')
     arbeit=erzeugeArbeitLatex(dateiName,punkte=punkte)

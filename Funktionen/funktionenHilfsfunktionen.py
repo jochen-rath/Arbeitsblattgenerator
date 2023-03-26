@@ -151,7 +151,7 @@ def filename(dateiName,datum=''):
             else:
                 m_split=datum.split('.')
                 datumFilename=m_split[2]+'.'+m_split[1]+'.'+m_split[0]
-    dateiName=datumFilename+('_' if len(datumFilename)> 1 else '')+dateiName
+    dateiName=F'{datumFilename}{"_" if len(datumFilename)> 1 else ""}{dateiName}'
     return dateiName,datum
 
 def ggt(a, b):
