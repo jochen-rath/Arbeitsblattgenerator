@@ -5,7 +5,7 @@
 #       exec(open("Funktionen/funktionen.py").read())
 
 
-def erzeuge10minRechnung(art,mitText=True):
+def erzeuge10minRechnung(art,mitText=True,anzSpalten=2):
 #Diese Funktion erzeugt eine Liste von verschiedenen Aufgaben. 
 #Welche Aufgaben, ist in der Liste "art" angegeben.
 #art = 'ggT','kgV','Basis','Kopf','erweitern','kuerzen'
@@ -36,6 +36,9 @@ def erzeuge10minRechnung(art,mitText=True):
                           'diviSchrResteintr':'erzeugeDivision(trageRestEin=True)',
                           'erweitern':'erzeugeErweitern()','kuerzen':'erzeugeKuerzen()','kuerzenMitTeiler':'erzeugeKuerzen(mitTeiler=True)',
                           'reihe':'BruchReiheAufgabe()','reihePosZufaellig':'BruchReiheAufgabe(faktorenBeliebig=True)','bruchVergleichen':'erzeugeBruchVergleichen()',
+        'labyrinthKlein':f'erzeugeLabyrinthAufgabe(hoehe=5,anzSpalten={anzSpalten})',
+        'labyrinthMittel':f'erzeugeLabyrinthAufgabe(hoehe=10,anzSpalten={anzSpalten})',
+        'labyrinthGross':f'erzeugeLabyrinthAufgabe(hoehe=15,anzSpalten={anzSpalten})',
         'BruchzuGemischteZahl':'erzeugeBruchzuGemischteZahl()', 'GemischteZahlzuBruch':'erzeugeGemischteZahlZuBruch()',
         'Bruchteil':'erzeugeBruchteileBerechnen()','GanzesBerechnen':'erzeugeGemischteZahlZuBruch()',
         'BruchAddSubGleichAddition':"erzeugeBruchAddition(gleichnamig=True,operator='+')",'BruchAddSubGleichSubtraktion':"erzeugeBruchAddition(gleichnamig=True,operator='-')",
@@ -219,6 +222,7 @@ def erzeuge10minRechnung(art,mitText=True):
 
 def MoeglicheRechnungen(auswahl='keys',gebeListeZurueck=False):
     listeRechnungen={'Basisaufgaben':[('Basis','Plus, Minus, Mal, Geteil'),('Kopf','Kopfrechenaufgaben')],
+                     'Spass':[('labyrinthKlein','Labryrinth Klein'),('labyrinthMittel','Labryrinth Mittel'),('labyrinthGross','Labryrinth Gross')],
                      'Schriftliche Add-Sub':[('addSchriftLeicht','Addition Leicht'),('addSchrift','Addition Normal'),('addSchriftSchwer','Addition Schwer'),('subSchriftLeicht','Subtraktion Leicht'),('subSchrift','Subtraktion Normal'),('subSchriftSchwer','Subtraktion Schwer'),('addSubSchriftLeicht','Zufällig Leicht'),('addSubSchrift','Zufällig Normal'),('addSubSchriftSchwer','Zufällig Schwer')],
                      'Schriftl. Multi.-Division':[('multiSchrEinFaktorOhneUbertrag','Multi. Fakt einstellig ohne Übertrag'),('multiSchrEinFaktorMitUbertrag','Multi. Fakt einstellig mit Übertrag'),('multiSchr','Schriftliche Multiplikation'),('multiSchrSchwer','Schrft. Multiplikation Schwer'),('diviSchr','Division'),('diviSchr2stellig','Division 2 Stellig'),('diviSchrMitRest','Division mit Rest'),('diviSchrLinienVorg','Div. Linien Vorgegeben'),('diviSchrSubtrSchritt','Division Subtraktionsschritt'),('diviSchrMultiSchritt','Division Multiplikationsschritt'),('diviSchrRunterzSchritt','Division Runterziehen'),('diviSchrResteintr','Division Rest eintragen'),('diviSchrErgEintrSchritt','Division Ergebnis Eintragen')],
                      'Bruch-Grundlagenaufgaben': [('ggT','Größter gemeinsamer Teiler'),('kgV','Kleinstes gemeinsames Vielfache'),('erweitern','Erweitern'),('kuerzen','Kürzen'),('kuerzenMitTeiler','Kürzen mit Teiler'),('reihe','Bruch in einer Reihe'),('reihePosZufaellig','Bruch in Reihe Position Zufällig'),('bruchVergleichen','Brüche Vergleichen'),('BruchzuGemischteZahl','Bruch zur gemischten Zahl'),('GemischteZahlzuBruch','Gemischte Zahl zu Bruch')],

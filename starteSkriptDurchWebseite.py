@@ -159,6 +159,23 @@ def impressum_form():
             impressum=datei.read()
     return render_template_string(impressum)
 
+@app.route('/wasistneu', methods=['GET', 'POST'])
+def wasistneu_form():
+    if request.method == 'POST':
+        # do stuff when the form is submitted
+
+        # redirect to end the POST handling
+        # the redirect can be to the same route or somewhere else
+        return redirect(url_for('viewAuswahlRechnungen'))
+
+    # show the form, it wasn't submitted
+    impressum=['']
+    if os.path.isfile('wasistneu.html'):
+        with open('wasistneu.html') as datei:
+            wasistneu=datei.read()
+    return render_template_string(wasistneu)
+
+
 @app.route('/rechnungen/<auswahl>')
 def rechnungen(auswahl):
 #Diese Funktion schreibt die möglichen Rechnungen in ein Array, welches als JSON an die Homepage gesendet wird.
@@ -241,6 +258,8 @@ def htmlScriptAufrufSeite(anzahlAuswahl=4):
     html.append(F'    <p><a href="{{{{ url_for({chr(39)}hilfe_form{chr(39)}) }}}}">Hilfe und Beschreibung</a></p>')
     if os.path.isfile(os.path.join(os.path.expanduser('~'), 'impressum.html')):
         html.append(F'    <p><a href="{{{{ url_for({chr(39)}impressum_form{chr(39)}) }}}}">Impressum</a></p>')
+    if os.path.isfile('wasistneu.html'):
+        html.append(F'    <p><a href="{{{{ url_for({chr(39)}wasistneu_form{chr(39)}) }}}}">Was Ist Neu?</a></p>')
     html.append('</body>')
     return html
 
