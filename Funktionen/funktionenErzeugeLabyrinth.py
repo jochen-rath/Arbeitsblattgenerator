@@ -22,6 +22,11 @@ def erzeugeLabyrinthAufgabe(hoehe=5,anzSpalten=2):
     breite=5 if anzSpalten==2 else 12
     maze=Maze(breite*2, hoehe*2, 0, 0)
     maze.make_maze()
+    maze.escape()
+    while len(maze.loeseWeg)<3:
+        maze=Maze(breite*2, hoehe*2, 0, 0)
+        maze.make_maze()
+        maze.escape()
     afg=maze.writeTikz(mitLsg=False)
     lsg=maze.writeTikz(mitLsg=True)
     return [afg,lsg,[]]
