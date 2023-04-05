@@ -38,7 +38,7 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2):
                           'reihe':'BruchReiheAufgabe()','reihePosZufaellig':'BruchReiheAufgabe(faktorenBeliebig=True)','bruchVergleichen':'erzeugeBruchVergleichen()',
         'labyrinthKlein':f'erzeugeLabyrinthAufgabe(hoehe=5,anzSpalten={anzSpalten})',
         'labyrinthMittel':f'erzeugeLabyrinthAufgabe(hoehe=10,anzSpalten={anzSpalten})',
-        'labyrinthGross':f'erzeugeLabyrinthAufgabe(hoehe=15,anzSpalten={anzSpalten})',
+        'labyrinthGross':f'erzeugeLabyrinthAufgabe(hoehe=20,anzSpalten={anzSpalten})',
         'BruchzuGemischteZahl':'erzeugeBruchzuGemischteZahl()', 'GemischteZahlzuBruch':'erzeugeGemischteZahlZuBruch()',
         'Bruchteil':'erzeugeBruchteileBerechnen()','GanzesBerechnen':'erzeugeGemischteZahlZuBruch()',
         'BruchAddSubGleichAddition':"erzeugeBruchAddition(gleichnamig=True,operator='+')",'BruchAddSubGleichSubtraktion':"erzeugeBruchAddition(gleichnamig=True,operator='-')",

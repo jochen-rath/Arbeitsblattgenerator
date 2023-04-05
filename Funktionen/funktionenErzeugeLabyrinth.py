@@ -19,7 +19,7 @@ import random
 #da, geht er den Weg weiter. Wenn nur Wände da sind ist es eine Sackgasse und der Weg wird gelöscht.
 
 def erzeugeLabyrinthAufgabe(hoehe=5,anzSpalten=2):
-    breite=5 if anzSpalten==2 else 12
+    breite=5 if anzSpalten==2 else 15
     maze=Maze(breite*2, hoehe*2, 0, 0)
     maze.make_maze()
     maze.escape()
