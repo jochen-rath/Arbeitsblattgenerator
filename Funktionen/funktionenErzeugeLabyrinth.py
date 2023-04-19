@@ -18,17 +18,18 @@ import random
 #Der Solver läuft rekursiv durch das Labyrinth und schaut, ob Wände da sind oder nicht. Ist keine Wand
 #da, geht er den Weg weiter. Wenn nur Wände da sind ist es eine Sackgasse und der Weg wird gelöscht.
 
-def erzeugeLabyrinthAufgabe(hoehe=5,anzSpalten=2):
+def erzeugeLabyrinthAufgabe(hoehe=5,anzSpalten=2,riesig=False):
+    sys.setrecursionlimit(20000)
     breite=5 if anzSpalten==2 else 15
-    maze=Maze(breite*2, hoehe*2, 0, 0)
+    maze=Maze(breite*2 if not riesig else breite*4, hoehe*2 if not riesig else hoehe*4, 0, 0)
     maze.make_maze()
     maze.escape()
     while len(maze.loeseWeg)<3:
-        maze=Maze(breite*2, hoehe*2, 0, 0)
+        maze=Maze(breite*2 if not riesig else breite*4, hoehe*2 if not riesig else hoehe*4, 0, 0)
         maze.make_maze()
         maze.escape()
-    afg=maze.writeTikz(mitLsg=False)
-    lsg=maze.writeTikz(mitLsg=True)
+    afg=([F'\\resizebox{{{breite} cm}}{{!}}{{'] if riesig else []) + maze.writeTikz(mitLsg=False) + (['}'] if riesig else [])
+    lsg=([F'\\resizebox{{{breite} cm}}{{!}}{{'] if riesig else []) + maze.writeTikz(mitLsg=True)  + (['}'] if riesig else [])
     return [afg,lsg,[]]
 
 class Cell:

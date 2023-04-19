@@ -5,7 +5,7 @@
 #       exec(open("Funktionen/funktionen.py").read())
 
 
-def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,anfang,anzSpalten=[2,2],seitenumbruch=False,mitText=True,karoBereich=0,extraKaroseite=False,agfLsgGetrennt=False):
+def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,anfang,anzSpalten=[2,2],seitenumbruch=False,mitText=True,karoBereich=0,extraKaroseite=False,agfLsgGetrennt=False,texAusgabe=False):
     ausgabeName='newFile'
     dateiName,datum=filename(dateiName,datum=(datetime.date.today() + datetime.timedelta(days=1)).strftime("%d.%m.%Y") if datum=="KeinDatum" else datum)
     ausgabeName=dateiName
@@ -50,7 +50,9 @@ def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,
         os.system(F'zip {dateiName}.zip {dateiName}.pdf {dateiName}_lsg.pdf')
         for endung in ['aux','log','out']:
             os.remove(ausgabeName+'_lsg.'+endung)
+    if texAusgabe:
+        os.system(F'zip {dateiName}.zip {dateiName}.pdf {dateiName}.tex')
     for endung in ['aux','log','out']:
         os.remove(ausgabeName+'.'+endung)
     os.chdir('..')
-    return F'{dateiName}.{"zip" if agfLsgGetrennt else "pdf"}'
+    return F'{dateiName}.{"zip" if agfLsgGetrennt or texAusgabe else "pdf"}'

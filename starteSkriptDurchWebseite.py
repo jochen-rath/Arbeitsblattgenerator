@@ -42,6 +42,8 @@ class Form(Form):
     karoBereich=SelectField("Karofeld in cm auf Aufgabenblatt ",choices=[(str(i),str(i)) for i in range(15)],default='0')
     extraKaroseite=BooleanField('Extra Karoseite einführen.')
     agfLsgGetrennt=BooleanField('Aufgaben und Lösungen getrennt ausgeben')
+    erzeugeArbeit=BooleanField('Erzeuge eine Arbeitsvorlage.')
+    texAusgabe=BooleanField('Gib eine LaTeX tex Datei mit aus.')
     submit = SubmitField("Senden")
 
 @app.route('/', methods = ['GET', 'POST'])
@@ -75,6 +77,8 @@ def viewAuswahlRechnungen():
             karoBereich=F'karo-{form.karoBereich.data}'
             extraKaroseite=F'extraKaro-{form.extraKaroseite.data}'
             agfLsgGetrennt=F'afgLsg-{form.agfLsgGetrennt.data}'
+            erzeugeArbeit=F'erzArbeit-{form.erzeugeArbeit.data}'
+            texAusgabe=F'texAusgabe-{form.texAusgabe.data}'
             seitenumbruch='Seitenumbruch-False'
             if form.aufgSeitenumbruch.data:
                 seitenumbruch='Seitenumbruch-True'
@@ -104,13 +108,18 @@ def viewAuswahlRechnungen():
                 allesKorrekt=False
             if not bool(zugelassenZeichen.search(agfLsgGetrennt)):
                 allesKorrekt=False
+            if not bool(zugelassenZeichen.search(erzeugeArbeit)):
+                allesKorrekt=False
+            if not bool(zugelassenZeichen.search(texAusgabe)):
+                allesKorrekt=False
             if not bool(zugelassenZeichen.search(''.join(anzRech))):
                 allesKorrekt=False
 #Wenn alles Korrekt ist und auch ein paar Aufgaben gefwählt wurde, Starte das Skript.
             if len(anzRech)>0 and allesKorrekt:
                 warteZeit=300 if 'erzeugeAlleAtome' in anzRech else 90
-                print([sys.executable,script, titel,beschreibung,datum, anzSpalten,seitenumbruch,mitText, karoBereich,extraKaroseite, agfLsgGetrennt]+anzRech)
-                filename,rc=run_command(['timeout',F'{warteZeit}',sys.executable, script,titel,beschreibung,datum,anzSpalten,seitenumbruch,mitText,karoBereich,extraKaroseite,agfLsgGetrennt]+anzRech)
+                parameterListe=[sys.executable,script, titel,beschreibung,datum, anzSpalten,seitenumbruch,mitText, karoBereich,extraKaroseite, agfLsgGetrennt,erzeugeArbeit,texAusgabe]+anzRech
+                print(parameterListe)
+                filename,rc=run_command(['timeout',F'{warteZeit}'] + parameterListe)
                 print('Run')
                 if rc==0:
                     globaleMitteilung='Fertig.'
@@ -219,6 +228,28 @@ def hilfeSeite():
     html.append('<li><u>Aufgaben und Lösungen getrennt ausgeben:</u> Normal werden Aufgaben und Lösungen in einer Datei geschrieben. Wenn man die getrennt haben will, bekommt man eine Zip-Datei.</li>')
     html.append('<li><u>Anzahl an Auswählbaren Aufgaben:</u> Um die Webseite übersichtlich zu lassen, kann man anfangs nur 6 verschiedene Aufgabentypen aussuchen. Braucht man mehr, kann man die Anzahl hier wählen. Wichtig, erst Alle Anzahlen auf 0 bringen, damit die Seite neu geladen werden kann.</li>')
     html.append('</ul>')
+    html.append('<h2>Arbeitsvorlage bearbeiten</h2>')
+    html.append('Wer sich an LaTeX traut, kann mit dem Arbeitsblattgenerator Arbeiten erstellen. Eine Installationsanleitung für XeLaTeX unter Windows findet sich z.B. hier:')
+    html.append('<p><a href=http://www.texts.io/support/0002/>Install XeLaTeX on Windows</a></p>')
+    html.append('LaTeX Dateien kann man mit einem einfachen Texteditor bearbeiten, es empfiehlt sich aber umfangreiche Editoren wie z.B. <a href=https://notepad-plus-plus.org/downloads/>Notepad++</a> zu verwenden. <br>')
+    html.append('Hat man eine Arbeit passen erstellt, erzeugt man die Arbeit unter Eingabe des Befehls: <b>xelatex dateiname.tex</b><br>')
+    html.append('Als Dateiname nimmt man die tex-Datei, welche keine Nummerierung enthält.<br>')
+    html.append('Der Generator erzeugt eine Vorlage für eine Klassenarbeit. Diese besteht aus einer Kopfseite und mehreren Aufgaben. Für die Kopfseite und jede Aufgabe wird eine Latex-Datei erzeugt, welche in einer')
+    html.append('"Verlinkungsdatei" zusammengeführt werden Diese Verlinkungsdatei fügt einmal die Kopfseite und alle Aufgaben zusammen und es wird in dieser Datei für jede Aufgabe')
+    html.append('die Punkte gesetzt. Will man mit dem Arbeitsblattgenerator eine Arbeit erzeugen, müssen folgende Punkte durchgeführt werden:')
+    html.append('<ul>')
+    html.append('<li>Änder oder entferne den Beschreibungstext zu den einzelnen Aufgaben. Man erkennt ihn daran, dass er mit "Füge hier bitte einen Beschreibungstext ein. ..."</li>')
+    html.append('<li>Änder die Reihenfolge der Aufgaben, indem ihr die Dateien umbenennt. Sollen Aufgabe 2 und Aufgabe 4 die Position tauschen, benennt die folgendermaßen um:</li>')
+    html.append('<ul>')
+    html.append('<li>2023.04.20_prozentrechnung_WLMd_02_Aufgabe02.tex &rarr; 2023.04.20_prozentrechnung_WLMd_04_Aufgabe02.tex</li>')
+    html.append('<li>2023.04.20_prozentrechnung_WLMd_04_Aufgabe04.tex &rarr; 2023.04.20_prozentrechnung_WLMd_02_Aufgabe02.tex</li>')
+    html.append('<li>2023.04.20_prozentrechnung_wlmd_04_aufgabe02.tex &rarr; 2023.04.20_prozentrechnung_wlmd_04_aufgabe04.tex</li>')
+    html.append('</ul>')
+    html.append('<li>Passe die Punkte in der Verknüfpungsdatei an: \pgfmathsetmacro{\pkteAfgVier}{4} --> \pgfmathsetmacro{\pkteAfgEins}{4} </li>')
+    html.append('<li>Soll zwischen zwei Aufgaben kein Seitenumbruch stattfinden, lösche das \\newpage am Anfang der Folgeaufgabe.</li>')
+    html.append('<li>Passe in der Kopfseite-Datei die Voraussetzungen an, in dem Einträge in der Liste unter dem Stichpunkt "Benötigtes Material" gelöscht oder hinzugefügt werden. Entweder die Einträge, die mit \item beginnen löschen oder einen neuen Eintrag mit dem Zeilenanfang \item hinzufügen.</li>')
+    html.append('<li>Wenn man möchte, kann man noch weitere Aufgaben der Arbeit hinzufügen. Dann kann man die Auswahl bei "Gib eine LaTeX tex Datei mit aus.:" bestätigen und man kriegt den LaTeX Code passend zum erzeugtem Arbeitsblatt. Aus diesem Code muss man sich dann den passenden Teil herauskopieren und in die Arbeit einfügen.</li>')
+    html.append('</ul>')
     html.append('<h2>Source Code</h2>')
     html.append(F'Der Source-Code des Generators findet sich hier: <br>')
     html.append(F'    <p><a href=https://github.com/jochen-rath/Arbeitsblattgenerator>Source Code auf Github</a></p>')
@@ -293,6 +324,8 @@ def htmlTabelle(anzahlAuswahl=4):
     tabelle.append('            {{ form.karoBereich.label }}: {{ form.karoBereich }}<br>')
     tabelle.append('            {{ form.extraKaroseite.label }}: {{ form.extraKaroseite }}<br>')
     tabelle.append('            {{ form.agfLsgGetrennt.label }}: {{ form.agfLsgGetrennt }}<br>')
+    tabelle.append('            {{ form.erzeugeArbeit.label }}: {{ form.erzeugeArbeit }}<br>')
+    tabelle.append('            {{ form.texAusgabe.label }}: {{ form.texAusgabe }}<br>')
     tabelle.append('         </fieldset>')
     return tabelle
 

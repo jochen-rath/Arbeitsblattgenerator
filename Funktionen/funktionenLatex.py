@@ -266,9 +266,9 @@ def erzeugeArbeitLatex(dateiName,punkte=[]):
     arbeit.append(F'\\pgfmathsetmacro{{\\sauberkeitsPkte}}{{2}}')
     gesPkte="+".join([F"\\pkteAfg{zahlenWoerter[i+1]}" for i in range(len(punkte))])
     arbeit.append(F'\\pgfmathsetmacro{{\\gesPkte}}{{{gesPkte}+\\sauberkeitsPkte}}')
-    arbeit.append(F'\\input{{{dateiName}_01_Kopfseite.tex}}')
+    arbeit.append(F'\\input{{{dateiName}_00_Kopfseite.tex}}')
     for i in range(len(punkte)):
-        arbeit.append(F'\\input{{{dateiName}_{i+2:02d}_Aufgabe{i+1:02d}.tex}}')
+        arbeit.append(F'\\input{{{dateiName}_{i+1:02d}_Aufgabe{i+1:02d}.tex}}')
     return  arbeit
 
 def erzeugeVorlageTextaufgabenArbeit(dateiName,nr):
@@ -291,5 +291,5 @@ def erzeugeVorlageTextaufgabenArbeit(dateiName,nr):
     textafg.append(F'\\begin{{flushright}}')
     textafg.append(F'\\underline{{\\hspace{{2cm}}/ \\pkteAfg{zahlenWoerter[nr]}~Punkte}}')
     textafg.append(F'\\end{{flushright}}')
-    with open(os.path.join('Ausgabe',F'{dateiName}_{nr+1:02d}_Aufgabe{nr:02d}.tex'), 'w') as f:
+    with open(os.path.join('Ausgabe',F'{dateiName}_{nr:02d}_Aufgabe{nr:02d}.tex'), 'w') as f:
         f.write('\n'.join(textafg))

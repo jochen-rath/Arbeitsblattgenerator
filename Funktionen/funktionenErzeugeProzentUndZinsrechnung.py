@@ -31,9 +31,15 @@ def erkenneProzent(mitText=True):
         afg=afg+['}']
     else:
         afg=rechteckTeilsGefuelt(laenge, prozent, mitLsg=True)
-    lsg=F'Gesamtlänge: {strNW(laenge*10)} mm, Länge der Schraffur: {strNW(laenge*10*prozent/100)} mm. Das bedeutet,'
-#    lsg=lsg+F'{strNW(laenge)} mm sind 10 \% und ${strNW(laenge*10*prozent/100)}\\cdot{}'
-    lsg=lsg+F'$$\\frac{{{strNW(laenge*10*prozent/100)}}}{{{strNW(laenge*10)}}}={strNW((laenge*10*prozent/100)/(laenge*10),True)}={prozent}\%$$'
+    lsg=[F'\\pbox{{5cm}}{{']
+    lsg=lsg+dreiSatz(links=[strNW(x, True) for x in [laenge*10, laenge, laenge*10*prozent/100]],
+                 rechts=[strNW(x, True) for x in [100, 10, prozent]],title=['mm','\%'], operationLinks=['10',strNW(prozent/10,True)],breit=True)
+    lsg=lsg+['\\newline']
+    lsg=lsg+['Oder: \\newline']
+    lsg=lsg+[F'Gesamtlänge: {strNW(laenge*10)}\\,mm, Länge der Schraffur: {strNW(laenge*10*prozent/100)}\\,mm. Das bedeutet: \\newline']
+#    lsg=lsg+[F'{strNW(laenge)} mm sind 10 \% und ${strNW(laenge*10*prozent/100)}\\cdot{}']
+    lsg=lsg+[F'$\\frac{{{strNW(laenge*10*prozent/100)}}}{{{strNW(laenge*10)}}}={strNW((laenge*10*prozent/100)/(laenge*10),True)}={prozent}\%$']
+    lsg=lsg+['}']
     return [afg,lsg,[laenge,prozent]]
 
 def erkenneProzentKreis(mitText=True):

@@ -10,6 +10,10 @@ exec(open("Funktionen/funktionen.py").read())
 
 def main():
 #Setze Variablen:
+    if False:
+        with open("debug.txt", "w") as my_file:
+            for i in range(12):
+                my_file.write(F'{i}: {sys.argv[i]}\n')
     title,kuerzel=sys.argv[1].split('_')
     anfang=sys.argv[2]
     lsgTitle='Lösungen '+title
@@ -21,15 +25,17 @@ def main():
     karoBereich=eval(sys.argv[7].split('-')[1])
     extraKaroseite=eval(sys.argv[8].split('-')[1])
     agfLsgGetrennt=eval(sys.argv[9].split('-')[1])
-    erzeugeArbeit=False
+    erzArbeit=eval(sys.argv[10].split('-')[1])
+    texAusgabe=eval(sys.argv[11].split('-')[1])
     auswahl=[]
     anzahlRechnungen=26
-    for arg in sys.argv[10:anzahlRechnungen+10]:
+    startRechnungenIndex=12
+    for arg in sys.argv[startRechnungenIndex:anzahlRechnungen+startRechnungenIndex]:
         auswahl=auswahl+[arg]
-    if erzeugeArbeit:
-        t=1
+    if erzArbeit:
+        filename=erzeugeArbeit(auswahl,title,dateiName,datum,anfang)
     else:
-        filename=erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,'' if not 'datum' in locals() else datum ,'' if not 'anfang' in locals() else anfang,2 if not 'anzSpalten' in locals() else anzSpalten,seitenumbruch=seitenumbruch,mitText=mitText,karoBereich=karoBereich,extraKaroseite=extraKaroseite,agfLsgGetrennt=agfLsgGetrennt)
+        filename=erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,'' if not 'datum' in locals() else datum ,'' if not 'anfang' in locals() else anfang,2 if not 'anzSpalten' in locals() else anzSpalten,seitenumbruch=seitenumbruch,mitText=mitText,karoBereich=karoBereich,extraKaroseite=extraKaroseite,agfLsgGetrennt=agfLsgGetrennt,texAusgabe=texAusgabe)
     print('Dateiname:'+filename)
     return 
 
