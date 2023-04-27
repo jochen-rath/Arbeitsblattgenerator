@@ -19,6 +19,7 @@ def variabelErsetzen(mitText=True):
     afg=F'Setze für die Variabel {vari} den Wert {wert} ein und berechne die Lösung für y:'
     afg=(afg if mitText else '')+F'$$y={term}{"" if mitText else F"~~ {vari}={wert} ~ XXleftarrow ~ y=?b"}$$'.replace("*"," \\cdot ").replace('XX','\\')
     lsg=['$\\begin{aligned}']
+    lsg=lsg+[F"XXtextcolor{{red}}{{{vari}={strNW(wert,True)}}} & XXrightarrow".replace('XX','\\')+"\\\\"]
     lsg=lsg+[F"y&={term}".replace('*',' \\cdot ').replace(vari,'\\textcolor{red}{'+vari+'}')+"\\\\"]
     lsg=lsg+[F"y&={term}".replace(vari,'\\textcolor{red}{'+F"{'(' if wert<0 else ''}{strNW(wert,True)}{')' if wert<0 else ''}"+'}').replace('*',' \\cdot ')+"\\\\"]
     lsg=lsg+[F"y&={eval(term.replace(vari,str(wert)))}"+"\\\\"]

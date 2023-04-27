@@ -1,0 +1,221 @@
+\documentclass[12pt]{article}
+\usepackage[table]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage{tabularx,xltabular}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{geometry}
+\usepackage{ulem}
+\usepackage[official]{eurosym}
+\usepackage{tikz}
+\usetikzlibrary{arrows,backgrounds,calc,decorations.markings,patterns,3d}
+\usepackage{pgfplots}
+\pgfplotsset{compat = newest}
+\usetikzlibrary{fit}
+\newcommand\addvmargin[1]{
+\usetikzlibrary{arrows}
+\node[fit=(current bounding box),inner ysep=#1,inner xsep=0]{};}
+\usepackage{cancel}
+\usepackage{fontspec}
+\usepackage{array}  
+\geometry{a4paper, top=2cm, left=2cm, right=2cm, bottom=2cm, headsep=1cm}
+\usepackage{tabu}
+\usepackage{pst-node}
+\usepackage{colortbl}
+\usepackage{array}
+\usepackage{german}
+\setlength\parindent{0pt}
+\newcolumntype{?}{!{\vrule width 1pt}}
+\usepackage{makecell}
+\renewcommand{\arraystretch}{2.5}
+\usepackage{pbox}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\begin{document}
+\rightline{Datum: 28.04.2023}
+\centerline{{\Large Tägliche Übungen}} 
+\vspace{1cm}
+\noindent \\
+
+
+\begin{xltabular}{\textwidth}{|C{0.75cm}|X|C{0.75cm}|X|}
+\arrayrulecolor{black}\hline
+a)&Setze für die Variabel b den Wert -10 ein und berechne die Lösung für y:$$y=2 \cdot b + 3$$
+&
+b)&Setze für die Variabel z den Wert 9 ein und berechne die Lösung für y:$$y=4 \cdot z + 5 \cdot z$$
+\\\hline
+c)&Setze für die Variabel x den Wert -2 ein und berechne die Lösung für y:$$y=5 \cdot x + 1$$
+&
+d)&Setze für die Variabel z den Wert -11 ein und berechne die Lösung für y:$$y=5 \cdot z + 3$$
+\\\hline
+e)&Setze für die Variabel a den Wert 11 ein und berechne die Lösung für y:$$y=2 \cdot a - 5 \cdot a$$
+&
+f)&Setze für die Variabel z den Wert 6 ein und berechne die Lösung für y:$$y=z + 1$$
+\\\hline
+g)&Setze für die Variabel x den Wert -11 ein und berechne die Lösung für y:$$y=2 + 4 \cdot x$$
+&
+h)&Setze für die Variabel b den Wert -9 ein und berechne die Lösung für y:$$y=5 - 3 \cdot b$$
+\\\hline
+i)&Setze für die Variabel z den Wert 4 ein und berechne die Lösung für y:$$y=4 \cdot z + 4$$
+&
+j)&Setze für die Variabel a den Wert -7 ein und berechne die Lösung für y:$$y=2 \cdot a + a$$
+\\\hline
+k)&Setze für die Variabel z den Wert -1 ein und berechne die Lösung für y:$$y=2 \cdot z + z$$
+&
+l)&Setze für die Variabel z den Wert -1 ein und berechne die Lösung für y:$$y=2 \cdot z - 5 \cdot z$$
+\\\hline
+m)&Setze für die Variabel z den Wert 5 ein und berechne die Lösung für y:$$y=z - 1$$
+&
+n)&Setze für die Variabel z den Wert -6 ein und berechne die Lösung für y:$$y=1 - z$$
+\\\hline
+o)&Setze für die Variabel a den Wert -11 ein und berechne die Lösung für y:$$y=5 - 2 \cdot a$$
+&
+p)&Setze für die Variabel z den Wert 9 ein und berechne die Lösung für y:$$y=3 - 3 \cdot z$$
+\\\hline
+q)&Setze für die Variabel z den Wert -7 ein und berechne die Lösung für y:$$y=4 \cdot z - 1$$
+&
+r)&Setze für die Variabel a den Wert -2 ein und berechne die Lösung für y:$$y=5 \cdot a + 5$$
+\\\hline
+\end{xltabular}
+\vspace{0.5cm}
+\newpage
+\rightline{Datum: 28.04.2023}
+\centerline{{\large Lösungen Tägliche Übungen}} 
+\vspace{0.5cm}
+
+\begin{xltabular}{\textwidth}{|C{0.75cm}|X|C{0.75cm}|X|}
+\arrayrulecolor{black}\hline
+a)&$\begin{aligned}
+\textcolor{red}{b=-10} & \rightarrow
+y&=2 \cdot \textcolor{red}{b} + 3\\
+y&=2 \cdot \textcolor{red}{(-10)} + 3\\
+y&=-17\\
+\end{aligned}$
+&
+b)&$\begin{aligned}
+\textcolor{red}{z=9} & \rightarrow
+y&=4 \cdot \textcolor{red}{z} + 5 \cdot \textcolor{red}{z}\\
+y&=4 \cdot \textcolor{red}{9} + 5 \cdot \textcolor{red}{9}\\
+y&=81\\
+\end{aligned}$
+\\\hline
+c)&$\begin{aligned}
+\textcolor{red}{x=-2} & \rightarrow
+y&=5 \cdot \textcolor{red}{x} + 1\\
+y&=5 \cdot \textcolor{red}{(-2)} + 1\\
+y&=-9\\
+\end{aligned}$
+&
+d)&$\begin{aligned}
+\textcolor{red}{z=-11} & \rightarrow
+y&=5 \cdot \textcolor{red}{z} + 3\\
+y&=5 \cdot \textcolor{red}{(-11)} + 3\\
+y&=-52\\
+\end{aligned}$
+\\\hline
+e)&$\begin{aligned}
+\textcolor{red}{a=11} & \rightarrow
+y&=2 \cdot \textcolor{red}{a} - 5 \cdot \textcolor{red}{a}\\
+y&=2 \cdot \textcolor{red}{11} - 5 \cdot \textcolor{red}{11}\\
+y&=-33\\
+\end{aligned}$
+&
+f)&$\begin{aligned}
+\textcolor{red}{z=6} & \rightarrow
+y&=\textcolor{red}{z} + 1\\
+y&=\textcolor{red}{6} + 1\\
+y&=7\\
+\end{aligned}$
+\\\hline
+g)&$\begin{aligned}
+\textcolor{red}{x=-11} & \rightarrow
+y&=2 + 4 \cdot \textcolor{red}{x}\\
+y&=2 + 4 \cdot \textcolor{red}{(-11)}\\
+y&=-42\\
+\end{aligned}$
+&
+h)&$\begin{aligned}
+\textcolor{red}{b=-9} & \rightarrow
+y&=5 - 3 \cdot \textcolor{red}{b}\\
+y&=5 - 3 \cdot \textcolor{red}{(-9)}\\
+y&=32\\
+\end{aligned}$
+\\\hline
+i)&$\begin{aligned}
+\textcolor{red}{z=4} & \rightarrow
+y&=4 \cdot \textcolor{red}{z} + 4\\
+y&=4 \cdot \textcolor{red}{4} + 4\\
+y&=20\\
+\end{aligned}$
+&
+j)&$\begin{aligned}
+\textcolor{red}{a=-7} & \rightarrow
+y&=2 \cdot \textcolor{red}{a} + \textcolor{red}{a}\\
+y&=2 \cdot \textcolor{red}{(-7)} + \textcolor{red}{(-7)}\\
+y&=-21\\
+\end{aligned}$
+\\\hline
+k)&$\begin{aligned}
+\textcolor{red}{z=-1} & \rightarrow
+y&=2 \cdot \textcolor{red}{z} + \textcolor{red}{z}\\
+y&=2 \cdot \textcolor{red}{(-1)} + \textcolor{red}{(-1)}\\
+y&=-3\\
+\end{aligned}$
+&
+l)&$\begin{aligned}
+\textcolor{red}{z=-1} & \rightarrow
+y&=2 \cdot \textcolor{red}{z} - 5 \cdot \textcolor{red}{z}\\
+y&=2 \cdot \textcolor{red}{(-1)} - 5 \cdot \textcolor{red}{(-1)}\\
+y&=3\\
+\end{aligned}$
+\\\hline
+m)&$\begin{aligned}
+\textcolor{red}{z=5} & \rightarrow
+y&=\textcolor{red}{z} - 1\\
+y&=\textcolor{red}{5} - 1\\
+y&=4\\
+\end{aligned}$
+&
+n)&$\begin{aligned}
+\textcolor{red}{z=-6} & \rightarrow
+y&=1 - \textcolor{red}{z}\\
+y&=1 - \textcolor{red}{(-6)}\\
+y&=7\\
+\end{aligned}$
+\\\hline
+o)&$\begin{aligned}
+\textcolor{red}{a=-11} & \rightarrow
+y&=5 - 2 \cdot \textcolor{red}{a}\\
+y&=5 - 2 \cdot \textcolor{red}{(-11)}\\
+y&=27\\
+\end{aligned}$
+&
+p)&$\begin{aligned}
+\textcolor{red}{z=9} & \rightarrow
+y&=3 - 3 \cdot \textcolor{red}{z}\\
+y&=3 - 3 \cdot \textcolor{red}{9}\\
+y&=-24\\
+\end{aligned}$
+\\\hline
+q)&$\begin{aligned}
+\textcolor{red}{z=-7} & \rightarrow
+y&=4 \cdot \textcolor{red}{z} - 1\\
+y&=4 \cdot \textcolor{red}{(-7)} - 1\\
+y&=-29\\
+\end{aligned}$
+&
+r)&$\begin{aligned}
+\textcolor{red}{a=-2} & \rightarrow
+y&=5 \cdot \textcolor{red}{a} + 5\\
+y&=5 \cdot \textcolor{red}{(-2)} + 5\\
+y&=-5\\
+\end{aligned}$
+\\\hline
+\end{xltabular}
+\vspace{0.5cm}
+\end{document}
