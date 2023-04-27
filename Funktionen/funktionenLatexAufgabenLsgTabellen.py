@@ -12,7 +12,7 @@ def erzeugeEinfacheTabelle(inhalt=[['a)','afg1'],['b)','afg2']],spalten=2):
     tabelle=[]
     spaltendef='|'
     for i in range(spalten):
-        spaltendef=spaltendef+'C{1.0cm}|X|'
+        spaltendef=spaltendef+'C{0.75cm}|X|'
     tabelle.append('\\begin{tabularx}{\\textwidth}{'+spaltendef+'}')
     tabelle.append('\\arrayrulecolor{black}\\hline')
     for i,inh in enumerate(inhalt):

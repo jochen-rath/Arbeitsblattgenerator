@@ -209,7 +209,12 @@ def schreibeArbeitKopfseite(fach='Fach',title='Titel',jahr='2022/2023',datum='22
         kopfseite.append(F"\\newcommand{{\\{zahlenWoerter[i+1]}}}{{~}}")
         kopfseite.append(F"\\newcommand{{\\p{zahlenWoerter[i+1]}}}{{~}}")
         kopfseite.append(F"\\ifnum\\pkteAfg{zahlenWoerter[i+1]}>0  \\renewcommand{{\\{zahlenWoerter[i+1]}}}{{{i+1}}} \\fi")
-        kopfseite.append(F"\\ifnum\\pkteAfg{zahlenWoerter[i+1]}>0  \\renewcommand{{\\p{zahlenWoerter[i+1]}}}{{\pkteAfg{zahlenWoerter[i+1]}}} \\fi")
+        kopfseite.append(F"\\ifnum\\pkteAfg{zahlenWoerter[i+1]}>0  \\renewcommand{{\\p{zahlenWoerter[i+1]}}}{{\\pkteAfg{zahlenWoerter[i+1]}}} \\fi")
+
+    kopfseite.append(F"\\newcommand{{\\sauber}}{{~}}")
+    kopfseite.append(F"\\newcommand{{\\pSauber}}{{~}}")
+    kopfseite.append(F"\\ifnum\\sauberkeitsPkte>0  \\renewcommand{{\\sauber}}{{SK}} \\fi")
+    kopfseite.append(F"\\ifnum\\sauberkeitsPkte>0  \\renewcommand{{\\pSauber}}{{\\sauberkeitsPkte}} \\fi")
     kopfseite.append(F"\\pagenumbering{{gobble}}")
     kopfseite.append(F"\\begin{{tabularx}}{{\\textwidth}}{{ R{{2.0cm}} X R{{2.0cm}}  }}")
     kopfseite.append(F"&")
@@ -247,8 +252,8 @@ def schreibeArbeitKopfseite(fach='Fach',title='Titel',jahr='2022/2023',datum='22
     kopfseite.append(F"")
     kopfseite.append(F"\\begin{{tabularx}}{{\\textwidth}}{{|X|C{{1cm}}|C{{1cm}}|C{{1cm}}|C{{1cm}}|C{{1cm}}|C{{1cm}}|C{{1cm}}|C{{1cm}}|C{{1cm}}|}}")
     kopfseite.append(F"\\hline")
-    kopfseite.append(F"Aufgabe & {'&'.join([F'XX{zahlenWoerter[i+1]}' for i in range(anzAufgaben)])}& SK & $\\sum$ \\\\\\hline".replace('XX','\\'))
-    kopfseite.append(F"Mögliche Punkte &{'&'.join([F'XXp{zahlenWoerter[i+1]}' for i in range(anzAufgaben)])}&  \\sauberkeitsPkte&\\pgfmathprintnumber{{\\gesPkte}} \\\\\\hline".replace('XX','\\'))
+    kopfseite.append(F"Aufgabe & {'&'.join([F'XX{zahlenWoerter[i+1]}' for i in range(anzAufgaben)])}& \\sauber & $\\sum$ \\\\\\hline".replace('XX','\\'))
+    kopfseite.append(F"Mögliche Punkte &{'&'.join([F'XXp{zahlenWoerter[i+1]}' for i in range(anzAufgaben)])}&  \\pSauber&\\pgfmathprintnumber{{\\gesPkte}} \\\\\\hline".replace('XX','\\'))
     kopfseite.append(F"Erreichte Punkte& & & & & & & &  & \\\\\\hline")
     kopfseite.append(F"\\end{{tabularx}}\\\\")
     kopfseite.append(F"\\phantom{{M}} \\\\")
@@ -273,7 +278,7 @@ def erzeugeArbeitLatex(dateiName,punkte=[],anzAufgaben=7):
         for i in range(anzAufgaben-len(punkte)):
             arbeit.append(F'\\pgfmathsetmacro{{\\pkteAfg{zahlenWoerter[len(punkte)+i+1]}}}{{0}}')
     arbeit.append(F'\\pgfmathsetmacro{{\\sauberkeitsPkte}}{{2}}')
-    gesPkte="+".join([F"\\pkteAfg{zahlenWoerter[i+1]}" for i in range(len(punkte))])
+    gesPkte="+".join([F"\\pkteAfg{zahlenWoerter[i+1]}" for i in range(anzAufgaben)])
     arbeit.append(F'\\pgfmathsetmacro{{\\gesPkte}}{{{gesPkte}+\\sauberkeitsPkte}}')
     arbeit.append(F'\\input{{{dateiName}_00_Kopfseite.tex}}')
     for i in range(len(punkte)):
