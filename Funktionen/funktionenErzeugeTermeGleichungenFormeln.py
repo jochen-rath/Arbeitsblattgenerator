@@ -16,8 +16,14 @@ def variabelErsetzen(mitText=True):
     term='3+4'
     while not vari in term:
         term=erzeugeTerm(variablen=vari, anzahl=2, variMaxAnzProUnterterm=1)
-    afg=F'Setze für die Variabel {vari} den Wert {wert} ein und berechne die Lösung für y:'
-    afg=(afg if mitText else '')+F'$$y={term}{"" if mitText else F"~~ {vari}={wert} ~ XXleftarrow ~ y=?b"}$$'.replace("*"," \\cdot ").replace('XX','\\')
+    if mitText:
+        afg=F'Setze für die Variabel {vari} den Wert {wert} ein und berechne die Lösung für y:'
+        afg=afg+F'$$y={term}$$'.replace("*"," \\cdot ").replace('XX','\\')
+    else:
+        afg=['$\\begin{aligned}']
+        afg=afg+[F'y=&{term}'.replace("*"," \\cdot ")+'\\\\']
+        afg=afg+[F' {vari}=&{wert}~ XXrightarrow ~ y=?'.replace("*"," \\cdot ").replace('XX','\\')]
+        afg=afg+['\\end{aligned}$']
     lsg=['$\\begin{aligned}']
     lsg=lsg+[F"XXtextcolor{{red}}{{{vari}={strNW(wert,True)}}} & XXrightarrow".replace('XX','\\')+"\\\\"]
     lsg=lsg+[F"y&={term}".replace('*',' \\cdot ').replace(vari,'\\textcolor{red}{'+vari+'}')+"\\\\"]

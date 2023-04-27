@@ -1,0 +1,293 @@
+\documentclass[12pt]{article}
+\usepackage[table]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage{tabularx,xltabular}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{geometry}
+\usepackage{ulem}
+\usepackage[official]{eurosym}
+\usepackage{tikz}
+\usetikzlibrary{arrows,backgrounds,calc,decorations.markings,patterns,3d}
+\usepackage{pgfplots}
+\pgfplotsset{compat = newest}
+\usetikzlibrary{fit}
+\newcommand\addvmargin[1]{
+\usetikzlibrary{arrows}
+\node[fit=(current bounding box),inner ysep=#1,inner xsep=0]{};}
+\usepackage{cancel}
+\usepackage{fontspec}
+\usepackage{array}  
+\geometry{a4paper, top=2cm, left=2cm, right=2cm, bottom=2cm, headsep=1cm}
+\usepackage{tabu}
+\usepackage{pst-node}
+\usepackage{colortbl}
+\usepackage{array}
+\usepackage{german}
+\setlength\parindent{0pt}
+\newcolumntype{?}{!{\vrule width 1pt}}
+\usepackage{makecell}
+\renewcommand{\arraystretch}{2.5}
+\usepackage{pbox}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\begin{document}
+\rightline{Datum: 28.04.2023}
+\centerline{{\Large Tägliche Übungen}} 
+\vspace{1cm}
+\noindent \\
+
+
+\begin{xltabular}{\textwidth}{|C{0.75cm}|X|C{0.75cm}|X|}
+\arrayrulecolor{black}\hline
+a)&$$y=2 \cdot x + 4 \cdot x~~~~~ x=8 ~ \rightarrow ~ y=?$$
+&
+b)&$$y=z + 5~~~~~ z=-7 ~ \rightarrow ~ y=?$$
+\\\hline
+c)&$$y=2 + 5 \cdot a~~~~~ a=2 ~ \rightarrow ~ y=?$$
+&
+d)&$$y=2 \cdot b + b~~~~~ b=-5 ~ \rightarrow ~ y=?$$
+\\\hline
+e)&$$y=2 - 2 \cdot a~~~~~ a=2 ~ \rightarrow ~ y=?$$
+&
+f)&$$y=3 \cdot a - 2~~~~~ a=5 ~ \rightarrow ~ y=?$$
+\\\hline
+g)&$$y=b + 3~~~~~ b=-5 ~ \rightarrow ~ y=?$$
+&
+h)&$$y=5 \cdot z + 3~~~~~ z=-9 ~ \rightarrow ~ y=?$$
+\\\hline
+i)&$$y=3 \cdot x + 5~~~~~ x=7 ~ \rightarrow ~ y=?$$
+&
+j)&$$y=4 \cdot x - x~~~~~ x=8 ~ \rightarrow ~ y=?$$
+\\\hline
+k)&$$y=5 + 3 \cdot b~~~~~ b=-6 ~ \rightarrow ~ y=?$$
+&
+l)&$$y=3 \cdot z - 1~~~~~ z=-4 ~ \rightarrow ~ y=?$$
+\\\hline
+m)&$$y=b - 2~~~~~ b=9 ~ \rightarrow ~ y=?$$
+&
+n)&$$y=5 \cdot x + 5~~~~~ x=3 ~ \rightarrow ~ y=?$$
+\\\hline
+o)&$$y=2 \cdot a - 4 \cdot a~~~~~ a=-7 ~ \rightarrow ~ y=?$$
+&
+p)&$$y=z + 4~~~~~ z=9 ~ \rightarrow ~ y=?$$
+\\\hline
+q)&$$y=1 - 4 \cdot b~~~~~ b=-3 ~ \rightarrow ~ y=?$$
+&
+r)&$$y=2 \cdot b - 5 \cdot b~~~~~ b=-12 ~ \rightarrow ~ y=?$$
+\\\hline
+s)&$$y=5 \cdot x + 4~~~~~ x=9 ~ \rightarrow ~ y=?$$
+&
+t)&$$y=3 \cdot z + 4~~~~~ z=3 ~ \rightarrow ~ y=?$$
+\\\hline
+u)&$$y=3 \cdot b - 3 \cdot b~~~~~ b=7 ~ \rightarrow ~ y=?$$
+&
+v)&$$y=2 \cdot x + 2 \cdot x~~~~~ x=-5 ~ \rightarrow ~ y=?$$
+\\\hline
+w)&$$y=4 + 2 \cdot z~~~~~ z=-1 ~ \rightarrow ~ y=?$$
+&
+x)&$$y=z + 5 \cdot z~~~~~ z=2 ~ \rightarrow ~ y=?$$
+\\\hline
+y)&$$y=2 \cdot a - 5~~~~~ a=1 ~ \rightarrow ~ y=?$$
+&
+z)&$$y=4 \cdot z - 5~~~~~ z=1 ~ \rightarrow ~ y=?$$
+\\\hline
+\end{xltabular}
+\vspace{0.5cm}
+\newpage
+\rightline{Datum: 28.04.2023}
+\centerline{{\large Lösungen Tägliche Übungen}} 
+\vspace{0.5cm}
+
+\begin{xltabular}{\textwidth}{|C{0.75cm}|X|C{0.75cm}|X|}
+\arrayrulecolor{black}\hline
+a)&$\begin{aligned}
+\textcolor{red}{x=8} & \rightarrow\\
+y&=2 \cdot \textcolor{red}{x} + 4 \cdot \textcolor{red}{x}\\
+y&=2 \cdot \textcolor{red}{8} + 4 \cdot \textcolor{red}{8}\\
+y&=48\\
+\end{aligned}$
+&
+b)&$\begin{aligned}
+\textcolor{red}{z=-7} & \rightarrow\\
+y&=\textcolor{red}{z} + 5\\
+y&=\textcolor{red}{(-7)} + 5\\
+y&=-2\\
+\end{aligned}$
+\\\hline
+c)&$\begin{aligned}
+\textcolor{red}{a=2} & \rightarrow\\
+y&=2 + 5 \cdot \textcolor{red}{a}\\
+y&=2 + 5 \cdot \textcolor{red}{2}\\
+y&=12\\
+\end{aligned}$
+&
+d)&$\begin{aligned}
+\textcolor{red}{b=-5} & \rightarrow\\
+y&=2 \cdot \textcolor{red}{b} + \textcolor{red}{b}\\
+y&=2 \cdot \textcolor{red}{(-5)} + \textcolor{red}{(-5)}\\
+y&=-15\\
+\end{aligned}$
+\\\hline
+e)&$\begin{aligned}
+\textcolor{red}{a=2} & \rightarrow\\
+y&=2 - 2 \cdot \textcolor{red}{a}\\
+y&=2 - 2 \cdot \textcolor{red}{2}\\
+y&=-2\\
+\end{aligned}$
+&
+f)&$\begin{aligned}
+\textcolor{red}{a=5} & \rightarrow\\
+y&=3 \cdot \textcolor{red}{a} - 2\\
+y&=3 \cdot \textcolor{red}{5} - 2\\
+y&=13\\
+\end{aligned}$
+\\\hline
+g)&$\begin{aligned}
+\textcolor{red}{b=-5} & \rightarrow\\
+y&=\textcolor{red}{b} + 3\\
+y&=\textcolor{red}{(-5)} + 3\\
+y&=-2\\
+\end{aligned}$
+&
+h)&$\begin{aligned}
+\textcolor{red}{z=-9} & \rightarrow\\
+y&=5 \cdot \textcolor{red}{z} + 3\\
+y&=5 \cdot \textcolor{red}{(-9)} + 3\\
+y&=-42\\
+\end{aligned}$
+\\\hline
+i)&$\begin{aligned}
+\textcolor{red}{x=7} & \rightarrow\\
+y&=3 \cdot \textcolor{red}{x} + 5\\
+y&=3 \cdot \textcolor{red}{7} + 5\\
+y&=26\\
+\end{aligned}$
+&
+j)&$\begin{aligned}
+\textcolor{red}{x=8} & \rightarrow\\
+y&=4 \cdot \textcolor{red}{x} - \textcolor{red}{x}\\
+y&=4 \cdot \textcolor{red}{8} - \textcolor{red}{8}\\
+y&=24\\
+\end{aligned}$
+\\\hline
+k)&$\begin{aligned}
+\textcolor{red}{b=-6} & \rightarrow\\
+y&=5 + 3 \cdot \textcolor{red}{b}\\
+y&=5 + 3 \cdot \textcolor{red}{(-6)}\\
+y&=-13\\
+\end{aligned}$
+&
+l)&$\begin{aligned}
+\textcolor{red}{z=-4} & \rightarrow\\
+y&=3 \cdot \textcolor{red}{z} - 1\\
+y&=3 \cdot \textcolor{red}{(-4)} - 1\\
+y&=-13\\
+\end{aligned}$
+\\\hline
+m)&$\begin{aligned}
+\textcolor{red}{b=9} & \rightarrow\\
+y&=\textcolor{red}{b} - 2\\
+y&=\textcolor{red}{9} - 2\\
+y&=7\\
+\end{aligned}$
+&
+n)&$\begin{aligned}
+\textcolor{red}{x=3} & \rightarrow\\
+y&=5 \cdot \textcolor{red}{x} + 5\\
+y&=5 \cdot \textcolor{red}{3} + 5\\
+y&=20\\
+\end{aligned}$
+\\\hline
+o)&$\begin{aligned}
+\textcolor{red}{a=-7} & \rightarrow\\
+y&=2 \cdot \textcolor{red}{a} - 4 \cdot \textcolor{red}{a}\\
+y&=2 \cdot \textcolor{red}{(-7)} - 4 \cdot \textcolor{red}{(-7)}\\
+y&=14\\
+\end{aligned}$
+&
+p)&$\begin{aligned}
+\textcolor{red}{z=9} & \rightarrow\\
+y&=\textcolor{red}{z} + 4\\
+y&=\textcolor{red}{9} + 4\\
+y&=13\\
+\end{aligned}$
+\\\hline
+q)&$\begin{aligned}
+\textcolor{red}{b=-3} & \rightarrow\\
+y&=1 - 4 \cdot \textcolor{red}{b}\\
+y&=1 - 4 \cdot \textcolor{red}{(-3)}\\
+y&=13\\
+\end{aligned}$
+&
+r)&$\begin{aligned}
+\textcolor{red}{b=-12} & \rightarrow\\
+y&=2 \cdot \textcolor{red}{b} - 5 \cdot \textcolor{red}{b}\\
+y&=2 \cdot \textcolor{red}{(-12)} - 5 \cdot \textcolor{red}{(-12)}\\
+y&=36\\
+\end{aligned}$
+\\\hline
+s)&$\begin{aligned}
+\textcolor{red}{x=9} & \rightarrow\\
+y&=5 \cdot \textcolor{red}{x} + 4\\
+y&=5 \cdot \textcolor{red}{9} + 4\\
+y&=49\\
+\end{aligned}$
+&
+t)&$\begin{aligned}
+\textcolor{red}{z=3} & \rightarrow\\
+y&=3 \cdot \textcolor{red}{z} + 4\\
+y&=3 \cdot \textcolor{red}{3} + 4\\
+y&=13\\
+\end{aligned}$
+\\\hline
+u)&$\begin{aligned}
+\textcolor{red}{b=7} & \rightarrow\\
+y&=3 \cdot \textcolor{red}{b} - 3 \cdot \textcolor{red}{b}\\
+y&=3 \cdot \textcolor{red}{7} - 3 \cdot \textcolor{red}{7}\\
+y&=0\\
+\end{aligned}$
+&
+v)&$\begin{aligned}
+\textcolor{red}{x=-5} & \rightarrow\\
+y&=2 \cdot \textcolor{red}{x} + 2 \cdot \textcolor{red}{x}\\
+y&=2 \cdot \textcolor{red}{(-5)} + 2 \cdot \textcolor{red}{(-5)}\\
+y&=-20\\
+\end{aligned}$
+\\\hline
+w)&$\begin{aligned}
+\textcolor{red}{z=-1} & \rightarrow\\
+y&=4 + 2 \cdot \textcolor{red}{z}\\
+y&=4 + 2 \cdot \textcolor{red}{(-1)}\\
+y&=2\\
+\end{aligned}$
+&
+x)&$\begin{aligned}
+\textcolor{red}{z=2} & \rightarrow\\
+y&=\textcolor{red}{z} + 5 \cdot \textcolor{red}{z}\\
+y&=\textcolor{red}{2} + 5 \cdot \textcolor{red}{2}\\
+y&=12\\
+\end{aligned}$
+\\\hline
+y)&$\begin{aligned}
+\textcolor{red}{a=1} & \rightarrow\\
+y&=2 \cdot \textcolor{red}{a} - 5\\
+y&=2 \cdot \textcolor{red}{1} - 5\\
+y&=-3\\
+\end{aligned}$
+&
+z)&$\begin{aligned}
+\textcolor{red}{z=1} & \rightarrow\\
+y&=4 \cdot \textcolor{red}{z} - 5\\
+y&=4 \cdot \textcolor{red}{1} - 5\\
+y&=-1\\
+\end{aligned}$
+\\\hline
+\end{xltabular}
+\vspace{0.5cm}
+\end{document}
