@@ -33,7 +33,7 @@ def latexHead(arraystretch=False,size=2):
     head.append('\\documentclass[12pt]{article}')
     head.append('\\usepackage[table]{xcolor}')
     head.append('\\usepackage[shortlabels]{enumitem}')
-    head.append('\\usepackage{tabularx}')
+    head.append('\\usepackage{tabularx,xltabular}')
     head.append('\\usepackage{graphicx}')
     head.append('\\usepackage{hyperref}')
     head.append('\\usepackage{verbatim}')

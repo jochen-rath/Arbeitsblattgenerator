@@ -13,12 +13,12 @@ def erzeugeEinfacheTabelle(inhalt=[['a)','afg1'],['b)','afg2']],spalten=2):
     spaltendef='|'
     for i in range(spalten):
         spaltendef=spaltendef+'C{0.75cm}|X|'
-    tabelle.append('\\begin{tabularx}{\\textwidth}{'+spaltendef+'}')
+    tabelle.append('\\begin{xltabular}{\\textwidth}{'+spaltendef+'}')
     tabelle.append('\\arrayrulecolor{black}\\hline')
     for i,inh in enumerate(inhalt):
         tabelle.append(inh[0]+'&'+inh[1])
         tabelle.append('&' if (i+1)%spalten>0 else '\\\\\\hline' )
-    tabelle.append('\\end{tabularx}')
+    tabelle.append('\\end{xltabular}')
     tabelle.append('\\vspace{0.5cm}')
     return tabelle
 

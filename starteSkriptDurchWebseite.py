@@ -37,7 +37,7 @@ class Form(Form):
     anzSpaltenAfg=SelectField("Aufgabe: Anzahl an Spalten",choices=[(str(i),str(i)) for i in range(1,3)],default='2')
     anzSpaltenLsg=SelectField("Lösung: Anzahl an Spalten",choices=[(str(i),str(i)) for i in range(1,3)],default='2')
     mitText=BooleanField('Mit Beschreibungstext in den Aufgaben',default='checked')
-    aufgSeitenumbruch=BooleanField('Seitenumbruch bei den Aufgaben')
+ #   aufgSeitenumbruch=BooleanField('Seitenumbruch bei den Aufgaben')
     anzAuswahlAufgaben=SelectField("Anzahl an auswählbaren Aufgaben",choices=[(str(i),str(i)) for i in range(1,maXAnzahlAuswahl+1)],default=str(anzahlAuswahl))
     karoBereich=SelectField("Karofeld in cm auf Aufgabenblatt ",choices=[(str(i),str(i)) for i in range(15)],default='0')
     extraKaroseite=BooleanField('Extra Karoseite einführen.')
@@ -79,9 +79,9 @@ def viewAuswahlRechnungen():
             agfLsgGetrennt=F'afgLsg-{form.agfLsgGetrennt.data}'
             erzeugeArbeit=F'erzArbeit-{form.erzeugeArbeit.data}'
             texAusgabe=F'texAusgabe-{form.texAusgabe.data}'
-            seitenumbruch='Seitenumbruch-False'
-            if form.aufgSeitenumbruch.data:
-                seitenumbruch='Seitenumbruch-True'
+#            seitenumbruch='Seitenumbruch-False'
+#            if form.aufgSeitenumbruch.data:
+#                seitenumbruch='Seitenumbruch-True'
             mitText='mitText-False'
             if form.mitText.data:
                 mitText='mitText-True'
@@ -98,8 +98,8 @@ def viewAuswahlRechnungen():
                 allesKorrekt=False
             if not bool(zugelassenZeichen.search(anzSpalten)):
                 allesKorrekt=False
-            if not bool(zugelassenZeichen.search(seitenumbruch)):
-                allesKorrekt=False
+ #           if not bool(zugelassenZeichen.search(seitenumbruch)):
+ #               allesKorrekt=False
             if not bool(zugelassenZeichen.search(mitText)):
                 allesKorrekt=False
             if not bool(zugelassenZeichen.search(karoBereich)):
@@ -117,7 +117,7 @@ def viewAuswahlRechnungen():
 #Wenn alles Korrekt ist und auch ein paar Aufgaben gefwählt wurde, Starte das Skript.
             if len(anzRech)>0 and allesKorrekt:
                 warteZeit=300 if 'erzeugeAlleAtome' in anzRech else 90
-                parameterListe=[sys.executable,script, titel,beschreibung,datum, anzSpalten,seitenumbruch,mitText, karoBereich,extraKaroseite, agfLsgGetrennt,erzeugeArbeit,texAusgabe]+anzRech
+                parameterListe=[sys.executable,script, titel,beschreibung,datum, anzSpalten,mitText, karoBereich,extraKaroseite, agfLsgGetrennt,erzeugeArbeit,texAusgabe]+anzRech
                 print(parameterListe)
                 filename,rc=run_command(['timeout',F'{warteZeit}'] + parameterListe)
                 print('Run')
@@ -222,7 +222,7 @@ def hilfeSeite():
     html.append('<li><u>Anzahl Spalten für die Aufgaben:</u> 1 oder 2</li>. Bei Aufgaben, die viel Platz benötigen, empfiehlt sich eine Spalte zu nutzen.')
     html.append('<li><u>Anzahl Spalten für die Lösungen:</u> 1 oder 2</li>. Manche Lösungen brauchen viel Platz. Z.B. bei den Termen und Gleichungen. Dann nur eine Spalte nehmen.')
     html.append('<li><u>Mit Beschreibungstext in den Aufgaben:</u> Entferne diesen Haken, wenn kein Text in den Aufgaben erscheinen soll. Das Blatt wird unübersichtliche, wenn 20 mal der gleiche Text drin steht.</li>')
-    html.append('<li><u>Seitenumbruch in den Aufgaben:</u> Wenn man Aufgaben mit auswählt, die viel Platz benötigen, kann man hier den Seitenumbruch ermöglichen.</li>')
+#    html.append('<li><u>Seitenumbruch in den Aufgaben:</u> Wenn man Aufgaben mit auswählt, die viel Platz benötigen, kann man hier den Seitenumbruch ermöglichen.</li>')
     html.append('<li><u>Karofeld unter dem Aufgaben:</u> Damit die Schüler direkt auf dem Aufgabenzettel arbeiten können, kann man hier ein Karofeld einfügen. Am besten die Aufgaben einmal ohne erzeugen lassen, damit man weiß, wieviel Platz auf der Seite über bleibt.</li>')
     html.append('<li><u>Extra Karoseite:</u> Wenn man beidseitig drucken will, kann man hier eine leere Karoseite einfügen lassen.</li>')
     html.append('<li><u>Aufgaben und Lösungen getrennt ausgeben:</u> Normal werden Aufgaben und Lösungen in einer Datei geschrieben. Wenn man die getrennt haben will, bekommt man eine Zip-Datei.</li>')
@@ -322,7 +322,7 @@ def htmlTabelle(anzahlAuswahl=4):
     tabelle.append('            {{ form.anzSpaltenAfg.label }}: {{ form.anzSpaltenAfg }}<br>')
     tabelle.append('            {{ form.anzSpaltenLsg.label }}: {{ form.anzSpaltenLsg }}<br>')
     tabelle.append('            {{ form.mitText.label }}: {{ form.mitText }}<br>')
-    tabelle.append('            {{ form.aufgSeitenumbruch.label }}: {{ form.aufgSeitenumbruch }}<br>')
+#    tabelle.append('            {{ form.aufgSeitenumbruch.label }}: {{ form.aufgSeitenumbruch }}<br>')
     tabelle.append('            {{ form.karoBereich.label }}: {{ form.karoBereich }}<br>')
     tabelle.append('            {{ form.extraKaroseite.label }}: {{ form.extraKaroseite }}<br>')
     tabelle.append('            {{ form.agfLsgGetrennt.label }}: {{ form.agfLsgGetrennt }}<br>')
