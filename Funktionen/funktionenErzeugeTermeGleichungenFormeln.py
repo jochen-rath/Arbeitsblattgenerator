@@ -1,11 +1,29 @@
 #!/usr/bin/env python
 # coding: utf8
+import random
 
-#Diese Datei enthält verschiedene Funktionen, zur Erzeugung von Aufgaben zur Prozentrechnung
+
+#Diese Datei enthält verschiedene Funktionen, zur Erzeugung von Aufgaben zur Berechnung von Termen und Gleichungen
+
 
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
 
+
+def variabelErsetzen(mitText=True):
+    vari=random.choice(['a','b','x','z'])
+    wert=random.choice([1,-1])*random.randint(1,12)
+    term='3+4'
+    while not vari in term:
+        term=erzeugeTerm(variablen=vari, anzahl=2, variMaxAnzProUnterterm=1)
+    afg=F'Setze für die Variabel {vari} den Wert {wert} ein und berechne die Lösung für y:'
+    afg=(afg if mitText else '')+F'$$y={term}{"" if mitText else F"~~ {vari}={wert} ~ XXleftarrow ~ y=?b"}$$'.replace("*"," \\cdot ").replace('XX','\\')
+    lsg=['$\\begin{aligned}']
+    lsg=lsg+[F"y&={term}".replace('*',' \\cdot ').replace(vari,'\\textcolor{red}{'+vari+'}')+"\\\\"]
+    lsg=lsg+[F"y&={term}".replace(vari,'\\textcolor{red}{'+F"{'(' if wert<0 else ''}{strNW(wert,True)}{')' if wert<0 else ''}"+'}').replace('*',' \\cdot ')+"\\\\"]
+    lsg=lsg+[F"y&={eval(term.replace(vari,str(wert)))}"+"\\\\"]
+    lsg=lsg+['\\end{aligned}$']
+    return [afg,lsg,[]]
 
 def ersetzePlatzhalterMitSymbolen(T):
 #Achtung, bestimmte Symbole muss ich durch Platzhalter ersetzen. So hat 'I' für sympy eine bedeutung die ich nicht kenne und R=U/I kann sympy nicht lösen
