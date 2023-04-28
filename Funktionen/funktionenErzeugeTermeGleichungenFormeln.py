@@ -32,6 +32,18 @@ def variabelErsetzen(mitText=True):
     lsg=lsg+['\\end{aligned}$']
     return [afg,lsg,[]]
 
+def findenEinenTerm(mitText=True):
+    vari='x'
+    wert=random.randint(1,12)
+    term1=F'{vari}{"+" if random.randint(0,1) else "-"}{strNW(wert)}'
+    term2=F'{"" if random.randint(0,1) else "-"}{vari} * {strNW(wert)}'
+    term=random.choice([term1,term2])
+    erg=eval(term.replace(vari,str(wert)))
+    afg=F'Bestimme ein Term, wenn {vari}={strNW(wert)} und das Ergebnis gleich {strNW(erg)} ist.'
+    lsg='Ein mögliches Ergebnis:'
+    lsg=lsg+F'XX[ {vari}={strNW(wert)} ~~ XXrightarrow {term.replace("*","XXcdot")}={erg} XX]'.replace('XX','\\')
+    return [afg,lsg,[]]
+
 def ersetzePlatzhalterMitSymbolen(T):
 #Achtung, bestimmte Symbole muss ich durch Platzhalter ersetzen. So hat 'I' für sympy eine bedeutung die ich nicht kenne und R=U/I kann sympy nicht lösen
 #Auch Griechische Symbole gehen nicht.
