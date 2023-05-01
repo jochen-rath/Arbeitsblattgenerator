@@ -9,7 +9,21 @@
 import math
 
 
-def quader(a=6, b=4, c=9,ursprung=[0,0],buchstabe='Q',aName='a',bName='b',cName='c',textOben='',mitBeschriftung=True,mitTikzUmrandung=True):
+def quader(a=4,b=2,c=1):
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    tikzcommand.append(F'\\draw[canvas is xz plane at y=0] (0,0) rectangle ++({a},{-b});')
+    tikzcommand.append(F'\\draw[canvas is xz plane at y={c}] (0,0) rectangle ++({a},{-b});')
+    tikzcommand.append(F'\\draw[canvas is xy plane at z=0] (0,0) rectangle ++({a},{c});')
+    tikzcommand.append(F'\\draw[canvas is xy plane at z={-b}] (0,0) rectangle ++({a},{c});')
+    tikzcommand.append(F'\\node[below] at ({a/2},{0}) {{a={a} cm}}; ')
+    tikzcommand.append(F'\\node[right] at ({0},0,{-b/2}) {{b={b} cm}}; ')
+    tikzcommand.append(F'\\node[left] at (0,{c/2}) {{c={c} cm}}; ')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+
+
+def quaderKomplex(a=6, b=4, c=9,ursprung=[0,0],buchstabe='Q',aName='a',bName='b',cName='c',textOben='',mitBeschriftung=True,mitTikzUmrandung=True):
 #Diese Funktion erzeugt einen Tikz-code mit dem man einen Quader darstellen.
 #Aufruf:
 #        tikzcommand=quader(a, b, c,ursprung,buchstabe)
@@ -187,13 +201,13 @@ def quaderMitLoch(a=6, b=4, c=9,R=1.5, ursprung=[0,0],buchstabe='Q',aName='a',bN
     tikzcommand.append(F'\\begin{{scope}}[canvas is xz plane at y=0]')
     tikzcommand.append(F'\\draw[fill=gray!60,dashed] (0,0) circle (\\R cm);')
     tikzcommand.append(F'\\draw (-\\a/2,\\b/2) --  node[below] {{a={strNW(a)} cm}} (\\a/2,\\b/2);')
-    tikzcommand.append(F'\\draw (\\a/2,\\b/2) -- node[right] {{c={strNW(b)} cm}} (\\a/2,-\\b/2);')
+    tikzcommand.append(F'\\draw (\\a/2,\\b/2) -- node[right] {{c={strNW(c)} cm}} (\\a/2,-\\b/2);')
     tikzcommand.append(F'\\draw[dashed] (\\a/2,-\\b/2) -- (-\\a/2,-\\b/2);')
     tikzcommand.append(F'\\draw[dashed] (-\\a/2,-\\b/2) --  (-\\a/2,\\b/2);')
     tikzcommand.append(F'\\draw[dashed] (0,0) -- node[below] {{r={strNW(R)} cm}} (-\\R,0);')
     tikzcommand.append(F'\\end{{scope}}')
     tikzcommand.append(F'\\draw[thick] (-\\a/2,0,\\b/2) -- (-\\a/2,\\h,\\b/2);')
-    tikzcommand.append(F'\\draw[thick] (\\a/2,0,-\\b/2) -- node[right] {{b={strNW(c)} cm}} (\\a/2,\\h,-\\b/2);')
+    tikzcommand.append(F'\\draw[thick] (\\a/2,0,-\\b/2) -- node[right] {{b={strNW(b)} cm}} (\\a/2,\\h,-\\b/2);')
     tikzcommand.append(F'\\draw[thick,dashed] (-\\a/2,0,-\\b/2) -- (-\\a/2,\\h,-\\b/2);')
     tikzcommand.append(F'\\draw[thick] (\\a/2,0,\\b/2) --(\\a/2,\\h,\\b/2);')
     tikzcommand.append(F'\\draw[thick] (-\\a/2,\\h,\\b/2) --(\\a/2,\\h,\\b/2);')
