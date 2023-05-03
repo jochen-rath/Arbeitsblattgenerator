@@ -12,7 +12,7 @@ def erzeugeQuaderOberVolBerech(breitePbox='\\hsize',maxDim=14,einheit='cm'):
     aufg=['\\pbox{'+str(breitePbox)+'cm}{Berechne das Volumen und die Oberfläche von:\\\\']
     lsg=['\\pbox{'+str(breitePbox)+'cm}{']
     a,b,c=[random.randint(1,maxDim) for i in range(3)]
-    aufg=aufg+quader(a=a, b=b, c=c,ursprung=[0,0],buchstabe='Q',aName='a='+strNW(a)+' '+einheit,bName='b='+strNW(b)+'  '+einheit,cName='c='+strNW(c)+'  '+einheit)
+#    aufg=aufg+quaderAlt(a=a, b=b, c=c,ursprung=[0,0],buchstabe='Q',aName='a='+strNW(a)+' '+einheit,bName='b='+strNW(b)+'  '+einheit,cName='c='+strNW(c)+'  '+einheit)
     lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
     lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
     lsg.append('\\begin{tikzpicture}[show background grid]')

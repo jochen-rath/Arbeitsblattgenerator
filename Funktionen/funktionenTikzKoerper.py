@@ -9,21 +9,21 @@
 import math
 
 
-def quader(a=4,b=2,c=1):
+def quader3D(a=4,b=2,c=1,ursprung=[0,0],aName='a',bName='b',cName='c'):
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid]')
-    tikzcommand.append(F'\\draw[canvas is xz plane at y=0] (0,0) rectangle ++({a},{-b});')
-    tikzcommand.append(F'\\draw[canvas is xz plane at y={c}] (0,0) rectangle ++({a},{-b});')
-    tikzcommand.append(F'\\draw[canvas is xy plane at z=0] (0,0) rectangle ++({a},{c});')
-    tikzcommand.append(F'\\draw[canvas is xy plane at z={-b}] (0,0) rectangle ++({a},{c});')
-    tikzcommand.append(F'\\node[below] at ({a/2},{0}) {{a={a} cm}}; ')
-    tikzcommand.append(F'\\node[right] at ({0},0,{-b/2}) {{b={b} cm}}; ')
-    tikzcommand.append(F'\\node[left] at (0,{c/2}) {{c={c} cm}}; ')
+    tikzcommand.append(F'\\draw[canvas is xz plane at y=0] ({ursprung[0]},{ursprung[1]}) rectangle ++({a},{-b});')
+    tikzcommand.append(F'\\draw[canvas is xz plane at y={c}] ({ursprung[0]},{ursprung[1]}) rectangle ++({a},{-b});')
+    tikzcommand.append(F'\\draw[canvas is xy plane at z=0] ({ursprung[0]},{ursprung[1]}) rectangle ++({a},{c});')
+    tikzcommand.append(F'\\draw[canvas is xy plane at z={-b}] ({ursprung[0]},{ursprung[1]}) rectangle ++({a},{c});')
+    tikzcommand.append(F'\\node[below] at ({a/2},{0}) {{{aName}}}; ')
+    tikzcommand.append(F'\\node[right] at ({0},0,{-b/2}) {{{bName}}}; ')
+    tikzcommand.append(F'\\node[left] at (0,{c/2}) {{{cName}}}; ')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
 
-def quaderKomplex(a=6, b=4, c=9,ursprung=[0,0],buchstabe='Q',aName='a',bName='b',cName='c',textOben='',mitBeschriftung=True,mitTikzUmrandung=True):
+def quader(a=6, b=4, c=9,ursprung=[0,0],buchstabe='Q',aName='a',bName='b',cName='c',textOben='',mitBeschriftung=True,mitTikzUmrandung=True):
 #Diese Funktion erzeugt einen Tikz-code mit dem man einen Quader darstellen.
 #Aufruf:
 #        tikzcommand=quader(a, b, c,ursprung,buchstabe)
@@ -142,45 +142,6 @@ def zylinder(R=3, h=4, ursprung=[0,0],buchstabe='Z',rName='R',hName='h'):
     tikzcommand.append('\\draw ('+str(ursprung[0]-R)+','+str(ursprung[1])+') --  node[below]{'+rName+'}('+str(ursprung[0])+','+str(ursprung[1])+');')
     tikzcommand.append('\\draw [dashed] ('+str(ursprung[0]-R)+','+str(ursprung[1])+') arc (180:360:'+str(R)+' and '+str(-R/2)+');')
     tikzcommand.append('\\draw ('+str(ursprung[0]+R)+','+str(ursprung[1])+') --  node[right]{'+hName+'}('+str(ursprung[0]+R)+','+str(ursprung[1]+h)+');')
-    tikzcommand.append('\\end{tikzpicture}')
-    return tikzcommand
-
-def quaderMitLochAlt(a=6, b=4, c=9,R=1.5, ursprung=[0,0],buchstabe='Q',aName='a',bName='b',cName='c',rName='r'):
-#Diese Funktion erzeugt einen Tikz-code mit dem man einen Quader darstellen.
-#Aufruf:
-#        tikzcommand=quaderMitLoch(a, b, c,R,ursprung,buchstabe)
-#
-    cPers=c/2/math.sqrt(2)
-    katheteCMP=math.sqrt(1/2)*c/4
-    mittelpunkt=[a/2+katheteCMP,katheteCMP]
-    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
-    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
-    R1=R
-    R2=R/2
-    tikzcommand.append('\\coordinate ('+buchstabe+'1) at ('+str(ursprung[0])+','+str(ursprung[1])+'); ')
-    tikzcommand.append('\\coordinate ('+buchstabe+'2) at ('+str(ursprung[0]+a)+','+str(ursprung[1])+'); ')
-    tikzcommand.append('\\coordinate ('+buchstabe+'3) at ('+str(ursprung[0]+a)+','+str(ursprung[1]+b)+'); ')
-    tikzcommand.append('\\coordinate ('+buchstabe+'4) at ('+str(ursprung[0])+','+str(ursprung[1]+b)+'); ')
-    tikzcommand.append('\\coordinate ('+buchstabe+'5) at ('+str(ursprung[0]+cPers)+','+str(ursprung[1]+cPers)+'); ')
-    tikzcommand.append('\\coordinate ('+buchstabe+'6) at ('+str(ursprung[0]+a+cPers)+','+str(ursprung[1]+cPers)+'); ')
-    tikzcommand.append('\\coordinate ('+buchstabe+'7) at ('+str(ursprung[0]+a+cPers)+','+str(ursprung[1]+b+cPers)+'); ')
-    tikzcommand.append('\\coordinate ('+buchstabe+'8) at ('+str(ursprung[0]+cPers)+','+str(ursprung[1]+b+cPers)+'); ')
-    tikzcommand.append('\\draw[thick,dashed] ('+buchstabe+'5) -- ('+buchstabe+'6);')
-    tikzcommand.append('\\draw[thick,dashed] ('+buchstabe+'5) -- ('+buchstabe+'8);')
-    tikzcommand.append('\\draw[thick,dashed] ('+buchstabe+'1) -- ('+buchstabe+'5);')
-    tikzcommand.append('\\fill[gray!60]  ('+str(mittelpunkt[0]-R)+','+str(mittelpunkt[1])+') --  ('+str(mittelpunkt[0]+R)+','+str(mittelpunkt[1])+') -- ('+str(mittelpunkt[0]+R)+','+str(mittelpunkt[1]+b)+') --  ('+str(mittelpunkt[0]-R)+','+str(mittelpunkt[1]+b)+') ;')
-    tikzcommand.append('\\draw [dashed,fill=gray!60] ('+str(mittelpunkt[0])+','+str(mittelpunkt[1])+') ellipse ('+str(R1)+' and '+str(R2)+');')
-    tikzcommand.append('\\draw [thick,fill=gray!60] ('+str(mittelpunkt[0])+','+str(mittelpunkt[1]+b)+') ellipse ('+str(R1)+' and '+str(R2)+');')
-    tikzcommand.append('\\draw  ('+str(mittelpunkt[0]-R)+','+str(mittelpunkt[1])+') --  node[below]{'+rName+'} ('+str(mittelpunkt[0])+','+str(mittelpunkt[1])+');')  
-    tikzcommand.append('\\draw[thick] ('+buchstabe+'1) -- node[below]{'+aName+'} ('+buchstabe+'2);')
-    tikzcommand.append('\\draw[thick] ('+buchstabe+'2) -- node[above,right]{'+bName+'} ('+buchstabe+'3);')
-    tikzcommand.append('\\draw[thick] ('+buchstabe+'3) -- ('+buchstabe+'4);')
-    tikzcommand.append('\\draw[thick] ('+buchstabe+'4) -- ('+buchstabe+'1);')
-    tikzcommand.append('\\draw[thick] ('+buchstabe+'4) -- ('+buchstabe+'8);')
-    tikzcommand.append('\\draw[thick] ('+buchstabe+'3) -- ('+buchstabe+'7);')
-    tikzcommand.append('\\draw[thick] ('+buchstabe+'2) -- node[below,right]{'+cName+'} ('+buchstabe+'6);')
-    tikzcommand.append('\\draw[thick] ('+buchstabe+'7) -- ('+buchstabe+'8);')
-    tikzcommand.append('\\draw[thick] ('+buchstabe+'6) -- ('+buchstabe+'7);')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
