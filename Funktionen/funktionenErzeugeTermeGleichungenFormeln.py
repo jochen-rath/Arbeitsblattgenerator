@@ -17,18 +17,23 @@ def variabelErsetzen(mitText=True):
     while not vari in term:
         term=erzeugeTerm(variablen=vari, anzahl=2, variMaxAnzProUnterterm=1)
     if mitText:
-        afg=F'Setze für die Variabel {vari} den Wert {wert} ein und berechne die Lösung für y:'
-        afg=afg+F'$$y={term}$$'.replace("*"," \\cdot ").replace('XX','\\')
+#       afg=F'Setze für die Variabel {vari} den Wert {wert} ein und berechne die Lösung für y:'
+        afg=F'Setze für die Variabel {vari} den Wert {wert} ein und berechne den Wert des Terms:'
+        afg=afg+F'$${term}$$'.replace("*"," \\cdot ").replace('XX','\\')
     else:
         afg=['$\\begin{aligned}']
-        afg=afg+[F'y=&{term}'.replace("*"," \\cdot ")+'\\\\']
-        afg=afg+[F' {vari}=&{wert}~ XXrightarrow ~ y=?'.replace("*"," \\cdot ").replace('XX','\\')]
+#        afg=afg+[F'y=&{term}'.replace("*"," \\cdot ")+'\\\\']
+#        afg=afg+[F' {vari}=&{wert}~ XXrightarrow ~ y=?'.replace("*"," \\cdot ").replace('XX','\\')]
+        afg=afg+[F' {vari}=&{wert}~ XXrightarrow ~ {term}=?'.replace("*"," \\cdot ").replace('XX','\\')]
         afg=afg+['\\end{aligned}$']
     lsg=['$\\begin{aligned}']
     lsg=lsg+[F"XXtextcolor{{red}}{{{vari}={strNW(wert,True)}}} & XXrightarrow".replace('XX','\\')+"\\\\"]
-    lsg=lsg+[F"y&={term}".replace('*',' \\cdot ').replace(vari,'\\textcolor{red}{'+vari+'}')+"\\\\"]
-    lsg=lsg+[F"y&={term}".replace(vari,'\\textcolor{red}{'+F"{'(' if wert<0 else ''}{strNW(wert,True)}{')' if wert<0 else ''}"+'}').replace('*',' \\cdot ')+"\\\\"]
-    lsg=lsg+[F"y&={eval(term.replace(vari,str(wert)))}"+"\\\\"]
+    if False:
+        lsg=lsg+[F"y&={term}".replace('*',' \\cdot ').replace(vari,'\\textcolor{red}{'+vari+'}')+"\\\\"]
+        lsg=lsg+[F"y&={term}".replace(vari,'\\textcolor{red}{'+F"{'(' if wert<0 else ''}{strNW(wert,True)}{')' if wert<0 else ''}"+'}').replace('*',' \\cdot ')+"\\\\"]
+        lsg=lsg+[F"y&={eval(term.replace(vari,str(wert)))}"+"\\\\"]
+    erg=F"{'(' if wert<0 else ''}{strNW(wert,True)}{')' if wert<0 else ''}"
+    lsg=lsg+[F"{term}=&{term.replace(vari,'XXtextcolor{red}{'+erg+'}')}={eval(term.replace(vari,str(wert)))}".replace('*',' \\cdot ').replace('XX','\\')+"\\\\"]
     lsg=lsg+['\\end{aligned}$']
     return [afg,lsg,[]]
 
