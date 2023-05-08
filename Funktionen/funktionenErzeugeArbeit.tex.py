@@ -64,7 +64,7 @@ def erzeugeArbeit(auswahl,title,dateiName,datum,anfang):
             aufgabenLatex=aufgabenLatex+erzeugeEinfacheTabelle(afg,1)
             p=p+len(afg)
         aufgabenLatex.append(F'\\begin{{flushright}}')
-        aufgabenLatex.append(F'\\underline{{\\hspace{{2cm}}/ \\pkteAfg{zahlenWoerter[i+1]}~Punkte}}')
+        aufgabenLatex.append(F'\\underline{{\\hspace{{2cm}}/ \\punkte~Punkte}}')
         aufgabenLatex.append(F'\\end{{flushright}}')
         with open(os.path.join('Ausgabe',F'{dateiName}_{i+1:02d}_Aufgabe{i+1:02d}.tex'), 'w') as f:
             f.write('\n'.join(aufgabenLatex))
@@ -73,11 +73,11 @@ def erzeugeArbeit(auswahl,title,dateiName,datum,anfang):
     fach='Physik' if 'Physik' in title else 'Mathematik'
     title=title.replace(fach,'')
     with open(os.path.join('Ausgabe', F'{dateiName}_00_Kopfseite.tex'), 'w') as f:
-        f.write('\n'.join(schreibeArbeitKopfseite(fach=fach, title=title, jahr='2022/2023',datum=datum,punkte=punkte)))
+        f.write('\n'.join(schreibeArbeitKopfseite()))
     erzeugeVorlageTextaufgabenArbeit(dateiName, len(punkte))
     tabLsg=erzeugeEinfacheTabelleMitSeitenumbruch(lsg,1)
     erzeugeEinfachesLatexdokument(tabLsg, size=2, file=F'{dateiName}_lsg.tex')
-    arbeit=erzeugeArbeitLatex(dateiName,punkte=punkte)
+    arbeit=erzeugeArbeitLatex(dateiName=dateiName,fach=fach, titel=title,datum=datum, jahr='2022/2023',punkte=punkte)
     head=latexHead(arraystretch=True)
     writeLatexDoc(head+['\\begin{document}']+arbeit+['\\end{document}'], os.path.join('Ausgabe', dateiName+'.tex'))
     os.chdir('Ausgabe')

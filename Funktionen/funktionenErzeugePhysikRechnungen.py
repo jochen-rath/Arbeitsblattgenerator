@@ -144,3 +144,26 @@ def erzeugeDiagrammErstellAufgaben(typ='Zeit-Weg',diagrammVorgegeben=True,mitTex
     lsg=tabelle[:-1]+diagramm+[tabelle[-1]]
     return [afg,lsg,[v]]
 
+def hebelAufgaben(anzSpalten=1,mitText=True):
+    m1=random.choice([10,50,100,200,400,500])
+    faktor=random.choice([0.2,0.5,1,2,3,4,5,6])
+    m2=m1*faktor
+    if m2<m1:
+        if faktor==0.2:
+            pos1=1
+        else:
+            pos1=3
+    else:
+        if faktor==4:
+            pos1=4
+        elif faktor==5:
+            pos1=5
+        else:
+            pos1=6
+    pos2=pos1/faktor
+    afg=[F'\\pbox{{{15 if anzSpalten==1 else 6}cm}}{{']
+    afg=afg+[F'Du hast ein Gewicht von {strNW(m2,True)} g, bringe folgenden Hebel ins Gleichgewicht:'+'\\\\']
+    afg=afg+hebelTikz(pos1=-pos1,m1=m1,pos2=0,m2=m2,breite='!' if anzSpalten==1 else '6 cm')
+    afg=afg+['}']
+    lsg=hebelTikz(pos1=-pos1,m1=m1,pos2=pos2,m2=m2,mitResizebox=True)
+    return [afg,lsg,[]]

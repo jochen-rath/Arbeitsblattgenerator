@@ -202,7 +202,7 @@ def initialisiereTabellenwerte(anzZeilenSpalten):
         tabellenWerte.append([['\\phantom{M)} & ']*(anzZeilenSpalten[i+1][1]-1)+['\\phantom{M)}','\\\\\\hline'] for j in range(anzZeilenSpalten[i+1][0])])    
     return tabellenWerte
 
-def schreibeArbeitKopfseite(fach='Fach',title='Titel',jahr='2022/2023',datum='22.03.2023',punkte=[1,2],anzAufgaben=7):
+def schreibeArbeitKopfseite(anzAufgaben=7):
     kopfseite=[]
     kopfseite.append(F"%Mit den folgenden Zeilen werden die Nummern nicht angezeigt, bei denen die Aufgaben 0 Punkte haben.")
     for i in range(anzAufgaben):
@@ -219,14 +219,14 @@ def schreibeArbeitKopfseite(fach='Fach',title='Titel',jahr='2022/2023',datum='22
     kopfseite.append(F"\\begin{{tabularx}}{{\\textwidth}}{{ R{{2.0cm}} X R{{2.0cm}}  }}")
     kopfseite.append(F"&")
     kopfseite.append(F"{{\\centering{{\\Large\\bf")
-    kopfseite.append(F"{fach}\\\\")
-    kopfseite.append(F"{title}}}\\\\ ")
-    kopfseite.append(F"Schuljahr {jahr}\\par")
+    kopfseite.append(F"\\fach\\\\")
+    kopfseite.append(F"\\titel}}\\\\ ")
+    kopfseite.append(F"Schuljahr \\jahr\\par")
     kopfseite.append(F"}} &")
     kopfseite.append(F"\\end{{tabularx}} \\\\")
     kopfseite.append(F"\\begin{{tabularx}}{{\\textwidth}}{{R{{2.0cm}} X R{{2.0cm}} X }}")
-    kopfseite.append(F"Name: & & Kurs: & \\\\\\cline{{2-2}}\\cline{{4-4}}")
-    kopfseite.append(F"& & Datum:& {datum} \\\\\\cline{{2-2}}\\cline{{4-4}}")
+    kopfseite.append(F"Name: & & Kurs: \\kurs & \\\\\\cline{{2-2}}\\cline{{4-4}}")
+    kopfseite.append(F"& & Datum:& \\datum \\\\\\cline{{2-2}}\\cline{{4-4}}")
     kopfseite.append(F"\\end{{tabularx}} \\\\")
     kopfseite.append(F"\\phantom{{M}}\\\\")
     kopfseite.append(F"{{\\bf\\underline{{Benötigtes Material}}}}\\\\")
@@ -270,7 +270,7 @@ def schreibeArbeitKopfseite(fach='Fach',title='Titel',jahr='2022/2023',datum='22
     kopfseite.append(F"\\pagenumbering{{arabic}}")
     return kopfseite
 
-def erzeugeArbeitLatex(dateiName,punkte=[],anzAufgaben=7):
+def erzeugeArbeitLatex(dateiName='arbeit.tex',fach='Mathematik',titel='Übungsarbeit',datum='~',jahr='2022/23',kurs='~',punkte=[],anzAufgaben=7):
     arbeit=[]
     for i in range(len(punkte)):
         arbeit.append(F'\\pgfmathsetmacro{{\\pkteAfg{zahlenWoerter[i+1]}}}{{{punkte[i]}}}')
@@ -278,10 +278,16 @@ def erzeugeArbeitLatex(dateiName,punkte=[],anzAufgaben=7):
         for i in range(anzAufgaben-len(punkte)):
             arbeit.append(F'\\pgfmathsetmacro{{\\pkteAfg{zahlenWoerter[len(punkte)+i+1]}}}{{0}}')
     arbeit.append(F'\\pgfmathsetmacro{{\\sauberkeitsPkte}}{{2}}')
+    arbeit.append(F'\\def\\datum{{{datum}}}')
+    arbeit.append(F'\\def\\kurs{{{kurs}}}')
+    arbeit.append(F'\\def\\titel{{{titel}}}')
+    arbeit.append(F'\\def\\jahr{{{jahr}}}')
+    arbeit.append(F'\\def\\fach{{{fach}}}')
     gesPkte="+".join([F"\\pkteAfg{zahlenWoerter[i+1]}" for i in range(anzAufgaben)])
     arbeit.append(F'\\pgfmathsetmacro{{\\gesPkte}}{{{gesPkte}+\\sauberkeitsPkte}}')
     arbeit.append(F'\\input{{{dateiName}_00_Kopfseite.tex}}')
     for i in range(len(punkte)):
+        arbeit.append(F'\\pgfmathsetmacro{{\\punkte}}{{\\pkteAfg{zahlenWoerter[i+1]}}}')
         arbeit.append(F'\\input{{{dateiName}_{i+1:02d}_Aufgabe{i+1:02d}.tex}}')
     return  arbeit
 
@@ -303,7 +309,7 @@ def erzeugeVorlageTextaufgabenArbeit(dateiName,nr):
     textafg.append(F"\\item Solltest du vor den Textaufgaben keine neue Seite wünschen, entferne den Befehl \\textbackslash newpage.")
     textafg.append(F"\\end{{enumerate}}")
     textafg.append(F'\\begin{{flushright}}')
-    textafg.append(F'\\underline{{\\hspace{{2cm}}/ \\pkteAfg{zahlenWoerter[nr]}~Punkte}}')
+    textafg.append(F'\\underline{{\\hspace{{2cm}}/ \\punkte~Punkte}}')
     textafg.append(F'\\end{{flushright}}')
     with open(os.path.join('Ausgabe',F'{dateiName}_{nr:02d}_Aufgabe{nr:02d}.tex'), 'w') as f:
         f.write('\n'.join(textafg))
