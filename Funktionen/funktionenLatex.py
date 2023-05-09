@@ -210,7 +210,6 @@ def schreibeArbeitKopfseite(anzAufgaben=7):
         kopfseite.append(F"\\newcommand{{\\p{zahlenWoerter[i+1]}}}{{~}}")
         kopfseite.append(F"\\ifnum\\pkteAfg{zahlenWoerter[i+1]}>0  \\renewcommand{{\\{zahlenWoerter[i+1]}}}{{{i+1}}} \\fi")
         kopfseite.append(F"\\ifnum\\pkteAfg{zahlenWoerter[i+1]}>0  \\renewcommand{{\\p{zahlenWoerter[i+1]}}}{{\\pkteAfg{zahlenWoerter[i+1]}}} \\fi")
-
     kopfseite.append(F"\\newcommand{{\\sauber}}{{~}}")
     kopfseite.append(F"\\newcommand{{\\pSauber}}{{~}}")
     kopfseite.append(F"\\ifnum\\sauberkeitsPkte>0  \\renewcommand{{\\sauber}}{{SK}} \\fi")
@@ -233,9 +232,8 @@ def schreibeArbeitKopfseite(anzAufgaben=7):
     kopfseite.append(F"\\vspace{{-0.5cm}}")
     kopfseite.append(F"\\begin{{itemize}}")
     kopfseite.append(F"\\itemsep0em ")
-    kopfseite.append(F"\\item Füller / Kugelschreiber / Fineliner …")
-    kopfseite.append(F"\\item Lineal")
-    kopfseite.append(F"\\item Taschenrechner")
+    kopfseite.append(F"\\foreach \\x in \\material")
+    kopfseite.append(F"{{\\item \\x }}")
     kopfseite.append(F"\\end{{itemize}}")
     kopfseite.append(F"")
     kopfseite.append(F"{{\\bf\\underline{{Ablauf:}}}}\\\\")
@@ -283,12 +281,13 @@ def erzeugeArbeitLatex(dateiName='arbeit.tex',fach='Mathematik',titel='Übungsar
     arbeit.append(F'\\def\\titel{{{titel}}}')
     arbeit.append(F'\\def\\jahr{{{jahr}}}')
     arbeit.append(F'\\def\\fach{{{fach}}}')
+    arbeit.append(F'\\def\\material{{Füller / Kugelschreiber / Fineliner, Bleistift, Taschenrechner}}')
     gesPkte="+".join([F"\\pkteAfg{zahlenWoerter[i+1]}" for i in range(anzAufgaben)])
     arbeit.append(F'\\pgfmathsetmacro{{\\gesPkte}}{{{gesPkte}+\\sauberkeitsPkte}}')
-    arbeit.append(F'\\input{{{dateiName}_00_Kopfseite.tex}}')
+    arbeit.append(F'\\input{{{dateiName}_Kopfseite.tex}}')
     for i in range(len(punkte)):
         arbeit.append(F'\\pgfmathsetmacro{{\\punkte}}{{\\pkteAfg{zahlenWoerter[i+1]}}}')
-        arbeit.append(F'\\input{{{dateiName}_{i+1:02d}_Aufgabe{i+1:02d}.tex}}')
+        arbeit.append(F'\\input{{{dateiName}_Aufgabe{i+1:02d}.tex}}')
     return  arbeit
 
 def erzeugeVorlageTextaufgabenArbeit(dateiName,nr):
@@ -311,5 +310,5 @@ def erzeugeVorlageTextaufgabenArbeit(dateiName,nr):
     textafg.append(F'\\begin{{flushright}}')
     textafg.append(F'\\underline{{\\hspace{{2cm}}/ \\punkte~Punkte}}')
     textafg.append(F'\\end{{flushright}}')
-    with open(os.path.join('Ausgabe',F'{dateiName}_{nr:02d}_Aufgabe{nr:02d}.tex'), 'w') as f:
+    with open(os.path.join('Ausgabe',F'{dateiName}_Aufgabe{nr:02d}.tex'), 'w') as f:
         f.write('\n'.join(textafg))

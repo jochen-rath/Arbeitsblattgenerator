@@ -66,13 +66,13 @@ def erzeugeArbeit(auswahl,title,dateiName,datum,anfang):
         aufgabenLatex.append(F'\\begin{{flushright}}')
         aufgabenLatex.append(F'\\underline{{\\hspace{{2cm}}/ \\punkte~Punkte}}')
         aufgabenLatex.append(F'\\end{{flushright}}')
-        with open(os.path.join('Ausgabe',F'{dateiName}_{i+1:02d}_Aufgabe{i+1:02d}.tex'), 'w') as f:
+        with open(os.path.join('Ausgabe',F'{dateiName}_Aufgabe{i+1:02d}.tex'), 'w') as f:
             f.write('\n'.join(aufgabenLatex))
         punkte.append(p)
     punkte.append(8)    #Für die Textaufgabe.
     fach='Physik' if 'Physik' in title else 'Mathematik'
     title=title.replace(fach,'')
-    with open(os.path.join('Ausgabe', F'{dateiName}_00_Kopfseite.tex'), 'w') as f:
+    with open(os.path.join('Ausgabe', F'{dateiName}_Kopfseite.tex'), 'w') as f:
         f.write('\n'.join(schreibeArbeitKopfseite()))
     erzeugeVorlageTextaufgabenArbeit(dateiName, len(punkte))
     tabLsg=erzeugeEinfacheTabelleMitSeitenumbruch(lsg,1)
