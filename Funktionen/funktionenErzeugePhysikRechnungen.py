@@ -90,7 +90,7 @@ def erzeugeBeschlBerechnungen(typ='',mitText=True):
 #oder Geschwindigkeitsangaben:
 #           [afg,lsg,[t,s,v,laenge,zeit]]=erzeugeGeschwindigkeitsBerechnungen(typ='',einheit='m/s',umrechnen=False,einfach=True,mitText=True)
 #Mit:
-#              typ=['Geschwindigkeit','Zeit','Strecke']
+#              typ=['Beschleunigung','Zeit','Strecke']
 #              einheit='m/s'   --> Sollen die Werte in m/s oder km/h angegeben werden.
 #              umrechnen=True, False --> Wenn True, gibt es Längen auch in dm,cm,mm und Zeiten in min.
 #              einfach=True, False --> Ob Kommazahlen verwendet werden sollen oder nicht.
@@ -104,21 +104,44 @@ def erzeugeBeschlBerechnungen(typ='',mitText=True):
     t=v/a
 #Berechnung der Aufgaben und Lösungen:
     if typ=='Beschleunigung':
-        afg=F'{"Berechne die Beschleunigung für " if mitText else F"$a=? XXXXfrac{{m}}{{s^2}}$: "}$v={strNW(v,True)} \\frac{{m}}{{s}}${" und" if mitText else ","} $t={strNW(t, True)} s${"." if mitText else ""}'
+        afg=F'{"Berechne die Beschleunigung für " if mitText else F"$a=? XXXXfrac{{m}}{{s^2}}$: "}$v{{={strNW(v,True)} \\frac{{m}}{{s}}}}${" und" if mitText else ","} $t={strNW(t, True)} s${"." if mitText else ""}'
         lsg = ['$\\begin{aligned}']
         lsg=lsg+[F'a&=\\frac{{v}}{{t}}=\\frac{{{strNW(v,True)}~\\frac{{m}}{{s}}}}{{{strNW(t, True)}~s}}={strNW(a,True)}~\\frac{{m}}{{s^2}} \\\\']
         lsg = lsg + ['\\end{aligned}$']
     elif typ=='Zeit':
-        afg = F'{F"Berechne die Zeit in s für " if mitText else F"t=? s: "}$a={strNW(a,True)}~\\frac{{m}}{{s^2}}${" und" if mitText else ","} $v={strNW(v, True)}~\\frac{{m}}{{s}}${"." if mitText else ""}'
+        afg = F'{F"Berechne die Zeit in s für " if mitText else F"t=? s: "}${{a={strNW(a,True)}~\\frac{{m}}{{s^2}}}}${" und" if mitText else ","} $v={strNW(v, True)}~\\frac{{m}}{{s}}${"." if mitText else ""}'
         lsg=['$\\begin{aligned}']
         lsg=lsg+[F't&=\\frac{{v}}{{a}}=\\frac{{{strNW(v,True)}~\\frac{{m}}{{s}}}}{{{strNW(a,True)} \\frac{{m}}{{s^2}}}}={strNW(t,True)}~s \\\\']
         lsg = lsg + ['\\end{aligned}$']
     elif typ=='Geschwindigkeit':
-        afg=F'{"Berechne die Geschwindigkeit für " if mitText else  F"$v=? XXXXfrac{{m}}{{s}}$: "}$t={strNW(t,True)}~s${" und" if mitText else ","} $a={strNW(a,True)}~\\frac{{m}}{{s^2}}${"." if mitText else ""}'
+        afg=F'{"Berechne die Geschwindigkeit für " if mitText else  F"$v=? XXXXfrac{{m}}{{s}}$: "}${{t={strNW(t,True)}~s}}${" und" if mitText else ","} $a={strNW(a,True)}~\\frac{{m}}{{s^2}}${"." if mitText else ""}'
         afg=afg.replace('XXXX','\\')
         lsg=[F'$v=a\\cdot t={strNW(a,True)}\\cdot{strNW(t,True)}={strNW(v,True)}~\\frac{{m}}{{s}}$']
     return [afg,lsg,[]]
 
+def erzeugeBeschlWegBerechnungen(typ='',mitText=True):
+    typen=['Zeit','Geschwindigkeit']
+    if typ not in typen:
+        typ=random.choice(typen)
+    a=random.randint(1,100)/10.0
+    v=random.randint(40,200)
+    t=random.randint(1,50)/10
+    if typ=='Zeit':
+        afg=F'{F"Berechne den zurückgelegten Weg, wenn man für {strNW(t)} s mit $a={strNW(a)}&&frac{{m}}{{s^2}}$ beschleunigt." if mitText else F"$s=?~m$: $a= {strNW(a)}~&&frac{{m}}{{s^2}}$, $t={strNW(t)} s$"}'.replace('&&','\\')
+        lsg=['$\\begin{aligned}']
+        lsg=lsg+[F's=& &&frac{{1}}{{2}} &&cdot a &&cdot t^2'.replace('&&','\\')+'\\\\']
+        lsg=lsg+[F'=& &&frac{{1}}{{2}} &&cdot {strNW(a)} &&cdot {strNW(t)}^2'.replace('&&','\\')+'\\\\']
+        lsg=lsg+[F's=& {strNW(0.5*a*t**2,True)}~m\\\\']
+        lsg = lsg + ['\\end{aligned}$']
+    if typ=='Geschwindigkeit':
+        afg=F'{F"Berechne den zurückgelegten Weg, wenn man mit $a={strNW(a)}&&frac{{m}}{{s^2}}$ auf $v={strNW(v)}&&frac{{km}}{{h}}$ beschleunigt." if mitText else F"$s=?~m$: $a= {strNW(a)}~&&frac{{m}}{{s^2}}$, $v={strNW(v)} &&frac{{km}}{{h}}$"}'.replace('&&','\\')
+        lsg=['$\\begin{aligned}']
+        lsg=lsg+[F'v=& {strNW(v)}&&frac{{km}}{{h}} = {strNW(v,True)}:3.6&&frac{{m}}{{s}} = {strNW(v/3.6,True)}&&frac{{m}}{{s}} '.replace('&&','\\')+'\\\\']
+        lsg=lsg+[F's=& &&frac{{v^2}}{{2a}} '.replace('&&','\\')+'\\\\']
+        lsg=lsg+[F's=& &&frac{{{strNW(v/3.6,True)}^2}}{{2&&cdot{strNW(a)}}} '.replace('&&','\\')+'\\\\']
+        lsg=lsg+[F's=& {strNW(v**2/(2*a),True)}~m= {strNW(v**2/(2*a)/1000,True)}~km\\\\']
+        lsg = lsg + ['\\end{aligned}$']
+    return [afg,lsg,[]]
 
 def erzeugeDiagrammErstellAufgaben(typ='Zeit-Weg',diagrammVorgegeben=True,mitText=True,nurText=False):
     v=random.randint(1,20)

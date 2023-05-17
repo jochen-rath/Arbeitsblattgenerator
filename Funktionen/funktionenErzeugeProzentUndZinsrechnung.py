@@ -166,7 +166,7 @@ def erzeugeTagesMonatsZinsberechnung(art='',gesucht=''):
     zeitAbk='m'if art=='Monatszinsen' else 'd'
     maxT=12if art=='Monatszinsen' else 360
     Z=round(Z*zeit/maxT,2)
-    afg=['Berechne den '+art+' für '+strNW(zeit)+' '+zeitEinheit+' und K='+str(K)+'\\euro{} bei $p~\\%='+strNW(pP)+'~\\%$.']
+    afg=[F'Berechne die {art} für {strNW(zeit)} {zeitEinheit} und $K={strNW(K)}~€$ bei $p~\\%={strNW(pP)}~\\%$.']
     lsg=tagesMonatsZinsenBerechnen(inhalt=[K,pP,zeit],art=art)
     if gesucht=='K':
         afg=['Berechne das eingesetze Kapitel, wenn Z='+strNW(Z)+'\\euro{}, $p~\\%='+strNW(pP)+'~\\%$ und '+zeitAbk+' = '+strNW(zeit)+' '+zeitEinheit+'.']
