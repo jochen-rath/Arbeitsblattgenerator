@@ -272,7 +272,7 @@ def erzeugeArbeitLatex(dateiName='arbeit.tex',fach='Mathematik',titel='Übungsar
     arbeit=[]
     for i in range(len(punkte)):
         arbeit.append(F'\\pgfmathsetmacro{{\\pkteAfg{zahlenWoerter[i+1]}}}{{{punkte[i]}}}')
-    if len(punkte)<anzAufgaben-1:
+    if len(punkte)<anzAufgaben:
         for i in range(anzAufgaben-len(punkte)):
             arbeit.append(F'\\pgfmathsetmacro{{\\pkteAfg{zahlenWoerter[len(punkte)+i+1]}}}{{0}}')
     arbeit.append(F'\\pgfmathsetmacro{{\\sauberkeitsPkte}}{{2}}')

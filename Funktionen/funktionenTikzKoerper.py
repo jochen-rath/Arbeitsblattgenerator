@@ -9,17 +9,22 @@
 import math
 
 
-def quader3D(a=4,b=2,c=1,ursprung=[0,0],aName='a',bName='b',cName='c'):
-    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
-    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
-    tikzcommand.append(F'\\draw[canvas is xz plane at y=0] ({ursprung[0]},{ursprung[1]}) rectangle ++({a},{-b});')
-    tikzcommand.append(F'\\draw[canvas is xz plane at y={c}] ({ursprung[0]},{ursprung[1]}) rectangle ++({a},{-b});')
+def quader3D(a=4,b=2,c=1,ursprung=[0,0],aName='a',bName='b',cName='c',mitBeschriftung=True,mitTikzUmrandung=True):
+    if mitTikzUmrandung:
+        tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+        tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    else:
+        tikzcommand=[]
+    tikzcommand.append(F'\\draw[canvas is xz plane at y={ursprung[1]},red] ({ursprung[0]},0) rectangle ++({a},{-b});')
+    tikzcommand.append(F'\\draw[canvas is xz plane at y={c+ursprung[1]},red] ({ursprung[0]},0) rectangle ++({a},{-b});')
     tikzcommand.append(F'\\draw[canvas is xy plane at z=0] ({ursprung[0]},{ursprung[1]}) rectangle ++({a},{c});')
     tikzcommand.append(F'\\draw[canvas is xy plane at z={-b}] ({ursprung[0]},{ursprung[1]}) rectangle ++({a},{c});')
-    tikzcommand.append(F'\\node[below] at ({a/2},{0}) {{{aName}}}; ')
-    tikzcommand.append(F'\\node[right] at ({0},0,{-b/2}) {{{bName}}}; ')
-    tikzcommand.append(F'\\node[left] at (0,{c/2}) {{{cName}}}; ')
-    tikzcommand.append('\\end{tikzpicture}')
+    if mitBeschriftung:
+        tikzcommand.append(F'\\node[below] at ({a/2+ursprung[0]},{ursprung[1]}) {{{aName}}}; ')
+        tikzcommand.append(F'\\node[right] at ({ursprung[0]},{ursprung[1]},{-b/2}) {{{bName}}}; ')
+        tikzcommand.append(F'\\node[left] at ({ursprung[0]},{c/2+ursprung[1]}) {{{cName}}}; ')
+    if mitTikzUmrandung:
+        tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
 
