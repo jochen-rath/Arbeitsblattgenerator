@@ -136,9 +136,27 @@ def erzeugeTermAufgaben(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,mitK
     lsg=['$'+term.replace('*','\\cdot ')+'='+str(lsg).replace('**','^').replace('*','')+'$']
     return [afg,lsg,term]
 
+def erzeugeSehrEinfacheGleichungen(variabel='x',mitText=True,nurPlusMinus=False,PlusMinusVariRechts=False,nurMalGeteilt=False,MalUndPlusMinus=True):
+    G=F'3*{variabel}-5=10'
+    if nurPlusMinus:
+        G = F'{variabel}{random.choice(["+", "-"])}{random.randint(1, 50)} = {random.randint(1, 50)}'
+    if nurMalGeteilt:
+        a = random.randint(2, 12)
+        b = random.randint(2, 12)
+        G = F'{a}*{variabel}={a * b}' if bool(random.getrandbits(1)) else F'{variabel}/{a}={b}'
+    if PlusMinusVariRechts:
+        G = F'{random.randint(1, 50)} = {random.randint(1, 50)}{random.choice(["+", "-"])}{variabel}'
+    if MalUndPlusMinus:
+        x = random.randint(2, 12)
+        b = random.randint(2, 20)
+        a = random.randint(2, 10)
+        c = a*x-b
+        G=F"{a}*{variabel}-{b}={c}"
+    afg = F'{"Berechne die Variable $" if mitText else ""}${G.replace("**", "^").replace("*", "&&cdot ").replace("/", ":")}${"$" if mitText else ""}'.replace("&&","\\")
+    lsg = loeseGleichungEinfachMitEinerVariabel(G=G, variable=variabel, mitProbe=True)
+    return [afg, lsg, G]
 
-
-def erzeugeEinfacheGleichung(variabel='x',mitKlammer=False,mitQuadrat=False,ohneKomma=False,mitText=True,nurPlusMinus=False,nurMalGeteilt=False):
+def erzeugeEinfacheGleichung(variabel='x',mitKlammer=False,mitQuadrat=False,ohneKomma=False,mitText=True):
 #Diese Funktion erzeugt eine Gleichung mit einem x ohne Potenz.
 #
 #Aufruf 
@@ -148,12 +166,6 @@ def erzeugeEinfacheGleichung(variabel='x',mitKlammer=False,mitQuadrat=False,ohne
     lsg='Error'
     while lsg=='Error':
         G=''
-        if nurPlusMinus:
-            G = F'{variabel}{random.choice(["+","-"])}{random.randint(1,50)} = {random.randint(1,50)}'
-        if nurMalGeteilt:
-            a=random.randint(2,12)
-            b=random.randint(2,12)
-            G = F'{a}*{variabel}={a*b}' if bool(random.getrandbits(1)) else F'{variabel}/{a}={b}'
         while not (variabel in G):
             if mitKlammer:
                 t1Klammer=bool(random.getrandbits(1))
@@ -180,7 +192,7 @@ def erzeugeEinfacheGleichung(variabel='x',mitKlammer=False,mitQuadrat=False,ohne
                             term1=term1+('+' if not (potenzTerm[0][0]=='+' or potenzTerm[0][0]=='-') else '')+potenzTerm[0]
                         enthaeltNichtGenauEinePotenz=False
             G=term1+'='+term2
-        afg=[('Berechne die Variable' if mitText else '')+'$$'+G.replace('**','^').replace('*','\\cdot ').replace('/',':')+'$$']
+        afg= F'{"Berechne die Variable $" if mitText else ""}${G.replace("**", "^").replace("*", "&&cdot ").replace("/", ":")}${"$" if mitText else ""}'.replace("&&","\\")
 #        print(F'G: {G}')
         lsg=loeseGleichungEinfachMitEinerVariabel(G=G,variable=variabel,mitProbe=True)
         if (not lsg=='Error') and ohneKomma:

@@ -1,0 +1,139 @@
+\documentclass[12pt]{article}
+\usepackage[table]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage{tabularx,xltabular}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{geometry}
+\usepackage{ulem}
+\usepackage[official]{eurosym}
+\usepackage{tikz}
+\usetikzlibrary{arrows,backgrounds,calc,decorations.markings,patterns,3d}
+\usepackage{pgfplots}
+\pgfplotsset{compat = newest}
+\usetikzlibrary{fit}
+\newcommand\addvmargin[1]{
+\usetikzlibrary{arrows}
+\node[fit=(current bounding box),inner ysep=#1,inner xsep=0]{};}
+\usepackage{cancel}
+\usepackage{fontspec}
+\usepackage{array}  
+\geometry{a4paper, top=2cm, left=2cm, right=2cm, bottom=2cm, headsep=1cm}
+\usepackage{tabu}
+\usepackage{pst-node}
+\usepackage{colortbl}
+\usepackage{array}
+\usepackage{german}
+\setlength\parindent{0pt}
+\newcolumntype{?}{!{\vrule width 1pt}}
+\usepackage{makecell}
+\renewcommand{\arraystretch}{2.5}
+\usepackage{pbox}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\begin{document}
+\rightline{Datum: 07.06.2023}
+\centerline{{\Large Einfache Gleichung lösen}} 
+\vspace{1cm}
+\noindent \\
+
+
+\begin{xltabular}{\textwidth}{|C{0.75cm}|X|C{0.75cm}|X|}
+\arrayrulecolor{black}\hline
+a)&$$a+44 = 32$$
+&
+b)&$$y+20 = 44$$
+\\\hline
+c)&$$b+26 = 33$$
+&
+d)&$$a-7 = 15$$
+\\\hline
+\end{xltabular}
+\vspace{0.5cm}
+\newpage
+\rightline{Datum: 07.06.2023}
+\centerline{{\large Lösungen Einfache Gleichung lösen}} 
+\vspace{0.5cm}
+
+\begin{xltabular}{\textwidth}{|C{0.75cm}|X|C{0.75cm}|X|}
+\arrayrulecolor{black}\hline
+a)&\begingroup\setlength{\jot}{-0.03cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\node[below right] at (0,0.1) {
+$\begin{aligned}
+a+44  &= 32& &  \\
+a + 44 &=32& & \mid - 44\\
+a &=-12& & 
+\\
+\\
+\mbox{Probe:}\qquad a+44  &= 32& &  \\
+\left(-12\right)+44  &= 32& &  \\
+-12+44 &=32& &  \\
+32 &=32& &  \\
+\end{aligned}$};
+\end{tikzpicture}
+\endgroup
+&
+b)&\begingroup\setlength{\jot}{-0.03cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\node[below right] at (0,0.1) {
+$\begin{aligned}
+y+20  &= 44& &  \\
+y + 20 &=44& & \mid - 20\\
+y &=24& & 
+\\
+\\
+\mbox{Probe:}\qquad y+20  &= 44& &  \\
+\left(24\right)+20  &= 44& &  \\
+24+20 &=44& &  \\
+44 &=44& &  \\
+\end{aligned}$};
+\end{tikzpicture}
+\endgroup
+\\\hline
+c)&\begingroup\setlength{\jot}{-0.03cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\node[below right] at (0,0.1) {
+$\begin{aligned}
+b+26  &= 33& &  \\
+b + 26 &=33& & \mid - 26\\
+b &=7& & 
+\\
+\\
+\mbox{Probe:}\qquad b+26  &= 33& &  \\
+\left(7\right)+26  &= 33& &  \\
+7+26 &=33& &  \\
+33 &=33& &  \\
+\end{aligned}$};
+\end{tikzpicture}
+\endgroup
+&
+d)&\begingroup\setlength{\jot}{-0.03cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\node[below right] at (0,0.1) {
+$\begin{aligned}
+a-7  &= 15& &  \\
+a - 7 &=15& & \mid + 7\\
+a &=22& & 
+\\
+\\
+\mbox{Probe:}\qquad a-7  &= 15& &  \\
+\left(22\right)-7  &= 15& &  \\
+22-7 &=15& &  \\
+15 &=15& &  \\
+\end{aligned}$};
+\end{tikzpicture}
+\endgroup
+\\\hline
+\end{xltabular}
+\vspace{0.5cm}
+\end{document}
