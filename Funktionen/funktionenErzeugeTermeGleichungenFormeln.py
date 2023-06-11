@@ -21,11 +21,12 @@ def variabelErsetzen(mitText=True):
         afg=F'Setze für die Variabel {vari} den Wert {wert} ein und berechne den Wert des Terms:'
         afg=afg+F'$${term}$$'.replace("*"," \\cdot ").replace('XX','\\')
     else:
-        afg=['$\\begin{aligned}']
+        afg = F' ${vari}={wert}~ XXrightarrow ~ {term}=?$'.replace("*"," \\cdot ").replace('XX','\\')
+#        afg=['$\\begin{aligned}']
 #        afg=afg+[F'y=&{term}'.replace("*"," \\cdot ")+'\\\\']
 #        afg=afg+[F' {vari}=&{wert}~ XXrightarrow ~ y=?'.replace("*"," \\cdot ").replace('XX','\\')]
-        afg=afg+[F' {vari}=&{wert}~ XXrightarrow ~ {term}=?'.replace("*"," \\cdot ").replace('XX','\\')]
-        afg=afg+['\\end{aligned}$']
+#        afg=afg+[F' {vari}=&{wert}~ XXrightarrow ~ {term}=?'.replace("*"," \\cdot ").replace('XX','\\')]
+#        afg=afg+['\\end{aligned}$']
     lsg=['$\\begin{aligned}']
     lsg=lsg+[F"XXtextcolor{{red}}{{{vari}={strNW(wert,True)}}} & XXrightarrow".replace('XX','\\')+"\\\\"]
     if False:
@@ -130,28 +131,46 @@ def erzeugeTermAufgaben(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,mitK
 #         lsg: Lösung
 #         term: term ohne Vorwort
     term=erzeugeTerm(variablen=variablen,anzahl=anzahl,variMaxAnzProUnterterm=variMaxAnzProUnterterm,mitKlammer=mitKlammer)
-    afg=[F'{"Vereinfache:" if mitText else ""}$${term}$$'.replace("*"," \\cdot ")]
+    afg=[F'{"Vereinfache:$" if mitText else ""}${term}${"$" if mitText else ""}'.replace("*"," \\cdot ")]
     lsg=sympy.sympify(term)
 #    lsg=['$'+term.replace('*','\\cdot ')+'='+str(lsg).replace('**','^').replace('*','\\cdot ')+'$']
     lsg=['$'+term.replace('*','\\cdot ')+'='+str(lsg).replace('**','^').replace('*','')+'$']
     return [afg,lsg,term]
 
-def erzeugeSehrEinfacheGleichungen(variabel='x',mitText=True,nurPlusMinus=False,PlusMinusVariRechts=False,nurMalGeteilt=False,MalUndPlusMinus=True):
+def erzeugeSehrEinfacheGleichungen(variabel='x',mitText=True,nurPlusMinus=False,PlusMinusVariImTerm2=False,PlusMinusVariRechtsImTerm1=False,nurMalGeteilt=False,MalUndPlusMinus=False,MalUndPlusMinusAufgeteilt=False):
     G=F'3*{variabel}-5=10'
     if nurPlusMinus:
         G = F'{variabel}{random.choice(["+", "-"])}{random.randint(1, 50)} = {random.randint(1, 50)}'
+    if PlusMinusVariImTerm2:
+        G = F'{random.randint(1, 50)}={variabel}{random.choice(["+", "-"])}{random.randint(1, 50)}'
     if nurMalGeteilt:
         a = random.randint(2, 12)
         b = random.randint(2, 12)
         G = F'{a}*{variabel}={a * b}' if bool(random.getrandbits(1)) else F'{variabel}/{a}={b}'
-    if PlusMinusVariRechts:
-        G = F'{random.randint(1, 50)} = {random.randint(1, 50)}{random.choice(["+", "-"])}{variabel}'
     if MalUndPlusMinus:
         x = random.randint(2, 12)
         b = random.randint(2, 20)
         a = random.randint(2, 10)
         c = a*x-b
         G=F"{a}*{variabel}-{b}={c}"
+    if MalUndPlusMinusAufgeteilt:
+        x = random.randint(2, 12)
+        b = random.randint(2, 20)
+        a = random.randint(2, 10)
+        c = a*x-b
+        op1=random.choice(['+','-'])
+        op2=random.choice(['+','-'])
+        #a=a1 +/- a2
+        a2=random.randint(1,a-1)
+        a1=eval(F'{a}{ {"+":"-","-":"+"}[op1] }{a2}')
+        # b=b1 +/- b2
+        b2=random.randint(1,b-1)
+        b1=eval(F'{b}{ {"+":"-","-":"+"}[op2] }{b2}')
+        werte=[F'+{a1}*{variabel}',F'{op1}{a2}*{variabel}',F'-{b1}',F'{ {"+":"-","-":"+"}[op2] }{b2}']
+        random.shuffle(werte)
+        G=F'{"".join([werte[0].replace("+","")]+werte[1:])}={c}'
+    if PlusMinusVariRechtsImTerm1:
+        G = F'{random.randint(1, 50)}{random.choice(["+", "-"])}{variabel}={random.randint(1, 50)}'
     afg = F'{"Berechne die Variable $" if mitText else ""}${G.replace("**", "^").replace("*", "&&cdot ").replace("/", ":")}${"$" if mitText else ""}'.replace("&&","\\")
     lsg = loeseGleichungEinfachMitEinerVariabel(G=G, variable=variabel, mitProbe=True)
     return [afg, lsg, G]
