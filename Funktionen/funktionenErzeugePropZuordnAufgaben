@@ -111,7 +111,7 @@ def erzeugeProportionaleDreisatzRechnungen(einfach=False,komma=False,mitText=Tru
         afg=F'Berechne den Preis für {strNW(xZiel,True)} {einh} {art}, wenn {strNW(xStart,True)} {einh} {strNW(yStart,True)} \\euro{{}} kosten.'
         afg=afg if mitText else (F'{art}:$${strNW(xStart,True)}~{einh}\hat{{=}} {strNW(yStart,True)}~\\mbox{{\\euro{{}}}} \\rightarrow {strNW(xZiel,True)}~{einh}=\\mbox{{?}}$$')
     elif 'h'==einh:
-        afg=F'Welche Streck wurde in  {strNW(xZiel,True)} {einh} zurückgelegt, wenn man in {strNW(xStart,True)} {einh} {strNW(yStart,True)} km schafft.'
+        afg=F'Welche Strecke wurde in  {strNW(xZiel,True)} {einh} zurückgelegt, wenn man in {strNW(xStart,True)} {einh} {strNW(yStart,True)} km schafft.'
         afg=afg if mitText else (F'Bewegung:$${strNW(xStart,True)}~{einh}\hat{{=}} {strNW(yStart,True)}~\\mbox{{km}} \\rightarrow {strNW(xZiel,True)}~{einh}=\\mbox{{?}}$$')
     elif 'Anzahl'==einh:
         xStart=int(xStart)
@@ -165,7 +165,7 @@ def erzeugeAntiProportionaleDreisatzRechnungen(einfach=False,komma=False,mitText
     elif len(einh1)<=1:
         xStart=int(xStart)
         xZiel=int(xZiel)
-        afg=F'Wie viel Stühle stehen in {strNW(xZiel,True)} Reihen, wenn {yStart*xZiel} Stühle in {xStart} Stuhlreihen stehen?'
+        afg=F'Wie viele Stühle stehen in {strNW(xZiel,True)} Reihen, wenn {yStart*xZiel} Stühle in {xStart} Stuhlreihen stehen?'
         afg=afg if mitText else (F'{art}:$${strNW(xStart,True)}\hat{{=}} {strNW(yStart,True)}~\\mbox{{\\euro{{}}}} \\rightarrow {strNW(xZiel,True)}=\\mbox{{?}}$$')
     else:
         afg='Noch nichts.'
