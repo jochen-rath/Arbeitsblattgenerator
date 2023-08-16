@@ -236,6 +236,10 @@ def strNW(a,runden=False):
             a_str=fuegePunkteEin(a_str.split('.')[0])+','+a_str.split('.')[1]
     else:
         a_str=fuegePunkteEin(a_str)
+#Bei -100 kommt bei fuegePunkteEin -.100 heraus.
+    if len(a_str)>1:
+        if a_str[0]=='-' and a_str[1]=='.':
+            a_str=F'{a_str[0]}{a_str[2:]}'
     return a_str
 
 def prim(n):
