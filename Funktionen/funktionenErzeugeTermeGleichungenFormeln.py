@@ -90,16 +90,22 @@ def untertermErzeugen(variListe,variMaxAnzProUnterterm=3,maxMulti=5,variMinAnzPr
     else:
         return str(n)
 
-def klammerTermErzeugen(variListe='x',anzInKlammer=2,variMaxAnzProUnterterm=3,maxMulti=5,variVorKlammer=False):
+def klammerTermErzeugen(variListe='x',anzInKlammer=2,variMaxAnzProUnterterm=3,maxMulti=5,variVorKlammer=False,variVorKlammerAnders=False,zwingendMitVari=True):
 #Diese Funktion erzeugt einen Unterterm, welcher dann mit weiteren Untertermen mit plus und Minus zu einem Term zusammengesetzt werden.
     n=random.randint(1,maxMulti)
     variKlammer=''
     if variVorKlammer:
         variKlammer='*'+random.choice(variListe.split(' '))
-    return str(n)+variKlammer+'*('+erzeugeTerm(variListe,anzahl=anzInKlammer,variMaxAnzProUnterterm=variMaxAnzProUnterterm,maxMulti=5)+')'
+    if variVorKlammer and variVorKlammerAnders and len(variListe.split(' '))>1:
+        varis=variListe.split(' ')
+        vari=random.choice(varis)
+        varis.remove(vari)
+        variKlammer='*'+vari
+        variListe=' '.join(varis)
+    return str(n)+variKlammer+'*('+erzeugeTerm(variListe,anzahl=anzInKlammer,variMaxAnzProUnterterm=variMaxAnzProUnterterm,maxMulti=5,zwingendMitVari=zwingendMitVari)+')'
 
 
-def erzeugeTerm(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,maxMulti=5,mitKlammer=False,variVorKlammer=False,mitKommazahl=False):
+def erzeugeTerm(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,maxMulti=5,mitKlammer=False,variVorKlammer=False,mitKommazahl=False,zwingendMitVari=False):
 #Diese Funktion erzeugt einen Term, in der Unterterme mit '+' und '-' verbindet.
 #Aufruf:
 #    term=erzeugeTerm(variablen,anzahl,variMaxAnzProUnterterm,maxMulti,mitKlammer,variVorKlammer)
@@ -116,8 +122,27 @@ def erzeugeTerm(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,maxMulti=5,m
     term=''
     for t in unterterme[:-1]:
         term=term+t+random.choice([' + ',' - '])
-    return term+unterterme[-1]
+    term=term+unterterme[-1]
+    if zwingendMitVari:
+        if len([1 for x in variablen.split(' ') if x in term])==0:
+            term=erzeugeTerm(variablen=variablen,anzahl=anzahl,variMaxAnzProUnterterm=variMaxAnzProUnterterm,maxMulti=maxMulti,mitKlammer=mitKlammer,variVorKlammer=variVorKlammer,mitKommazahl=mitKommazahl,zwingendMitVari=zwingendMitVari)
+    return term
 
+def erzeugeTermAusklammernAufgabe(variablen='a b x y z',mitText=True):
+    vorzVorKl='-' if random.getrandbits(1) else '+'
+    term=klammerTermErzeugen(variListe=variablen,variMaxAnzProUnterterm=1,variVorKlammer=True,variVorKlammerAnders=True)
+    inKlammer=term.split('(', 1)[1].split(')')[0]
+    vorKlammer=term.split('(')[0][:-1]
+    vorzeichen='-' if inKlammer[0]=='-' else ''
+    inKlammer=inKlammer[1:] if inKlammer[0]=='-' else inKlammer
+    op='+' if '+' in inKlammer else '-'
+    wertKl1,wertKl2=inKlammer.split(op)
+    afg=F'{"Löse die Klammer auf:" if mitText else ""}$${"-" if vorzVorKl=="-" else ""}{term}=?$$'
+    lsg1=F'$&&textcolor{{red}}{{ {"-" if vorzVorKl=="-" else ""}{vorKlammer} }}*({inKlammer})'
+    lsg2=F'&&textcolor{{red}}{{ {"-" if vorzVorKl=="-" else ""}{vorKlammer} }}*{"(" if wertKl1[0]=="-" else ""}{vorzeichen}{wertKl1}{")" if wertKl1[0]=="-" else ""}{op}&&textcolor{{red}}{{ {"(" if vorzVorKl=="-" else ""}{"-" if vorzVorKl=="-" else ""}{vorKlammer}{")" if vorzVorKl=="-" else ""} }}*{wertKl2}'
+    lsg3=F'{sympy.sympify(F"{vorzeichen}{vorzVorKl}{vorKlammer}*{wertKl1}")}{"-" if eval(F"{op}1{vorzVorKl}1")==0 else "+"}{sympy.sympify(F"{vorKlammer}*{wertKl2}")}$'
+    lsg=F'{lsg1}={lsg2}={lsg3.replace("*","")}'
+    return [afg.replace('*','\\cdot '),lsg.replace('*','\\cdot ').replace('&&','\\'),[]]
 
 def erzeugeTermAufgaben(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,mitKlammer=False,mitText=True):
 #Diese Funktion erezeugt einen Term, der umgeschrieben und vereinfacht werden soll. Ausgegeben wird auch eine Lösung:
