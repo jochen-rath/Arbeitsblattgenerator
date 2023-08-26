@@ -233,3 +233,52 @@ def koordinatensystemNatuerlicheZahlen(x,y,dx=-1,dy=-1,laenge=-1,hoehe=-1,NullAu
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
+
+
+def saeulenDiagrammTikzVorgBreiteHoehe(werte=[['VW','Mercedes','Audi','BMW','Honda'],[250,200,180,170,100]],yAchse=[0,300,16],ylabel='Autos pro Stunde',urspr=[0,0],mitUmrandung=True,gibHoeheZurueck=False,typ='LSG',farben=tikzFarben):
+#Diese Funktion erzeugt einen Tikz-code mit dem man Säulendiagramme darstellen kann.
+#Aufruf:
+#   saeulenDiagrammTikzVorgBreiteHoehe(werte=[['VW','Mercedes','Audi','BMW','Honda'],[250,200,180,170,100]],yAchse=[0,300,16],ylabel='Autos pro Stunde',urspr=[0,0],mitUmrandung=True,gibHoeheZurueck=False,typ='LSG',farben=tikzFarben)
+#    zuPlotten=[Namen,Werte]
+#    yAchse=[yMin,yMax,Laenge]
+#
+    mitLsg=True if typ=='LSG' else False
+    zuordnen=True if (typ=='zuordnen') else False
+    zeichnenEinfarben=True if ('Zeichnen' in typ) else False
+    xAchse=[0,len(werte[1]),len(werte[1])+1]
+    tikzcommand=[]
+    if mitUmrandung:
+        tikzcommand.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
+        tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+##Achseneigenschaften
+#Ich mache die Achsen ein bisschen Größer, damit die Achsenenden und Pfeilspitzen sich nicht überschneiden.
+#Außerdem passe ich die Tick-Werte an, dass das Diagramm in der vorgegebenen Größe gut lesbar dargestellt wird.
+    xTickDist,xMin,xMax,breite=setzeAchsenEinteilungLaenge(xAchse)
+    yTickDist,yMin,yMax,hoehe=setzeAchsenEinteilungLaenge(yAchse)
+    balkenbreite=0.4
+    tikzcommand.append(F'\\begin{{axis}}[ at={{({urspr[0]}cm,{urspr[1]}cm)}},  scale only axis=true, ')
+    tikzcommand.append(F'    ybar=0cm,bar width={balkenbreite},,')
+    tikzcommand.append(F'    width={breite} cm, xmin = {xMin}, xmax = {xMax},xtick distance = {xTickDist},')
+    tikzcommand.append('    height='+str(hoehe)+'cm, ymin = '+str(yMin)+', ymax = '+str(yMax)+', ytick distance = '+str(yTickDist)+',')
+    if mitLsg:
+        tikzcommand.append('    nodes near coords ,')
+#    tikzcommand.append(F'    symbolic x coords={{{",".join(werte[0])}}},xtick=data,')
+    tikzcommand.append(F'    xtick={{1,...,{len(werte[0])}}},xticklabels={{{" , "*len(werte[0]) if zuordnen else ",".join(werte[0])}}},')
+    tikzcommand.append('    xticklabel style={rotate=90},')
+    tikzcommand.append('    ylabel = {'+ylabel+'}') #,y label style={at={(current axis.above origin)},anchor=south}]')
+    tikzcommand.append(']')
+    if not zeichnenEinfarben:
+        for i in range(len(werte[1])):
+            #Die Graphen werden verschoben, damit diese immer nebeneinander dargestellt werden.
+            #Da ich die aber auf 1 bis 5 verteilen möchten, sollen diese nicht verschoben werden.
+            #Deshalb habe ich ybar=0cm gesetzt, damit zwischen den Säulen keine Lücke ist.
+            #und das Verschieben mache ich mit folgender Rechnung rückgängig:
+            dx=int(len(werte[1])/2)-i-(0.5 if len(werte[1])%2==0 else 0)
+            tikzcommand.append(F'    \\addplot[xshift={dx}*{balkenbreite}cm,draw={farben[i]}, fill={farben[i]}] coordinates {{({i+1},{werte[1][i]})}};')
+#    tikzcommand.append(F'    \\addplot coordinates {{{" ".join(["("+strNW(i+1)+","+strNW(werte[1][i])+")" for i in range(len(werte[0]))])}}};')
+    tikzcommand.append('\\end{axis}')
+ #   tikzcommand.append(F'    \\foreach \\i/\\j/\\color in {{{",".join([strNW(i+1)+"/"+strNW(werte[1][i])+"/"+tikzFarben[i] for i in range(len(werte[0]))])}}}')
+ #   tikzcommand.append('    \\draw[line width=8mm,color=\\color] (\\i,0)--+(90:\\j);')
+    if mitUmrandung:
+        tikzcommand.append('\\end{tikzpicture}')
+    return [tikzcommand,hoehe] if gibHoeheZurueck else tikzcommand
