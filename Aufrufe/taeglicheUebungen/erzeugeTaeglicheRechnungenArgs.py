@@ -33,7 +33,7 @@ def main():
     for arg in sys.argv[startRechnungenIndex:anzahlRechnungen+startRechnungenIndex]:
         auswahl=auswahl+[arg]
     for a in auswahl:
-        if a.startswith('daten') or a.startswith('zeitWegDiagramm') or a=='hebelZeichnen':
+        if a.startswith('daten') or a.startswith('zeitWegDiagramm') or a=='hebelZeichnen' or a.startswith('datenAuswerten'):
             anzSpalten=[1,1]
     if erzArbeit:
         filename=erzeugeArbeit(auswahl,title,dateiName,datum,anfang)

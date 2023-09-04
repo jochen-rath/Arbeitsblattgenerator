@@ -137,12 +137,15 @@ def erzeugeTermAusklammernAufgabe(variablen='a b x y z',mitText=True):
     inKlammer=inKlammer[1:] if inKlammer[0]=='-' else inKlammer
     op='+' if '+' in inKlammer else '-'
     wertKl1,wertKl2=inKlammer.split(op)
-    afg=F'{"Löse die Klammer auf:" if mitText else ""}$${"-" if vorzVorKl=="-" else ""}{term}=?$$'
-    lsg1=F'$&&textcolor{{red}}{{ {"-" if vorzVorKl=="-" else ""}{vorKlammer} }}*({inKlammer})'
-    lsg2=F'&&textcolor{{red}}{{ {"-" if vorzVorKl=="-" else ""}{vorKlammer} }}*{"(" if wertKl1[0]=="-" else ""}{vorzeichen}{wertKl1}{")" if wertKl1[0]=="-" else ""}{op}&&textcolor{{red}}{{ {"(" if vorzVorKl=="-" else ""}{"-" if vorzVorKl=="-" else ""}{vorKlammer}{")" if vorzVorKl=="-" else ""} }}*{wertKl2}'
-    lsg3=F'{sympy.sympify(F"{vorzeichen}{vorzVorKl}{vorKlammer}*{wertKl1}")}{"-" if eval(F"{op}1{vorzVorKl}1")==0 else "+"}{sympy.sympify(F"{vorKlammer}*{wertKl2}")}$'
-    lsg=F'{lsg1}={lsg2}={lsg3.replace("*","")}'
-    return [afg.replace('*','\\cdot '),lsg.replace('*','\\cdot ').replace('&&','\\'),[]]
+    afg=F'{"Löse die Klammer auf:$" if mitText else ""}${"-" if vorzVorKl=="-" else ""}{term}=?${"$" if mitText else ""}'
+    lsg1=F'§§textcolor{{red}}{{ {"-" if vorzVorKl=="-" else ""}{vorKlammer} }}*({inKlammer})'
+    lsg2=F'§§textcolor{{red}}{{ {"-" if vorzVorKl=="-" else ""}{vorKlammer} }}*{"(" if wertKl1[0]=="-" else ""}{vorzeichen}{wertKl1}{")" if wertKl1[0]=="-" else ""}{op}§§textcolor{{red}}{{ {"(" if vorzVorKl=="-" else ""}{"-" if vorzVorKl=="-" else ""}{vorKlammer}{")" if vorzVorKl=="-" else ""} }}*{wertKl2}'
+    lsg3=F'{sympy.sympify(F"{vorzeichen}{vorzVorKl}{vorKlammer}*{wertKl1}")}{"-" if eval(F"{op}1{vorzVorKl}1")==0 else "+"}{sympy.sympify(F"{vorKlammer}*{wertKl2}")}'
+    lsg=['$\\begin{aligned}']
+    lsg.append(F'{lsg1}=&{lsg2} \\\\')
+    lsg.append(F'=&{lsg3.replace("*","")} \\\\')
+    lsg.append(('\\end{aligned}$'))
+    return [afg.replace('*','\\cdot '),[x.replace('*','\\cdot ').replace('§§','\\') for  x in lsg],[]]
 
 def erzeugeTermAufgaben(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,mitKlammer=False,mitText=True):
 #Diese Funktion erezeugt einen Term, der umgeschrieben und vereinfacht werden soll. Ausgegeben wird auch eine Lösung:
@@ -156,7 +159,7 @@ def erzeugeTermAufgaben(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,mitK
 #         lsg: Lösung
 #         term: term ohne Vorwort
     term=erzeugeTerm(variablen=variablen,anzahl=anzahl,variMaxAnzProUnterterm=variMaxAnzProUnterterm,mitKlammer=mitKlammer)
-    afg=[F'{"Vereinfache:$" if mitText else ""}${term}${"$" if mitText else ""}'.replace("*"," \\cdot ")]
+    afg=[F'{"Vereinfache:$" if mitText else ""}${term}=?${"$" if mitText else ""}'.replace("*"," \\cdot ")]
     lsg=sympy.sympify(term)
 #    lsg=['$'+term.replace('*','\\cdot ')+'='+str(lsg).replace('**','^').replace('*','\\cdot ')+'$']
     lsg=['$'+term.replace('*','\\cdot ')+'='+str(lsg).replace('**','^').replace('*','')+'$']
