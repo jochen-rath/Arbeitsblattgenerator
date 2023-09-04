@@ -16,7 +16,7 @@ def datenliste(anzahl=6):
     alter=[]
     while len(alter)<(anzahl if anzahl< 100 else 40):
         alter=list(set([random.randint(0,100) for i in range(anzahl)]))
-    daten['Alter von Einwohnern in einer Stadt'] = [F'{i} Jahre' for i in alter] + [[200,'Jahr','Jahre']]
+    daten['Alter von Einwohnern in einer Stadt'] = [F'{i} Jahre' for i in alter] + [[100,'Jahr','Jahre']]
     daten['Anzahl an Whatsapp pro Tag'] = ['Peter','Kevin','Erika','Thomas','Marta','Cleopatra','Zeus','Anastasia','Thor','Theresa',[150,'Nachricht','Nachrichten']]
 #    daten['T-Shirt Farben gewaschen']=['Schwarz','Orange','Gelb','Blau','Grün',300]
     auswahl = random.choice(list(daten.keys()))
