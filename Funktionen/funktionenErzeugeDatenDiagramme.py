@@ -12,11 +12,11 @@ def datenliste(anzahl=6):
     groessen=[]
     while len(groessen)<(anzahl if anzahl < 50 else 20):
         groessen=list(set([random.randint(150,200) for i in range(anzahl)]))
-    daten['Schülergrößen an der Schule'] = [F'{i} cm' for i in groessen] + [[300,'cm','cm']]
+    daten['Anzahl an Schülergrößen an der Schule'] = [F'{i} cm' for i in groessen] + [[300,'mal','mal']]
     alter=[]
     while len(alter)<(anzahl if anzahl< 100 else 40):
         alter=list(set([random.randint(0,100) for i in range(anzahl)]))
-    daten['Alter von Einwohnern in einer Stadt'] = [F'{i} Jahre' for i in alter] + [[100,'Jahr','Jahre']]
+    daten['Anzahl pro Alter von Einwohnern in einer Stadt'] = [F'{i} Jahre' for i in alter] + [[500,'mal','mal']]
     daten['Anzahl an Whatsapp pro Tag'] = ['Peter','Kevin','Erika','Thomas','Marta','Cleopatra','Zeus','Anastasia','Thor','Theresa',[150,'Nachricht','Nachrichten']]
 #    daten['T-Shirt Farben gewaschen']=['Schwarz','Orange','Gelb','Blau','Grün',300]
     auswahl = random.choice(list(daten.keys()))
