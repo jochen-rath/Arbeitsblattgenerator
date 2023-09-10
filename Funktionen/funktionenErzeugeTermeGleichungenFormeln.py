@@ -55,11 +55,16 @@ def ersetzePlatzhalterMitSymbolen(T):
 #Auch Griechische Symbole gehen nicht.
 # 'Y' = 'I'
 # 'X' = '\rho'
+    result = re.findall("[0-9]\*[a-z]", T)
+#Entferne Mal Zeichen zwischen Zahl und Buchstabe:
+    for x in result:
+        T=T.replace(x, x.replace('*', ''))
     T=T.replace('**','^').replace('*','\\cdot ').replace('/',':')
     T=T.replace('XI','I')
     T=T.replace('Xrho','\\rho')
     T=T.replace('XVm','G_{Vm}')
     T=T.replace('XVp','G_{Vp}')
+    T=T.replace('§§','\\')
     return T
 
 def erzeugeEinfacheFormelnUmformen(formel='',gesucht=''):
@@ -145,7 +150,47 @@ def erzeugeTermAusklammernAufgabe(variablen='a b x y z',mitText=True):
     lsg.append(F'{lsg1}=&{lsg2} \\\\')
     lsg.append(F'=&{lsg3.replace("*","")} \\\\')
     lsg.append(('\\end{aligned}$'))
-    return [afg.replace('*','\\cdot '),[x.replace('*','\\cdot ').replace('§§','\\') for  x in lsg],[]]
+    return [[ersetzePlatzhalterMitSymbolen(afg)],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
+
+def erzeugeSummenAusmultiAuskl(n=2,ausKlammern=False,mitText=True):
+    variablen=['a','b','c','d','x','y','z','']
+    auswahl=random.sample(variablen,n)
+    vorKlAus=random.choice(variablen)
+    vorKl=F'{"" if ausKlammern else ("" if random.getrandbits(1) else "-")}{random.randint(2,9)}{F"*" if len(vorKlAus)>0 else  ""}{vorKlAus}'
+    #terme=[F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}{F"*{x}" if random.randint(0,3)<3 else ""}' for x in auswahl]
+    terme=[F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}{F"*" if len(x)>0 else ""}{x}' for x in auswahl]
+#Entferne das erste Plus, falls vorhanden. beim Term in der Klammer
+    terme[0]=terme[0][1:] if terme[0][0]=='+' else terme[0]
+    klammer=(F'{vorKl}*({"".join(terme)})')
+    afg='Multipliziere die Klammer aus:'
+    afg=(afg if mitText else "")+ F'$${klammer}$$'
+    vorKl=F'({vorKl})' if vorKl[0]=='-' else vorKl
+#Schreibe die Lösung auf, indem der Term vor der Klammer zwischen + oder -  und dem dazugehörigen Term geschrieben wird.
+#Achtung, der erste Term in der Klammer hat eventuell kein +
+    lsgRot=[F'{x[0] if x[0]=="+" or x[0]=="-" else ""}§§textcolor{{red}}{{{vorKl}}}*{x[1:] if (x[0]=="+" or x[0]=="-") else x}' for x in terme]
+    lsg1=[F'{x[0] if x[0]=="+" or x[0]=="-" else ""}{vorKl}*{x[1:] if (x[0]=="+" or x[0]=="-") else x}' for x in terme]
+#    lsg1=[F'{vorKl}*{F"({x})" if x[0] == "-" else x[1:]}' for x in terme]
+    lsg2=[str(sympy.sympify(x)) for x in lsg1]
+#Füge ein plus fürs Join hinzu
+    lsg2=[x if x[0]=='-' else F'+{x}' for x in lsg2]
+    lsg3=str(sympy.sympify("".join(lsg2)))
+    lsg = ['$\\begin{aligned}']
+    lsg.append(F'{vorKl}*&({"".join(terme)}) \\\\')
+    lsg.append(F'=&{"".join(lsgRot)} \\\\')
+    lsg2[0]=lsg2[0][1:] if lsg2[0][0]=='+' else lsg2[0]
+    lsg.append(F'=&{"".join(lsg2)} \\\\')
+    lsg.append(F'=&{lsg3} \\\\')
+    lsg.append(('\\end{aligned}$'))
+    if ausKlammern:
+        afg='Klammer soweit wie möglich aus:'
+        afg=(afg if mitText else "")+ F'$${"".join(lsg2)}$$'
+        lsg = ['$\\begin{aligned}']
+        lsg.append(F'{lsg2[0]}&{"".join(lsg2[1:])} \\\\')
+        lsg.append(F'=&{"".join(lsgRot)} \\\\')
+        klammer=(F'§§textcolor{{red}}{{{vorKl}}}*({"".join(terme)})')
+        lsg.append(F'=&{klammer} \\\\')
+        lsg.append(('\\end{aligned}$'))
+    return [[ersetzePlatzhalterMitSymbolen(afg)],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
 
 def erzeugeTermAufgaben(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,mitKlammer=False,mitText=True):
 #Diese Funktion erezeugt einen Term, der umgeschrieben und vereinfacht werden soll. Ausgegeben wird auch eine Lösung:
@@ -159,11 +204,12 @@ def erzeugeTermAufgaben(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,mitK
 #         lsg: Lösung
 #         term: term ohne Vorwort
     term=erzeugeTerm(variablen=variablen,anzahl=anzahl,variMaxAnzProUnterterm=variMaxAnzProUnterterm,mitKlammer=mitKlammer)
-    afg=[F'{"Vereinfache:$" if mitText else ""}${term}=?${"$" if mitText else ""}'.replace("*"," \\cdot ")]
+    afg=F'{"Vereinfache:$" if mitText else ""}${term}=?${"$" if mitText else ""}'
     lsg=sympy.sympify(term)
 #    lsg=['$'+term.replace('*','\\cdot ')+'='+str(lsg).replace('**','^').replace('*','\\cdot ')+'$']
-    lsg=['$'+term.replace('*','\\cdot ')+'='+str(lsg).replace('**','^').replace('*','')+'$']
-    return [afg,lsg,term]
+#    lsg=['$'+term.replace('*','\\cdot ')+'='+str(lsg).replace('**','^').replace('*','')+'$']
+    lsg=[F'${term}={str(lsg)}$']
+    return [[ersetzePlatzhalterMitSymbolen(afg)],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
 
 def erzeugeSehrEinfacheGleichungen(variabel='x',mitText=True,nurPlusMinus=False,PlusMinusVariImTerm2=False,PlusMinusVariRechtsImTerm1=False,nurMalGeteilt=False,MalUndPlusMinus=False,MalUndPlusMinusAufgeteilt=False):
     G=F'3*{variabel}-5=10'
