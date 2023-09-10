@@ -59,6 +59,10 @@ def ersetzePlatzhalterMitSymbolen(T):
 #Entferne Mal Zeichen zwischen Zahl und Buchstabe:
     for x in result:
         T=T.replace(x, x.replace('*', ''))
+    result = re.findall("[a-z]\*[a-z]", T)
+#Entferne Mal Zeichen zwischen Zahl und Buchstabe:
+    for x in result:
+        T=T.replace(x, x.replace('*', ''))
     T=T.replace('**','^').replace('*','\\cdot ').replace('/',':')
     T=T.replace('XI','I')
     T=T.replace('Xrho','\\rho')
@@ -151,6 +155,37 @@ def erzeugeTermAusklammernAufgabe(variablen='a b x y z',mitText=True):
     lsg.append(F'=&{lsg3.replace("*","")} \\\\')
     lsg.append(('\\end{aligned}$'))
     return [[ersetzePlatzhalterMitSymbolen(afg)],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
+
+def erzeugeZweiSummenAusmulti(nMax=2,mitText=True):
+    farben=tikzFarben[1:]
+    variablen=['a','b','c','d','x','y','z','']
+    auswahl=random.sample(variablen,random.randint(2,nMax))
+    auswahl2=random.sample(variablen,random.randint(2,nMax))
+    terme=[F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}{F"*" if len(x)>0 else ""}{x}' for x in auswahl]
+    terme2=[F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}{F"*" if len(x)>0 else ""}{x}' for x in auswahl2]
+    termeFarben=[F'§§textcolor{{{farben[i]}}}{{{x if i>0 else (x if x[0]=="-" else x[1:])}}}' for i,x in enumerate(terme)]
+    terme2Farben=[F'§§textcolor{{{farben[len(terme)+j]}}}{{{y if j>0 else (y if y[0]=="-" else y[1:])}}}' for j,y in enumerate(terme2)]
+#Entferne das erste Plus, falls vorhanden. beim Term in den Klammer
+#    lsg1=[F'{x[0] if x[0]=="+" or x[0]=="-" else ""}{vorKl}*{x[1:] if (x[0]=="+" or x[0]=="-") else x}' for x in terme]
+    lsg1=[F'{x}*({y})' for i,x in enumerate(terme)  for j,y in enumerate(terme2)]
+    lsg1Farben=[F'§§textcolor{{{farben[i]}}}{{ {x if i>0 or j>0 else (x if x[0]=="-" else x[1:])}}}*(§§textcolor{{{farben[len(terme)+j]}}}{{ {y}}})' for i,x in enumerate(terme) for j,y in enumerate(terme2) ]
+    lsg2=[str(sympy.sympify(x)) for x in lsg1]
+#Füge ein plus fürs Join hinzu
+    lsg2=[x if x[0]=='-' else F'+{x}' for x in lsg2]
+    lsg3=str(sympy.sympify("".join(lsg2)))
+    terme[0] = terme[0][1:] if terme[0][0] == '+' else terme[0]
+    terme2[0] = terme2[0][1:] if terme2[0][0] == '+' else terme2[0]
+    afg = 'Multipliziere die Klammern aus:'
+    afg=(afg if mitText else "")+ F'$$({"".join(terme)})*({"".join(terme2)})$$'
+    lsg = ['$\\begin{aligned}']
+    lsg.append(F'(&{"".join(termeFarben)})*({"".join(terme2Farben)}) \\\\')
+    lsg.append(F'=&{"".join(lsg1Farben)} \\\\')
+    lsg2[0]=lsg2[0][1:] if lsg2[0][0]=='+' else lsg2[0]
+    lsg.append(F'=&{"".join(lsg2)} \\\\')
+#    lsg.append(F'=&{lsg3} \\\\')
+    lsg.append(('\\end{aligned}$'))
+    return [[ersetzePlatzhalterMitSymbolen(afg)],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
+
 
 def erzeugeSummenAusmultiAuskl(n=2,ausKlammern=False,mitText=True):
     variablen=['a','b','c','d','x','y','z','']
