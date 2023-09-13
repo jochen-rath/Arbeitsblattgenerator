@@ -193,7 +193,8 @@ def erzeugeSummenAusmultiAuskl(n=2,ausKlammern=False,mitText=True):
     vorKlAus=random.choice(variablen)
     vorKl=F'{"" if ausKlammern else ("" if random.getrandbits(1) else "-")}{random.randint(2,9)}{F"*" if len(vorKlAus)>0 else  ""}{vorKlAus}'
     #terme=[F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}{F"*{x}" if random.randint(0,3)<3 else ""}' for x in auswahl]
-    terme=[F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}{F"*" if len(x)>0 else ""}{x}' for x in auswahl]
+    faktoren=random.sample([1,2,3,5,7,9,11],n) if ausKlammern else [random.randint(1,9) for x in auswahl]
+    terme=[F'{"+" if random.getrandbits(1) else "-"}{faktoren[i]}{F"*" if len(x)>0 else ""}{x}' for i,x in enumerate(auswahl)]
 #Entferne das erste Plus, falls vorhanden. beim Term in der Klammer
     terme[0]=terme[0][1:] if terme[0][0]=='+' else terme[0]
     klammer=(F'{vorKl}*({"".join(terme)})')
