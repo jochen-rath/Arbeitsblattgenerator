@@ -15,6 +15,6 @@ def einstufierZufallversuch(erg={'1':'1/6','2':'1/6','3':'1/6','4':'1/6','5':'1/
         tikzcommand.append(F'\\node[draw,circle] ({i+1}) at ({dx}cm,{0.5*len(W)-i-(0.5 if len(W)%2==0 else 0)}cm) {{{w}}};')
     for i,w in enumerate(W):
         tikzcommand.append(F'\\draw [->] (0,0) to ({i+1}) ;')
-        tikzcommand.append(F'\\node at ($(0)!0.6!({i+1})$) {{${erzeugeLatexFracAusdruck(erg[w])}$}};')
+        tikzcommand.append(F'\\node at ($(0)!{0.55+(0.05*(i%2))}!({i+1})$) {{${erzeugeLatexFracAusdruck(erg[w])}$}};')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand

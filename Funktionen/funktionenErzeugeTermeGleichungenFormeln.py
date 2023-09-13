@@ -156,13 +156,20 @@ def erzeugeTermAusklammernAufgabe(variablen='a b x y z',mitText=True):
     lsg.append(('\\end{aligned}$'))
     return [[ersetzePlatzhalterMitSymbolen(afg)],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
 
-def erzeugeZweiSummenAusmulti(nMax=2,mitText=True):
+def erzeugeZweiSummenAusmulti(nMax=2,nurEinBuchstabe=False,mitText=True):
     farben=tikzFarben[1:]
     variablen=['a','b','c','d','x','y','z','']
-    auswahl=random.sample(variablen,random.randint(2,nMax))
-    auswahl2=random.sample(variablen,random.randint(2,nMax))
-    terme=[F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}{F"*" if len(x)>0 else ""}{x}' for x in auswahl]
-    terme2=[F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}{F"*" if len(x)>0 else ""}{x}' for x in auswahl2]
+    if nurEinBuchstabe:
+        auswahl = random.choice(variablen[0:-1])
+        terme = [F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}',F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}*{auswahl}']
+        terme2 = [F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}',F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}*{auswahl}']
+        random.shuffle(terme)
+        random.shuffle(terme2)
+    else:
+        auswahl=random.sample(variablen,random.randint(2,nMax))
+        auswahl2=random.sample(variablen,random.randint(2,nMax))
+        terme=[F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}{F"*" if len(x)>0 else ""}{x}' for x in auswahl]
+        terme2=[F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}{F"*" if len(x)>0 else ""}{x}' for x in auswahl2]
     termeFarben=[F'§§textcolor{{{farben[i]}}}{{{x if i>0 else (x if x[0]=="-" else x[1:])}}}' for i,x in enumerate(terme)]
     terme2Farben=[F'§§textcolor{{{farben[len(terme)+j]}}}{{{y if j>0 else (y if y[0]=="-" else y[1:])}}}' for j,y in enumerate(terme2)]
 #Entferne das erste Plus, falls vorhanden. beim Term in den Klammer
@@ -182,7 +189,8 @@ def erzeugeZweiSummenAusmulti(nMax=2,mitText=True):
     lsg.append(F'=&{"".join(lsg1Farben)} \\\\')
     lsg2[0]=lsg2[0][1:] if lsg2[0][0]=='+' else lsg2[0]
     lsg.append(F'=&{"".join(lsg2)} \\\\')
-#    lsg.append(F'=&{lsg3} \\\\')
+    if nurEinBuchstabe:
+        lsg.append(F'=&{lsg3} \\\\')
     lsg.append(('\\end{aligned}$'))
     return [[ersetzePlatzhalterMitSymbolen(afg)],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
 
