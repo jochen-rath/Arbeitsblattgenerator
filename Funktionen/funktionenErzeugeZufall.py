@@ -52,7 +52,7 @@ def einOderZweiStufigeZufallsversuche(einstufig=True,anzSpalten=2):
     gesucht=[random.choice(zufall[auswahl][:-1]) for i in range(1 if einstufig else 2)]
     aufgabe, wahrscheinlichkeiten = aufgabenZufallsversuch(typ=auswahl,werte=zufall[auswahl],einstufig=einstufig)
     afg=[F'\\pbox{{{15 if anzSpalten==1 else 7}cm}}{{']
-    afg=afg+aufgabe
+    afg=afg+aufgabe+['\\\\']
     afg=afg+[F'Berechne die Wahrscheinlichkeit $P({",".join([F"&&mbox{{{x}}}" for x in gesucht])})$.'.replace('&&','\\')]
     afg=afg+['}']
     ergebnis={}
