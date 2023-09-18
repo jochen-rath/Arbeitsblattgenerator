@@ -17,7 +17,7 @@ def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,
     if 'erzeugeAlleAtome' in auswahl:
         return schreibeAlleAtomeInDateien()
     for i,aus in enumerate(auswahl):
-        a,l,d=erzeuge10minRechnung(aus,mitText,anzSpalten[1])
+        a,l,d=erzeuge10minRechnung(aus,mitText,anzSpalten[1],anzSpalten[0])
         if isinstance(a,list):
             a='\n'.join(a)
         if isinstance(l,list):

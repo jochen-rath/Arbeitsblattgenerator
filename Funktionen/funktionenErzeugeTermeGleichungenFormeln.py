@@ -183,7 +183,7 @@ def erzeugeZweiSummenAusmulti(nMax=2,nurEinBuchstabe=False,mitText=True):
     terme[0] = terme[0][1:] if terme[0][0] == '+' else terme[0]
     terme2[0] = terme2[0][1:] if terme2[0][0] == '+' else terme2[0]
     afg = 'Multipliziere die Klammern aus:'
-    afg=(afg if mitText else "")+ F'$$({"".join(terme)})*({"".join(terme2)})$$'
+    afg=(afg if mitText else "")+ F'${"$" if mitText else ""}({"".join(terme)})*({"".join(terme2)}){"$" if mitText else ""}$'
     lsg = ['$\\begin{aligned}']
     lsg.append(F'(&{"".join(termeFarben)})*({"".join(terme2Farben)}) \\\\')
     lsg.append(F'=&{"".join(lsg1Farben)} \\\\')
@@ -207,7 +207,7 @@ def erzeugeSummenAusmultiAuskl(n=2,ausKlammern=False,mitText=True):
     terme[0]=terme[0][1:] if terme[0][0]=='+' else terme[0]
     klammer=(F'{vorKl}*({"".join(terme)})')
     afg='Multipliziere die Klammer aus:'
-    afg=(afg if mitText else "")+ F'$${klammer}$$'
+    afg=(afg if mitText else "")+ F'${"$" if mitText else ""}{klammer}{"$" if mitText else ""}$'
     vorKl=F'({vorKl})' if vorKl[0]=='-' else vorKl
 #Schreibe die Lösung auf, indem der Term vor der Klammer zwischen + oder -  und dem dazugehörigen Term geschrieben wird.
 #Achtung, der erste Term in der Klammer hat eventuell kein +
