@@ -137,6 +137,7 @@ def erzeugeTerm(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,maxMulti=5,m
             term=erzeugeTerm(variablen=variablen,anzahl=anzahl,variMaxAnzProUnterterm=variMaxAnzProUnterterm,maxMulti=maxMulti,mitKlammer=mitKlammer,variVorKlammer=variVorKlammer,mitKommazahl=mitKommazahl,zwingendMitVari=zwingendMitVari)
     return term
 
+
 def erzeugeTermAusklammernAufgabe(variablen='a b x y z',mitText=True):
     vorzVorKl='-' if random.getrandbits(1) else '+'
     term=klammerTermErzeugen(variListe=variablen,variMaxAnzProUnterterm=1,variVorKlammer=True,variVorKlammerAnders=True)
@@ -234,6 +235,43 @@ def erzeugeSummenAusmultiAuskl(n=2,ausKlammern=False,mitText=True):
         klammer=(F'§§textcolor{{red}}{{{vorKl}}}*({"".join(terme)})')
         lsg.append(F'=&{klammer} \\\\')
         lsg.append(('\\end{aligned}$'))
+    return [[ersetzePlatzhalterMitSymbolen(afg)],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
+
+def erzeugeKlammerAufloesenVereinfachen(mitText=True):
+    variablen=['a','b','c','d','x','y','z']
+    auswahl=random.choice(variablen)
+    vorKl=F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}'
+    einzelTerm=F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}{F"*{auswahl}" if random.randint(0,3)<3 else ""}'
+    inKlammer=[F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}*{auswahl}',F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}']
+    random.shuffle(inKlammer)
+#Entferne das erste Plus, falls vorhanden. beim Term in der Klammer
+    inKlammer[0]=inKlammer[0][1:] if inKlammer[0][0]=='+' else inKlammer[0]
+    klammer=(F'{vorKl}*({"".join(inKlammer)})')
+    termVorne=True if random.getrandbits(1) else False
+    afg='Multipliziere die Klammer aus und vereinfache:'
+    gesTerm= F"{einzelTerm}{klammer}" if termVorne else F"{klammer}{einzelTerm}"
+    afg=(afg if mitText else "")+ F'${"$" if mitText else ""}{gesTerm[1:] if gesTerm[0]=="+" else gesTerm}{"$" if mitText else ""}$'
+    vorKl=F'({vorKl})' if vorKl[0]=='-' else vorKl[1:]
+#Schreibe die Lösung auf, indem der Term vor der Klammer zwischen + oder -  und dem dazugehörigen Term geschrieben wird.
+#Achtung, der erste Term in der Klammer hat eventuell kein +
+    lsg1=[einzelTerm] +[F'{x[0] if x[0]=="+" or x[0]=="-" else "+"}{x[1:]  if (x[0]=="+" or x[0]=="-") else x}*{vorKl}' for x in inKlammer] if termVorne else [F'{x}*{vorKl}' for x in inKlammer]+[einzelTerm]
+    lsgRot=[einzelTerm] +[F'{x[0] if x[0]=="+" or x[0]=="-" else "+"}{x[1:]  if (x[0]=="+" or x[0]=="-") else x}*§§textcolor{{red}}{{{vorKl}}}' for x in inKlammer] if termVorne else [F'{x}*{vorKl}' for x in inKlammer]+[einzelTerm]
+    # Entferne das erste Plus, falls vorhanden. beim Term in der Klammer
+    lsgRot[0]=lsgRot[0][1:] if lsgRot[0][0]=='+' else lsgRot[0]
+    lsg2=[str(sympy.sympify(x)) for x in lsg1]
+    lsg2=[F'{"" if x[0]=="-" else "+"}{x}' for x in lsg2]
+    lsg3=str(sympy.sympify(''.join(lsg2)))
+#Füge ein plus fürs Join hinzu
+    lsg = ['$\\begin{aligned}']
+#Entferne das erste Plus, falls vorhanden. beim Term in der Klammer
+    klammer=(klammer[1:] if klammer[0]=="+" else klammer) if not termVorne else klammer
+    klammerMitUndZeichen=F'{klammer.split("(")[0]}(&{klammer.split("(")[1]}'
+    lsg.append( F"{einzelTerm[1:] if einzelTerm[0]=='+' else einzelTerm}&{klammer} \\\\" if termVorne else F"{klammerMitUndZeichen}{einzelTerm}  \\\\")
+    lsg.append(F'=&{"".join(lsgRot)} \\\\')
+    lsg2[0]=lsg2[0][1:] if lsg2[0][0]=='+' else lsg2[0]
+    lsg.append(F'=&{"".join(lsg2)} \\\\')
+    lsg.append(F'=&{"".join(lsg3)} \\\\')
+    lsg.append(('\\end{aligned}$'))
     return [[ersetzePlatzhalterMitSymbolen(afg)],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
 
 def erzeugeTermAufgaben(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,mitKlammer=False,mitText=True):

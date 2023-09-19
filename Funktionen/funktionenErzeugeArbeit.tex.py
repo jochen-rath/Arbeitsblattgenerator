@@ -54,7 +54,7 @@ def erzeugeArbeit(auswahl,title,dateiName,datum,anfang):
                 aufgabenLatex.append(F'\\subsection{{{key2}}}')
                 aufgabenLatex.append(beschreibungstext)
             for j,aus in enumerate(aufgaben[key][key2]):
-                a,l,d=erzeuge10minRechnung(aus,mitText)
+                a,l,d=erzeuge10minRechnung(aus,mitText,1,1)
                 if isinstance(a,list):
                     a='\n'.join(a)
                 if isinstance(l,list):

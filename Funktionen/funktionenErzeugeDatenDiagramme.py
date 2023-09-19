@@ -88,27 +88,26 @@ def erzeugeSaeulenStreifenKreisDiagramm(typ='ZeichnenUndBerechnen',mitText=True,
     #Diese Funktion erzeugt eine Tabelle,zu der SuS ein Säulen- und Kreisdiagramm erzeugen sollen.
     auswahl, werte, eigenschaften = datenliste()
     afg=[F'\\pbox{{15 cm}}{{']
-    if mitText:
-        if typ=='zuordnen':
-            afg = afg + [F'Ordne die Daten den Diagrammen zu.\\\\']
-            afg = afg + [F'Inhalt der Daten: {auswahl}\\\\']
-            afg = afg + saeulenKreisStreifenDiagrammeZeichnen(werte=werte,typ=typ,titel=auswahl,streifen=streifen)
-        if typ=='ZeichnenUndEinfaerben':
-            afg = afg + [F'Zeichne das Säulendiagramm und färbe das {"Streifen" if streifen else "Kreis"}diagramm korrekt ein.\\\\ ']
-            afg = afg + [F'Inhalt der Daten: {auswahl}\\\\']
-            afg = afg + saeulenKreisStreifenDiagrammeZeichnen(werte=werte,typ=typ,titel=auswahl,streifen=streifen)
-        if typ=='Zeichnen':
-            afg = afg + [F'Zeichne das Säulen und das {"Streifen" if streifen else "Kreis"}diagramm.\\\\ ']
-            afg = afg + [F'Inhalt der Daten: {auswahl}\\\\']
-            afg = afg + saeulenKreisStreifenDiagrammeZeichnen(werte=werte,typ=typ,titel=auswahl,streifen=streifen)
-        if typ=='ZeichnenUndBerechnen':
-            afg = afg + [F'Zeichne das Säulen und das {"Streifen" if streifen else "Kreis"}diagramm. Berechne dazu die Prozentwerte.\\\\ ']
-            afg = afg + [F'Inhalt der Daten: {auswahl}\\\\']
-            afg = afg + saeulenKreisStreifenDiagrammeZeichnen(werte=werte,typ=typ,titel=auswahl,streifen=streifen)
-        if typ=='alles':
-            afg = afg+ [F'Berechne die relative Häufigkeiten (Prozentwerte) folgender Daten und zeichne die absoluten Werte in ein Säulen und die relativen Werte in ein {"Streifen" if streifen else "Kreis"}diagramm.\\\\']
-            afg = afg + [F'Inhalt der Daten: {auswahl}\\\\']
-            afg = afg + saeulenKreisStreifenDiagrammeZeichnen(werte=werte,typ=typ,titel=auswahl,streifen=streifen)
+    if typ=='zuordnen':
+        afg = afg + [F'Ordne die Daten den Diagrammen zu.\\\\']
+        afg = afg + [F'Inhalt der Daten: {auswahl}\\\\']
+        afg = afg + saeulenKreisStreifenDiagrammeZeichnen(werte=werte,typ=typ,titel=auswahl,streifen=streifen)
+    if typ=='ZeichnenUndEinfaerben':
+        afg = afg + [F'Zeichne das Säulendiagramm und färbe das {"Streifen" if streifen else "Kreis"}diagramm korrekt ein.\\\\ ']
+        afg = afg + [F'Inhalt der Daten: {auswahl}\\\\']
+        afg = afg + saeulenKreisStreifenDiagrammeZeichnen(werte=werte,typ=typ,titel=auswahl,streifen=streifen)
+    if typ=='Zeichnen':
+        afg = afg + [F'Zeichne das Säulen und das {"Streifen" if streifen else "Kreis"}diagramm.\\\\ ']
+        afg = afg + [F'Inhalt der Daten: {auswahl}\\\\']
+        afg = afg + saeulenKreisStreifenDiagrammeZeichnen(werte=werte,typ=typ,titel=auswahl,streifen=streifen)
+    if typ=='ZeichnenUndBerechnen':
+        afg = afg + [F'Zeichne das Säulen und das {"Streifen" if streifen else "Kreis"}diagramm. Berechne dazu die Prozentwerte.\\\\ ']
+        afg = afg + [F'Inhalt der Daten: {auswahl}\\\\']
+        afg = afg + saeulenKreisStreifenDiagrammeZeichnen(werte=werte,typ=typ,titel=auswahl,streifen=streifen)
+    if typ=='alles':
+        afg = afg+ [F'Berechne die relative Häufigkeiten (Prozentwerte) folgender Daten und zeichne die absoluten Werte in ein Säulen und die relativen Werte in ein {"Streifen" if streifen else "Kreis"}diagramm.\\\\']
+        afg = afg + [F'Inhalt der Daten: {auswahl}\\\\']
+        afg = afg + saeulenKreisStreifenDiagrammeZeichnen(werte=werte,typ=typ,titel=auswahl,streifen=streifen)
     afg=afg+['}']
     lsg=saeulenKreisStreifenDiagrammeZeichnen(werte=werte,typ='LSG',titel=auswahl,streifen=streifen)
     return [afg,lsg,[]]
