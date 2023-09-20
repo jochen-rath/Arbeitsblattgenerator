@@ -24,6 +24,16 @@ def baumdiagramm(erg=[{'K':'1/2','Z':'1/2'},{'K':'1/2','Z':'1/2'}]):
             koord2=koord2+k
             tikzcommand=tikzcommand+tikzAst
         koords.append(koord2)
+    for i,k in enumerate(koords[-1]):
+        #Wenn man die Zahl zur Basis der Stufe umwandelt, dann kann man die Wahrscheinlichkeiten
+        #Korrekt abgreifen. Gilt nur, wenn alle Stufen die Gleiche Anzahl an Wahrscheinlichkeiten haben.
+        #    3 Stufige: 3 Basis 3 ist '010'
+        werte=list(erg[0].keys())
+        wertePos=list(np.base_repr(i, base=len(erg[0])).zfill(len(erg)))
+        PList=[werte[int(pos)] for j,pos in enumerate(wertePos)]
+        WList=[erg[j][P] for j,P in enumerate(PList)]
+        WListFrac=[erzeugeLatexFracAusdruck(erg[j][P]) for j,P in enumerate(PList)]
+        tikzcommand.append(F'\\node[right] at ({k[0]+0.5},{k[1]}) {{$P({",".join(PList)})={"*".join(WListFrac)}={strNW(eval("*".join(WList))*100,2)}\\%$}};'.replace('*','\\cdot'))
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 

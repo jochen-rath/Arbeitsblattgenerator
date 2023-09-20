@@ -224,7 +224,7 @@ def schreibeArbeitKopfseite(anzAufgaben=7):
     kopfseite.append(F"}} &")
     kopfseite.append(F"\\end{{tabularx}} \\\\")
     kopfseite.append(F"\\begin{{tabularx}}{{\\textwidth}}{{R{{2.0cm}} X R{{2.0cm}} X }}")
-    kopfseite.append(F"Name: & & Kurs: \\kurs & \\\\\\cline{{2-2}}\\cline{{4-4}}")
+    kopfseite.append(F"Name: & & Kurs:  & \\kurs\\\\\\cline{{2-2}}\\cline{{4-4}}")
     kopfseite.append(F"& & Datum:& \\datum \\\\\\cline{{2-2}}\\cline{{4-4}}")
     kopfseite.append(F"\\end{{tabularx}} \\\\")
     kopfseite.append(F"\\phantom{{M}}\\\\")
