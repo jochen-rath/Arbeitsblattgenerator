@@ -42,16 +42,16 @@ def erkenneProzent(mitText=True):
     lsg=lsg+['}']
     return [afg,lsg,[laenge,prozent]]
 
-def erkenneProzentKreis(mitText=True):
+def erkenneProzentKreis(mitText=True,bruch=False):
     teile=random.choice([2,3,4,5,8,10,20,25])
     anzahl=random.randint(0,teile)
     if mitText:
-        afg=[F'\\pbox{{5cm}}{{Wieviel Prozent sind schraffiert?\\\\']
+        afg=[F'\\pbox{{5cm}}{{{"Wieviel Prozent sind schraffiert?" if not bruch else "Gib den Bruch an:"} \\\\']
         afg=afg+kreisTeilsGefuelt(teile=teile,anzahl=anzahl,mitSchraffur=True)
         afg=afg+['}']
     else:
         afg=kreisTeilsGefuelt(teile=teile, anzahl=anzahl, mitSchraffur=True)
-    lsg=F'$$\\frac{{{anzahl}}}{{{teile}}}={strNW(anzahl/teile,True)}={strNW(anzahl/teile*100,True)}\%$$'
+    lsg=F'$$\\frac{{{anzahl}}}{{{teile}}}{"$$" if bruch else F"={strNW(anzahl/teile,True)}={strNW(anzahl/teile*100,True)}§§%$$"}'.replace('§§','\\')
     return [afg,lsg,[teile,anzahl]]
 def erzeugeProzentRechnungen(E='',kapital=False,HS=False,G=False):
 #Diese Funktion erzeugt eine Aufgabe zur Prozentrechnung:

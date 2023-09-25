@@ -331,6 +331,39 @@ def erzeugeSehrEinfacheGleichungen(variabel='x',mitText=True,nurPlusMinus=False,
     lsg = loeseGleichungEinfachMitEinerVariabel(G=G, variable=variabel, mitProbe=True)
     return [afg, lsg, G]
 
+
+def erzeugeGleichungMitSummenklammernAusmulti(mitText=True,ohneKomma=False,ergUnter10=False):
+    lsg='Error'
+    while lsg=='Error':
+        gesTerm='x+1'
+        while not '**2' in str(sympy.simplify(gesTerm)):
+            variablen=['a','b','c','d','x','y','z','']
+            auswahl = random.choice(variablen[0:-1])
+            terme = [F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}',F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}*{auswahl}']
+            terme2 = [F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}',F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}*{auswahl}']
+            random.shuffle(terme)
+            random.shuffle(terme2)
+            terme[0] = terme[0][1:] if terme[0][0] == '+' else terme[0]
+            terme2[0] = terme2[0][1:] if terme2[0][0] == '+' else terme2[0]
+            gesTerm=F'({"".join(terme)})*({"".join(terme2)})'
+        xQuadratFaktor=str(sympy.simplify(gesTerm)).split('**')[0]
+        termeR=[F'{xQuadratFaktor}**2',F'{"+" if random.getrandbits(1) else "-"}{random.randint(0,12)}*{auswahl}',F'{"+" if random.getrandbits(1) else "-"}{random.randint(0,12)}']
+        termeR=[str(sympy.simplify(x)) for x in termeR]
+        random.shuffle(termeR)
+        while '0' in termeR: termeR.remove('0')
+        termeR=[x if x[0]=='+' or x[0]=='-' else F'+{x}' for x in termeR]
+        G=F'({"".join(terme)})*({"".join(terme2)})={"".join(termeR)}'
+        afg=F'{"Berechne die Variable $" if mitText else ""}${G.replace("/", ":")}${"$" if mitText else ""}'.replace("&&","\\")
+        lsg = loeseGleichungEinfachMitEinerVariabel(G=G, variable=auswahl, mitProbe=True)
+        if (not lsg=='Error') and ohneKomma:
+            erg=loeseGleichungEinfachMitEinerVariabel(G=G,variable=auswahl,mitProbe=True,latexAusgabe=False)
+            if ('.' in erg) or ('/' in erg) or int(erg.split('=')[1])==0:
+                lsg='Error'
+            if ergUnter10:
+                if abs(eval(erg.split('=')[1]))>=10:
+                    lsg = 'Error'
+    return [[ersetzePlatzhalterMitSymbolen(afg)],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
+
 def erzeugeEinfacheGleichung(variabel='x',mitKlammer=False,mitQuadrat=False,ohneKomma=False,mitText=True):
 #Diese Funktion erzeugt eine Gleichung mit einem x ohne Potenz.
 #
