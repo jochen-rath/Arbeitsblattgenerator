@@ -190,3 +190,4 @@ def hebelAufgaben(anzSpalten=1,mitText=True):
     afg=afg+['}']
     lsg=hebelTikz(pos1=-pos1,m1=m1,pos2=pos2,m2=m2,mitResizebox=True)
     return [afg,lsg,[]]
+

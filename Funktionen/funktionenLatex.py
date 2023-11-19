@@ -224,7 +224,7 @@ def schreibeArbeitKopfseite(anzAufgaben=7):
     kopfseite.append(F"}} &")
     kopfseite.append(F"\\end{{tabularx}} \\\\")
     kopfseite.append(F"\\begin{{tabularx}}{{\\textwidth}}{{R{{2.0cm}} X R{{2.0cm}} X }}")
-    kopfseite.append(F"Name: & & Kurs:  & \\kurs\\\\\\cline{{2-2}}\\cline{{4-4}}")
+    kopfseite.append(F"Name: & \\name& Kurs:  & \\kurs\\\\\\cline{{2-2}}\\cline{{4-4}}")
     kopfseite.append(F"& & Datum:& \\datum \\\\\\cline{{2-2}}\\cline{{4-4}}")
     kopfseite.append(F"\\end{{tabularx}} \\\\")
     kopfseite.append(F"\\phantom{{M}}\\\\")
@@ -268,7 +268,7 @@ def schreibeArbeitKopfseite(anzAufgaben=7):
     kopfseite.append(F"\\pagenumbering{{arabic}}")
     return kopfseite
 
-def erzeugeArbeitLatex(dateiName='arbeit.tex',fach='Mathematik',titel='Übungsarbeit',datum='~',jahr='2022/23',kurs='~',punkte=[],anzAufgaben=7):
+def erzeugeArbeitLatex(dateiName='arbeit.tex',fach='Mathematik',titel='Übungsarbeit',datum='~',jahr='2022/23',kurs='~',name='~',punkte=[],anzAufgaben=7):
     arbeit=[]
     for i in range(len(punkte)):
         arbeit.append(F'\\pgfmathsetmacro{{\\pkteAfg{zahlenWoerter[i+1]}}}{{{punkte[i]}}}')
@@ -281,6 +281,7 @@ def erzeugeArbeitLatex(dateiName='arbeit.tex',fach='Mathematik',titel='Übungsar
     arbeit.append(F'\\def\\titel{{{titel}}}')
     arbeit.append(F'\\def\\jahr{{{jahr}}}')
     arbeit.append(F'\\def\\fach{{{fach}}}')
+    arbeit.append(F'\\def\\name{{{name}}}')
     arbeit.append(F'\\def\\material{{Füller / Kugelschreiber / Fineliner, Bleistift, Taschenrechner}}')
     gesPkte="+".join([F"\\pkteAfg{zahlenWoerter[i+1]}" for i in range(anzAufgaben)])
     arbeit.append(F'\\pgfmathsetmacro{{\\gesPkte}}{{{gesPkte}+\\sauberkeitsPkte}}')

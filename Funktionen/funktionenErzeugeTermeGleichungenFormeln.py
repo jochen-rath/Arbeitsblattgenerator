@@ -90,6 +90,7 @@ def erzeugeEinfacheFormelnUmformen(formel='',gesucht=''):
     lsg=formeEinfacheFormelNachVorgabenUm(G=G,gesucht=gesucht)
     return [afg,lsg,G]
 
+
 def untertermErzeugen(variListe,variMaxAnzProUnterterm=3,maxMulti=5,variMinAnzProUnterterm=0,mitKommazahl=False):
 #Diese Funktion erzeugt einen Unterterm, welcher dann mit weiteren Untertermen mit plus und Minus zu einem Term zusammengesetzt werden kann.
     n=random.randint(1,maxMulti) + (random.randint(0,10)/10 if mitKommazahl else 0)
@@ -400,7 +401,7 @@ def erzeugeEinfacheGleichung(variabel='x',mitKlammer=False,mitQuadrat=False,ohne
                             term1=term1+('+' if not (potenzTerm[0][0]=='+' or potenzTerm[0][0]=='-') else '')+potenzTerm[0]
                         enthaeltNichtGenauEinePotenz=False
             G=term1+'='+term2
-        afg= F'{"Berechne die Variable $" if mitText else ""}${G.replace("**", "^").replace("*", "&&cdot ").replace("/", ":")}${"$" if mitText else ""}'.replace("&&","\\")
+        afg= F'{"Berechne die Variable $" if mitText else ""}${ersetzePlatzhalterMitSymbolen(G)}${"$" if mitText else ""}'.replace("&&","\\")
 #        print(F'G: {G}')
         lsg=loeseGleichungEinfachMitEinerVariabel(G=G,variable=variabel,mitProbe=True)
         if (not lsg=='Error') and ohneKomma:
@@ -408,5 +409,78 @@ def erzeugeEinfacheGleichung(variabel='x',mitKlammer=False,mitQuadrat=False,ohne
 #            print(F'erg: {erg}')
             if ('.' in erg) or ('/' in erg) or int(erg.split('=')[1])==0:
                 lsg='Error'
-    return [afg,lsg,G]
+    return [[afg],[x for x in lsg],[]]
     
+
+
+def erzeugeFlaechenFormelUmformenUndAnwenden(auswahl='',mitText=True):
+    if len(auswahl)==0:
+        auswahl=random.choice(['Rechteck','Parallelogramm'])
+    if auswahl=='Rechteck':
+        gesucht=random.choice(['a','b'])
+        gegeben='a' if gesucht=='b' else 'b'
+        a=random.randint(10,100)/10
+        b=random.randint(10,100)/10
+        G='A=a*b'
+        afg=F'Stelle die Flächenformel des Rechtecks nach der fehlenden Seite um und berechne diese und den Umfang für'
+        afg=(afg if mitText else 'Rechteck: ')+F' $A={strNW(a*b)}~cm^2$ und ${gegeben}={strNW(eval(gegeben))}~cm$.'
+        lsg = formeEinfacheFormelNachVorgabenUm(G=G, gesucht=gesucht)
+#Schreibe gegeben, gesucht.
+        lsg.insert(4,F'geg.: A &={strNW(a*b)}~cm^2& & \\\\')
+        lsg.insert(5,F'  {gegeben} &={strNW(eval(gegeben))}~cm& & \\\\')
+        lsg.insert(6,F'ges.: {gesucht} &=?~cm& & \\\\')
+        lsg.insert(7,F'& & & \\\\')
+#Setze die Werte ein.
+#        lsgSplit=lsg[-3].split('&')
+#        einsetzen=lsgSplit[1].replace('{A}',F'{{{strNW(a*b)}}}').replace(F'{{{gegeben}}}',F'{{{strNW(eval(gegeben))}}}')
+#        einsetzen=F'{einsetzen}={strNW(eval(gesucht))}~cm'
+#        lsgSplit[1]=F'{lsgSplit[1]}{einsetzen}'
+#        lsg[-3]='&'.join(lsgSplit)+'\\\\'
+        lsg[-3]=lsg[-3]+'\\\\'
+#\makebox[breite] oder \makebox(breite,hoehe). Das Minus schiebt die Box unter den Bruch
+        lsg.insert(-3,'\\makebox(0pt,-0.25cm)[l]{\\uline{\\phantom{$' + lsg[-3].replace('&', '') + '$}}}')
+        lsg.insert(-2, F'{gesucht}&=\\frac{{{strNW(a*b)}}}{{{strNW(eval(gegeben))}}}& & \\\\')
+        lsg.insert(-2, F'&={strNW(eval(gesucht))}~cm& & \\\\')
+        lsg.insert(-3,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-3].replace('&', '') + '$}}}')
+#Berechne den Umfang.
+        lsg.insert(-2,F'u&=2a+2b & & \\\\')
+        lsg.insert(-2,F'&=2\\cdot{strNW(a)}+2\\cdot{strNW(b)}& & \\\\')
+        lsg.insert(-2,F'u&={strNW(2*a+2*b)}~cm   & & \\\\')
+        lsg.insert(-3,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-3].replace('&', '') + '$}}}')
+    if auswahl=='Parallelogramm':
+        gesucht=random.choice(['a','b'])
+        gegeben='a' if gesucht=='b' else 'b'
+        a=random.randint(10,100)/10
+        b=random.randint(10,100)/10
+        h=random.randint(10,b*10)/10
+        G=F'A={gesucht}*Y'
+        A=eval(gesucht)*h
+        afg=F'Stelle die Flächenformel des Parallelogramm nach der fehlenden Seite um und berechne diese und den Umfang für'
+        afg=(afg if mitText else 'Parallelogramm: ')+F' $A={strNW(A)}~cm^2$, ${gegeben}={strNW(eval(gegeben))}~cm$ und $h_{gesucht}={strNW(h)}~cm$.'
+        lsg = formeEinfacheFormelNachVorgabenUm(G=G, gesucht=gesucht)
+#Schreibe gegeben, gesucht.
+        lsg.insert(4,F'geg.: A &={strNW(A)}~cm^2& & \\\\')
+        lsg.insert(5,F'  {gegeben} &={strNW(eval(gegeben))}~cm& & \\\\')
+        lsg.insert(6,F'  h_{gesucht} &={strNW(h)}~cm& & \\\\')
+        lsg.insert(7,F'ges.: {gesucht} &=?~cm& & \\\\')
+        lsg.insert(8,F'& & & \\\\')
+#Setze die Werte ein.
+#        lsgSplit=lsg[-3].split('&')
+#        einsetzen=lsgSplit[1].replace('{A}',F'{{{strNW(a*b)}}}').replace(F'{{{gegeben}}}',F'{{{strNW(eval(gegeben))}}}')
+#        einsetzen=F'{einsetzen}={strNW(eval(gesucht))}~cm'
+#        lsgSplit[1]=F'{lsgSplit[1]}{einsetzen}'
+#        lsg[-3]='&'.join(lsgSplit)+'\\\\'
+        lsg[-3]=lsg[-3]+'\\\\'
+#\makebox[breite] oder \makebox(breite,hoehe). Das Minus schiebt die Box unter den Bruch
+        lsg.insert(-3,'\\makebox(0pt,-0.25cm)[l]{\\uline{\\phantom{$' + lsg[-3].replace('&', '') + '$}}}')
+        lsg.insert(-2, F'{gesucht}&=\\frac{{{strNW(A)}}}{{{strNW(h)}}}& & \\\\')
+        lsg.insert(-2, F'{gesucht}&={strNW(eval(gesucht))}~cm& & \\\\')
+        lsg.insert(-3,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-3].replace('&', '') + '$}}}')
+#Berechne den Umfang.
+        lsg.insert(-2,F'u&=2a+2b & & \\\\')
+        lsg.insert(-2,F'&=2\\cdot{strNW(a)}+2\\cdot{strNW(b)}& & \\\\')
+        lsg.insert(-2,F'u&={strNW(2*a+2*b)}~cm   & & \\\\')
+        lsg.insert(-3,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-3].replace('&', '') + '$}}}')
+        for i,l in enumerate(lsg):
+            lsg[i]=lsg[i].replace('Y',f'h_{gesucht}')
+    return [afg,lsg,[]]
