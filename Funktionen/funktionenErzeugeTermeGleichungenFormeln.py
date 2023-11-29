@@ -415,7 +415,7 @@ def erzeugeEinfacheGleichung(variabel='x',mitKlammer=False,mitQuadrat=False,ohne
 
 def erzeugeFlaechenFormelUmformenUndAnwenden(auswahl='',mitText=True):
     if len(auswahl)==0:
-        auswahl=random.choice(['Rechteck','Parallelogramm'])
+        auswahl=random.choice(['Rechteck','Parallelogramm','RechteckUmfang','ParallelogrammUmfang','Dreieck'])
     if auswahl=='Rechteck':
         gesucht=random.choice(['a','b'])
         gegeben='a' if gesucht=='b' else 'b'
@@ -429,7 +429,8 @@ def erzeugeFlaechenFormelUmformenUndAnwenden(auswahl='',mitText=True):
         lsg.insert(4,F'geg.: A &={strNW(a*b)}~cm^2& & \\\\')
         lsg.insert(5,F'  {gegeben} &={strNW(eval(gegeben))}~cm& & \\\\')
         lsg.insert(6,F'ges.: {gesucht} &=?~cm& & \\\\')
-        lsg.insert(7,F'& & & \\\\')
+        lsg.insert(7,F'u &=?~cm& & \\\\')
+        lsg.insert(8,F'& & & \\\\')
 #Setze die Werte ein.
 #        lsgSplit=lsg[-3].split('&')
 #        einsetzen=lsgSplit[1].replace('{A}',F'{{{strNW(a*b)}}}').replace(F'{{{gegeben}}}',F'{{{strNW(eval(gegeben))}}}')
@@ -447,12 +448,45 @@ def erzeugeFlaechenFormelUmformenUndAnwenden(auswahl='',mitText=True):
         lsg.insert(-2,F'&=2\\cdot{strNW(a)}+2\\cdot{strNW(b)}& & \\\\')
         lsg.insert(-2,F'u&={strNW(2*a+2*b)}~cm   & & \\\\')
         lsg.insert(-3,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-3].replace('&', '') + '$}}}')
+    if auswahl=='RechteckUmfang' or auswahl=='ParallelogrammUmfang':
+        R=True if 'Rechteck' in auswahl else False
+        typ="Rechtecks" if R else "Parallelogramm"
+        indP1=0 if R else 1
+        gesucht=random.choice(['a','b'])
+        gegeben='a' if gesucht=='b' else 'b'
+        a=random.randint(10,100)/10
+        b=random.randint(10,100)/10
+        h=random.randint(10,(a if gesucht=='a' else b)*10)/10
+        G='u=2*a+2*b'
+        afg=F'Stelle die Umfangsformel des {typ} nach der fehlenden Seite um und berechne diese und den Flächeninhalt für'
+        afg=(afg if mitText else F'{typ}: ')+F' $u={strNW(2*a+2*b)}~cm${" und" if R else ","} ${gegeben}={strNW(eval(gegeben))}~cm${"" if R else F" und $h_{gesucht}={strNW(h)} cm$"}.'
+        lsg = formeEinfacheFormelNachVorgabenUm(G=G, gesucht=gesucht)
+#Schreibe gegeben, gesucht.
+        lsg.insert(4,F'geg.: u &={strNW(2*a+2*b)}~cm& & \\\\')
+        lsg.insert(5,F'  {gegeben} &={strNW(eval(gegeben))}~cm& & \\\\')
+        if not R:
+            lsg.insert(6, F' h_{gesucht} &={strNW(h)}~cm& & \\\\')
+        lsg.insert(6+indP1,F'ges.: {gesucht} &=?~cm& & \\\\')
+        lsg.insert(7+indP1,F'A &=?~cm^2& & \\\\')
+        lsg.insert(8+indP1,F'& & & \\\\')
+#Setze die Werte ein.
+        lsg[-3]=lsg[-3]+'\\\\'
+#\makebox[breite] oder \makebox(breite,hoehe). Das Minus schiebt die Box unter den Bruch
+        lsg.insert(-3,'\\makebox(0pt,-0.25cm)[l]{\\uline{\\phantom{$' + lsg[-3].replace('&', '') + '$}}}')
+        lsg.insert(-2, F'{gesucht}&=-{strNW(eval(gegeben))}+\\frac{{{strNW(2*a+2*b)}}}{{2}}& & \\\\')
+        lsg.insert(-2, F'&={strNW(eval(gesucht))}~cm& & \\\\')
+        lsg.insert(-3,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-3].replace('&', '') + '$}}}')
+#Berechne den Umfang.
+        lsg.insert(-2,F'A&=a\\cdot b & & \\\\' if R else F'A&={gesucht}\\cdot h_{gesucht} & & \\\\')
+        lsg.insert(-2,F'&={strNW(a) if R else strNW(eval(gesucht))}\\cdot{strNW(b) if R else strNW(h)}& & \\\\')
+        lsg.insert(-2,F'A&={strNW(a*b) if R else strNW(eval(gesucht)*h)}~cm^2   & & \\\\')
+        lsg.insert(-3,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-3].replace('&', '') + '$}}}')
     if auswahl=='Parallelogramm':
         gesucht=random.choice(['a','b'])
         gegeben='a' if gesucht=='b' else 'b'
         a=random.randint(10,100)/10
         b=random.randint(10,100)/10
-        h=random.randint(10,b*10)/10
+        h=random.randint(10,(a if gesucht=='a' else b)*10)/10
         G=F'A={gesucht}*Y'
         A=eval(gesucht)*h
         afg=F'Stelle die Flächenformel des Parallelogramm nach der fehlenden Seite um und berechne diese und den Umfang für'
@@ -463,7 +497,8 @@ def erzeugeFlaechenFormelUmformenUndAnwenden(auswahl='',mitText=True):
         lsg.insert(5,F'  {gegeben} &={strNW(eval(gegeben))}~cm& & \\\\')
         lsg.insert(6,F'  h_{gesucht} &={strNW(h)}~cm& & \\\\')
         lsg.insert(7,F'ges.: {gesucht} &=?~cm& & \\\\')
-        lsg.insert(8,F'& & & \\\\')
+        lsg.insert(8,F'u &=?~cm& & \\\\')
+        lsg.insert(9,F'& & & \\\\')
 #Setze die Werte ein.
 #        lsgSplit=lsg[-3].split('&')
 #        einsetzen=lsgSplit[1].replace('{A}',F'{{{strNW(a*b)}}}').replace(F'{{{gegeben}}}',F'{{{strNW(eval(gegeben))}}}')
@@ -480,6 +515,42 @@ def erzeugeFlaechenFormelUmformenUndAnwenden(auswahl='',mitText=True):
         lsg.insert(-2,F'u&=2a+2b & & \\\\')
         lsg.insert(-2,F'&=2\\cdot{strNW(a)}+2\\cdot{strNW(b)}& & \\\\')
         lsg.insert(-2,F'u&={strNW(2*a+2*b)}~cm   & & \\\\')
+        lsg.insert(-3,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-3].replace('&', '') + '$}}}')
+        for i,l in enumerate(lsg):
+            lsg[i]=lsg[i].replace('Y',f'h_{gesucht}')
+    if auswahl=='Dreieck':
+        vari=['a','b','c']
+        gegeben=list(vari)
+        gesucht=random.choice(vari)
+        gegeben.remove(gesucht)
+        a=random.randint(10,100)/10
+        b=random.randint(10,100)/10
+        c=random.randint(10,100)/10
+        h=random.randint(9,eval(gesucht)*10)/10
+        G=F'A=({gesucht}*Y)/2'
+        A=eval(gesucht)*h/2
+        afg=F'Stelle die Flächenformel des Dreiecks nach der fehlenden Seite um und berechne diese und den Umfang für'
+        afg=(afg if mitText else 'Dreieck: ')+F' $A={strNW(A)}~cm^2$, ${gegeben[0]}={strNW(eval(gegeben[0]))}~cm$, ${gegeben[1]}={strNW(eval(gegeben[1]))}~cm$  und $h_{gesucht}={strNW(h)}~cm$.'
+        lsg = formeEinfacheFormelNachVorgabenUm(G=G, gesucht=gesucht)
+#Schreibe gegeben, gesucht.
+        lsg.insert(4,F'geg.: A &={strNW(A)}~cm^2& & \\\\')
+        lsg.insert(5,F'  {gegeben[0]} &={strNW(eval(gegeben[0]))}~cm& & \\\\')
+        lsg.insert(6,F'  {gegeben[1]} &={strNW(eval(gegeben[1]))}~cm& & \\\\')
+        lsg.insert(7,F'  h_{gesucht} &={strNW(h)}~cm& & \\\\')
+        lsg.insert(8,F'ges.: {gesucht} &=?~cm& & \\\\')
+        lsg.insert(9,F'u &=?~cm& & \\\\')
+        lsg.insert(10,F'& & & \\\\')
+#Setze die Werte ein.
+        lsg[-3]=lsg[-3]+'\\\\'
+#\makebox[breite] oder \makebox(breite,hoehe). Das Minus schiebt die Box unter den Bruch
+        lsg.insert(-3,'\\makebox(0pt,-0.25cm)[l]{\\uline{\\phantom{$' + lsg[-3].replace('&', '') + '$}}}')
+        lsg.insert(-2, F'{gesucht}&=\\frac{{{strNW(2*A)}}}{{{strNW(h)}}}& & \\\\')
+        lsg.insert(-2, F'{gesucht}&={strNW(eval(gesucht))}~cm& & \\\\')
+        lsg.insert(-3,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-3].replace('&', '') + '$}}}')
+#Berechne den Umfang.
+        lsg.insert(-2,F'u&=a+b+c& & \\\\')
+        lsg.insert(-2,F'&={strNW(a)}+{strNW(b)}+{strNW(c)}& & \\\\')
+        lsg.insert(-2,F'u&={strNW(a+b+c)}~cm   & & \\\\')
         lsg.insert(-3,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-3].replace('&', '') + '$}}}')
         for i,l in enumerate(lsg):
             lsg[i]=lsg[i].replace('Y',f'h_{gesucht}')

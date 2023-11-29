@@ -171,3 +171,39 @@ def erzeugeFlaechenDrachenAufgabe(mitText=True,mitBeschr=True,mitEundF=True,istR
     lsg=lsg+dracheFuerFlaechenBer(e=e,f=f,dx=dx,drehung=drehung,mitBeschr=mitBeschr)
     lsg=lsg+['}']
     return [afg,lsg,[]]
+
+def erzeugePfeilFlaechenBerechnung(anzSpalten=2,mitText=True):
+    a=random.randint(10,60 if anzSpalten<2 else 40)/10;
+    b=random.randint(10,30)/10;
+    z=random.randint(10,20)/10;
+    g=b+2*z
+    if anzSpalten>1:
+        h=random.randint(10,(50-a*10))/10;
+    else:
+        h=random.randint(10,50)/10;
+    afg=[F'\\pbox{{{15 if anzSpalten==1 else 5}cm}}{{']
+    afg=afg+([F'Berechne den Flächeninhalt von:\\\\']  if mitText else [])
+    afg=afg+pfeilFlaechenBer(a=a,b=b,g=g,h=h,z=z,lsg=False)
+    afg=afg+['}']
+    lsg = ['\\pbox{7cm}{']
+    lsg= lsg + pfeilFlaechenBer(a=a,b=b,g=g,h=h,z=z,lsg=True)+['\\\\']
+    lsg=lsg+['$\\begin{aligned}']
+    lsg.append(F'geg.: a &={strNW(a)}~cm& & \\\\')
+    lsg.append(F'  b &={strNW(b)}~cm& & \\\\')
+    lsg.append(F'  g &={strNW(g)}~cm& & \\\\')
+    lsg.append(F'  h &={strNW(h)}~cm& & \\\\')
+    lsg.append(F'ges.: A_G &=?~cm^2& & \\\\')
+    lsg.append(F'& & & \\\\')
+    lsg.append(F'A_G&= A_R+A_D & & \\\\')
+    lsg.append(F'A_R&= a \\cdot b & & \\\\')
+    lsg.append(F'A_R&= {strNW(a)} \\cdot {strNW(b)}={strNW(a*b)}cm^2 & & \\\\')
+    lsg.insert(-1,F'\\makebox[0pt][l]{{\\uline{{\\phantom{{${lsg[-1].replace("&", "")}$}} }} }}')
+    lsg.append(F'A_D&= \\frac{{g\\cdot h}}{{2}} & & \\\\')
+    lsg.append(F'A_D&= \\frac{{{strNW(g)}\\cdot {strNW(h)}}}{{2}} ={strNW(g*h/2)} cm^2& & \\\\')
+    lsg.insert(-1,F'\\makebox(0pt,-0.25cm)[l]{{\\uline{{\\phantom{{${lsg[-1].replace("&", "")}$}} }} }}')
+    lsg.append(F'A_G&= A_R+A_D={strNW(a*b)}+{strNW(g*h/2)}={strNW(a*b+g*h/2)} cm ^2& & \\\\')
+    lsg.insert(-1,F'\\makebox[0pt][l]{{\\uuline{{\\phantom{{${lsg[-1].replace("&", "")}$}} }} }}')
+    lsg=lsg+['\\end{aligned}$']
+    lsg=lsg+['}']
+
+    return [afg,lsg,[]]

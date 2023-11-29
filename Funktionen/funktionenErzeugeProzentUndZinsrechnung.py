@@ -61,6 +61,7 @@ def erzeugeProzentRechnungen(E='',kapital=False,HS=False,G=False):
 #      rechnung=[G,W,pP,Einheit]
     einheiten=['\euro{}','km','m','g','l','kg','cm','Schüler','Schülerinnen','Mädchen','Jungs','Autos','LKW','Bleistifte','Buntstifte','Knöpfe','Tickets']
     E=E if len(E)>0 else random.choice(einheiten)
+    E='€' if kapital else E
     G=1.1
     if HS:
         if G:
@@ -82,10 +83,10 @@ def erzeugeProzentRechnungen(E='',kapital=False,HS=False,G=False):
         while G-int(G)>0:
             pP=random.randint(1,99)+ (random.randint(1,10)/10 if random.randint(1,10)<5 else 0.0)
             if kapital:
-                pP=random.randint(1,20)+ (random.randint(1,10)/10 if random.randint(1,10)<5 else 0.0)
+                pP=random.randint(1,7)+ (random.randint(1,10)/10 if random.randint(1,10)<8 else 0.0)
             W=random.randint(1,300) if random.randint(1,10)<3 else random.randint(1,100)
             if kapital:
-                W=random.randint(20,300)
+                W=random.randint(10,30) * 10 if random.getrandbits(1) else random.randint(10,300)
             G=W*100/pP
     return [int(G),W,pP,E]
 
@@ -130,6 +131,24 @@ def erzeugeGrundwertAufgaben(n=12,lsgMitDreisatz=True,bez=['Prozentwert','Prozen
         rechnungen.append(bez[0]+'~'+strNW(r[1])+'~'+r[3]+';  '+bez[1]+'~'+strNW(r[2])+'~\%')
         lsgen=ausgabeGrundwertBerechnenFuerTabelle(inhalte=[['',r[1],r[2],r[3]]],mitDreisatz=lsgMitDreisatz,bez=benennung)
     return [rechnungen,lsgen,dezi]
+
+def erzeugeGemZinsrechnungenOhneTabelle():
+    bez=["Kapital",'Zinsen', "Zinssatz"]
+    benennung=['K','Z','p']
+    afgBez=list(bez)
+    r=erzeugeProzentRechnungen(E='€',kapital=True,HS=False,G=True)
+    afgWerte=list(r)
+    ausw=random.randint(0,2)
+    del afgBez[ausw]
+    del afgWerte[ausw]
+    afg=F'{afgBez[0]} {strNW(afgWerte[0])} {afgWerte[-1]};  {afgBez[1]} {strNW(afgWerte[1])} {" XXX" if ausw<2 else " €"}'.replace('XXX','\%')
+    if ausw==0:
+        lsg=ausgabeGrundwertBerechnenFuerTabelle(inhalte=[['',r[1],r[2],r[3]]],mitDreisatz=False,bez=benennung)
+    if ausw==1:
+        lsg=ausgabeProzentwertBerechnenFuerTabelle(inhalte=[['',r[1],r[2],r[3]]],mitDreisatz=False,bez=benennung)
+    if ausw==2:
+        lsg=ausgabeProzentsatzBerechnenFuerTabelle(inhalte=[['',r[1],r[2],r[3]]],mitDreisatz=False,bez=benennung)
+    return [afg,lsg,[]]
 
 
 def zufaelligeProzentaufgabe(HS=False):

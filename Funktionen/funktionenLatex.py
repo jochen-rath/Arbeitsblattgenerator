@@ -23,7 +23,7 @@ def latexHeadTikz():
     head=[]
     head.append('\\documentclass[tikz]{standalone}')
     head.append('\\usepackage{tikz}')
-    head.append('\\usetikzlibrary{arrows,calc,decorations.markings,backgrounds,decorations.pathreplacing}')
+    head.append('\\usetikzlibrary{arrows,calc,decorations.markings,backgrounds,decorations.pathreplacing,angles, quotes}}')
     head.append('\\begin{document}')
     return head
 
@@ -44,7 +44,7 @@ def latexHead(arraystretch=False,size=2):
     head.append('\\usepackage[official]{eurosym}')
 ####Bilder mit Latex erstellen: tikz
     head.append('\\usepackage{tikz}')
-    head.append('\\usetikzlibrary{arrows,backgrounds,calc,decorations.markings,patterns,3d,positioning,fit}')     #Für Karo Hintergrund
+    head.append('\\usetikzlibrary{arrows,backgrounds,calc,decorations.markings,patterns,3d,positioning,fit,angles, quotes}')     #Für Karo Hintergrund
 ####Diagramme und Funkionen zeichnen:
     head.append('\\usepackage{pgfplots}')
 ####Nutz die letzte Version von pgfplots:
