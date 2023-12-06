@@ -43,8 +43,20 @@ def erzeugeFlaechenberechnung(maxA=4,maxB=4,breitePbox='6',mitText=True):
     b=random.randint(1,maxB)
     afg=('\\pbox{'+breitePbox+'cm}{Bestimme die Fläche von: \\\\') if mitText else ''
     afg=afg+'\n'.join(rechteckTikz(a,b))+('}' if mitText else '')
-    lsg='\\pbox{'+breitePbox+'cm}{$A=a\cdot b$ \\\\ $a='+strNW(a)+'cm\cdot'+strNW(b)+'cm='+strNW(a*b)+'cm^2$ \\\\'
-    lsg=lsg+'\n'.join(rechteckTikz(a,b,beschrSeiten=True,texta='a='+strNW(a)+'cm',textb='b='+strNW(b)+'cm'))+'}'
+#    lsg='\\pbox{'+breitePbox+'cm}{$A=a\cdot b$ \\\\ $a='+strNW(a)+'cm\cdot'+strNW(b)+'cm='+strNW(a*b)+'cm^2$ \\\\'
+#    lsg=lsg+'\n'.join(rechteckTikz(a,b,beschrSeiten=True,texta='a='+strNW(a)+'cm',textb='b='+strNW(b)+'cm'))+'}'
+    lsg=['\\pbox{5cm}{']
+    lsg=lsg+[F'$\\begin{{aligned}}']
+    lsg.append(F'geg.: a&={strNW(a)} cm \\\\')
+    lsg.append(F'   b&={strNW(b)} cm \\\\')
+    lsg.append(F'ges.: A&=? \\\\')
+    lsg.append(F'A&=a\\cdot b \\\\')
+    lsg=lsg+[F'&={strNW(a)}\\cdot {strNW(b)} \\\\']
+    lsg=lsg+[F'A&={strNW(a*b,2)}~cm^2']
+    lsg.insert(-1, F'\\makebox[0pt][l]{{\\uuline{{\\phantom{{${lsg[-1].replace("&", "")}$}} }} }}')
+    lsg=lsg+[F'\\end{{aligned}}$']
+    lsg=lsg+rechteckTikz(a,b,beschrSeiten=True,texta='a='+strNW(a)+'cm',textb='b='+strNW(b)+'cm')
+    lsg=lsg+['}']
     return [afg,lsg,[a,b]]
 
 def erzeugeZusammengesetzRechtecke(n=3,gesamtlaenge=5,hoehe=8,mitText=True):
@@ -129,8 +141,13 @@ def erzeugeFlaechenDreieckAufgabe(mitText=True,mitBeschr=True):
     afg=afg+['}']
     lsg=['\\pbox{5cm}{']
     lsg=lsg+[F'$\\begin{{aligned}}']
-    lsg=lsg+[F'A&=g\cdot \\frac{{h}}{{2}} \\\\']
-    lsg=lsg+[F'&={strNW(g)}\cdot \\frac{{{strNW(h)}}}{{2}}={strNW(g*h/2,2)}~cm^2']
+    lsg.append(F'geg.: g&={strNW(g)} cm \\\\')
+    lsg.append(F'   h&={strNW(h)} cm \\\\')
+    lsg.append(F'ges.: A&=? \\\\')
+    lsg=lsg+[F'A&=\\frac{{g \\cdot h}}{{2}} \\\\']
+    lsg=lsg+[F'&={strNW(g)} \\cdot \\frac{{{strNW(h)}}}{{2}}\\\\']
+    lsg=lsg+[F'A&={strNW(g*h/2,2)}~cm^2']
+    lsg.insert(-1, F'\\makebox[0pt][l]{{\\uuline{{\\phantom{{${lsg[-1].replace("&", "")}$}} }} }}')
     lsg=lsg+[F'\\end{{aligned}}$']
     lsg=lsg+dreieckFuerFlaechenBer(g=g,h=h,drehung=drehung,dx=dx,mitBeschr=True)
     lsg=lsg+['}']
@@ -147,8 +164,13 @@ def erzeugeFlaechenParallelogrammAufgabe(mitText=True,mitBeschr=True):
     afg=afg+['}']
     lsg=['\\pbox{5cm}{']
     lsg=lsg+[F'$\\begin{{aligned}}']
-    lsg=lsg+[F'A&=g\cdot h \\\\']
-    lsg=lsg+[F'&={strNW(g)}\cdot {strNW(h)}={strNW(g*h,2)}~cm^2']
+    lsg.append(F'geg.: g&={strNW(g)} cm \\\\')
+    lsg.append(F'   h&={strNW(h)} cm \\\\')
+    lsg.append(F'ges.: A&=? \\\\')
+    lsg.append(F'A&=g\\cdot h \\\\')
+    lsg=lsg+[F'&={strNW(g)}\cdot {strNW(h)} \\\\']
+    lsg=lsg+[F'A&={strNW(g*h,2)}~cm^2']
+    lsg.insert(-1, F'\\makebox[0pt][l]{{\\uuline{{\\phantom{{${lsg[-1].replace("&", "")}$}} }} }}')
     lsg=lsg+[F'\\end{{aligned}}$']
     lsg=lsg+parallogrammFuerFlaechenBer(g=g,h=h,dx=dx,drehung=drehung,mitBeschr=True)
     lsg=lsg+['}']
@@ -164,11 +186,41 @@ def erzeugeFlaechenDrachenAufgabe(mitText=True,mitBeschr=True,mitEundF=True,istR
     afg=afg+dracheFuerFlaechenBer(e=e,f=f,dx=dx,drehung=drehung,mitBeschr=mitBeschr,mitEundF=mitEundF)
     afg=afg+['}']
     lsg=['\\pbox{5cm}{']
+    lsg=lsg+dracheFuerFlaechenBer(e=e,f=f,dx=dx,drehung=drehung,mitBeschr=True,mitEundF=True)
     lsg=lsg+[F'$\\begin{{aligned}}']
-    lsg=lsg+[F'A&=\\frac{{1}}{{2}}\\cdot e\\cdot f \\\\']
-    lsg=lsg+[F'&=\\frac{{1}}{{2}}\\cdot{strNW(e)}\cdot {strNW(f)}={strNW(0.5*e*f,2)}~cm^2']
-    lsg=lsg+[F'\\end{{aligned}}$']
-    lsg=lsg+dracheFuerFlaechenBer(e=e,f=f,dx=dx,drehung=drehung,mitBeschr=mitBeschr)
+    lsg.append(F'geg.: e&={strNW(e)} cm \\\\')
+    lsg.append(F'   f&={strNW(f)} cm \\\\')
+    lsg.append(F'ges.: A&=? \\\\')
+    lsg.append(F'A&=\\frac{{1}}{{2}}\\cdot e\\cdot f \\\\')
+    lsg.append(F'&=\\frac{{1}}{{2}}\\cdot{strNW(e)}\cdot {strNW(f)}\\\\')
+    lsg.append(F'A&={strNW(0.5*e*f,2)}~cm^2')
+    lsg.insert(-1, F'\\makebox[0pt][l]{{\\uuline{{\\phantom{{${lsg[-1].replace("&", "")}$}} }} }}')
+    lsg.append(F'\\end{{aligned}}$')
+    lsg=lsg+['}']
+    return [afg,lsg,[]]
+
+def erzeugeFlaechenTrapezAufgabe(mitText=True,mitBeschr=True):
+    a=random.randint(20,50)/10
+    c=random.randint(10,a*10)/10
+    h=random.randint(20,50)/10
+    drehung= random.randint(0,360)
+    dx=random.randint(0,int((a-c)*10))/10
+    afg=['\\pbox{5cm}{']
+    afg=afg+([F'Berechne den Flächeninhalt von:\\\\']  if mitText else [])
+    afg=afg+trapezFuerFlaechenBer(a=a,c=c,h=h,dx=dx,drehung=drehung,mitBeschr=mitBeschr)
+    afg=afg+['}']
+    lsg=['\\pbox{5cm}{']
+    lsg=lsg+trapezFuerFlaechenBer(a=a,c=c,h=h,dx=dx,drehung=drehung,mitBeschr=True)
+    lsg=lsg+[F'$\\begin{{aligned}}']
+    lsg.append(F'geg.: a&={strNW(a)} cm \\\\')
+    lsg.append(F'   c&={strNW(c)} cm \\\\')
+    lsg.append(F'   h&={strNW(h)} cm \\\\')
+    lsg.append(F'ges.: A&=? \\\\')
+    lsg.append(F'A&=\\frac{{a+c}}{{2}}\\cdot h \\\\')
+    lsg.append(F'&=\\frac{{{strNW(a)}+{strNW(c)}}}{{2}}\\cdot{strNW(h)}\\\\')
+    lsg.append(F'A&={strNW(0.5*(a+c)*h,2)}~cm^2')
+    lsg.insert(-1, F'\\makebox[0pt][l]{{\\uuline{{\\phantom{{${lsg[-1].replace("&", "")}$}} }} }}')
+    lsg.append(F'\\end{{aligned}}$')
     lsg=lsg+['}']
     return [afg,lsg,[]]
 

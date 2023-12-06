@@ -410,10 +410,11 @@ def mehrereDreisaetze(inhalte=[['1a)',['50','1','100'],['50','$\ $','$\ $'],['\%
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
-def tagesMonatsZinsenBerechnen(inhalt=[100,12,4],art='Monatszinsen'):
+def tagesMonatsZinsenBerechnen(inhalt=[100,12,4],art='Monatszinsen',einfach=False):
 #Diese Funktion erzeugt eine Latex-Ausgabe, welche die Tages oder Monatszinsen berechnet.
 #
 #     latexcommand=tagesMonatsZinsenBerechnen(inhalt=[K,p,time],art='Monatszinsen' oder 'Tageszinsen)
+    anzSpalten=2
     latexcommand=['']
     K=inhalt[0]
     pP=inhalt[1]
@@ -421,24 +422,42 @@ def tagesMonatsZinsenBerechnen(inhalt=[100,12,4],art='Monatszinsen'):
     maxT=12 if art=='Monatszinsen' else 360
     nameT='m' if art=='Monatszinsen' else 'd'
     nameTLang='Monate' if art=='Monatszinsen' else 'Tage'
-    latexcommand.append('\\begingroup\\setlength{\\jot}{0.15cm}')
-    latexcommand.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')  
-    latexcommand.append('\\begin{tikzpicture}[show background grid]')  
-    latexcommand.append('\\node[left] at (0,-0.25) {Geg.: };')  
-    latexcommand.append('\\node[right] at (0,-0.25) {K\ =\ '+strNW(K,True)+'\\ \\euro{}};') 
-    latexcommand.append('\\node[right] at (0,-0.75) {p\ \\%=\ '+strNW(pP,True)+'\\%};')  
-    latexcommand.append('\\node[right] at (0,-1.25) {'+nameT+'\ =\ '+strNW(t,True)+'\\ '+nameTLang+'};')  
-    latexcommand.append('\\node[left] at (0,-1.75) {Ges.: };')  
-    latexcommand.append('\\node[right] at (0,-1.75) {$ Z\\ =\\ ?$};')  
-    latexcommand.append('\\node[below right] at (0,-2.25) {') 
-    latexcommand.append('$\\begin{aligned}')  
-    latexcommand.append('Z\\ &=\\frac{K\\cdot p}{100}\\cdot \\frac{'+nameT+'}{'+strNW(maxT)+'} \\\\')
-    latexcommand.append('Z\\ &=\\frac{'+strNW(K)+'\\cdot '+strNW(pP)+'}{100}\\cdot \\frac{'+strNW(t)+'}{'+strNW(maxT)+'} \\\\')
-    latexcommand.append('\makebox[0pt][l]{\\uuline{\\phantom{Z\\ =\\ '+strNW(K*pP*t/(maxT*100),runden=True)+'\\ \\euro{} }}}')
-    latexcommand.append('Z\\ &=\\ '+strNW(K*pP*t/(maxT*100),runden=True)+'\\ \\mbox{\\euro{}} ')
-    latexcommand.append('\\end{aligned}$};')
-    latexcommand.append('\\end{tikzpicture}')   
-    latexcommand.append('\\endgroup')
+    if einfach:
+        latexcommand.append(F'\\pbox{{{15 if anzSpalten==1 else 5}cm}}{{')
+        latexcommand.append('$\\begin{aligned}')
+        latexcommand.append(F'geg.: K&={strNW(K)} € \\\\')
+        latexcommand.append(F'   p\%&={strNW(pP)} \% \\\\')
+        latexcommand.append(F'ges.: Z_{{{strNW(t)}M}}&=? \\\\')
+        latexcommand.append(F' Z&=K\\cdot p\% \\\\')
+        latexcommand.append(F' Z&={strNW(K)}\\cdot {strNW(pP/100)} \\\\')
+        latexcommand.append(F' Z&={strNW(K*pP/100)} €\\\\')
+        latexcommand.append(F' Z_{{1M}}&={strNW(K*pP/100)} € : 12\\\\')
+        latexcommand.append(F' Z_{{1M}}&={strNW(K*pP/100/12,True)} €\\\\')
+        if t>1:
+            latexcommand.append(F' Z_{{{strNW(t)}M}}&={strNW(K*pP/100/12,True)} € \\cdot {t}\\\\')
+            latexcommand.append(F' Z_{{{strNW(t)}M}}&={strNW(K*pP/100/12*t,True)} €\\\\')
+        latexcommand.insert(-1, F'\\makebox[0pt][l]{{\\uuline{{\\phantom{{${latexcommand[-1].replace("&", "")}$}} }} }}')
+        latexcommand.append('\\end{aligned}$ \\\\')
+        latexcommand.append('}')
+    else:
+        latexcommand.append('\\begingroup\\setlength{\\jot}{0.15cm}')
+        latexcommand.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
+        latexcommand.append('\\begin{tikzpicture}[show background grid]')
+        latexcommand.append('\\node[left] at (0,-0.25) {Geg.: };')
+        latexcommand.append('\\node[right] at (0,-0.25) {K\ =\ '+strNW(K,True)+'\\ \\euro{}};')
+        latexcommand.append('\\node[right] at (0,-0.75) {p\ \\%=\ '+strNW(pP,True)+'\\%};')
+        latexcommand.append('\\node[right] at (0,-1.25) {'+nameT+'\ =\ '+strNW(t,True)+'\\ '+nameTLang+'};')
+        latexcommand.append('\\node[left] at (0,-1.75) {Ges.: };')
+        latexcommand.append('\\node[right] at (0,-1.75) {$ Z\\ =\\ ?$};')
+        latexcommand.append('\\node[below right] at (0,-2.25) {')
+        latexcommand.append('$\\begin{aligned}')
+        latexcommand.append('Z\\ &=\\frac{K\\cdot p}{100}\\cdot \\frac{'+nameT+'}{'+strNW(maxT)+'} \\\\')
+        latexcommand.append('Z\\ &=\\frac{'+strNW(K)+'\\cdot '+strNW(pP)+'}{100}\\cdot \\frac{'+strNW(t)+'}{'+strNW(maxT)+'} \\\\')
+        latexcommand.append('\makebox[0pt][l]{\\uuline{\\phantom{Z\\ =\\ '+strNW(K*pP*t/(maxT*100),runden=True)+'\\ \\euro{} }}}')
+        latexcommand.append('Z\\ &=\\ '+strNW(K*pP*t/(maxT*100),runden=True)+'\\ \\mbox{\\euro{}} ')
+        latexcommand.append('\\end{aligned}$};')
+        latexcommand.append('\\end{tikzpicture}')
+        latexcommand.append('\\endgroup')
     return latexcommand
 
 

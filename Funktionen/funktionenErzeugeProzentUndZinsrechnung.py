@@ -172,7 +172,7 @@ def erzeugeVerminderteGrundwertAufgaben(n=12,lsgMitDreisatz=True):
             lsgen=ausgabeVerminderteGrundwertAusgebenMitQ(inhalte=[['',r[0],r[2],r[3]]])
     return [rechnungen,lsgen,dezi]
 
-def erzeugeTagesMonatsZinsberechnung(art='',gesucht=''):
+def erzeugeTagesMonatsZinsberechnung(art='',gesucht='',einfach=False):
 #Aufruf 
 #     ausgabe=erzeugeTagesMonatsZinsberechnung(art='' oder 'Tageszinsen' oder 'Monatszinsen')
 #
@@ -186,7 +186,7 @@ def erzeugeTagesMonatsZinsberechnung(art='',gesucht=''):
     maxT=12if art=='Monatszinsen' else 360
     Z=round(Z*zeit/maxT,2)
     afg=[F'Berechne die {art} für {strNW(zeit)} {zeitEinheit} und $K={strNW(K)}~€$ bei $p~\\%={strNW(pP)}~\\%$.']
-    lsg=tagesMonatsZinsenBerechnen(inhalt=[K,pP,zeit],art=art)
+    lsg=tagesMonatsZinsenBerechnen(inhalt=[K,pP,zeit],art=art,einfach=einfach)
     if gesucht=='K':
         afg=['Berechne das eingesetze Kapitel, wenn Z='+strNW(Z)+'\\euro{}, $p~\\%='+strNW(pP)+'~\\%$ und '+zeitAbk+' = '+strNW(zeit)+' '+zeitEinheit+'.']
         lsg=tagesMonatsZinsenBerechnenKapitalGesucht(inhalt=[Z,pP,zeit],art=art)
@@ -207,6 +207,25 @@ def erzeugeTagesMonatsZinsberechnungKapitalGesucht(art=''):
     zeitEinheit=('Monate' if zeit > 1 else 'Monat') if art=='Monatszinsen' else ('Tage' if zeit > 1 else 'Tag') 
     return [afg,lsg,[ K,Z,pP,zeit]]
 
+def einfachZinseszinsen(anzSpalten=2):
+    K, Z, pP, E = erzeugeProzentRechnungen(E='\euro{}', kapital=True)
+    j=random.randint(2,4)
+    afg=F'Berechne das ersparte Geld nach {j} Jahren für K={strNW(K)} € und p\%={strNW(pP)} \%'
+    Kwerte=[K*(1+pP/100)**(i) for i in range(j)]
+    lsg=[F'\\pbox{{{15 if anzSpalten==1 else 5}cm}}{{']
+    for i in range(j):
+        lsg.append(F'Nach {i+1} Jahr{"" if j<1 else "en"}: \\\\')
+        lsg.append('$\\begin{aligned}')
+        lsg.append(F'Z_{i+1}&=K_{i if i>0 else "{start}"}\\cdot p\\% \\\\')
+        lsg.append(F'&={strNW(Kwerte[i],True)} € \\cdot {strNW(pP/100)} \\\\')
+        lsg.append(F'&={strNW(Kwerte[i]*pP/100,True)} €\\\\')
+        lsg.append(F'K_{i+1}&=K_{i if i>0 else "{start}"}+Z \\\\')
+        lsg.append(F'&={strNW(Kwerte[i],True)} €+ {strNW(Kwerte[i]*pP/100,True)} €\\\\')
+        lsg.append(F'K_{i+1}&={strNW(Kwerte[i]+Kwerte[i]*pP/100,True)} €\\\\')
+        lsg.insert(-1, F'\\makebox[0pt][l]{{\\uuline{{\\phantom{{${lsg[-1].replace("&", "")}$}} }} }}')
+        lsg.append('\\end{aligned}$ \\\\')
+    lsg.append('}')
+    return [afg,lsg,[]]
 def erzeugeVermehrterGrundwertAufgaben(n=12,lsgMitDreisatz=True):
 #Aufruf 
 #     ausgabe=erzeugeProzentsatzAufgaben(Anzahl)
