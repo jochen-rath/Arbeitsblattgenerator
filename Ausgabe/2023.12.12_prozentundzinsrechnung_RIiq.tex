@@ -1,0 +1,61 @@
+\documentclass[12pt]{article}
+\usepackage[table]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage{tabularx,xltabular}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{geometry}
+\usepackage{ulem}
+\usepackage[official]{eurosym}
+\usepackage{tikz}
+\usetikzlibrary{arrows,backgrounds,calc,decorations.markings,patterns,3d,positioning,fit,angles, quotes}
+\usepackage{pgfplots}
+\pgfplotsset{compat = newest}
+\usetikzlibrary{fit}
+\newcommand\addvmargin[1]{
+\usetikzlibrary{arrows}
+\node[fit=(current bounding box),inner ysep=#1,inner xsep=0]{};}
+\usepackage{cancel}
+\usepackage{fontspec}
+\usepackage{array}  
+\geometry{a4paper, top=2cm, left=2cm, right=2cm, bottom=2cm, headsep=1cm}
+\usepackage{tabu}
+\usepackage{pst-node}
+\usepackage{colortbl}
+\usepackage{array}
+\usepackage{german}
+\setlength\parindent{0pt}
+\newcolumntype{?}{!{\vrule width 1pt}}
+\usepackage{makecell}
+\renewcommand{\arraystretch}{2.5}
+\usepackage{pbox}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\begin{document}
+\pgfmathsetmacro{\pkteAfgEins}{12}
+\pgfmathsetmacro{\pkteAfgZwei}{8}
+\pgfmathsetmacro{\pkteAfgDrei}{0}
+\pgfmathsetmacro{\pkteAfgVier}{0}
+\pgfmathsetmacro{\pkteAfgFuenf}{0}
+\pgfmathsetmacro{\pkteAfgSechs}{0}
+\pgfmathsetmacro{\pkteAfgSieben}{0}
+\pgfmathsetmacro{\sauberkeitsPkte}{2}
+\def\datum{12.12.2023}
+\def\kurs{~}
+\def\titel{Prozent und Zinsrechnung}
+\def\jahr{2022/2023}
+\def\fach{Mathematik}
+\def\name{~}
+\def\material{Füller / Kugelschreiber / Fineliner, Bleistift, Taschenrechner}
+\pgfmathsetmacro{\gesPkte}{\pkteAfgEins+\pkteAfgZwei+\pkteAfgDrei+\pkteAfgVier+\pkteAfgFuenf+\pkteAfgSechs+\pkteAfgSieben+\sauberkeitsPkte}
+\input{2023.12.12_prozentundzinsrechnung_RIiq_Kopfseite.tex}
+\pgfmathsetmacro{\punkte}{\pkteAfgEins}
+\input{2023.12.12_prozentundzinsrechnung_RIiq_Aufgabe01.tex}
+\pgfmathsetmacro{\punkte}{\pkteAfgZwei}
+\input{2023.12.12_prozentundzinsrechnung_RIiq_Aufgabe02.tex}
+\end{document}

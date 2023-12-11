@@ -77,8 +77,26 @@ def rechteckTikz(a,b,beschrSeiten=False,beschrPunkte=False,texta='a',textb='b',t
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
+def zusammengesetzteRechteckeVersuch(punkte=[[1,3],[2,5],[1,3]],beschrSeiten=False,beschrPunkte=False,mitLsg=False,texta='a',textb='b'):
+    tikzcommand=[]
+    tikzcommand.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
+    tikzcommand.append('\\noindent\\begin{tikzpicture}[show background grid]')
+    punkteRelativ=[[0,0]]
+    for p,i in enumerate(punkte):
+        punkteRelativ.append([punkteRelativ[-1][0]+p[0],])
+    startPkt=[0,0]
+    endPkt=[0,0]
+    for i,pkt in enumerate(punkte):
+            tikzcommand.append('\\draw[black] ('+str(endPkt[0])+'cm,'+str(endPkt[1])+'cm) -- ('+str(endPkt[0])+'cm,'+str(pkt[1])+'cm);')
+            tikzcommand.append(F'\\draw[black] ('+str(endPkt[0])+'cm,'+str(endPkt[1])+'cm) -- ('+str(endPkt[0])+'cm,'+str(pkt[1])+'cm);')
+            tikzcommand.append('\\draw[black] ('+str(endPkt[0])+'cm,'+str(pkt[1])+'cm) -- ('+str(endPkt[0]+pkt[0])+'cm,'+str(pkt[1])+'cm);')
+            tikzcommand.append('\\draw[black] ('+str(endPkt[0]+pkt[0])+'cm,'+str(0.0)+'cm) -- ('+str(endPkt[0])+'cm,'+str(0.0)+'cm);')
+            endPkt=[endPkt[0]+pkt[0],pkt[1]]
+    tikzcommand.append('\\addvmargin{1mm}')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
 
-def zusammengesetzteRechtecke(punkte,beschrSeiten=False,beschrPunkte=False,mitLsg=False,texta='a',textb='b'):
+def zusammengesetzteRechtecke(punkte=[[1,3],[2,5],[1,3]],beschrSeiten=False,beschrPunkte=False,mitLsg=False,texta='a',textb='b'):
 #Beispiel:
 #  zusammengesetzteRechtecke(erzeugeZusammengesetzRechtecke(n=3,gesamtlaenge=5,hoehe=5),mitLsg=True)
     tikzcommand=[]
@@ -95,6 +113,7 @@ def zusammengesetzteRechtecke(punkte,beschrSeiten=False,beschrPunkte=False,mitLs
             tikzcommand.append('\\draw ('+str(endPkt[0]+0.5*pkt[0])+'cm,'+str(pkt[1])+'cm) node[above]{$A'+'_'+str(i+1)+'$}; ')
         else:
             tikzcommand.append('\\draw[black] ('+str(endPkt[0])+'cm,'+str(endPkt[1])+'cm) -- ('+str(endPkt[0])+'cm,'+str(pkt[1])+'cm);')
+            tikzcommand.append(F'\\draw[black] ('+str(endPkt[0])+'cm,'+str(endPkt[1])+'cm) -- ('+str(endPkt[0])+'cm,'+str(pkt[1])+'cm);')
             tikzcommand.append('\\draw[black] ('+str(endPkt[0])+'cm,'+str(pkt[1])+'cm) -- ('+str(endPkt[0]+pkt[0])+'cm,'+str(pkt[1])+'cm);')
             tikzcommand.append('\\draw[black] ('+str(endPkt[0]+pkt[0])+'cm,'+str(0.0)+'cm) -- ('+str(endPkt[0])+'cm,'+str(0.0)+'cm);')
         if beschrSeiten:

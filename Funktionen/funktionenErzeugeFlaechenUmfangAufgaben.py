@@ -62,6 +62,7 @@ def erzeugeFlaechenberechnung(maxA=4,maxB=4,breitePbox='6',mitText=True):
 def erzeugeZusammengesetzRechtecke(n=3,gesamtlaenge=5,hoehe=8,mitText=True):
     punkte=[]
     endlaenge=gesamtlaenge
+#Erzeuge die Eckpunkte oben Rechts, z.B: punkte=[[1, 3], [2, 5], [1, 3]]
     for i in range(n):
         if endlaenge>0:
 #            punkte.append([random.randint(1,endlaenge if endlaenge<int(endlaenge/2+0.5) else int(endlaenge/2+0.5)),random.randint(1,hoehe)])
@@ -255,7 +256,42 @@ def erzeugePfeilFlaechenBerechnung(anzSpalten=2,mitText=True):
     lsg.insert(-1,F'\\makebox(0pt,-0.25cm)[l]{{\\uline{{\\phantom{{${lsg[-1].replace("&", "")}$}} }} }}')
     lsg.append(F'A_G&= A_R+A_D={strNW(a*b)}+{strNW(g*h/2)}={strNW(a*b+g*h/2)} cm ^2& & \\\\')
     lsg.insert(-1,F'\\makebox[0pt][l]{{\\uuline{{\\phantom{{${lsg[-1].replace("&", "")}$}} }} }}')
-    lsg=lsg+['\\end{aligned}$']
-    lsg=lsg+['}']
-
+    lsg.append('\\end{aligned}$')
+    lsg.append('}')
     return [afg,lsg,[]]
+
+def trapezGruenBlauGroesserAufgabe(anzSpalten=2,mitText=True):
+    R=random.randint(50,65)
+    h=random.randint(20,30)
+    dR=int(h/(0.75**0.5))
+    h1=int(0.75**0.5*R)
+    gesamtHoehe=2*(int(0.75**0.5*R)+h)
+    afg=[F'\\pbox{{{15 if anzSpalten==1 else 5}cm}}{{']
+    afg=afg+([F'Welche Fläche ist größer, grün oder Blau?\\\\']  if mitText else [])
+    afg=afg+trapezMitTrapezenUmrandet(R=R,h=h)
+    afg=afg+['}']
+    lsg = ['\\pbox{7cm}{']
+    lsg=lsg+trapezMitTrapezenUmrandet(R=R,h=h,LSG=True)
+    lsg=lsg+['$\\begin{aligned}']
+    lsg.append(F'geg.: a_1 &={strNW(2*R)}~cm& & \\\\')
+    lsg.append(F'  c_1 &={strNW(R)}~cm& & \\\\')
+    lsg.append(F'  h_1 &={int(gesamtHoehe)}:2-{h}={strNW(int(h1))}~cm& & \\\\')
+    lsg.append(F'  a_2 &={strNW(int(R+dR))}~cm& & \\\\')
+    lsg.append(F'  c_2 &={strNW(R)}~cm& & \\\\')
+    lsg.append(F'  h_2 &={int(h)}~cm & \\\\')
+    lsg.append(F'ges.: A_{{Gruen}} &=?~cm^2& & \\\\')
+    lsg.append(F' A_{{Blau}} &=?~cm^2& & \\\\')
+    lsg.append(F'& & & \\\\')
+    lsg.append(F'A_{{Gruen}}&= 2\\cdot (\\frac{1}2(a_1+c_1)\\cdot h_1) & & \\\\')
+    lsg.append(F'&= 2\\cdot (\\frac{1}2({strNW(2*R)}+{strNW(R)})\\cdot {strNW(h1,True)}) & & \\\\')
+    lsg.append(F'A_{{Gruen}}&={strNW(2*(2*R+R)*h1*0.5,True)}~cm^2 & & \\\\')
+    lsg.insert(-1,F'\\makebox[0pt][l]{{\\uuline{{\\phantom{{${lsg[-1].replace("&", "")}$}} }} }}')
+    lsg.append(F'& & & \\\\')
+    lsg.append(F'A_{{blau}}&= 6\\cdot (\\frac{1}2(a_2+c_2)\\cdot h_2) & & \\\\')
+    lsg.append(F'&= 6\\cdot (\\frac{1}2({strNW(int(R+dR))}+{strNW(R)})\\cdot {strNW(h,True)}) & & \\\\')
+    lsg.append(F'A_{{blau}}&={strNW(6*(R+dR+R)*h*0.5,True)}~cm^2 & & \\\\')
+    lsg.insert(-1,F'\\makebox[0pt][l]{{\\uuline{{\\phantom{{${lsg[-1].replace("&", "")}$}} }} }}')
+    lsg.append('\\end{aligned}$')
+    lsg.append(F'Die {"grüne" if 2*(2*R+R)*h1*0.5>6*(R+dR+R)*h*0.5 else "blaue"} Fläche ist größer.')
+    lsg.append('}')
+    return [afg, lsg, []]

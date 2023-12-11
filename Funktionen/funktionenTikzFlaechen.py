@@ -71,3 +71,44 @@ def pfeilFlaechenBer(a=4,b=1.4,g=2.8,h=2,z=0.7,lsg=False):
 
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
+
+def trapezMitTrapezenUmrandet(R=50,h=25,LSG=False):
+    tikzcommand=[]
+    tikzcommand.append("\\begin{tikzpicture}")
+    tikzcommand.append("%Ich rechne mal sqrt(0.75) da hier ein gleichseitiges Dreieck vorliegt, bei dem man die Höhe berechnen muss.")
+    tikzcommand.append("%Dies geht mit dem Pythagoras, wobei der durch die Hälfte der Seite geht:")
+    tikzcommand.append("%               a²+b²=c² mit a=c/2 --> b²=c²-(c/2)²=c²-c²/4=3/4*c² --> b=c*sqrt(3/4)")
+    tikzcommand.append("%Flächenberechnung grün-blau in Python:")
+    tikzcommand.append("%R,h=50,25")
+    tikzcommand.append("%2*((2*R-R)*R*(0.75**0.5)/2)-6*((R+h*(0.75**0.5))-R)*h/2")
+    tikzcommand.append(F"  \\pgfmathsetmacro{{\\hWert}}{{{h}}}")
+    tikzcommand.append(F"  \\pgfmathsetmacro{{\\RWert}}{{{R}}}")
+    tikzcommand.append("  \\pgfmathsetmacro{\\dh}{\\hWert/100*4}")
+    tikzcommand.append("  \\pgfmathsetmacro{\\R}{\\RWert/100*4}")
+    tikzcommand.append("  \\pgfmathsetmacro{\\dR}{\\dh/sqrt(0.75)}")
+    tikzcommand.append("  \\pgfmathsetmacro{\\hges}{(\\R+\\dR)*sqrt(0.75)}")
+    tikzcommand.append("  \\pgfmathsetmacro{\\h}{\\hges-\\dh}")
+    tikzcommand.append("%Schreibe ohne Komma")
+    tikzcommand.append("  \\pgfmathtruncatemacro\\gesamthoehe{2*(\\RWert*sqrt(0.75)+\\hWert)}")
+    tikzcommand.append("  \\pgfmathtruncatemacro\\aussenlaenge{\\RWert+\\hWert/sqrt(0.75)}")
+    tikzcommand.append("  \\pgfmathtruncatemacro\\innenlaenge{2*\\RWert}")
+    tikzcommand.append("  \\pgfmathtruncatemacro\\innenhoehe{\\RWert*sqrt(0.75)}")
+    tikzcommand.append("\\foreach \\rot in  {0,60,...,360}{")
+    tikzcommand.append("\\draw[black,rotate=\\rot,fill=blue!60] (\\R,0) -- ++(\\dR,0) -- ++(120:\\R+\\dR) -- ++(60:-\\dR) -- cycle;")
+    tikzcommand.append("}")
+    tikzcommand.append("\\draw[black,fill=green] (\\R,0) -- ++(120:\\R) -- ++(180:\\R) -- ++(240:\\R) -- ++(120:-\\R) -- ++(0:\\R) -- cycle ;")
+    if LSG:
+        tikzcommand.append("\\draw[thick,<->] (-\\R,0) --node[below] {$a_1=\\innenlaenge~cm$} (\\R,0);")
+        tikzcommand.append("\\draw[thick,<->] (240:\\R+\\dR+0.1) --node[below] {$a_2=\\aussenlaenge~cm$}  (300:\\R+\\dR+0.1);")
+        tikzcommand.append("\\draw[thick,<->] (0,-\\h) --node[right] {$h_2=\\hWert~cm$} (0,-\\hges);")
+        tikzcommand.append("\\draw[thick,<->] (0,0) --node[right] {$h_1=\\innenhoehe~cm$} (0,\\h);")
+        tikzcommand.append("\\draw[thick,<->] (240:\\R-0.1) --node[above] {$c_2=\\RWert cm$}  (300:\\R-0.1);")
+        tikzcommand.append("\\draw[thick,<->] (60:\\R-0.1) --node[above] {$c_1=\\RWert cm$}  (120:\\R-0.1);")
+    else:
+        tikzcommand.append("\\draw[thick,<->] (-\\R,0) --node[below] {\\innenlaenge~cm} (\\R,0);")
+        tikzcommand.append("\\draw[thick,<->] (\\R+\\dR+0.2,\\hges) --node[right] {\\gesamthoehe~cm} (\\R+\\dR+0.2,-\\hges) ;")
+        tikzcommand.append("\\draw[thick,<->] (240:\\R-0.1) --node[above] {\\RWert cm}  (300:\\R-0.1);")
+        tikzcommand.append("\\draw[thick,<->] (240:\\R+\\dR+0.1) --node[below] {\\aussenlaenge~cm}  (300:\\R+\\dR+0.1);")
+        tikzcommand.append("\\draw[thick,<->] (0,\\h) --node[right] {\\hWert~cm} (0,\\hges);")
+    tikzcommand.append("\\end{tikzpicture}")
+    return tikzcommand
