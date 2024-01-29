@@ -266,7 +266,57 @@ def erzeugeZylibderOberVolBerech(breitePbox='\\textwidth',maxDim=14,einheit='cm'
     lsg.append('}')
     return [aufg,lsg,[]]
 
-
+def erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten=2,typ='Sechseck',mitText=True):
+    einheit='cm'
+    breite=6 if anzSpalten==2 else 14
+    breite=breite/2 if typ=='Sechseck' else breite
+    a,c,h,hK=[random.randint(15,10*min(8,breite))/10 for i in range(4)]
+    if typ=='Sechseck':
+            c=round(2*a*math.cos(60*math.pi/180)+a,1)
+            h=round(a*math.sin(60*math.pi/180),1)
+    geg=['a','c','h','hK']
+    ges='V'
+    messen=True
+    auswahl={'Trapez':['G=(a+c)*h/2','trapezPrismaLiegend3D(a=a,c=c,hT=h,hK=hK,messen=messen)']}
+    auswahl['Sechseck']=['G=2*(a+c)*h/2','sechseckPrimsa3D(a=a,hK=hK,messen=messen)']
+    aufg=[F'\\pbox{{{breite } cm}}{{{"Messe die Seiten und Berechne dann das Volumen von: &&&&" if mitText else ""}'.replace('&&&&','\\\\')]
+    lsg=[F'\\pbox{{{ breite} cm}}{{']
+    scope=globals()|locals()
+    aufg=aufg+eval(auswahl[typ][1],scope)
+    messen=False
+    scope=globals()|locals()
+    lsg=lsg+eval(auswahl[typ][1],scope)+['\\\\']
+    nLsg=len(lsg)
+    lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
+    lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
+    lsg.append('\\begin{tikzpicture}[show background grid]')
+    lsg.append('\\node[left] at (0,-0.25) {Geg.: };')
+    for x in geg:
+        lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-5-nLsg)}) {{${x.replace("hK","h_K")}={strNW(eval(x),2)}~{einheit}$}};')
+    lsg.append(F'\\node[left] at (0,{-0.25-0.5*(len(lsg)-5-nLsg)}) {{Ges.: }};')
+    lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-6-nLsg)}) {{${ges}  = ?~cm^3$}};')
+    lsg.append(F'\\node[below right] at (0,{-0.25-0.5*(len(lsg)-6-nLsg)}) {{')
+    lsg.append('$\\begin{aligned}')
+    lsg.append(F'V&=G\\cdot h_K & & \\\\')
+    formel=auswahl[typ][0]
+    G=eval(formel.split("=")[1],scope)
+    lsg.append(F'{formel.split("=")[0]}&={formel.split("=")[1].replace("*","&&cdot ")}& & \\\\'.replace('&&','\\'))
+    for x in geg:
+        formel = formel.replace(x, strNW(eval(x),2))
+    lsg.append(F'{formel.split("=")[0]}&={formel.split("=")[1].replace("*","&&cdot ")}& & \\\\'.replace('&&','\\'))
+    lsg.append(F'{formel.split("=")[0]}&={strNW(G,2)}~cm^2& & \\\\'.replace('&&','\\'))
+#Ergebniss doppelt unterstreichen
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg.append(F'V&=G\\cdot h_K & & \\\\')
+    lsg.append(F'V&={strNW(G)}\\cdot {strNW(hK)} & & \\\\')
+    lsg.append(F'V&={strNW(G*hK,2)} cm^3& & \\\\')
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg.append('\\end{aligned}$};')
+    lsg.append('\\end{tikzpicture}')
+    lsg.append('\\endgroup')
+    aufg.append('}')
+    lsg.append('}')
+    return [aufg,lsg,[]]
 def erzeugeQuaderMitLochBerech(breitePbox='\\textwidth',maxDim=14,einheit='cm',werte=[],namen=[]):
 #Diese Funktion erzeugt eine Aufgabe und Lösung zum Addieren und Subtrahieren von Dezimalzahlen
 #Ausgabe: [aufg,lsg,zahlen]=erzeugeQuaderMitLochBerech(breitePbox,maxDim,einheit,werte)

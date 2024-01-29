@@ -116,13 +116,12 @@ def trapezPrismaLiegend3D(a=5,c=3,hT=4,hK=5,messen=False):
     dx=(a-c)/2
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
-#    tikzcommand.append(F'\\draw[thick]  (0,0,0) coordinate(A) -- node[below]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ({c},0,0) -- node[right]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ++({a},0,0) coordinate(B) -- ++({-dx},{hT},0) coordinate(C)  cycle ;')
     tikzcommand.append(F'\\draw[thick]  (0,0,0) coordinate(A) --node[below]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ++({a},0,0) coordinate(B) -- ++({-dx},{hT},0) coordinate(C)  -- node[above]{{$c{"" if messen else F"={strNW(c,True)} cm"}$}}  ++({-c},0,0) coordinate(D) -- cycle ;')
     tikzcommand.append(F'\\draw[white]  (0,0,{hK}) coordinate(E) -- ++({a},0,0) coordinate(F) -- ++({-dx},{hT},0) coordinate(G) -- ++({-c},0,0) coordinate(H) -- cycle ;')
     tikzcommand.append(F'\\draw[thick] (F) -- (G) -- (H);')
     tikzcommand.append(F'\\draw[thick,dashed] (H) -- (E) -- (F);')
     tikzcommand.append(F'\\draw[thick,dashed] (A)  -- (E); ')
-    tikzcommand.append(F'\\draw[thick] (B) --node[below]{{$h_K{"" if messen else F"={strNW(hK,True)} cm"}$}} (F);')
+    tikzcommand.append(F'\\draw[thick] (B) --node[right]{{$h_K{"" if messen else F"={strNW(hK,True)} cm"}$}} (F);')
     tikzcommand.append(F'\\draw[thick] (C) -- (G); ')
     tikzcommand.append(F'\\draw[thick] (D) -- (H);')
     if dx>0:
@@ -133,16 +132,23 @@ def trapezPrismaLiegend3D(a=5,c=3,hT=4,hK=5,messen=False):
     return tikzcommand
 
 def sechseckPrimsa3D(a=5,hK=5,messen=False):
-    
-    Cx=math.cos(alpha)*b
-    h=math.sin(alpha)*b
+    c=round(2*a*math.cos(60*math.pi/180)+a,1)
+    hHexa=round(a*math.sin(60*math.pi/180),1)
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
-    tikzcommand.append(F'\\draw  (0,0,0) -- node[below]{{$c{"" if messen else F"={strNW(c,True)} cm"}$}} ({c},0,0) -- node[right]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ({Cx},0,-{h}) -- node[left]{{$b{"" if messen else F"={strNW(b,True)} cm"}$}} cycle ;')
-    tikzcommand.append(F'\\draw  (0,{hK},0) -- ({c},{hK},0) -- ({Cx},{hK},-{h}) --cycle ;')
-    tikzcommand.append(F'\\draw  (0,0,0) -- (0,{hK},0);')
-    tikzcommand.append(F'\\draw  ({c},0,0) -- node[anchor=south west]{{$h_K{"" if messen else F"={strNW(hK,True)} cm"}$}} ({c},{hK},0);')
-    tikzcommand.append(F'\\draw{"[dashed]" if True else ""}  ({Cx},0,-{h}) -- ({Cx},{hK},-{h});')
+    tikzcommand.append(F'\\draw[thick]  (0,0)  coordinate (A) --node[below]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}}  ++(0:{a} cm) coordinate (B) -- ++(60:{a} cm) coordinate (C) -- ++(120:{a} cm) coordinate (D) -- ++(180:{a} cm) coordinate (E) -- ++(240:{a} cm) coordinate (F) --   cycle ;')
+    tikzcommand.append(F'\\path   ($(A)+(0,0,{hK})$) coordinate (A2) -- ($(B)+(0,0,{hK})$) coordinate (B2) --  ($(C)+(0,0,{hK})$) coordinate (C2) --  ($(D)+(0,0,{hK})$) coordinate (D2) --  ($(E)+(0,0,{hK})$) coordinate (E2) --  ($(F)+(0,0,{hK})$) coordinate (F2) --    cycle ;')
+    tikzcommand.append('\\draw[thick] (B2) -- (C2) -- (D2) -- (E2);')
+    tikzcommand.append('\\draw[thick,dashed] (E2) -- (F2) -- (A2) -- (B2);')
+    tikzcommand.append(F'\\draw[thick] (B) -- node[right]{{$h_K{"" if messen else F"={strNW(hK,True)} cm"}$}} (B2) ;')
+    tikzcommand.append('\\draw[thick] (C) -- (C2) ;')
+    tikzcommand.append('\\draw[thick] (D) -- (D2) ;')
+    tikzcommand.append('\\draw[thick] (E) -- (E2) ;')
+    tikzcommand.append('\\draw[thick,dashed] (A) -- (A2) ;')
+    tikzcommand.append('\\draw[thick,dashed] (F) -- (F2) ;')
+    tikzcommand.append(F'\\draw[thick,gray] (C) -- node[below,text=black]{{$c{"" if messen else F"={strNW(c,True)} cm"}$}} (F) ;')
+    tikzcommand.append('\\coordinate (SP) at (intersection of A--E and C--F);')
+    tikzcommand.append(F'\\draw[thick,gray] (A) --node[right,text=black]{{$h_H{"" if messen else F"={strNW(hHexa,True)} cm"}$}}  (SP) ;')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
