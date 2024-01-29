@@ -13,12 +13,18 @@ def einheitenListe():
     return [groessen,einheitenZuTimedelta,einheiten]
 
 
-def erzeugeZeitBestimmenAfg(mitText=True,breitePbox=5):
+def erzeugeZeitBestimmenAfg(mitText=True,breitePbox=5,schrittweite=1,mitZahlen=True,einzeichnen=False):
     stunde=random.randint(1,12)
-    minute=random.randint(1,60)
-    afg=(['\\pbox{'+str(breitePbox)+'cm}{Wie Spät ist es? \\\\'] if mitText else []) + tikzAnalogeUhr(stunde=stunde,minute=minute)
+    minute=random.randrange(0,60,schrittweite)
+    afg=F'Zeichne ein die angegebene Uhrzeit ein.' if einzeichnen else "Wie Spät ist es?"
+    einzeichnen=F'{stunde%12+12*random.getrandbits(1)}:{minute:02} Uhr' if einzeichnen else ''
+    afg=([F'\\pbox{{{breitePbox}cm}}{{{afg} \\\\'] if mitText else []) + tikzAnalogeUhr(stunde=stunde,minute=minute,mitZeiger=False if einzeichnen else True, mitZahlen=mitZahlen,eingabeFeld=True,einzeichnen=einzeichnen)
     afg=afg+(['}'] if mitText else [])
-    lsg=['Es ist '+str(stunde)+' Uhr und '+str(minute)+' Minuten']
+    #lsg=['\\pbox{ 7 cm}{']
+    #lsg=lsg+[F'Vor dem Mittag: Es ist {stunde%12} Uhr{F" und {minute} Minuten" if minute>0 else ""}. \\\\']
+    #lsg=lsg+[F'Nach dem Mittag: Es ist {stunde%12+12} Uhr{F" und {minute} Minuten" if minute>0 else ""}. \\\\']
+    lsg=tikzAnalogeUhr(stunde=stunde,minute=minute,mitLsg=True,eingabeFeld=False)
+    #lsg=lsg+['}']
     return [afg,lsg,[stunde,minute]]
 
 def erzeugeAddiereUhrzeit(schwer=False,breitePbox=5):

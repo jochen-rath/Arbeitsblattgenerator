@@ -150,7 +150,7 @@ def dezimalzahlenRunden(kommastelle,anzahl=1,zusatz=0,mitText=True):
     breitePbox='5'
     woerter={0:'Einer',1:'Zehntel',2:'Hunderstel',3:'Tausendstel',4:'Zehntausendstel'}
     if anzahl>1:
-        aufg='\\pbox{'+breitePbox+'cm}{Runde auf '+woerter[kommastelle]+':\\\\'
+        aufg=F'\\pbox{{{breitePbox} cm}}{{{F"Runde auf {woerter[kommastelle]}:" if mitText else ""}\\\\'
         lsg='\\pbox{'+breitePbox+'cm}{'
         deziZahl=[]
         for i in range(anzahl):
@@ -163,7 +163,7 @@ def dezimalzahlenRunden(kommastelle,anzahl=1,zusatz=0,mitText=True):
     else:
         zusatz=random.randint(1,3) if zusatz==0 else zusatz
         deziZahl=dezi(kommastelle+zusatz)
-        aufg=('Runde auf ' if mitText else '')+woerter[kommastelle]+': '+strNW(round(deziZahl,kommastelle+zusatz))
+        aufg=F'{F"Runde auf {woerter[kommastelle]}: " if mitText else ""}{strNW(round(deziZahl,kommastelle+zusatz))}'
         lsg='$'+strNW(round(deziZahl,kommastelle+zusatz))+'~\\approx~'+strNW(round(deziZahl,kommastelle))+'$'
     return [aufg,lsg,deziZahl]
 

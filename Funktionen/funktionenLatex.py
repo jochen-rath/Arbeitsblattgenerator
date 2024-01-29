@@ -47,6 +47,7 @@ def latexHead(arraystretch=False,size=2):
     head.append('\\usetikzlibrary{arrows,backgrounds,calc,decorations.markings,patterns,3d,positioning,fit,angles, quotes}')     #Für Karo Hintergrund
 ####Diagramme und Funkionen zeichnen:
     head.append('\\usepackage{pgfplots}')
+    head.append('\\usepackage{circuitikz}')
 ####Nutz die letzte Version von pgfplots:
     head.append('\\pgfplotsset{compat = newest}')
 #Special Command for distance between table line an tikz picture

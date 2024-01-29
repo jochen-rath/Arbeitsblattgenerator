@@ -98,6 +98,54 @@ def trapezprismaLiegend(Bx=5,Cx=4,Cy=3,Dx=2,hK=5,messen=False):
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
+def dreiecksPrimsa3D(a=5,b=3,c=4,hK=5,messen=False):
+    alpha=math.acos(-(a**2-b**2-c**2)/(2*b*c))
+    Cx=math.cos(alpha)*b
+    h=math.sin(alpha)*b
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
+    tikzcommand.append(F'\\draw  (0,0,0) -- node[below]{{$c{"" if messen else F"={strNW(c,True)} cm"}$}} ({c},0,0) -- node[right]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ({Cx},0,-{h}) -- node[left]{{$b{"" if messen else F"={strNW(b,True)} cm"}$}} cycle ;')
+    tikzcommand.append(F'\\draw  (0,{hK},0) -- ({c},{hK},0) -- ({Cx},{hK},-{h}) --cycle ;')
+    tikzcommand.append(F'\\draw  (0,0,0) -- (0,{hK},0);')
+    tikzcommand.append(F'\\draw  ({c},0,0) -- node[anchor=south west]{{$h_K{"" if messen else F"={strNW(hK,True)} cm"}$}} ({c},{hK},0);')
+    tikzcommand.append(F'\\draw{"[dashed]" if True else ""}  ({Cx},0,-{h}) -- ({Cx},{hK},-{h});')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+
+def trapezPrismaLiegend3D(a=5,c=3,hT=4,hK=5,messen=False):
+    dx=(a-c)/2
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
+#    tikzcommand.append(F'\\draw[thick]  (0,0,0) coordinate(A) -- node[below]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ({c},0,0) -- node[right]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ++({a},0,0) coordinate(B) -- ++({-dx},{hT},0) coordinate(C)  cycle ;')
+    tikzcommand.append(F'\\draw[thick]  (0,0,0) coordinate(A) --node[below]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ++({a},0,0) coordinate(B) -- ++({-dx},{hT},0) coordinate(C) node[above]{{$c{"" if messen else F"={strNW(c,True)} cm"}$}} -- ++({-c},0,0) coordinate(D) -- cycle ;')
+    tikzcommand.append(F'\\draw[white]  (0,0,{hK}) coordinate(E) -- ++({a},0,0) coordinate(F) -- ++({-dx},{hT},0) coordinate(G) -- ++({-c},0,0) coordinate(H) -- cycle ;')
+    tikzcommand.append(F'\\draw[thick] (F) -- (G) -- (H);')
+    tikzcommand.append(F'\\draw[thick,dashed] (H) -- (E) -- (F);')
+    tikzcommand.append(F'\\draw[thick,dashed] (A)  -- (E); ')
+    tikzcommand.append(F'\\draw[thick] (B) --node[below]{{$h_K{"" if messen else F"={strNW(hK,True)} cm"}$}} (F);')
+    tikzcommand.append(F'\\draw[thick] (C) -- (G); ')
+    tikzcommand.append(F'\\draw[thick] (D) -- (H);')
+    if dx>0:
+        tikzcommand.append(F'\\draw[thick] (D) -- node[below]{{$h_T{"" if messen else F"={strNW(hT,True)} cm"}$}} ++(0,{-hT},0);')
+    else:
+        tikzcommand.append(F'\\draw[thick] (A) -- node[below]{{$h_T{"" if messen else F"={strNW(hT,True)} cm"}$}} ++(0,{hT},0);')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+
+def sechseckPrimsa3D(a=5,hK=5,messen=False):
+    
+    Cx=math.cos(alpha)*b
+    h=math.sin(alpha)*b
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
+    tikzcommand.append(F'\\draw  (0,0,0) -- node[below]{{$c{"" if messen else F"={strNW(c,True)} cm"}$}} ({c},0,0) -- node[right]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ({Cx},0,-{h}) -- node[left]{{$b{"" if messen else F"={strNW(b,True)} cm"}$}} cycle ;')
+    tikzcommand.append(F'\\draw  (0,{hK},0) -- ({c},{hK},0) -- ({Cx},{hK},-{h}) --cycle ;')
+    tikzcommand.append(F'\\draw  (0,0,0) -- (0,{hK},0);')
+    tikzcommand.append(F'\\draw  ({c},0,0) -- node[anchor=south west]{{$h_K{"" if messen else F"={strNW(hK,True)} cm"}$}} ({c},{hK},0);')
+    tikzcommand.append(F'\\draw{"[dashed]" if True else ""}  ({Cx},0,-{h}) -- ({Cx},{hK},-{h});')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+
 
 def dreiecksPrimsa(Ax=3,Bx=2,Cx=4,Cy=2,hK=4,ursprung=[0,0],messen=False):
 #Diese Funktion erzeugt einen Tikz-code mit dem man einen Zylinder darstellen.
@@ -140,7 +188,7 @@ def zylinder(R=3, h=4, ursprung=[0,0],buchstabe='Z',rName='R',hName='h'):
 #        tikzcommand=zylinder(R, h, ursprung=[0,0],buchstabe,rName,hName)
 #
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
-    tikzcommand.append('\\begin{tikzpicture}[show background grid]')    
+    tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
     tikzcommand.append('\\draw ('+str(ursprung[0])+','+str(ursprung[1]+h)+') ellipse ('+str(R)+' and '+str(R/2)+');')
     tikzcommand.append('\\draw ('+str(ursprung[0]-R)+','+str(ursprung[1])+') -- ('+str(ursprung[0]-R)+','+str(ursprung[1]+h)+');')
     tikzcommand.append('\\draw ('+str(ursprung[0]-R)+','+str(ursprung[1])+') arc (180:360:'+str(R)+' and '+str(R/2)+');')
@@ -152,7 +200,7 @@ def zylinder(R=3, h=4, ursprung=[0,0],buchstabe='Z',rName='R',hName='h'):
 
 def quaderMitLoch(a=6, b=4, c=9,R=1.5, ursprung=[0,0],buchstabe='Q',aName='a',bName='b',cName='c',rName='r'):
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
-    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
     tikzcommand.append(F'\\pgfmathsetmacro{{\\R}}{{{R}}}  ')
     tikzcommand.append(F'\\pgfmathsetmacro{{\\winkelA}}{{160}}  ')
     tikzcommand.append(F'\\pgfmathsetmacro{{\\winkelB}}{{335}}  ')
