@@ -117,7 +117,7 @@ def trapezPrismaLiegend3D(a=5,c=3,hT=4,hK=5,messen=False):
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
 #    tikzcommand.append(F'\\draw[thick]  (0,0,0) coordinate(A) -- node[below]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ({c},0,0) -- node[right]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ++({a},0,0) coordinate(B) -- ++({-dx},{hT},0) coordinate(C)  cycle ;')
-    tikzcommand.append(F'\\draw[thick]  (0,0,0) coordinate(A) --node[below]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ++({a},0,0) coordinate(B) -- ++({-dx},{hT},0) coordinate(C) node[above]{{$c{"" if messen else F"={strNW(c,True)} cm"}$}} -- ++({-c},0,0) coordinate(D) -- cycle ;')
+    tikzcommand.append(F'\\draw[thick]  (0,0,0) coordinate(A) --node[below]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ++({a},0,0) coordinate(B) -- ++({-dx},{hT},0) coordinate(C)  -- node[above]{{$c{"" if messen else F"={strNW(c,True)} cm"}$}}  ++({-c},0,0) coordinate(D) -- cycle ;')
     tikzcommand.append(F'\\draw[white]  (0,0,{hK}) coordinate(E) -- ++({a},0,0) coordinate(F) -- ++({-dx},{hT},0) coordinate(G) -- ++({-c},0,0) coordinate(H) -- cycle ;')
     tikzcommand.append(F'\\draw[thick] (F) -- (G) -- (H);')
     tikzcommand.append(F'\\draw[thick,dashed] (H) -- (E) -- (F);')
@@ -126,9 +126,9 @@ def trapezPrismaLiegend3D(a=5,c=3,hT=4,hK=5,messen=False):
     tikzcommand.append(F'\\draw[thick] (C) -- (G); ')
     tikzcommand.append(F'\\draw[thick] (D) -- (H);')
     if dx>0:
-        tikzcommand.append(F'\\draw[thick] (D) -- node[below]{{$h_T{"" if messen else F"={strNW(hT,True)} cm"}$}} ++(0,{-hT},0);')
+        tikzcommand.append(F'\\draw[thick,gray,text=black] (D) -- node[right]{{$h_T{"" if messen else F"={strNW(hT,True)} cm"}$}} ++(0,{-hT},0);')
     else:
-        tikzcommand.append(F'\\draw[thick] (A) -- node[below]{{$h_T{"" if messen else F"={strNW(hT,True)} cm"}$}} ++(0,{hT},0);')
+        tikzcommand.append(F'\\draw[thick,gray,text=black] (A) -- node[right]{{$h_T{"" if messen else F"={strNW(hT,True)} cm"}$}} ++(0,{hT},0);')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
