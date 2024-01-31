@@ -270,15 +270,17 @@ def erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten=2,typ='Sechseck',mitT
     einheit='cm'
     breite=6 if anzSpalten==2 else 14
     breite=breite/2 if typ=='Sechseck' else breite
-    a,c,h,hK=[random.randint(15,10*min(8,breite))/10 for i in range(4)]
+    a,b,c,h,hK,h_D=[random.randint(15,10*min(8,breite))/10 for i in range(6)]
     if typ=='Sechseck':
             c=round(2*a*math.cos(60*math.pi/180)+a,1)
             h=round(a*math.sin(60*math.pi/180),1)
     geg=['a','c','h','hK']
     ges='V'
     messen=True
-    auswahl={'Trapez':['G=(a+c)*h/2','trapezPrismaLiegend3D(a=a,c=c,hT=h,hK=hK,messen=messen)']}
-    auswahl['Sechseck']=['G=2*(a+c)*h/2','sechseckPrimsa3D(a=a,hK=hK,messen=messen)']
+    auswahl={'Trapez':['G=(a+c)*h/2','trapezPrismaLiegend3D(a=a,c=c,hT=h,hK=hK,messen=messen)',['a','c','h','hK']]}
+    auswahl['Sechseck']=['G=2*(a+c)*h/2','sechseckPrimsa3D(a=a,hK=hK,messen=messen)',['a','c','h','hK']]
+    auswahl['Haus']=['G=a*b+2*a*h_D/2','hausPrisma(a=a,b=b,h_D=h_D,h_K=hK, messen=messen)',['a','b','h_D','hK']]
+    geg=auswahl[typ][2]
     aufg=[F'\\pbox{{{breite } cm}}{{{"Messe die Seiten und Berechne dann das Volumen von: &&&&" if mitText else ""}'.replace('&&&&','\\\\')]
     lsg=[F'\\pbox{{{ breite} cm}}{{']
     scope=globals()|locals()

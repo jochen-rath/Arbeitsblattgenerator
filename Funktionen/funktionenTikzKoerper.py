@@ -112,35 +112,39 @@ def dreiecksPrimsa3D(a=5,b=3,c=4,hK=5,messen=False):
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
-def trapezPrismaLiegend3D(a=5,c=3,hT=4,hK=5,messen=False):
+def trapezPrismaLiegend3D(a=5,c=3,h_T=4,h_K=5,messen=False,schraegbild=False):
     dx=(a-c)/2
+#Erzeuge die Seitenbeschriftungen: Beispie: texta='a=5 cm', oder texth_T='h_T=3 cm'
+    text={}
+    for x in ['a','c','h_T','h_K']:
+        text[x]=eval('""' if schraegbild else F'"${x}'+('$"' if messen else f'={strNW(eval(x),True)} cm$"'))
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
-    tikzcommand.append(F'\\draw[thick]  (0,0,0) coordinate(A) --node[below]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ++({a},0,0) coordinate(B) -- ++({-dx},{hT},0) coordinate(C)  -- node[above]{{$c{"" if messen else F"={strNW(c,True)} cm"}$}}  ++({-c},0,0) coordinate(D) -- cycle ;')
-    tikzcommand.append(F'\\draw[white]  (0,0,{hK}) coordinate(E) -- ++({a},0,0) coordinate(F) -- ++({-dx},{hT},0) coordinate(G) -- ++({-c},0,0) coordinate(H) -- cycle ;')
-    tikzcommand.append(F'\\draw[thick] (F) -- (G) -- (H);')
-    tikzcommand.append(F'\\draw[thick,dashed] (H) -- (E) -- (F);')
-    tikzcommand.append(F'\\draw[thick,dashed] (A)  -- (E); ')
-    tikzcommand.append(F'\\draw[thick] (B) --node[right]{{$h_K{"" if messen else F"={strNW(hK,True)} cm"}$}} (F);')
-    tikzcommand.append(F'\\draw[thick] (C) -- (G); ')
-    tikzcommand.append(F'\\draw[thick] (D) -- (H);')
+    tikzcommand.append(F'\\draw[thick]  (0,0,0) coordinate(A) --node[below]{{{text["a"]}}} ++({a},0,0) coordinate(B) -- ++({-dx},{h_T},0) coordinate(C)  -- node[above]{{{text["c"]}}}  ++({-c},0,0) coordinate(D) -- cycle ;')
+    tikzcommand.append(F'\\draw[white]  (0,0,{h_K}) coordinate(A2) -- ++({a},0,0) coordinate(B2) -- ++({-dx},{h_T},0) coordinate(C2) -- ++({-c},0,0) coordinate(D2) -- cycle ;')
+    tikzcommand.append(F'\\draw[thick] (B2) -- (C2) -- (D2);')
+    tikzcommand.append(F'\\draw[thick,dashed] (D2) -- (A2) -- (B2);')
+    tikzcommand.append(F'\\draw[thick,dashed] (A)  -- (A2); ')
+    tikzcommand.append(F'\\draw[thick] (B) --node[right]{{{text["h_K"]}}} (B2);')
+    tikzcommand.append(F'\\draw[thick] (C) -- (C2); ')
+    tikzcommand.append(F'\\draw[thick] (D) -- (D2);')
     if dx>0:
-        tikzcommand.append(F'\\draw[thick,gray,text=black] (D) -- node[right]{{$h_T{"" if messen else F"={strNW(hT,True)} cm"}$}} ++(0,{-hT},0);')
+        tikzcommand.append(F'\\draw[thick,gray,text=black] (D) -- node[right]{{{text["h_T"]}}}++(0,{-h_T},0);')
     else:
-        tikzcommand.append(F'\\draw[thick,gray,text=black] (A) -- node[right]{{$h_T{"" if messen else F"={strNW(hT,True)} cm"}$}} ++(0,{hT},0);')
+        tikzcommand.append(F'\\draw[thick,gray,text=black] (A) -- node[right]{{{text["h_T"]}}}++(0,{h_T},0);')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
-def sechseckPrimsa3D(a=5,hK=5,messen=False):
+def sechseckPrimsa3D(a=5,h_K=5,messen=False):
     c=round(2*a*math.cos(60*math.pi/180)+a,1)
     hHexa=round(a*math.sin(60*math.pi/180),1)
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
     tikzcommand.append(F'\\draw[thick]  (0,0)  coordinate (A) --node[below]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}}  ++(0:{a} cm) coordinate (B) -- ++(60:{a} cm) coordinate (C) -- ++(120:{a} cm) coordinate (D) -- ++(180:{a} cm) coordinate (E) -- ++(240:{a} cm) coordinate (F) --   cycle ;')
-    tikzcommand.append(F'\\path   ($(A)+(0,0,{hK})$) coordinate (A2) -- ($(B)+(0,0,{hK})$) coordinate (B2) --  ($(C)+(0,0,{hK})$) coordinate (C2) --  ($(D)+(0,0,{hK})$) coordinate (D2) --  ($(E)+(0,0,{hK})$) coordinate (E2) --  ($(F)+(0,0,{hK})$) coordinate (F2) --    cycle ;')
+    tikzcommand.append(F'\\path   ($(A)+(0,0,{h_K})$) coordinate (A2) -- ($(B)+(0,0,{h_K})$) coordinate (B2) --  ($(C)+(0,0,{h_K})$) coordinate (C2) --  ($(D)+(0,0,{h_K})$) coordinate (D2) --  ($(E)+(0,0,{h_K})$) coordinate (E2) --  ($(F)+(0,0,{h_K})$) coordinate (F2) --    cycle ;')
     tikzcommand.append('\\draw[thick] (B2) -- (C2) -- (D2) -- (E2);')
     tikzcommand.append('\\draw[thick,dashed] (E2) -- (F2) -- (A2) -- (B2);')
-    tikzcommand.append(F'\\draw[thick] (B) -- node[right]{{$h_K{"" if messen else F"={strNW(hK,True)} cm"}$}} (B2) ;')
+    tikzcommand.append(F'\\draw[thick] (B) -- node[right]{{$h_K{"" if messen else F"={strNW(h_K,True)} cm"}$}} (B2) ;')
     tikzcommand.append('\\draw[thick] (C) -- (C2) ;')
     tikzcommand.append('\\draw[thick] (D) -- (D2) ;')
     tikzcommand.append('\\draw[thick] (E) -- (E2) ;')
@@ -152,6 +156,39 @@ def sechseckPrimsa3D(a=5,hK=5,messen=False):
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
+def hausPrisma(a=5,b=4,h_D=3,h_K=5,G=None, messen=False,schraegbild=False,GVorg=False):
+    dachWinkel=math.atan(h_D/(a/2))*180/math.pi
+    text={}
+    G=F'$\\mathbf {{G={strNW(a*b+a*h_D)}~cm^2}}$' if G is None else G
+    for x in ['a','b','h_D','h_K']:
+        text[x]=eval('""' if schraegbild or GVorg else F'"${x}'+('$"' if messen else f'={strNW(eval(x),True)}~cm$"'))
+    c=round(2*a*math.cos(60*math.pi/180)+a,1)
+    hHexa=round(a*math.sin(60*math.pi/180),1)
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
+    tikzcommand.append(F'\\draw[thick{"" if not GVorg else ", pattern=north west lines, pattern color=black!40"}]  (0,0)  coordinate (A) --node[below]{{{text["a"]}}}   ++({a},0) coordinate (B) --node[right]{{{text["b"]}}}  ++(0,{b}) coordinate (C) -- ++(-{a/2},{h_D} cm) coordinate (D) -- ++({-a/2},{-h_D} cm)  coordinate (E)--   cycle ;')
+    tikzcommand.append(F'\\path   ($(A)+(0,0,{h_K})$) coordinate (A2) -- ($(B)+(0,0,{h_K})$) coordinate (B2) --  ($(C)+(0,0,{h_K})$) coordinate (C2) --  ($(D)+(0,0,{h_K})$) coordinate (D2) --  ($(E)+(0,0,{h_K})$) coordinate (E2) --    cycle ;')
+    if dachWinkel > 45:
+        tikzcommand.append('\\draw[thick] (B2) -- (C2) -- (D2) ;')
+        tikzcommand.append('\\draw[thick,dashed] (D2) --(E2)  -- (A2) -- (B2);')
+        tikzcommand.append('\\draw[thick,dashed] (E) -- (E2) ;')
+    else:
+        tikzcommand.append('\\draw[thick] (B2) -- (C2) -- (D2) -- (E2) ;')
+        tikzcommand.append('\\draw[thick,dashed] (E2)  -- (A2) -- (B2);')
+        tikzcommand.append('\\draw[thick] (E) -- (E2) ;')
+    tikzcommand.append(F'\\draw[thick] (B) -- node[right]{{{text["h_K"]}}} (B2) ;')
+    tikzcommand.append('\\draw[thick] (C) -- (C2) ;')
+    tikzcommand.append('\\draw[thick] (D) -- (D2) ;')
+    tikzcommand.append('\\draw[thick,dashed] (A) -- (A2) ;')
+    if not schraegbild and not GVorg:
+        tikzcommand.append(F'\\draw[thick,gray] (C) --  (E) ;')
+        tikzcommand.append(F'\\draw[thick,gray] (D) --node[right,text=black]{{{text["h_D"]}}} ++(0,{-h_D}) ;')
+    if GVorg:
+        tikzcommand.append(F'\\node at ({a/2},{(b+h_D)/2}) {{ {G}}} ;')
+        tikzcommand.append(F'\\node[right] at ({a},{b/2}) {{ $h_K={strNW(h_K)}~cm$}} ;')
+
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
 
 def dreiecksPrimsa(Ax=3,Bx=2,Cx=4,Cy=2,hK=4,ursprung=[0,0],messen=False):
 #Diese Funktion erzeugt einen Tikz-code mit dem man einen Zylinder darstellen.
