@@ -7,6 +7,7 @@
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
 import math
+import random
 
 
 def quader3D(a=4,b=2,c=1,ursprung=[0,0],aName='a',bName='b',cName='c',mitBeschriftung=True,mitTikzUmrandung=True):
@@ -134,6 +135,31 @@ def trapezPrismaLiegend3D(a=5,c=3,h_T=4,h_K=5,messen=False,schraegbild=False):
         tikzcommand.append(F'\\draw[thick,gray,text=black] (A) -- node[right]{{{text["h_T"]}}}++(0,{h_T},0);')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
+
+def dreiecksPrimsa3DLiegend(g=5,h_D=5,h_K=6,messen=False,schraegbild=False):
+    dg=random.randint(10,int(g)*10)/10
+    linksWinkel=math.atan(h_D/(g-dg))*180/math.pi
+    text={}
+    for x in ['g','h_D','h_K']:
+        text[x]=eval('""' if schraegbild else F'"${x}'+('$"' if messen else f'={strNW(eval(x),True)} cm$"'))
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
+    tikzcommand.append(F'\\draw[thick]  (0,0)  coordinate (A) --node[below]{{{text["g"]}}} ++({g},0) coordinate (B) -- ++({-dg},{h_D}) coordinate (C)  --   cycle ;')
+    tikzcommand.append(F'\\path   ($(A)+(0,0,{h_K})$) coordinate (A2) -- ($(B)+(0,0,{h_K})$) coordinate (B2) --  ($(C)+(0,0,{h_K})$) coordinate (C2) --  cycle ;')
+    tikzcommand.append(F'\\draw[thick] (B) -- node[right]{{{text["h_K"]}}} (B2) ;')
+    if linksWinkel > 45:
+        tikzcommand.append('\\draw[thick] (B2) -- (C2) ;')
+        tikzcommand.append('\\draw[thick,dashed] (C2) -- (A2) -- (B2);')
+        tikzcommand.append('\\draw[thick,dashed] (A) -- (A2) ;')
+    else:
+        tikzcommand.append('\\draw[thick] (B2) -- (C2) --(A2);')
+        tikzcommand.append('\\draw[thick,dashed] (A2) -- (B2);')
+        tikzcommand.append('\\draw[thick] (A) -- (A2) ;')
+    tikzcommand.append('\\draw[thick] (C) -- (C2) ;')
+    tikzcommand.append(F'\\draw[thick,gray] (C) --node[right,text=black]{{{text["h_D"]}}} ++(0,{-h_D}) ;')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+
 
 def sechseckPrimsa3D(a=5,h_K=5,messen=False):
     c=round(2*a*math.cos(60*math.pi/180)+a,1)
