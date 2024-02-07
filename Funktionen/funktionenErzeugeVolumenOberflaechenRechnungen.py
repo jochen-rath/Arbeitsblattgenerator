@@ -270,7 +270,7 @@ def erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten=2,typ='Sechseck',mitT
     einheit='cm'
     breite=6 if anzSpalten==2 else 14
     breite=breite/2 if typ=='Sechseck' else breite
-    a,b,c,g,h,hK,h_D=[random.randint(15,10*min(8,breite))/10 for i in range(7)]
+    a,b,c,g,h,h_K,h_D=[random.randint(15,10*min(8,breite))/10 for i in range(7)]
     while abs(a-c)<0.5:
         a,c=[random.randint(15,10*min(8,breite))/10 for i in range(2)]
     if typ=='Sechseck':
@@ -279,10 +279,10 @@ def erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten=2,typ='Sechseck',mitT
     geg=['g','a','c','h','hK']
     ges='V'
     messen=True
-    auswahl={'Trapez':['G=(a+c)*h/2','trapezPrismaLiegend3D(a=a,c=c,h_T=h,h_K=hK,messen=messen)',['a','c','h','hK']]}
-    auswahl['Dreieck']=['G=g*h_D/2','dreiecksPrimsa3DLiegend(g=g,h_D=h_D,h_K=hK,messen=messen)',['g','h_D','hK']]
-    auswahl['Sechseck']=['G=2*(a+c)*h/2','sechseckPrimsa3D(a=a,hK=hK,messen=messen)',['a','c','h','hK']]
-    auswahl['Haus']=['G=a*b+2*a*h_D/2','hausPrisma(a=a,b=b,h_D=h_D,h_K=hK, messen=messen)',['a','b','h_D','hK']]
+    auswahl={'Trapez':['G=(a+c)*h/2','trapezPrismaLiegend3D(a=a,c=c,h_T=h,h_K=h_K,messen=messen)',['a','c','h','h_K']]}
+    auswahl['Dreieck']=['G=g*h_D/2','dreiecksPrimsa3DLiegend(g=g,h_D=h_D,h_K=h_K,messen=messen)',['g','h_D','h_K']]
+    auswahl['Sechseck']=['G=2*(a+c)*h/2','sechseckPrimsa3D(a=a,h_K=h_K,messen=messen)',['a','c','h','h_K']]
+    auswahl['Haus']=['G=a*b+a*h_D/2','hausPrisma(a=a,b=b,h_D=h_D,h_K=h_K, messen=messen)',['a','b','h_D','h_K']]
     geg=auswahl[typ][2]
     aufg=[F'\\pbox{{{breite } cm}}{{{"Messe die Seiten und Berechne dann das Volumen von: &&&&" if mitText else ""}'.replace('&&&&','\\\\')]
     lsg=[F'\\pbox{{{ breite} cm}}{{']
@@ -297,7 +297,7 @@ def erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten=2,typ='Sechseck',mitT
     lsg.append('\\begin{tikzpicture}[show background grid]')
     lsg.append('\\node[left] at (0,-0.25) {Geg.: };')
     for x in geg:
-        lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-5-nLsg)}) {{${x.replace("hK","h_K")}={strNW(eval(x),2)}~{einheit}$}};')
+        lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-5-nLsg)}) {{${x}={strNW(eval(x),2)}~{einheit}$}};')
     lsg.append(F'\\node[left] at (0,{-0.25-0.5*(len(lsg)-5-nLsg)}) {{Ges.: }};')
     lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-6-nLsg)}) {{${ges}  = ?~cm^3$}};')
     lsg.append(F'\\node[below right] at (0,{-0.25-0.5*(len(lsg)-6-nLsg)}) {{')
@@ -308,13 +308,13 @@ def erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten=2,typ='Sechseck',mitT
     lsg.append(F'{formel.split("=")[0]}&={formel.split("=")[1].replace("*","&&cdot ")}& & \\\\'.replace('&&','\\').replace("/",":"))
     for x in geg:
         formel = formel.replace(x, strNW(eval(x),2))
-    lsg.append(F'{formel.split("=")[0]}&={formel.split("=")[1].replace("*","&&cdot ")}& & \\\\'.replace('&&','\\').replace("/",":"))
+    lsg.append(F'{formel.split("=")[0]}&={formel.split("=")[1].replace("*","&&cdot ")}& & \\\\'.replace("&&","\\").replace("/",":"))
     lsg.append(F'{formel.split("=")[0]}&={strNW(G,2)}~cm^2& & \\\\'.replace('&&','\\').replace('/',':'))
 #Ergebniss doppelt unterstreichen
     lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
     lsg.append(F'V&=G\\cdot h_K & & \\\\')
-    lsg.append(F'V&={strNW(G)}\\cdot {strNW(hK)} & & \\\\')
-    lsg.append(F'V&={strNW(G*hK,2)} cm^3& & \\\\')
+    lsg.append(F'V&={strNW(G)}\\cdot {strNW(h_K)} & & \\\\')
+    lsg.append(F'V&={strNW(G*h_K,2)} cm^3& & \\\\')
     lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
     lsg.append('\\end{aligned}$};')
     lsg.append('\\end{tikzpicture}')
