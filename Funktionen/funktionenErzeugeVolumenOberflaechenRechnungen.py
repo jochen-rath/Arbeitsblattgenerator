@@ -6,7 +6,28 @@ import random
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
 
-
+def erzeugeSchraegbilderAfg(typ='Stern',anzSpalten=2,mitText=True):
+    auswahl = {'Stern': ['sternPrisma(l=werte["l"],h_K=werte["h_K"],nurVorderseite=nurVorderseite)']}
+    breite=6 if anzSpalten==2 else 14
+    breite=breite/2 if typ=='Sechseck' else breite
+    varis=['a','b','c','g','h','h_K','h_D','l']
+    werte={}
+    for v in varis:
+        werte[v]=random.randint(15,10*min(8,breite))/10
+    werte["l"]=werte['l']/2
+    h_K=werte['h_K']
+    aufg=[F'\\pbox{{{breite } cm}}{{{F"Vervollständige das Schrägbild mit der Körperhöhe $h_K={strNW(h_K)} cm$: &&&&" if mitText else F"$h_K={strNW(h_K)}  cm$&&&&"}'.replace('&&&&','\\\\')]
+    nurVorderseite=True
+    scope=globals()|locals()
+    aufg=aufg+eval(auswahl[typ][0],scope)
+    nurVorderseite=False
+    scope=globals()|locals()
+    lsg=[F'\\pbox{{{ breite} cm}}{{']
+    lsg=lsg+eval(auswahl[typ][0],scope)
+    aufg.append('}')
+    lsg.append('}')
+    return [aufg,lsg,[]]
+    
 
 def erzeugeQuaderOberVolBerech(breitePbox='\\hsize',maxDim=14,einheit='cm'):
 #Diese Funktion erzeugt eine Aufgabe und Lösung zum Addieren und Subtrahieren von Dezimalzahlen
@@ -313,7 +334,7 @@ def erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten=2,typ='Sechseck',mitT
 #Ergebniss doppelt unterstreichen
     lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
     lsg.append(F'V&=G\\cdot h_K & & \\\\')
-    lsg.append(F'V&={strNW(G)}\\cdot {strNW(h_K)} & & \\\\')
+    lsg.append(F'V&={strNW(G,2)}\\cdot {strNW(h_K,2)} & & \\\\')
     lsg.append(F'V&={strNW(G*h_K,2)} cm^3& & \\\\')
     lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
     lsg.append('\\end{aligned}$};')

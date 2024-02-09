@@ -216,6 +216,29 @@ def hausPrisma(a=5,b=4,h_D=3,h_K=5,G=None, messen=False,schraegbild=False,GVorg=
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
+def sternPrisma(l=5,h_K=6,nurVorderseite=False):
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append(F"\\begin{{tikzpicture}}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]")
+    tikzcommand.append(F"\\newcommand\\hK{{{h_K}}}")
+    tikzcommand.append(F"\\newcommand\\lS{{{l}}}")
+    tikzcommand.append(F"\\draw[thick]  (0,0)  coordinate(A) -- ++(324:\\lS) coordinate(B) -- ++(108:\\lS) coordinate(C)  -- ++(36:\\lS) coordinate(D) -- ++(180:\\lS) coordinate(E) -- ++(108:\\lS) coordinate(F) -- ++(252:\\lS) coordinate(G) -- ++(180:\\lS) coordinate(H) -- ++(324:\\lS) coordinate(I) -- ++(252:\\lS) coordinate(J) -- cycle ;")
+    tikzcommand.append(F"%\\path ($(A)+(0,0,4)$) coordinate(A2) -- ($(B)+(0,0,4)$);")
+    tikzcommand.append(F"\\path   ($(A)+(0,0,4)$) coordinate(A2) -- ($(B)+(0,0,4)$) coordinate(B2) --  ($(C)+(0,0,4)$) coordinate(C2) -- ($(D)+(0,0,4)$) coordinate(D2) -- ($(E)+(0,0,4)$) coordinate(E2) --  ($(F)+(0,0,4)$) coordinate(F2) --  ($(G)+(0,0,4)$) coordinate(G2) -- ($(H)+(0,0,4)$) coordinate(H2) --  ($(I)+(0,0,4)$) coordinate(I2) -- ($(J)+(0,0,4)$) coordinate(J2) --  cycle ;")
+    if nurVorderseite:
+        tikzcommand.append(F"\\end{{tikzpicture}}")
+        return tikzcommand
+    tikzcommand.append(F"\\foreach \\x\\y in {{B/B2,D/D2,E/E2,F/F2,H/H2}}")
+    tikzcommand.append(F"{{\\draw[thick] (\\x) --(\\y) ;}}")
+    tikzcommand.append(F"\\foreach \\x\\y in {{A/A2,C/C2,G/G2,I/I2,J/J2}}")
+    tikzcommand.append(F"{{\\draw[thick,dashed] (\\x) --(\\y) ;}}")
+    tikzcommand.append(F"\\coordinate (SP) at (intersection of G2--H2 and F--G);")
+    tikzcommand.append(F"\\coordinate (SP2) at (intersection of B2--C2 and C--D);")
+    tikzcommand.append(F"\\foreach \\x\\y in {{B2/SP2,D2/E2,E2/F2,SP/H2}}")
+    tikzcommand.append(F"{{\\draw[thick] (\\x) --(\\y) ;}}")
+    tikzcommand.append(F"\\foreach \\x\\y in {{A2/B2,C2/D2,F2/G2,G2/SP,H2/I2,I2/J2,J2/A2,SP2/C2}}")
+    tikzcommand.append(F"{{\\draw[thick,dashed] (\\x) --(\\y) ;}}")
+    tikzcommand.append(F"\\end{{tikzpicture}}")
+    return tikzcommand
 def dreiecksPrimsa(Ax=3,Bx=2,Cx=4,Cy=2,hK=4,ursprung=[0,0],messen=False):
 #Diese Funktion erzeugt einen Tikz-code mit dem man einen Zylinder darstellen.
 #Aufruf:
