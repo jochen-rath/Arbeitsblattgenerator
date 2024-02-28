@@ -9,8 +9,27 @@
 import math
 import random
 
+def quader3D(a=5,b=5,c=6,messen=False,nurVorderseite=False,schraegbild=False):
+    text={}
+    for x in ['a','b','c']:
+        text[x]=eval('""' if nurVorderseite or schraegbild else F'"${x}'+('$"' if messen else f'={strNW(eval(x),True)} cm$"'))
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
+    tikzcommand.append(F'\\draw[thick]  (0,0)  coordinate (A) --node[below]{{{text["a"]}}} ++({a},0) coordinate (B) --node[left]{{{text["b"]}}} ++(0,{b}) coordinate (C)  -- ++(-{a},0) coordinate (D)  --  cycle ;')
+    tikzcommand.append(F'\\path   ($(A)+(0,0,{c})$) coordinate (A2) -- ($(B)+(0,0,{c})$) coordinate (B2) --  ($(C)+(0,0,{c})$) coordinate (C2) -- ($(D)+(0,0,{c})$) coordinate (D2) -- cycle ;')
+    if nurVorderseite:
+        tikzcommand.append(F"\\end{{tikzpicture}}")
+        return tikzcommand
+    tikzcommand.append(F'\\draw[thick] (B) -- node[right]{{{text["c"]}}} (B2) ;')
+    tikzcommand.append('\\draw[thick] (B2) -- (C2) --(D2);')
+    tikzcommand.append('\\draw[thick,dashed] (D2) -- (A2) -- (B2);')
+    tikzcommand.append('\\draw[thick,dashed] (A) -- (A2) ;')
+    tikzcommand.append('\\draw[thick] (C) -- (C2) ;')
+    tikzcommand.append('\\draw[thick] (D) -- (D2) ;')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
 
-def quader3D(a=4,b=2,c=1,ursprung=[0,0],aName='a',bName='b',cName='c',mitBeschriftung=True,mitTikzUmrandung=True):
+def quader3DAlt(a=4,b=2,c=1,ursprung=[0,0],aName='a',bName='b',cName='c',mitBeschriftung=True,mitTikzUmrandung=True):
     if mitTikzUmrandung:
         tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
         tikzcommand.append('\\begin{tikzpicture}[show background grid]')
@@ -99,7 +118,7 @@ def trapezprismaLiegend(Bx=5,Cx=4,Cy=3,Dx=2,hK=5,messen=False):
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
-def dreiecksPrimsa3D(a=5,b=3,c=4,hK=5,messen=False):
+def dreiecksPrimsa3D(a=5,b=3,c=4,hK=5,messen=False,schraegbild=False):
     alpha=math.acos(-(a**2-b**2-c**2)/(2*b*c))
     Cx=math.cos(alpha)*b
     h=math.sin(alpha)*b
@@ -113,39 +132,50 @@ def dreiecksPrimsa3D(a=5,b=3,c=4,hK=5,messen=False):
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
-def trapezPrismaLiegend3D(a=5,c=3,h_T=4,h_K=5,messen=False,schraegbild=False):
+def trapezPrismaLiegend3D(a=5,c=3,h_T=4,h_K=5,messen=False,nurVorderseite=False,schraegbild=False):
     dx=(a-c)/2
 #Erzeuge die Seitenbeschriftungen: Beispie: texta='a=5 cm', oder texth_T='h_T=3 cm'
     text={}
     for x in ['a','c','h_T','h_K']:
-        text[x]=eval('""' if schraegbild else F'"${x}'+('$"' if messen else f'={strNW(eval(x),True)} cm$"'))
+        text[x]=eval('""' if nurVorderseite or schraegbild else F'"${x}'+('$"' if messen else f'={strNW(eval(x),True)} cm$"'))
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
     tikzcommand.append(F'\\draw[thick]  (0,0,0) coordinate(A) --node[below]{{{text["a"]}}} ++({a},0,0) coordinate(B) -- ++({-dx},{h_T},0) coordinate(C)  -- node[above]{{{text["c"]}}}  ++({-c},0,0) coordinate(D) -- cycle ;')
-    tikzcommand.append(F'\\draw[white]  (0,0,{h_K}) coordinate(A2) -- ++({a},0,0) coordinate(B2) -- ++({-dx},{h_T},0) coordinate(C2) -- ++({-c},0,0) coordinate(D2) -- cycle ;')
+    tikzcommand.append(F'\\path (0,0,{h_K}) coordinate(A2) -- ++({a},0,0) coordinate(B2) -- ++({-dx},{h_T},0) coordinate(C2) -- ++({-c},0,0) coordinate(D2) -- cycle ;')
+    if nurVorderseite:
+        tikzcommand.append(F"\\end{{tikzpicture}}")
+        return tikzcommand
     tikzcommand.append(F'\\draw[thick] (B2) -- (C2) -- (D2);')
     tikzcommand.append(F'\\draw[thick,dashed] (D2) -- (A2) -- (B2);')
     tikzcommand.append(F'\\draw[thick,dashed] (A)  -- (A2); ')
     tikzcommand.append(F'\\draw[thick] (B) --node[right]{{{text["h_K"]}}} (B2);')
     tikzcommand.append(F'\\draw[thick] (C) -- (C2); ')
     tikzcommand.append(F'\\draw[thick] (D) -- (D2);')
-    if dx>0:
-        tikzcommand.append(F'\\draw[thick,gray,text=black] (D) -- node[right]{{{text["h_T"]}}}++(0,{-h_T},0);')
-    else:
-        tikzcommand.append(F'\\draw[thick,gray,text=black] (A) -- node[right]{{{text["h_T"]}}}++(0,{h_T},0);')
+    if not schraegbild:
+        if dx>0:
+            tikzcommand.append(F'\\draw[thick,gray,text=black] (D) -- node[right]{{{text["h_T"]}}}++(0,{-h_T},0);')
+        else:
+            tikzcommand.append(F'\\draw[thick,gray,text=black] (A) -- node[right]{{{text["h_T"]}}}++(0,{h_T},0);')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
-def dreiecksPrimsa3DLiegend(g=5,h_D=5,h_K=6,messen=False,schraegbild=False):
+def dreiecksPrimsa3DLiegend(g=5,h_D=5,h_K=6,messen=False,nurVorderseite=False,schraegbild=False):
     dg=random.randint(10,int(g)*10)/10
+    if schraegbild:
+        dg=0.5*round((dg+0.0001)/0.5)
+        if dg==g:
+            dg=dg-0.5
     linksWinkel=math.atan(h_D/(g-dg))*180/math.pi
     text={}
     for x in ['g','h_D','h_K']:
-        text[x]=eval('""' if schraegbild else F'"${x}'+('$"' if messen else f'={strNW(eval(x),True)} cm$"'))
+        text[x]=eval('""' if nurVorderseite or schraegbild else F'"${x}'+('$"' if messen else f'={strNW(eval(x),True)} cm$"'))
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
     tikzcommand.append(F'\\draw[thick]  (0,0)  coordinate (A) --node[below]{{{text["g"]}}} ++({g},0) coordinate (B) -- ++({-dg},{h_D}) coordinate (C)  --   cycle ;')
     tikzcommand.append(F'\\path   ($(A)+(0,0,{h_K})$) coordinate (A2) -- ($(B)+(0,0,{h_K})$) coordinate (B2) --  ($(C)+(0,0,{h_K})$) coordinate (C2) --  cycle ;')
+    if nurVorderseite:
+        tikzcommand.append(F"\\end{{tikzpicture}}")
+        return tikzcommand
     tikzcommand.append(F'\\draw[thick] (B) -- node[right]{{{text["h_K"]}}} (B2) ;')
     if linksWinkel > 45:
         tikzcommand.append('\\draw[thick] (B2) -- (C2) ;')
@@ -156,7 +186,8 @@ def dreiecksPrimsa3DLiegend(g=5,h_D=5,h_K=6,messen=False,schraegbild=False):
         tikzcommand.append('\\draw[thick,dashed] (A2) -- (B2);')
         tikzcommand.append('\\draw[thick] (A) -- (A2) ;')
     tikzcommand.append('\\draw[thick] (C) -- (C2) ;')
-    tikzcommand.append(F'\\draw[thick,gray] (C) --node[right,text=black]{{{text["h_D"]}}} ++(0,{-h_D}) ;')
+    if not schraegbild:
+        tikzcommand.append(F'\\draw[thick,gray] (C) --node[right,text=black]{{{text["h_D"]}}} ++(0,{-h_D}) ;')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
@@ -290,9 +321,34 @@ def zylinder(R=3, h=4, ursprung=[0,0],buchstabe='Z',rName='R',hName='h'):
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
+def zylinder3D(R=3, h_k=4,einheit='cm'):
+#Diese Funktion erzeugt einen Tikz-code mit dem man einen Zylinder darstellen.
+#Aufruf:
+#        tikzcommand=zylinder3D(R, h_k)
+#
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append(F"\\begin{{tikzpicture}}[show background grid]")
+    tikzcommand.append(F"\\pgfmathsetmacro{{\\R}}{{{R}}}  ")
+    tikzcommand.append(F"\\pgfmathsetmacro{{\\winkelA}}{{160}}  ")
+    tikzcommand.append(F"\\pgfmathsetmacro{{\\winkelB}}{{335}}  ")
+    tikzcommand.append(F"\\pgfmathsetmacro{{\\h}}{{{h_k}}}")
+    tikzcommand.append(F"   \\draw[thick] ({{\\R*cos(\\winkelA)}},0,{{\\R*sin(\\winkelA)}} ) -- ({{\\R*cos(\\winkelA)}},\\h,{{\\R*sin(\\winkelA)}} ) -- ({{\\R*cos(\\winkelB)}},\\h,{{\\R*sin(\\winkelB)}} ) -- node[right] {{$h_k={strNW(h_k)}~{einheit}$}} ({{\\R*cos(\\winkelB)}},0,{{\\R*sin(\\winkelB)}} );")
+    tikzcommand.append(F"\\begin{{scope}}[canvas is xz plane at y=\\h]")
+    tikzcommand.append(F"\\draw[fill=gray!20,thick] (0,0) circle (\\R cm);")
+    tikzcommand.append(F"\\end{{scope}}")
+    tikzcommand.append(F"\\begin{{scope}}[canvas is xz plane at y=0]")
+    tikzcommand.append(F"\\fill[fill=gray!20,thick] (0,0) circle (\\R cm);")
+    tikzcommand.append(F"\\draw[thick] (0,0) -- node[below] {{r={strNW(R)} {einheit}}} (\\winkelB:\\R cm); ")
+    tikzcommand.append(F"\\draw[thick] ({{\\R*cos(\\winkelA)}},{{\\R*sin(\\winkelA)}}) arc (\\winkelA:\\winkelB-360:\\R);")
+    tikzcommand.append(F"\\draw[thick,dashed] ({{\\R*cos(\\winkelA)}},{{\\R*sin(\\winkelA)}}) arc (\\winkelA:\\winkelB:\\R);")
+    tikzcommand.append(F"\\end{{scope}}")
+    tikzcommand.append(F"\\end{{tikzpicture}}")
+    return tikzcommand
+
+
 def quaderMitLoch(a=6, b=4, c=9,R=1.5, ursprung=[0,0],buchstabe='Q',aName='a',bName='b',cName='c',rName='r'):
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
-    tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
+    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
     tikzcommand.append(F'\\pgfmathsetmacro{{\\R}}{{{R}}}  ')
     tikzcommand.append(F'\\pgfmathsetmacro{{\\winkelA}}{{160}}  ')
     tikzcommand.append(F'\\pgfmathsetmacro{{\\winkelB}}{{335}}  ')

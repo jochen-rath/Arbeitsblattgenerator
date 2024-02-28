@@ -69,6 +69,8 @@ def ersetzePlatzhalterMitSymbolen(T):
     T=T.replace('XVm','G_{Vm}')
     T=T.replace('XVp','G_{Vp}')
     T=T.replace('§§','\\')
+    T=T.replace('vari','')
+    T=T.replace('variStr','')
     return T
 
 def erzeugeEinfacheFormelnUmformen(formel='',gesucht=''):

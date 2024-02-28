@@ -77,7 +77,7 @@ def erzeugeArbeit(auswahl,title,dateiName,datum,anfang):
     erzeugeVorlageTextaufgabenArbeit(dateiName, len(punkte))
     tabLsg=erzeugeEinfacheTabelleMitSeitenumbruch(lsg,1)
     erzeugeEinfachesLatexdokument(tabLsg, size=2, file=F'{dateiName}_lsg.tex')
-    arbeit=erzeugeArbeitLatex(dateiName=dateiName,fach=fach, titel=title,datum=datum, jahr='2022/2023',punkte=punkte)
+    arbeit=erzeugeArbeitLatex(dateiName=dateiName,fach=fach, titel=title,datum=datum, jahr='2023/2024',punkte=punkte)
     head=latexHead(arraystretch=True)
     writeLatexDoc(head+['\\begin{document}']+arbeit+['\\end{document}'], os.path.join('Ausgabe', dateiName+'.tex'))
     os.chdir('Ausgabe')

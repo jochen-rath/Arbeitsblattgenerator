@@ -7,6 +7,7 @@
 #      exec(open("Funktionen/funktionen.py").read())
 
 
+
 def loeseGleichungEinfachMitZweiVariabeln(G="2*x+6=3*y-2", variable='x y', lsgVorgabe=['x=0','y=0','x=1'], mitTikzUmrandung=True):
 #Diese Funktion löst ein einfaches Gleichungssystem mit x und y ohne Potenzen
 #

@@ -6,14 +6,19 @@ import random
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
 
-def erzeugeSchraegbilderAfg(typ='Stern',anzSpalten=2,mitText=True):
-    auswahl = {'Stern': ['sternPrisma(l=werte["l"],h_K=werte["h_K"],nurVorderseite=nurVorderseite)']}
+def erzeugeSchraegbilderAfg(typ='Trapez',anzSpalten=2,mitText=True):
+    auswahl = {'Dreieck': ['dreiecksPrimsa3DLiegend(g=werte["g"],h_D=werte["h_D"],h_K=werte["h_K"],messen=True,nurVorderseite=nurVorderseite,schraegbild=True)']}
+    auswahl['Quader'] = ['quader3D(a=werte["a"],b=werte["b"],c=werte["h_K"],schraegbild=True,nurVorderseite=nurVorderseite)']
+    auswahl['Trapez'] = ['trapezPrismaLiegend3D(a=werte["a"],c=werte["c"],h_T=werte["h_T"],h_K=werte["h_K"],schraegbild=True,nurVorderseite=nurVorderseite)']
+    auswahl['Stern'] = ['sternPrisma(l=werte["l"],h_K=werte["h_K"],nurVorderseite=nurVorderseite)']
     breite=6 if anzSpalten==2 else 14
     breite=breite/2 if typ=='Sechseck' else breite
-    varis=['a','b','c','g','h','h_K','h_D','l']
+    varis=['a','b','c','g','h','h_K','h_D','h_T','l']
     werte={}
     for v in varis:
         werte[v]=random.randint(15,10*min(8,breite))/10
+        #Auf 0.5 Runden:
+        werte[v]=0.5 * round((werte[v]+0.01) / 0.5)
     werte["l"]=werte['l']/2
     h_K=werte['h_K']
     aufg=[F'\\pbox{{{breite } cm}}{{{F"Vervollständige das Schrägbild mit der Körperhöhe $h_K={strNW(h_K)} cm$: &&&&" if mitText else F"$h_K={strNW(h_K)}  cm$&&&&"}'.replace('&&&&','\\\\')]
@@ -224,7 +229,8 @@ def erzeugeZylibderOberVolBerech(breitePbox='\\textwidth',maxDim=14,einheit='cm'
     lsg=['\\pbox{'+str(breitePbox)+('' if 'textwidth' in str(breitePbox) else 'cm')+'}{']
     R,h=[random.randint(1,maxDim) for i in range(2)]
     R=R/2.0
-    aufg=aufg+zylinder(R=R, h=h, ursprung=[0,0],buchstabe='Z',rName='R='+strNW(R)+' '+einheit,hName='h='+strNW(h)+' '+einheit)
+#    aufg=aufg+zylinder(R=R, h=h, ursprung=[0,0],buchstabe='Z',rName='R='+strNW(R)+' '+einheit,hName='h='+strNW(h)+' '+einheit)
+    aufg=aufg+zylinder3D(R=R, h=h, einheit=einheit)
     lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
     lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
     lsg.append('\\begin{tikzpicture}[show background grid]')
@@ -259,7 +265,8 @@ def erzeugeZylibderOberVolBerech(breitePbox='\\textwidth',maxDim=14,einheit='cm'
     lsg=['\\pbox{'+str(breitePbox)+('' if 'textwidth' in str(breitePbox) else 'cm')+'}{']
     R,h=[random.randint(1,maxDim) for i in range(2)]
     R=R/2.0
-    aufg=aufg+zylinder(R=R, h=h, ursprung=[0,0],buchstabe='Z',rName='R='+strNW(R)+' '+einheit,hName='h='+strNW(h)+' '+einheit)
+#    aufg=aufg+zylinder(R=R, h=h, ursprung=[0,0],buchstabe='Z',rName='R='+strNW(R)+' '+einheit,hName='h='+strNW(h)+' '+einheit)
+    aufg=aufg+zylinder3D(R=R, h_k=h, einheit=einheit)
     lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
     lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
     lsg.append('\\begin{tikzpicture}[show background grid]')
@@ -287,6 +294,71 @@ def erzeugeZylibderOberVolBerech(breitePbox='\\textwidth',maxDim=14,einheit='cm'
     lsg.append('}')
     return [aufg,lsg,[]]
 
+
+def flaechenFormeln():
+#Ich schreibe vor jeder Variable "vari", da man beim suche und ersetzen von a durch eine Zahl z.B. h_2,34 erhält.
+#Durch das Vari wird es eindeutig. Hinterher muss das vari entfernt werden.
+    flaeche={'Trapez':['variA=(varia+varic)*variStrh_a/2',['varia','varic','variStrh_a']]}
+    flaeche['Rechteck']=['variA=varia*varib',['varia','varib']]
+    flaeche['Dreieck']=['variA=varig*variStrh_g/2',['varig','variStrh_g']]
+    flaeche['Sechseck']=['variA=2*(varia+varic)*variStrh_a/2',['varia','varic','variStrh_a']]
+    flaeche['Haus']=['variA=varia*varib+varia*variStrh_a/2',['varia','varib','variStrh_a']]
+    return flaeche
+def prismaVolumenFormeln():
+    prismaVolumen={'Allgemeinen':['variV=variG*variStrh_K',['variG','variStrh_K']]}
+    flaechen=flaechenFormeln()
+    for art in flaechen.keys():
+        name = 'Quader' if art=='Rechteck' else art
+        hoehe='c' if name=='Quader' else 'h_K'
+        prismaVolumen[name]=[F'variV={flaechen[art][0].split("=")[1]}*{hoehe}',flaechen[art][1]+[hoehe]]
+    return prismaVolumen
+
+def erzeugePrismaFehlendeSeiteBerechnen(anzSpalten=2,auswahl='',mitText=True):
+    einheit='cm'
+    breite=6 if anzSpalten==2 else 14
+    prismaVolumen=prismaVolumenFormeln()
+    auswahl=auswahl if len(auswahl)>0 else random.choice(list(prismaVolumen.keys()))
+    prisma=prismaVolumen[auswahl]
+    formel=prisma[0]
+    varis={}
+    for v in prisma[1]:
+        varis[v]=random.randint(15,100)/10
+    V=prisma[0].split('=')[1]
+    for v in varis.keys():
+        V=V.replace(str(v),str(varis[v]))
+    varis['variV']=eval(V)
+    prismaArt=F'{auswahl}{"" if auswahl=="Quader" else "-Prismas"}'
+    afgText=F'Berechne die fehlende Seite eines {prismaArt} bei folgenden gegebenen Größen: &&&&'
+    aufg=[F'\\pbox{{{breite } cm}}{{{afgText if mitText else F"{prismaArt}:" }'.replace('&&&&','\\\\')]
+    ges=random.choice(list(varis.keys()))
+    ges={ges:varis[ges]}
+    del varis[list(ges.keys())[0]]
+    aufg=aufg+['; '.join([F'${art}={strNW(varis[art])}~{einheit}{("^3" if art[0]=="V" else "^2") if art[0].isupper() else ""}$' for art in list(varis.keys())])]
+    lsg=[F'\\pbox{{{ breite} cm}}{{']
+    lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
+    lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
+    lsg.append('\\begin{tikzpicture}[show background grid]')
+    lsg.append('\\node[left] at (0,-0.25) {Geg.: };')
+    nLsg=len(lsg)
+    for x in list(varis.keys()):
+        lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-nLsg)}) {{${x}={strNW(varis[x],2)}~{einheit}{"^2" if x.isupper() else ""}$}};')
+    lsg.append(F'\\node[left] at (0,{-0.25-0.5*(len(lsg)-nLsg)}) {{Ges.: }};')
+    nLsg = nLsg+1
+    lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-nLsg)}) {{${list(ges.keys())[0]}  = ?~cm{"^2" if list(ges.keys())[0][0].isupper() else ""}$}};')
+    lsg.append(F'\\node[below right] at (0,{-0.25-0.5*(len(lsg)-nLsg)}) {{')
+    lsg.append('$\\begin{aligned}')
+    lsg.append(F'{formel.split("=")[0]}&={formel.split("=")[1]} & & \\\\')
+    for x in list(varis.keys()):
+        formelStrNw=formel.replace(x,strNW(varis[x],2))
+        formel=formel.replace(x,str(varis[x]))
+
+    lsg.append('\\end{aligned}$};')
+    lsg.append('\\end{tikzpicture}')
+    lsg.append('\\endgroup')
+    aufg.append('}')
+    lsg.append('}')
+    return [[ersetzePlatzhalterMitSymbolen(x) for x in aufg],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
+
 def erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten=2,typ='Sechseck',mitText=True):
     einheit='cm'
     breite=6 if anzSpalten==2 else 14
@@ -301,9 +373,9 @@ def erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten=2,typ='Sechseck',mitT
     ges='V'
     messen=True
     auswahl={'Trapez':['G=(a+c)*h/2','trapezPrismaLiegend3D(a=a,c=c,h_T=h,h_K=h_K,messen=messen)',['a','c','h','h_K']]}
-    auswahl['Dreieck']=['G=g*h_D/2','dreiecksPrimsa3DLiegend(g=g,h_D=h_D,h_K=h_K,messen=messen)',['g','h_D','h_K']]
-    auswahl['Sechseck']=['G=2*(a+c)*h/2','sechseckPrimsa3D(a=a,h_K=h_K,messen=messen)',['a','c','h','h_K']]
-    auswahl['Haus']=['G=a*b+a*h_D/2','hausPrisma(a=a,b=b,h_D=h_D,h_K=h_K, messen=messen)',['a','b','h_D','h_K']]
+    auswahl['Dreieck']=['G=g*h_g/2','dreiecksPrimsa3DLiegend(g=g,h_D=h_g,h_K=h_K,messen=messen)',['g','h_g','h_K']]
+    auswahl['Sechseck']=['G=2*(a+c)*h_a/2','sechseckPrimsa3D(a=a,h_K=h_K,messen=messen)',['a','c','h_a','h_K']]
+    auswahl['Haus']=['G=a*b+a*h_a/2','hausPrisma(a=a,b=b,h_D=h_a,h_K=h_K, messen=messen)',['a','b','h_a','h_K']]
     geg=auswahl[typ][2]
     aufg=[F'\\pbox{{{breite } cm}}{{{"Messe die Seiten und Berechne dann das Volumen von: &&&&" if mitText else ""}'.replace('&&&&','\\\\')]
     lsg=[F'\\pbox{{{ breite} cm}}{{']

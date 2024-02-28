@@ -124,6 +124,11 @@ def rechneEinheitenUm(art='laengen',kleiner1Zahlen=False,einfach=False,einSchrit
         if groessen[G[0]]<groessen[G[1]]:
             wert=wert if mitKomma else wert*groessen[G[1]]/groessen[G[0]]
         aufgabe=['\\rule{0pt}{0.75cm}'+strNW(wert)+' $'+G[0]+'$= \\rule{3cm}{0.15mm} $'+G[1]+'$']
+        aufgabe=['$\\begin{aligned}']
+        aufgabe.append('\\\\')
+        aufgabe.append(F'{strNW(wert)}~{G[0]}=&\\rule{{4cm}}{{0.15mm}}  \\\\[0.3 cm]')
+        aufgabe.append(F'=&\\rule{{4cm}}{{0.15mm}}~{G[1]} \\\\')
+        aufgabe.append('\\end{aligned}$')
         erg=wert*groessen[G[0]]/groessen[G[1]]
         teilen=False
         if mitKomma:
@@ -131,6 +136,11 @@ def rechneEinheitenUm(art='laengen',kleiner1Zahlen=False,einfach=False,einSchrit
         else:
             multiDiviWert=('~\\cdot~'+strNW(groessen[G[0]]/groessen[G[1]])) if groessen[G[0]]/groessen[G[1]]>1 else ('~:~'+strNW(groessen[G[1]]/groessen[G[0]]))
         lsg=[strNW(wert)+' $'+G[0]+'$='+strNW(wert)+'$'+multiDiviWert+ '~'+G[1]+'$= \\underline{'+strNW(erg)+'} $'+G[1]+'$']
+        lsg=['$\\begin{aligned}']
+        lsg.append('\\\\')
+        lsg.append(F'{strNW(wert)}~{G[0]}=&{strNW(wert)}{multiDiviWert}~{G[1]}\\\\')
+        lsg.append(F'=&\\underline{{{strNW(erg)}~{G[1]}}}\\\\')
+        lsg.append('\\end{aligned}$')
         if erg<1:
             erg=erg if kleiner1Zahlen else -1
     return [aufgabe,lsg,wert]
