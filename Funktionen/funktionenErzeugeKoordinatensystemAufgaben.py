@@ -21,7 +21,7 @@ def erzeugePunkteImKoordsystemAufgabe(mitKoordsystem=False,kommazahlen=False,nur
             koords=[[random.randint(xMin+1,xMax-1),random.randint(yMin+1,yMax-1)] for i in range(anzKoord)]
         if len(list(set(map(str,koords)))) == len(koords):
             doppelte=False
-    afg=[F'{(("Erstelle ein Koordinatensystem und t" if not mitKoordsystem else "T")+"rage folgende Punkte ein:") if mitText else "" }']
+    afg=[F'{(("Erstelle ein Koordinatensystem und t" if not mitKoordsystem else "T")+"rage folgende Punkte ein:")}' ] if mitText else []
     afg.append(','.join([F' ${buchstabenGross[i]}({strNW(koords[i][0])}|{strNW(koords[i][1])})$' for i in range(anzKoord)]))
     if mitKoordsystem:
         afg=['\\pbox{\\hsize}{']+afg+['\\\\']
