@@ -7,9 +7,10 @@
 
 def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,anfang,anzSpalten=[2,2],mitText=True,karoBereich=0,extraKaroseite=False,agfLsgGetrennt=False,texAusgabe=False):
     ausgabeName='newFile'
+    datumAuswahl=datum
     dateiName,datum=filename(dateiName,datum=(datetime.date.today() + datetime.timedelta(days=1)).strftime("%d.%m.%Y") if datum=="KeinDatum" else datum)
     ausgabeName=dateiName
-    kopfzeile='' if datum=="KeinDatum" else ('Datum: '+datum)
+    kopfzeile=F'Datum: {"%%rule{3cm}{0.15mm}" if datumAuswahl=="KeinDatum" else datum}'.replace('%%','\\')
 #Erzeuge Aufgaben:
 #if True:
     afg=[]

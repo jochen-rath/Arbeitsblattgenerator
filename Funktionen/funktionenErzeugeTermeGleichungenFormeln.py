@@ -69,8 +69,8 @@ def ersetzePlatzhalterMitSymbolen(T):
     T=T.replace('XVm','G_{Vm}')
     T=T.replace('XVp','G_{Vp}')
     T=T.replace('§§','\\')
-    T=T.replace('vari','')
     T=T.replace('variStr','')
+    T=T.replace('vari','')
     return T
 
 def erzeugeEinfacheFormelnUmformen(formel='',gesucht=''):
@@ -296,7 +296,7 @@ def erzeugeTermAufgaben(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,mitK
     lsg=[F'${term}={str(lsg)}$']
     return [[ersetzePlatzhalterMitSymbolen(afg)],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
 
-def erzeugeSehrEinfacheGleichungen(variabel='x',mitText=True,nurPlusMinus=False,PlusMinusVariImTerm2=False,PlusMinusVariRechtsImTerm1=False,nurMalGeteilt=False,MalUndPlusMinus=False,MalUndPlusMinusAufgeteilt=False):
+def erzeugeSehrEinfacheGleichungen(variabel='x',mitText=True,nurPlusMinus=False,PlusMinusVariImTerm2=False,PlusMinusVariRechtsImTerm1=False,nurMalGeteilt=False,MalUndPlusMinus=False,MalUndPlusMinusAufgeteilt=False,einfKlammer=False):
     G=F'3*{variabel}-5=10'
     if nurPlusMinus:
         G = F'{variabel}{random.choice(["+", "-"])}{random.randint(1, 50)} = {random.randint(1, 50)}'
@@ -330,6 +330,14 @@ def erzeugeSehrEinfacheGleichungen(variabel='x',mitText=True,nurPlusMinus=False,
         G=F'{"".join([werte[0].replace("+","")]+werte[1:])}={c}'
     if PlusMinusVariRechtsImTerm1:
         G = F'{random.randint(1, 50)}{random.choice(["+", "-"])}{variabel}={random.randint(1, 50)}'
+    if einfKlammer:
+        variabel=random.choice(['a','b','x','y','z'])
+        werte={}
+        op=random.choice(['+','-'])
+        for i in variabel,'h','i','j':
+            werte[i]=random.randint(2,8)
+        klammer=F"{werte['h']}*({werte['i']}*{variabel}{op}{werte['j']})"
+        G= F'{klammer} = {eval(klammer.replace(variabel,str(werte[variabel])))}'
     afg = F'{"Berechne die Variable $" if mitText else ""}${G.replace("**", "^").replace("*", "&&cdot ").replace("/", ":")}${"$" if mitText else ""}'.replace("&&","\\")
     lsg = loeseGleichungEinfachMitEinerVariabel(G=G, variable=variabel, mitProbe=True)
     return [afg, lsg, G]

@@ -309,8 +309,9 @@ def prismaVolumenFormeln():
     flaechen=flaechenFormeln()
     for art in flaechen.keys():
         name = 'Quader' if art=='Rechteck' else art
-        hoehe='c' if name=='Quader' else 'h_K'
-        prismaVolumen[name]=[F'variV={flaechen[art][0].split("=")[1]}*{hoehe}',flaechen[art][1]+[hoehe]]
+        hoehe='variStrc' if name=='Quader' else 'variStrh_K'
+        mitKlammer=True if ("+" in flaechen[art][0]) or ("-" in flaechen[art][0]) or ("/" in flaechen[art][0]) else False
+        prismaVolumen[name]=[F'variV={"(" if mitKlammer else ""}{flaechen[art][0].split("=")[1]}{")" if mitKlammer else  ""}*{hoehe}',flaechen[art][1]+[hoehe]]
     return prismaVolumen
 
 def erzeugePrismaFehlendeSeiteBerechnen(anzSpalten=2,auswahl='',mitText=True):
@@ -322,18 +323,18 @@ def erzeugePrismaFehlendeSeiteBerechnen(anzSpalten=2,auswahl='',mitText=True):
     formel=prisma[0]
     varis={}
     for v in prisma[1]:
-        varis[v]=random.randint(15,100)/10
+        varis[v]=random.randint(15,100)
     V=prisma[0].split('=')[1]
     for v in varis.keys():
         V=V.replace(str(v),str(varis[v]))
+    ges=random.choice(list(varis.keys()))
+    ges={ges:varis[ges]}
+    del varis[list(ges.keys())[0]]
     varis['variV']=eval(V)
     prismaArt=F'{auswahl}{"" if auswahl=="Quader" else "-Prismas"}'
     afgText=F'Berechne die fehlende Seite eines {prismaArt} bei folgenden gegebenen Größen: &&&&'
     aufg=[F'\\pbox{{{breite } cm}}{{{afgText if mitText else F"{prismaArt}:" }'.replace('&&&&','\\\\')]
-    ges=random.choice(list(varis.keys()))
-    ges={ges:varis[ges]}
-    del varis[list(ges.keys())[0]]
-    aufg=aufg+['; '.join([F'${art}={strNW(varis[art])}~{einheit}{("^3" if art[0]=="V" else "^2") if art[0].isupper() else ""}$' for art in list(varis.keys())])]
+    aufg=aufg+['; '.join([F'${art}={strNW(varis[art])}~{einheit}{"^3" if art=="variV" else ("^2" if art=="variG" else "")}$' for art in list(varis.keys())])]
     lsg=[F'\\pbox{{{ breite} cm}}{{']
     lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
     lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
@@ -341,17 +342,25 @@ def erzeugePrismaFehlendeSeiteBerechnen(anzSpalten=2,auswahl='',mitText=True):
     lsg.append('\\node[left] at (0,-0.25) {Geg.: };')
     nLsg=len(lsg)
     for x in list(varis.keys()):
-        lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-nLsg)}) {{${x}={strNW(varis[x],2)}~{einheit}{"^2" if x.isupper() else ""}$}};')
+        lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-nLsg)}) {{${x}={strNW(varis[x],2)}~{einheit}{"^3" if x=="variV" else ("^2" if x=="variG" else "")}$}};')
     lsg.append(F'\\node[left] at (0,{-0.25-0.5*(len(lsg)-nLsg)}) {{Ges.: }};')
     nLsg = nLsg+1
-    lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-nLsg)}) {{${list(ges.keys())[0]}  = ?~cm{"^2" if list(ges.keys())[0][0].isupper() else ""}$}};')
+    lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-nLsg)}) {{${list(ges.keys())[0]}  = ?~cm{"^2" if list(ges.keys())[-1]=="variG" else ""}$}};')
     lsg.append(F'\\node[below right] at (0,{-0.25-0.5*(len(lsg)-nLsg)}) {{')
     lsg.append('$\\begin{aligned}')
-    lsg.append(F'{formel.split("=")[0]}&={formel.split("=")[1]} & & \\\\')
+    lsg.append(F'{formel.split("=")[0]}&={formel.split("=")[1]} & &§§mid~\\mbox{{Einsetzen}} \\\\')
     for x in list(varis.keys()):
-        formelStrNw=formel.replace(x,strNW(varis[x],2))
+        formelStrNw=formel.replace(x,strNW(varis[x],2).replace('.',''))
         formel=formel.replace(x,str(varis[x]))
-
+    if not str(sympy.sympify(formel.split("=")[1]))==formelStrNw.split("=")[1]:
+        lsg.append(F'{formelStrNw.split("=")[0]}&={formelStrNw.split("=")[1]} & &§§mid~\\mbox{{Zusammenfassen}} \\\\')
+    lsg.append(F'{formelStrNw.split("=")[0]}&={sympy.sympify(formel.split("=")[1])} & &§§mid~\\mbox{{Umdrehen}} \\\\')
+#    lsg.append(F'{sympy.sympify(formelStrNw.split("=")[1])}&={formelStrNw.split("=")[0]} & & \\\\')
+    glLsg = loeseGleichungEinfachMitEinerVariabel(G=F'{sympy.sympify(formel.split("=")[1])} = {formelStrNw.split("=")[0].replace(".","").replace(",",".")}', variable=list(ges.keys())[0], latexAusgabe=True)
+    glLsg=glLsg[6:-3]
+    glLsg[-1]=F'{glLsg[-1].split("&")[0]}&{glLsg[-1].split("&")[1]}~{einheit}{"^2" if list(ges.keys())[-1]=="variG" else " "}&{glLsg[-1].split("&")[2]}&{glLsg[-1].split("&")[3]}'
+    lsg=lsg+glLsg
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
     lsg.append('\\end{aligned}$};')
     lsg.append('\\end{tikzpicture}')
     lsg.append('\\endgroup')

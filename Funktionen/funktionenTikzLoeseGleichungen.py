@@ -16,12 +16,11 @@ def loeseEinfacheMalGeteiltAufg(G='1.564=8.56+2.33*variStrh_k',vari='variStrh_k'
     werte['R']=float(R)
     if '+' in L or '-' in L:
         LL,LR=G.split('*')[0],L.split('*')[1]
-
     op=''
     for pm in '+','-':
         if pm in R:
             op=pm+R.split(pm)[0] if not list(ges.keys())[0] in op.split(pm)[0]  else op.split(pm)[1]
-    lsg.append(F'{formelStrNw.split("=")[0]}&={formelStrNw.split("=")[1]} & & {F"& & $$mid~{op}" if len(op)>0 else ""}\\\\')
+    lsg.append(F'{formelStrNw.split("=")[0]}&={formelStrNw.split("=")[1]} & & {F"& & §§mid~{op}" if len(op)>0 else ""}\\\\')
     return glLsg
 
 
