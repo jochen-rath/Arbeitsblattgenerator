@@ -213,10 +213,11 @@ def fuegePunkteEin(a):
     return '.'.join(a[::-1][i:i+3] for i in range(0, len(a), 3))[::-1]
 
 def strNW(a,runden=False):
+    rundenAuf=runden if type(runden)==int else (10 if not runden else 2)
 #Schreibe die Zahl nicht wissenschaftlich und mit einem Komma anstatt Punkt.
     if type(a)==str:
         return a
-    a_str=str(round(a,10)) if not runden else str(round(a,2))
+    a_str=str(round(a,rundenAuf))
     if 'e-' in a_str:
         if '.' in a_str:
             n=int(a_str.split('.')[1].split('e-')[1])+len(a_str.split('.')[1].split('e-')[0])
