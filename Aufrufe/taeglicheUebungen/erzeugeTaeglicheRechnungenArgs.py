@@ -30,7 +30,8 @@ def main():
     auswahl=[]
     anzahlRechnungen=26
     startRechnungenIndex=11
-    for arg in sys.argv[startRechnungenIndex:anzahlRechnungen+startRechnungenIndex]:
+#    for arg in sys.argv[startRechnungenIndex:anzahlRechnungen+startRechnungenIndex]:
+    for arg in sys.argv[startRechnungenIndex:]:
         auswahl=auswahl+[arg]
     for a in auswahl:
         if a.startswith('daten') or a.startswith('zeitWegDiagramm') or a=='hebelZeichnen' or a.startswith('datenAuswerten'):

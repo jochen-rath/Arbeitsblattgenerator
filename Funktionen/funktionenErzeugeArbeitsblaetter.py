@@ -15,6 +15,7 @@ def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,
 #if True:
     afg=[]
     lsg=[]
+    aufgabenNummern=buchstabenKlein if len(auswahl)<27 else [F'{x}{y}' for x in range(1,int(len(auswahl)/26)+2) for y in buchstabenKlein]
     if 'erzeugeAlleAtome' in auswahl:
         return schreibeAlleAtomeInDateien()
     for i,aus in enumerate(auswahl):
@@ -23,8 +24,8 @@ def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,
             a='\n'.join(a)
         if isinstance(l,list):
             l='\n'.join(l)
-        afg.append([buchstabenKlein[i]+')',a])
-        lsg.append([buchstabenKlein[i]+')',l])
+        afg.append([aufgabenNummern[i]+')',a])
+        lsg.append([aufgabenNummern[i]+')',l])
     tabAfg=erzeugeEinfacheTabelle(afg,anzSpalten[0])
     tabLsg=erzeugeEinfacheTabelle(lsg,anzSpalten[1])
 #Erzeuge eine Leere Karo Tabelle, in der die SuS was schreiben können.
