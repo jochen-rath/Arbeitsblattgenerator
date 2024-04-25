@@ -33,13 +33,35 @@ def main():
 #    for arg in sys.argv[startRechnungenIndex:anzahlRechnungen+startRechnungenIndex]:
     for arg in sys.argv[startRechnungenIndex:]:
         auswahl=auswahl+[arg]
+    anzahlGleicherTypen=[]
+    vergleich=auswahl[0]
+    i=1
+    aufgabenNummern=buchstabenKlein
+#Die Aufgabennummern sollen so nummeriert sein, dass Aufgaben gleichen Typs die gleiche Nummer haben:
+#1a),1b),1c) - 2a),2b),2c) usw.
+    if len(auswahl)>1:
+#1. Fasse Aufgaben gleichen Typs zusammen und zähle, wieviel davon vorhanden sind.
+        for a in auswahl[1:]:
+            if a==vergleich:
+                i=i+1
+            else:
+                anzahlGleicherTypen.append(i)
+                vergleich=a
+                i=1
+        anzahlGleicherTypen.append(i)
+        if len(list(set(anzahlGleicherTypen)))==1 and len(anzahlGleicherTypen):
+            if anzahlGleicherTypen[0] > 1:
+                if anzahlGleicherTypen[0]<26:
+                    aufgabenNummern=[F'{x}{y}' for x in range(1,len(anzahlGleicherTypen)+1) for y in buchstabenKlein[:anzahlGleicherTypen[0]]]
+                else:
+                    aufgabenNummern=[F'{x}{y}' for x in range(1, int(len(auswahl) / 26) + 2) for y in buchstabenKlein]
     for a in auswahl:
         if a.startswith('daten') or a.startswith('zeitWegDiagramm') or a=='hebelZeichnen' or a.startswith('datenAuswerten'):
             anzSpalten=[1,1]
     if erzArbeit:
         filename=erzeugeArbeit(auswahl,title,dateiName,datum,anfang)
     else:
-        filename=erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,'' if not 'datum' in locals() else datum ,'' if not 'anfang' in locals() else anfang,2 if not 'anzSpalten' in locals() else anzSpalten,mitText=mitText,karoBereich=karoBereich,extraKaroseite=extraKaroseite,agfLsgGetrennt=agfLsgGetrennt,texAusgabe=texAusgabe)
+        filename=erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,'' if not 'datum' in locals() else datum ,'' if not 'anfang' in locals() else anfang,2 if not 'anzSpalten' in locals() else anzSpalten,mitText=mitText,karoBereich=karoBereich,extraKaroseite=extraKaroseite,agfLsgGetrennt=agfLsgGetrennt,texAusgabe=texAusgabe,aufgabenNummern=aufgabenNummern)
     print('Dateiname:'+filename)
     return 
 

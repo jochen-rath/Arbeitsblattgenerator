@@ -5,7 +5,7 @@
 #       exec(open("Funktionen/funktionen.py").read())
 
 
-def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,anfang,anzSpalten=[2,2],mitText=True,karoBereich=0,extraKaroseite=False,agfLsgGetrennt=False,texAusgabe=False):
+def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,anfang,anzSpalten=[2,2],mitText=True,karoBereich=0,extraKaroseite=False,agfLsgGetrennt=False,texAusgabe=False,aufgabenNummern=buchstabenKlein):
     ausgabeName='newFile'
     datumAuswahl=datum
     dateiName,datum=filename(dateiName,datum=(datetime.date.today() + datetime.timedelta(days=1)).strftime("%d.%m.%Y") if datum=="KeinDatum" else datum)
@@ -15,7 +15,7 @@ def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,
 #if True:
     afg=[]
     lsg=[]
-    aufgabenNummern=buchstabenKlein if len(auswahl)<27 else [F'{x}{y}' for x in range(1,int(len(auswahl)/26)+2) for y in buchstabenKlein]
+#    aufgabenNummern=buchstabenKlein if len(auswahl)<27 else [F'{x}{y}' for x in range(1,int(len(auswahl)/26)+2) for y in buchstabenKlein]
     if 'erzeugeAlleAtome' in auswahl:
         return schreibeAlleAtomeInDateien()
     for i,aus in enumerate(auswahl):
