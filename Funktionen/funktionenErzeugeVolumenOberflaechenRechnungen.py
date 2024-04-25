@@ -335,8 +335,8 @@ def prismaOberflaechenFormeln():
         prismaOberfl[name]=[F'variO=2*{"(" if mitKlammer else ""}{flaechen[art][0].split("=")[1]}{")" if mitKlammer else  ""}+{"(" if mitKlammerU else ""}{umfaenge[art][0].split("=")[1]}{")" if mitKlammerU else  ""}*{hoehe}',list(set(flaechen[art][1]+umfaenge[art][1]+[hoehe]))[::-1]]
     return prismaOberfl
 
-def erzeugePrismaFehlendeSeiteBerechnen(anzSpalten=2,auswahl='',mitText=True):
-    VoO='V' if random.randint(0,1) >0 else 'O'
+def erzeugePrismaFehlendeSeiteBerechnen(anzSpalten=2,auswahl='',mitText=True,VoO=''):
+    VoO= VoO if VoO in ['V','O'] else'V' if random.randint(0,1) >0 else 'O'
     einheit='cm'
     breite=6 if anzSpalten==2 else 14
     prismaVolumen=prismaVolumenFormeln()

@@ -34,7 +34,7 @@ class Form(Form):
         exec('rechnung'+str(i+1)+'=SelectField("rechnung'+str(i+1)+'",choices=MoeglicheRechnungen(MoeglicheRechnungen("keys")[0]),default=MoeglicheRechnungen(MoeglicheRechnungen("keys")[0]))')
         exec('anzahl'+str(i+1)+'=SelectField("anzahl'+str(i+1)+'",choices=[(str(i),str(i)) for i in range(27)])')
 #    anzahlAlle=SelectField("anzahlAlle",choices=[(str(i),str(i)) for i in range(int(27/maXAnzahlAuswahl)+1)],default='0')
-    anzahlAlle=SelectField("anzahlAlle",choices=[(str(i),str(i)) for i in range(5)],default='0')
+    anzahlAlle=SelectField("anzahlAlle",choices=[(str(i),str(i)) for i in range(27)],default='0')
     anzSpaltenAfg=SelectField("Aufgabe: Anzahl an Spalten",choices=[(str(i),str(i)) for i in range(1,3)],default='2')
     anzSpaltenLsg=SelectField("Lösung: Anzahl an Spalten",choices=[(str(i),str(i)) for i in range(1,3)],default='2')
     mitText=BooleanField('Mit Beschreibungstext in den Aufgaben',default='checked')
