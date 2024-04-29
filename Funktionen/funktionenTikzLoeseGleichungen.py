@@ -54,7 +54,7 @@ def probeGleichungLoesen(G="2*x+6=3*x-2",variable='x',erg='8',mitTikzUmrandung=T
         latexcommand.append('\\endgroup')
     return latexcommand
 
-def loeseGleichungEinfachMitEinerVariabel(G="2*x+6=3*x-2",variable='x',mitTikzUmrandung=True,mitProbe=False,latexAusgabe=True):
+def loeseGleichungEinfachMitEinerVariabel(G="2*x+6=3*x-2",variable='x',mitTikzUmrandung=True,mitProbe=False,latexAusgabe=True,fracAmEnde=True):
 #Diese Funktion löst ein einfaches Gleichungssystem mit x oder x**2 am Ende
 #Das Gleichungssystem darf nur aus einer Variabel bestehen, ansonsten eine Kombination aus zahlen und Faktoren und Variabel. Beispiel:
 #
@@ -86,7 +86,7 @@ def loeseGleichungEinfachMitEinerVariabel(G="2*x+6=3*x-2",variable='x',mitTikzUm
         L=L if not L[0]=='+' else L[1:]
         R=R if not R[0]=='+' else R[1:]
 #        latexcommand.append(L.replace('**','^').replace('*','\\cdot ')+' &='+R.replace('**','^').replace('*','\\cdot ')+'& & \\\\')
-        latexcommand.append(erzeugeLatexFracAusdruck(ersetzePlatzhalterMitSymbolen(L))+' &='+ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(R))+'& &  \\\\')
+        latexcommand.append(erzeugeLatexFracAusdruck(ersetzePlatzhalterMitSymbolen(L.replace('.',',')))+' &='+ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(R.replace('.',',')))+'& &  \\\\')
         L=str(sympy.simplify(L))
         R=str(sympy.simplify(R))
     operator='+0'
@@ -109,22 +109,34 @@ def loeseGleichungEinfachMitEinerVariabel(G="2*x+6=3*x-2",variable='x',mitTikzUm
             operator='*'+Lsplit[variablePos].split('/')[1]
 #4. Rechts steht keine variable, Links nur noch Zahl mal x oder Zahl mal x^2
         else:
-            operator='1' if (re.search(r'\d+', Lsplit[0].split('**')[0]) is None) else re.search(r'\d+', Lsplit[0].split('**')[0])[0]
+            regex=r'\d+\.\d+' if '.' in Lsplit[0].split('**')[0] else r'\d+'
+            result=re.search(regex, Lsplit[0].split('**')[0])
+            if result:
+                operator=result.group(0)
+            else:
+                operator='1'
+#            operator='1' if (re.search(regex, Lsplit[0].split('**')[0]) is None) else re.search(regex, Lsplit[0].split('**')[0]).group(0)
+#            operator='1' if (re.search(r'\d+', Lsplit[0].split('**')[0]) is None) else re.search(r'\d+', Lsplit[0].split('**')[0])[0]
             operator='/('+Lsplit[0][0]+operator+')'
 #Manchmal erzeugt simplify beim Umwandeln eine Klammer. Diese muß vor dem Aufschreiben wieder entfernt werden.
         if '(' in L+'='+R:
             L,R=klammernEntfernen(L),klammernEntfernen(R)
             L,R=L if not L[0]=='+' else L[1:], R if not R[0]=='+' else R[1:]
 #        latexcommand.append(L.replace('**','^').replace('*','\\cdot ')+' &='+R.replace('**','^').replace('*','\\cdot ')+'& & \\mid '+operator.replace('/',':').replace('**','^').replace('*','\\cdot ')+'\\\\')
-        latexcommand.append(ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(L)) + ' &=' + ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(R)) + '& & ' + ('' if operator == '+0' else ('\\mid ' + ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(operator,operator=True)))) + '\\\\')
+        latexcommand.append(ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(L.replace('.',','))) + ' &=' + ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(R.replace('.',','))) + '& & ' + ('' if operator == '+0' else ('\\mid ' + ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(operator.replace('.',','),operator=True)))) + '\\\\')
         L=str(sympy.simplify('('+L+')'+operator))
-        R=str(sympy.simplify('('+R+')'+operator)) 
+        R=str(sympy.simplify('('+R+')'+operator))
+#simplify reduziert nicht "1.0*x" weiter
+        L=L[4:] if L.startswith('1.0*') else L
         loopCounter=loopCounter+1
     zaeR=0 if not '/' in R else int(R.split('/')[0])
     nenR=0 if not '/' in R else int(R.split('/')[1])
     if loopCounter<10:
-#        latexcommand.append(L.replace('**','^').replace('*','\\cdot ')+' &='+ ((R) if not '/' in R else(frac(zaeR,nenR)+('' if abs(zaeR)< nenR else ('='+schreibeGemZahl(zaeR,nenR)))))+'& &')
-        latexcommand.append(erzeugeLatexFracAusdruck(ersetzePlatzhalterMitSymbolen(L))+' &='+ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(R))+'& & ')
+        if fracAmEnde:
+            latexcommand.append(erzeugeLatexFracAusdruck(ersetzePlatzhalterMitSymbolen(L))+' &='+ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(R))+'& & ')
+        else:
+#            latexcommand.append(L.replace('**','^').replace('*','\\cdot ')+' &='+ ((R) if not '/' in R else(frac(zaeR,nenR)+('' if abs(zaeR)< nenR else ('='+schreibeGemZahl(zaeR,nenR)))))+'& &')
+            latexcommand.append(F'{ersetzePlatzhalterMitSymbolen(L)}&={strNW(eval(R),2)} & &')
         nurLsg=L+'='+R
     else:
         return 'Error'

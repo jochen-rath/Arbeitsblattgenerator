@@ -53,6 +53,8 @@ def erkenneProzentKreis(mitText=True,bruch=False):
         afg=kreisTeilsGefuelt(teile=teile, anzahl=anzahl, mitSchraffur=True)
     lsg=F'$$\\frac{{{anzahl}}}{{{teile}}}{"$$" if bruch else F"={strNW(anzahl/teile,True)}={strNW(anzahl/teile*100,True)}§§%$$"}'.replace('§§','\\')
     return [afg,lsg,[teile,anzahl]]
+
+
 def erzeugeProzentRechnungen(E='',kapital=False,HS=False,G=False):
 #Diese Funktion erzeugt eine Aufgabe zur Prozentrechnung:
 #Aufruf:
@@ -90,6 +92,23 @@ def erzeugeProzentRechnungen(E='',kapital=False,HS=False,G=False):
             G=W*100/pP
     return [int(G),W,pP,E]
 
+def erzeugeProzentwertAufgabenFormel(ges='',HS=False):
+    werte=erzeugeProzentRechnungen(HS=HS)
+    art=werte[3]
+    varis={'G':[werte[0],art],'W':[werte[1],art],'p':[werte[2],'\\%']}
+    geg=list(varis.keys())
+    if len(ges)<1:
+        ges=random.choice(geg)
+    geg.remove(ges)
+    formel='W=G*p/100'
+    if ges=='W':
+        afg=F'{strNW(varis[geg[1]][0])} {varis[geg[1]][1]} von {strNW(varis[geg[0]][0])} {varis[geg[0]][1]}'
+    if ges=='G':
+        afg=F'{strNW(varis[geg[0]][0])} {varis[geg[0]][1]} sind {strNW(varis[geg[1]][0])} {varis[geg[1]][1]}'
+    if ges=='p':
+        afg=F'{strNW(varis[geg[1]][0])} {varis[geg[1]][1]} von {strNW(varis[geg[0]][0])} {varis[geg[0]][1]}'
+    lsg=loeseFunktion(formel=formel,varis=varis,ges=ges,breite=5)
+    return [[ersetzePlatzhalterMitSymbolen(x) for x in [afg]],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
 def erzeugeProzentwertAufgaben(n=12,lsgMitDreisatz=True,bez=['Grundwert','Prozentsatz'],einheit='',HS=False):
 #Aufruf 
 #     ausgabe=erzeugeProzentsatzAufgaben(Anzahl)
