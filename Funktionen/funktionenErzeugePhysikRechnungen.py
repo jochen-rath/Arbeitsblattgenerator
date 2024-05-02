@@ -115,8 +115,8 @@ def erzeugeBeschlBerechnungen(typ='',mitText=True):
         lsg = lsg + ['\\end{aligned}$']
     elif typ=='Geschwindigkeit':
         afg=F'{"Berechne die Geschwindigkeit für " if mitText else  F"$v=? XXXXfrac{{m}}{{s}}$: "}${{t={strNW(t,True)}~s}}${" und" if mitText else ","} $a={strNW(a,True)}~\\frac{{m}}{{s^2}}${"." if mitText else ""}'
-        afg=afg.replace('XXXX','\\')
         lsg=[F'$v=a\\cdot t={strNW(a,True)}\\cdot{strNW(t,True)}={strNW(v,True)}~\\frac{{m}}{{s}}$']
+    afg=afg.replace('XXXX','\\')
     return [afg,lsg,[]]
 
 def erzeugeBeschlWegBerechnungen(typ='',mitText=True):
