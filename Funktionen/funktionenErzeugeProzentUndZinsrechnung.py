@@ -74,6 +74,7 @@ def erzeugeProzentRechnungen(E='',kapital=False,HS=False,G=False):
                 G=random.choice(HS_GWerte)
                 pP=random.choice(pP_Werte)
                 W=pP*G/100
+            W=int(W)
         else:
             HS_GWerte=[20,25,50,100,200,400,500,1000]
             pP=1.1
@@ -107,7 +108,7 @@ def erzeugeProzentwertAufgabenFormel(ges='',HS=False):
         afg=F'{strNW(varis[geg[0]][0])} {varis[geg[0]][1]} sind {strNW(varis[geg[1]][0])} {varis[geg[1]][1]}'
     if ges=='p':
         afg=F'{strNW(varis[geg[1]][0])} {varis[geg[1]][1]} von {strNW(varis[geg[0]][0])} {varis[geg[0]][1]}'
-    lsg=loeseFunktion(formel=formel,varis=varis,ges=ges,breite=5)
+    lsg=loeseFunktion(formel=formel,varis=varis,ges=ges,breite=5,kommaAusgabe=True)
     return [[ersetzePlatzhalterMitSymbolen(x) for x in [afg]],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
 def erzeugeProzentwertAufgaben(n=12,lsgMitDreisatz=True,bez=['Grundwert','Prozentsatz'],einheit='',HS=False):
 #Aufruf 

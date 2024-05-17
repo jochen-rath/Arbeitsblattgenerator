@@ -10,7 +10,7 @@ import random
 #       exec(open("Funktionen/funktionen.py").read())
 
 
-def loeseFunktion(formel='W=G*p/100',varis={'W':[16,'Autos'],'G':[200,'Autos'],'p':[8,'\\%']},ges='p',breite=12):
+def loeseFunktion(formel='W=G*p/100',varis={'W':[16,'Autos'],'G':[200,'Autos'],'p':[8,'\\%']},ges='p',breite=12,kommaAusgabe=False):
     geg=list(varis.keys())
     geg.remove(ges)
     lsg=[F'\\pbox{{{ breite} cm}}{{']
@@ -28,7 +28,7 @@ def loeseFunktion(formel='W=G*p/100',varis={'W':[16,'Autos'],'G':[200,'Autos'],'
     lsg.append('$\\begin{aligned}')
     lsg.append(F'{formel.split("=")[0]}&={formel.split("=")[1]} & &§§mid~\\mbox{{Einsetzen}} \\\\')
     for x in list(geg):
-        formelStrNw=formel.replace(x,strNW(varis[x][0],2).replace('.',''))
+        formelStrNw=formel.replace(x,strNW(varis[x][0],True))
         formel=formel.replace(x,str(varis[x][0]))
 #Steht der gesuchte Werte Links oder Rechts?
     if ges==formel.split("=")[0].replace(" ",""):
@@ -37,6 +37,8 @@ def loeseFunktion(formel='W=G*p/100',varis={'W':[16,'Autos'],'G':[200,'Autos'],'
     else:
         if not str(sympy.sympify(formel.split("=")[1]))==formelStrNw.split("=")[1]:
             lsg.append(F'{formelStrNw.split("=")[0]}&={formelStrNw.split("=")[1]} & &§§mid~\\mbox{{Zusammenfassen}} \\\\')
+            R=str(sympy.sympify(formel.split("=")[1]).evalf()) if kommaAusgabe else str(sympy.sympify(formel.split("=")[1]))
+            formel=formel if not kommaAusgabe else F'{formel.split("=")[0]}={R}'
         lsg.append(F'{formelStrNw.split("=")[0]}&={str(sympy.sympify(formel.split("=")[1])).replace(".",",")} & &§§mid~\\mbox{{Umdrehen}} \\\\')
     #    lsg.append(F'{sympy.sympify(formelStrNw.split("=")[1])}&={formelStrNw.split("=")[0]} & & \\\\')
         glLsg = loeseGleichungEinfachMitEinerVariabel(G=F'{sympy.sympify(formel.split("=")[1])} = {formelStrNw.split("=")[0].replace(".","").replace(",",".")}', variable=ges, latexAusgabe=True,fracAmEnde=False)
