@@ -165,9 +165,9 @@ def erzeugeGemZinsrechnungenOhneTabelle():
     if ausw==0:
         lsg=ausgabeGrundwertBerechnenFuerTabelle(inhalte=[['',r[1],r[2],r[3]]],mitDreisatz=False,bez=benennung)
     if ausw==1:
-        lsg=ausgabeProzentwertBerechnenFuerTabelle(inhalte=[['',r[1],r[2],r[3]]],mitDreisatz=False,bez=benennung)
+        lsg=ausgabeProzentwertBerechnenFuerTabelle(inhalte=[['',r[0],r[2],r[3]]],mitDreisatz=False,bez=benennung)
     if ausw==2:
-        lsg=ausgabeProzentsatzBerechnenFuerTabelle(inhalte=[['',r[1],r[2],r[3]]],mitDreisatz=False,bez=benennung)
+        lsg=ausgabeProzentsatzBerechnenFuerTabelle(inhalte=[['',r[0],r[1],r[3]]],mitDreisatz=False,bez=benennung)
     return [afg,lsg,[]]
 
 
