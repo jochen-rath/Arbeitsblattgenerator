@@ -35,7 +35,7 @@ pip3 install -r requirements.txt
 ```
 bzw.
 ```
-pip3 install numpy  matplotlib datetime sympy flask flask_wtf wtforms psutil
+pip3 install numpy  matplotlib datetime sympy flask flask_wtf wtforms psutil openai
 ```
 ### Probleme bei der Installation unter Ubuntu und python3.10
 Bei mir hat die Installation unter Ubuntu und python3.10 fehlgeschlagen. Ich musst noch zwei zusätzliche Befehle ausführen:
