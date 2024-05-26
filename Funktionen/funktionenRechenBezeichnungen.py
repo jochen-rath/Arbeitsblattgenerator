@@ -313,7 +313,9 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'bestimmeZerfall':'bestimmeZerfall()',
         'bestimmeZerfalln3':'bestimmeZerfall(n=3)',
         'textAfgProzent':'erzeugeProzentwertTextAufgabe()',
-        'textAfgUmfProzent':'erzeugeProzentwertTextAufgabe(umformen=True)'
+        'textAfgUmfProzent':'erzeugeProzentwertTextAufgabe(umformen=True)',
+        'textAfgUmfProzentVerm':'erzeugeVermindVermehrtGrundwertAfg(mitDreisatz=False)',
+        'textAfgUmfProzentVermDreisatz':'erzeugeVermindVermehrtGrundwertAfg(mitDreisatz=True)',
     }
     return eval(rechnungsFunktionen[art])
 
@@ -347,7 +349,7 @@ def MoeglicheRechnungen(auswahl='keys',gebeListeZurueck=False):
                      'Funktionen':[('propFktZeichnen','Proportionale Fkten zeichnen'),('propFktErkennen','Proportionale Fkten erkennen'),('lineareFktZeichnen','Lineare Fkten zeichnen'),('lineareFktErkennen','Lineare Fkten erkennen'),('umfangsFunktionRechteck','Bestimme Rechteck Umfangsfunktion'),('umfangsFunktionDreieck','Bestimme Dreieck Umfangsfunktion')],
                      'Daten und Zufall':[('datenStreifenZurodnen','Daten dem Säulen-/Streifdiagramm zuord.'),('datenZurodnen','Daten dem Säulen-/Kreisdiagramm zuord.'),('datenStreifenZeichnenEinfaerben','Daten zeichnen und Streifen Diag. einfärben.'),('datenZeichnenEinfaerben','Daten zeichnen und Kreis Diag. einfärben.'),('datenStreifenZeichnen','Daten Säulen-/Streifendiagr. Zeichnen'),('datenZeichnen','Daten Säulen-/Kreisdiagr. Zeichnen'),('datenStreifenZeichnenUndBerechnen','Daten Zeichnen und Berechnen Streifendia.'),('datenZeichnenUndBerechnen','Daten Zeichnen und Berechnen Kreisdia.'),('datenStreifenAllesSelber','Daten alles ausw. Streifendia.'),('datenAllesSelber','Daten alles ausw. Kreis.'),('datenAuswertenRS','Daten auswerten inkl Quartil'),('datenAuswertenHS','Daten auswerten ohne Quartil'),('zufallEinstufig','Einstufiger Zufallsversuch'),('zufallZweistufig','Zweistufiger Zufallsversuch')],
                      'Physik': [('geschwGeschwBerechnen', 'Berechne die Geschw.'),('geschwGeschwBerechnenHS', 'Berechne die Geschw. für HS'),('geschwBeliebigBerechnen', 'Berechne fehl. Wert Geschw.'),('geschwBeliebigBerechnenHS', 'Berechne fehl. Wert Geschw. für HS'),('geschwGeschwBerechnenSchwer', 'Berechne die Geschw. mit Komma'),('geschwBeliebigBerechnenSchwer', 'Berechne fehl. Wert Geschw. mit Komma'),('geschwGeschwBerechnenEinheitBeliebig', 'Berechne Gesch. mit bel. Einheiten.'),('geschwBeliebigBerechnenEinheitBeliebig', 'Berechne fehl. Wert mit bel. Einheiten.'),('zeitWegDiagramm','Zeit Weg Diagramm'),('zeitWegDiagrammOhneDiaVorgabe','Zeit Weg Dia ohne Dia. Vorgabe'),('zeitWegDiagrammNurText','Zeit Weg Dia ohne Vorgabe'),('hebelZeichnen','Hebelaufgabe'),('beschlBeliebigBerechnen', 'Berechne fehl. Wert Beschl.'),('beschlWegBerechnenZeit','Berechne Weg Bei Beschl. mit vorg. Zeit'),('beschlWegBerechnenGeschw','Berechne Weg Bei Beschl. mit vorg. Geschw.'),('beschlWegBerechnenbel','Berechne Weg Bei Beschl. mit vorg. Bel.'),('atomErkennenEinfach','Atom bestimmen Einfach'),('atomErkennen','Atom bestimmen'),('atomZeichnen','Atom zeichnen'),('atomIonErkennen','Ion bestimmen'),('erzeugeAlleAtome','Schreibe alle Atome in pdf-Dateien'),('bestimmeZerfall','Zerfall Bestimmen'),('bestimmeZerfalln3','Zerfall Bestimmen mit 3')],
-                     'Textaufgaben':[('textAfgProzent','Prozentwertaufgaben'),('textAfgUmfProzent','Prozentwertaufgaben Formel umformen')]
+                     'Textaufgaben':[('textAfgProzent','Prozentwertaufgaben'),('textAfgUmfProzent','Prozentwertaufgaben Formel umformen'),('textAfgUmfProzentVerm','Vermin/Vermehr Grundwertaufgaben'),('textAfgUmfProzentVermDreisatz','Vermin/Vermehr Grundwertaufgaben mit Dreisatz')]
     }
     if gebeListeZurueck:
         return listeRechnungen

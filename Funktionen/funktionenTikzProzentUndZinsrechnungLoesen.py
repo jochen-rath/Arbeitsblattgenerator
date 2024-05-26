@@ -182,7 +182,7 @@ def ausgabeVerminderteGrundwertBerechnenFuerTabelle(inhalte=[['2a',420,56,'\euro
         latexcommand.append('\\end{aligned}$};')
         if mitDreisatz:
             latexcommand=latexcommand+dreiSatz(links=[strNW(100,True),'1',strNW(pP,True)],rechts=[strNW(G,True),strNW(G/100,True),strNW(W,True)],title=['\%',E],startPos=[1,-4],tikzUmrandung=False)
-        latexcommand.append('\\node[below right] at (0,'+str(-4-2.75-1.0)+') {')  
+        latexcommand.append(F'\\node[below right] at (0,{-4-2.75-1.0+(0 if mitDreisatz else 3.5)}) {{')
         latexcommand.append('$\\begin{aligned}')  
         latexcommand.append(''+bez[3]+' &=\\ '+bez[0]+'-'+bez[1]+' \\\\') 
         latexcommand.append(''+bez[3]+' &=\\ '+strNW(G,True)+'-'+strNW(W,True)+' \\\\')
@@ -276,7 +276,7 @@ def ausgabeVermehrterGrundwertBerechnenFuerTabelle(inhalte=[['2a',420,56,'\euro{
         latexcommand.append('\\end{aligned}$};')
         if mitDreisatz:
             latexcommand=latexcommand+dreiSatz(links=[strNW(100,True),'1',strNW(pP,True)],rechts=[strNW(G,True),strNW(G/100,True),strNW(W,True)],title=['\%',E],startPos=[1,-4],tikzUmrandung=False)
-        latexcommand.append('\\node[below right] at (0,'+str(-4-2.75-1.0)+') {')  
+        latexcommand.append(F'\\node[below right] at (0,{-4-2.75-1.0+(0 if mitDreisatz else 3.5)}) {{')
         latexcommand.append('$\\begin{aligned}')  
         latexcommand.append(''+bez[3]+' &=\\ '+bez[0]+'+'+bez[1]+' \\\\') 
         latexcommand.append(''+bez[3]+' &=\\ '+strNW(G,True)+'+'+strNW(W,True)+' \\\\')

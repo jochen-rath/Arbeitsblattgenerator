@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # coding: utf8
+import random
+
 
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
@@ -51,3 +53,24 @@ def erzeugeProzentwertTextAufgabe(ges='',HS=False,umformen=False):
             lsg=ausgabeGrundwertBerechnenFuerTabelle(inhalte=[['',varis['W'][0],varis['p'][0],varis['W'][1]]],mitDreisatz=True,bez=['G','W','p'])
         lsg.insert(len(lsg) - 3, F'\\node[right] at (-1,-7.75) {{{antwortsatz.replace("%","$$%").replace("XXX",strNW(varis[ges][0]))}}};'.replace('$$','\\'))
     return [[ersetzePlatzhalterMitSymbolen(x) for x in [afg]],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
+
+def erzeugeVermindVermehrtGrundwertAfg( HS=False,mitDreisatz=False):
+    openAiModel='gpt-4-turbo'   #"gpt-3.5-turbo"
+    werte=erzeugeProzentRechnungen(HS=HS)
+    art=werte[3]
+    varis={'G':[werte[0],art],'W':[werte[1],art],'p':[werte[2],'\\%']}
+    benennung={'G':'Grundwert','W':'Prozentwert','p':'Prozentsatz'}
+    ges=random.choice(['vermehrte','verminderte'])
+    client=ladeOpenAi()
+    chatgptFrage=F'Erstell mir eine {ges} Prozentwertaufgabe mit dem Grundwerte {varis["G"][0]} {varis["G"][1]} und dem {ges}n Prozentsatz {varis["p"][0]}. Schreibe nur die Frage und den Antwortsatz auf. Schreibe Frage vor der Frage und Antwortsatz vor dem Antwortsatz. Schreibe XXX im Antwortsatz, anstatt der Zahlen. Schreibe die Zahlen mit einem Dezimalkomma'
+    completion = client.chat.completions.create(model=openAiModel,  messages=[    {"role": "user", "content": chatgptFrage}  ])
+    afg=completion.choices[0].message.content.split('Antwortsatz:')[0].replace('%','\\%').replace('^','').replace('Frage:','')
+    antwortsatz=completion.choices[0].message.content.split('Antwortsatz:')[1].replace('^','')
+    if ges=='verminderte':
+        lsg=ausgabeVerminderteGrundwertBerechnenFuerTabelle(inhalte=[['',varis['G'][0],varis['p'][0],varis['G'][1]]],mitDreisatz=mitDreisatz)
+        erg=varis['G'][0]-varis['G'][0]*varis['p'][0]/100
+    else:
+        lsg=ausgabeVermehrterGrundwertBerechnenFuerTabelle(inhalte=[['',varis['G'][0],varis['p'][0],varis['G'][1]]],mitDreisatz=mitDreisatz)
+        erg=varis['G'][0]+varis['G'][0]*varis['p'][0]/100
+    lsg.insert(len(lsg) - 2, F'\\node[right] at (-1,-10.25{"" if mitDreisatz else "+3.5"}) {{Antwort: {antwortsatz.replace("%","$$%").replace("XXX",strNW(erg))}}};'.replace('$$','\\'))
+    return [afg,lsg,[]]
