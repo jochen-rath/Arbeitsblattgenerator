@@ -117,7 +117,7 @@ def loeseGleichungEinfachMitEinerVariabel(G="2*x+6=3*x-2",variable='x',mitTikzUm
                 operator='1'
 #            operator='1' if (re.search(regex, Lsplit[0].split('**')[0]) is None) else re.search(regex, Lsplit[0].split('**')[0]).group(0)
 #            operator='1' if (re.search(r'\d+', Lsplit[0].split('**')[0]) is None) else re.search(r'\d+', Lsplit[0].split('**')[0])[0]
-            operator='/('+Lsplit[0][0]+operator+')'
+            operator=F'/(-{operator})' if Lsplit[0][0]=='-' else F'/{operator}'  #'/('+Lsplit[0][0]+operator+')'
 #Manchmal erzeugt simplify beim Umwandeln eine Klammer. Diese muß vor dem Aufschreiben wieder entfernt werden.
         if '(' in L+'='+R:
             L,R=klammernEntfernen(L),klammernEntfernen(R)

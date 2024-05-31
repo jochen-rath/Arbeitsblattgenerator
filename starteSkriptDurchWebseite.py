@@ -299,7 +299,7 @@ def htmlScriptAufrufSeite(anzahlAuswahl=4):
     if os.path.isfile(os.path.join(os.path.expanduser('~'), 'impressum.html')):
         html.append(F'    <p><a href="{{{{ url_for({chr(39)}impressum_form{chr(39)}) }}}}">Impressum</a></p>')
     if os.path.isfile('wasistneu.html'):
-        html.append(F'    <p><a href="{{{{ url_for({chr(39)}wasistneu_form{chr(39)}) }}}}">Was Ist Neu?</a> Letzte Änderung: 27.05.2024</p>')
+        html.append(F'    <p><a href="{{{{ url_for({chr(39)}wasistneu_form{chr(39)}) }}}}">Was Ist Neu?</a> Letzte Änderung: 31.05.2024</p>')
     html.append('</body>')
     return html
 

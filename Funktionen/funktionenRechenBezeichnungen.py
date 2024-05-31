@@ -234,6 +234,7 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'ZweiGleichungmitZweiVariablenGleichsetzen':'erzeugeZweiGleichungmitZweiVariablen(zeichnerisch=False)',
         'einfacheFormelUmformen':'erzeugeEinfacheFormelnUmformen()',
         'flaechenFormelUmformenAnwenden':F'erzeugeFlaechenFormelUmformenUndAnwenden(auswahl="",mitText={mitText})',
+#Quaratwurzel
         'quadratwurzelEinfach':'erzeugeWurzelRechnungen(typ="Einfach")',
         'quadratwurzelBruchEinzeln':'erzeugeWurzelRechnungen(typ="Bruch Einzeln")',
         'quadratwurzelBruch':'erzeugeWurzelRechnungen(typ="Bruch")',
@@ -248,6 +249,7 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'quadratwurzelTeilweiseSchwer':'teilweiseWurzelziehen(mitText='+str(mitText)+',einfach=False)',
         'quadratwurzelZusammenziehen':'wurzelnZusammenZiehen()',
         'quadratwurzelAddieren':'wurzelnAddieren(anzahl=random.randint(2,3),mitText='+str(mitText)+')',
+#Pythagoras
         'pythagorasFormulierenSeiten':'erzeugePythagorasFormulieren(seitenBeshr=True,pktBeschr=False,gemischt=False,mitBogen=True,mitText='+str(mitText)+')',
         'pythagorasFormulierenSeitenOhneBogen':'erzeugePythagorasFormulieren(seitenBeshr=True,pktBeschr=False,gemischt=False,mitBogen=True,mitText='+str(mitText)+')',
         'pythagorasFormulierenPunkte':'erzeugePythagorasFormulieren(seitenBeshr=False,pktBeschr=True,gemischt=False,mitBogen=True,mitText='+str(mitText)+')',
@@ -261,6 +263,7 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'pythagorasBerechnenMitBogen':'erzeugePythagorasBerechnen(seitenwahl=-1,mitBogen=True,mitText='+str(mitText)+')',
         'pythagorasBerechnenOhneBogen':'erzeugePythagorasBerechnen(seitenwahl=-1,mitBogen=False,mitText='+str(mitText)+')',
         'pythagorasUmfangTrapezEinfach':'erzeugeTrapezUmfangBerechnung(mitText='+str(mitText)+')',
+#Kreis
         'kreisRadius':F'erzeugeKreisberechnungen(typ="Radius",mitText={mitText})',
         'kreisUmfang':F'erzeugeKreisberechnungen(typ="Umfang",mitText={mitText})',
         'kreisFlaeche':F'erzeugeKreisberechnungen(typ="Flaeche",mitText={mitText})',
@@ -269,12 +272,14 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'kreisFlaecheNachUmfang':F'erzeugeKreisberechnungen(typ="FlaecheNachUmfang",mitText={mitText})',
         'kreisFlaecheUmfKreisabschnitt':F'erzeugeUmfangFlaecheKreisabschnitt(mitText={mitText})',
         'kreisUmfangDreieckHalbkreis':F'umfangDreieckMitHalbkreis(mitText={mitText})',
+#Geometrie
         'strahlensatzFarbig':F'erzeugeStrahlensaetzeAufgaben(mitText={mitText})',
         'Mittelsenkrechte':F'erzeugeMittelsenkrechteAufgabe(mitText={mitText})',
         'Winkelhalbierende':F'erzeugeWinkelhalbbierendeAufgabe(mitText={mitText})',
         'DreieckSSS':F'erzeugeDreieckSSSKonstruktion(mitText={mitText})',
         'DreieckSWS':F'erzeugeDreieckSWSKonstruktion(mitText={mitText})',
         'DreieckWSW':F'erzeugeDreieckWSWKonstruktion(mitText={mitText})',
+#Daten und Zufall
         'datenZurodnen':F'erzeugeSaeulenStreifenKreisDiagramm(typ="zuordnen",mitText={mitText})',
         'datenZeichnenEinfaerben':F'erzeugeSaeulenStreifenKreisDiagramm(typ="ZeichnenUndEinfaerben",mitText={mitText})',
         'datenZeichnen':F'erzeugeSaeulenStreifenKreisDiagramm(typ="Zeichnen",mitText={mitText})',
@@ -289,6 +294,7 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'datenAuswertenHS':F'erzeugeDatenKennwerteBestimmen(mitText={mitText},RS=False)',
         'zufallEinstufig':F'einOderZweiStufigeZufallsversuche(einstufig=True,anzSpalten={anzSpaltenAfg})',
         'zufallZweistufig':F'einOderZweiStufigeZufallsversuche(einstufig=False,anzSpalten={anzSpaltenAfg})',
+#Physik
         'geschwGeschwBerechnen':F'erzeugeGeschwindigkeitsBerechnungen(typ="Geschwindigkeit",einheit=random.choice(["m/s","km/h"]),umrechnen=False,mitText={mitText})',
         'geschwGeschwBerechnenHS':F'erzeugeGeschwindigkeitsBerechnungen(typ="Geschwindigkeit",einheit=random.choice(["m/s","km/h"]),umrechnen=False,mitText={mitText},hauptschule=True)',
         'geschwGeschwBerechnenSchwer':F'erzeugeGeschwindigkeitsBerechnungen(typ="Geschwindigkeit",einheit=random.choice(["m/s","km/h"]),umrechnen=False,einfach=False,mitText={mitText})',
@@ -312,14 +318,17 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'erzeugeAlleAtome':'schreibeAlleAtomeInDateien()',
         'bestimmeZerfall':'bestimmeZerfall()',
         'bestimmeZerfalln3':'bestimmeZerfall(n=3)',
-        'textAfgSchrAddi':'erzeugeSchriftAddiSubtrakAufgabe()',
-        'textAfgSchrSubtr':'erzeugeSchriftAddiSubtrakAufgabe(addi=False)',
-        'textAfgSchrMulti':'erzeugeSchriftMultiDiviAufgabe()',
-        'textAfgSchrDivi':'erzeugeSchriftMultiDiviAufgabe(multi=False)',
+#Textaufgaben
+        'textAfgSchrAddi':F'erzeugeSchriftAddiSubtrakAufgabe(anzSpalten={anzSpalten})',
+        'textAfgSchrSubtr':F'erzeugeSchriftAddiSubtrakAufgabe(addi=False,anzSpalten={anzSpalten})',
+        'textAfgSchrMulti':F'erzeugeSchriftMultiDiviAufgabe(anzSpalten={anzSpalten})',
+        'textAfgSchrDivi':F'erzeugeSchriftMultiDiviAufgabe(multi=False,anzSpalten={anzSpalten})',
         'textAfgProzent':'erzeugeProzentwertTextAufgabe()',
         'textAfgUmfProzent':'erzeugeProzentwertTextAufgabe(umformen=True)',
         'textAfgUmfProzentVerm':'erzeugeVermindVermehrtGrundwertAfg(mitDreisatz=False)',
         'textAfgUmfProzentVermDreisatz':'erzeugeVermindVermehrtGrundwertAfg(mitDreisatz=True)',
+        'textAfgZins':'erzeugeZinsrechnungTextAufgabe()',
+        'textAfgUmfZins':'erzeugeZinsrechnungTextAufgabe(umformen=True)'
     }
     return eval(rechnungsFunktionen[art])
 
@@ -332,7 +341,7 @@ def MoeglicheRechnungen(auswahl='keys',gebeListeZurueck=False):
                      'Bruch-Grundlagenaufgaben': [('ggT','Größter gemeinsamer Teiler'),('kgV','Kleinstes gemeinsames Vielfache'),('erweitern','Erweitern'),('kuerzen','Kürzen'),('kuerzenMitTeiler','Kürzen mit Teiler'),('reihe','Bruch in einer Reihe'),('reihePosZufaellig','Bruch in Reihe Position Zufällig'),('bruchVergleichen','Brüche Vergleichen'),('BruchzuGemischteZahl','Bruch zur gemischten Zahl'),('GemischteZahlzuBruch','Gemischte Zahl zu Bruch'),('BruchErkennenKreis','Bruch im Kreis erkennen.')],
                      'Bruchrechen':[('BruchAddSubGleichAddition','Brüche Addieren gleicher Nenner'),('BruchAddSubGleichSubtraktion','Brüche Subtraktion gleicher Nenner'),('BruchAddSubUngleichAddition','Brüche Addition Ungleicher Nenner'),('BruchAddSubUngleichSubtraktion','Brüche Subtraktion ungleicher Nenner'),('BruchAddSubBel','Brüche Addieren/Subtrahieren'),('BruchMultiNat','Bruch mit natürlicher Zahle multiplizieren'),('zweiBruecheMulti','Zwei Brüche multiplizieren'),('zweiBruecheDividieren','Zwei Brüche dividieren')],
                      'Dezimalzahlen':[('deziVergl','Vergleichen'),('deziStrahl','Zahlenstrahl'),('deziRunden2Stellen','Runden auf 2 Stellen'),('deziRunden','Runden auf 1 bis 4 Stellen'),('deziAddSubEinfach','Addieren/Subtrahieren leicht'),('deziAddSub','Addieren/Subtrahieren'),('deziAddSubSchwer','Addieren/Subtrahieren schwer'),('deziMulti1Stelle','Multiplizieren 1 Stelle'),('deziDivi1Stelle','Dividieren 1 Stelle'),('deziMulti3Stellen','Multiplizieren 3 Stellen'),('deziDivi3Stellen','Dividieren 3 Stellen'),('deziMultiDivi3Stellen','Multi/Divi 3 Stellen')],
-                     'Textaufgaben':[('textAfgSchrAddi','Schriftl. Addition'),('textAfgSchrSubtr','Schriftl. Subtraktion'),('textAfgSchrDivi','Schriftl. Division'),('textAfgProzent','Prozentwertaufgaben'),('textAfgUmfProzent','Prozentwertaufgaben Formel umformen'),('textAfgUmfProzentVerm','Vermin/Vermehr Grundwertaufgaben'),('textAfgUmfProzentVermDreisatz','Vermin/Vermehr Grundwertaufgaben mit Dreisatz')],
+                     'Textaufgaben':[('textAfgSchrAddi','Schriftl. Addition'),('textAfgSchrSubtr','Schriftl. Subtraktion'),('textAfgSchrMulti','Schriftl. Multipl.'),('textAfgSchrDivi','Schriftl. Division'),('textAfgProzent','Prozentwertaufgaben'),('textAfgUmfProzent','Prozentwertaufgaben Formel umformen'),('textAfgUmfProzentVerm','Vermin/Vermehr Grundwertaufgaben'),('textAfgUmfProzentVermDreisatz','Vermin/Vermehr Grundwertaufgaben mit Dreisatz'),('textAfgZins','Zinserechnungen'),('textAfgUmfZins','Zinsrechnung mit Formel umformen')],
                      'Koordinatensysteme':[('koordinatensystemGanzeZahlenMitVorgabe','Ganze Zahlen mit Vorgabe'),('koordinatensystemGanzeZahlen','Ganze Zahlen'),('koordinatensystemRationaleZahlenMitVorgabe','Rationale Zahlen mit Vorgabe'),('koordinatensystemRationaleZahlen','Rationale Zahlen'),('koordinatensystemGanzZahlenAuto','Auto - Ganze Zahlen'),('koordinatensystemRationaleZahlenAuto','Auto - Rationale Zahlen'),('koordinatensystemGanzeZahlenNikolaushaus','Nikolaushaus Ganze Zahlen'),('koordinatensystemRationaleZahlenNikolaushaus','Nikolaushaus - Rationale Zahlen'),('koordinatensystemRationaleZahlenNikolaushausMitKoord','Nikolaushaus - Rationale Zahlen mit Koord'),('koordinatensystemDinoNatuerlicheZahlen','Dino Nat. Zahlen'),('koordinatensystemDinoGanzeZahlen','Dino Ganze Zahlen'),('koordinatensystemDracheNatuerlicheZahlen','Drache Nat. Zahlen'),('koordinatensystemDracheGanzeZahlen','Drache Ganze Zahlen')],
                      'Quadratwurzeln':[('quadratwurzelEinfach','Einfach'),('quadratwurzelBruchEinzeln','Wurzel nur im Nenner'),('quadratwurzelBruch','Wurzel im Bruch'),('quadratwurzelDezimalzahlenEinfach','Dezimalzahlen Einfach'),('quadratwurzelDezimalzahlen','Dezimalzahlen'),('quadratwurzelBeliebig','Gemischt'),('quadratwurzelUmfangBerechnen','Umfang berechnen'),('quadratwurzelQuaderOberfl','Kantlaenge vom Quader'),('quadratwurzelQuaderZusammengesOberfl','Kantlaenge vom zusammenges. Quader'),('quadratwurzelZwischenNatZahl','Zwischen welcher Nat. Zahl liegt?'),('quadratwurzelAddieren','Wurzeln Addieren/Subtrahieren'),('quadratwurzelZusammenziehen','Wurzel erst vereinen'),('quadratwurzelTeilweise','Wurzel Teilweise ziehen'),('quadratwurzelTeilweiseSchwer','Wurzel Teilweise ziehen Schwer')],
                      'Pythagoras': [('pythagorasFormulierenSeiten','Formulieren Seiten Beschr. mit recht. Winkel.'),('pythagorasFormulierenSeitenOhneBogen','Formulieren Seiten Beschr.'),('pythagorasFormulierenPunkte','Formulieren Punkte Beschr. mit recht. Winkel'),('pythagorasFormulierenPunkteOhneBogen','Formulieren Punkte Beschr.'),('pythagorasFormulierenGemischt','Formlieren Gemischt mit recht. Winkel'),('pythagorasFormulierenGemischtOhneBogen','Formlieren Gemischt'),('pythagorasHypBerechnenMitBogen','Hyp. berechnen mit recht. Winkel'),('pythagorasHypBerechnenOhneBogen','Hyp. berechnen ohne recht. Winkel'),('pythagorasKathBerechnenMitBogen','Kath. berechnen mit recht. Winkel'),('pythagorasKathBerechnenOhneBogen','Kath. berechnen ohne recht. Winkel'),('pythagorasBerechnenMitBogen','Bel. berechnen mit recht. Winkel'),('pythagorasBerechnenOhneBogen','Bel. berechnen ohne recht. Winkel'),('pythagorasUmfangTrapezEinfach','Ber. Umfang vom Trapez')],

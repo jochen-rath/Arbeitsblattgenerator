@@ -64,3 +64,25 @@ def einOderZweiStufigeZufallsversuche(einstufig=True,anzSpalten=2):
     lsg=lsg+[F'$P(\\mbox{{{",".join([F"&&mbox{{{x}}}" for x in gesucht])}}})={erzeugeLatexFracAusdruck(ergebnis[gesucht[0][0]])}{"" if einstufig else F"*{erzeugeLatexFracAusdruck(ergebnis[gesucht[1][0]])}"}={strNW(eval(ergebnis[gesucht[0][0]])*(1 if einstufig else eval(ergebnis[gesucht[1][0]]))*100,2)}\\%$'.replace('&&','\\').replace('*','\\cdot ')]
     lsg = lsg+['}']
     return [afg,lsg,[]]
+
+def erzeugeWahrscheinlichkeitDrehscheibeErkennen(anzSpalten=2):
+    farben=['Rot','Grün','Blau','Orange','Lila','Pink']
+    gesamt=random.randint(2,12)
+    nFarben=random.randint(2,min(gesamt,len(farben)))
+    auswahl=random.sample(farben,nFarben)
+    einteilung={}
+    rest=gesamt
+    for f in auswahl:
+        einteilung[f]=random.randint(1,rest-(nFarben-len(einteilung))+1)
+        rest=rest-einteilung[f]
+    einteilung[f]=einteilung[f]+rest
+    verteilung=[x for f in list(einteilung.keys()) for x in [f]*einteilung[f] ]
+    random.shuffle(verteilung)
+    ges=random.choice(auswahl)
+    afg=[F'\\pbox{{{15 if anzSpalten==1 else 7}cm}}{{']
+    afg=afg+aufgabe+['\\\\']
+    afg=afg+[F'Berechne die Wahrscheinlichkeit $P(&&mbox{{{ges}}})$.'.replace('&&','\\')]
+    afg=afg+DrehscheibeFarblich(farben=verteilung)
+    afg=afg+['}']
+    return afg
+    
