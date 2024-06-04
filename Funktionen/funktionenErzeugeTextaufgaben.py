@@ -93,7 +93,7 @@ def erzeugeProzentwertTextAufgabe(ges='',HS=False,umformen=False,anzSpalten=2):
         aufgabe=F'Prozentwert {strNW(varis[geg[0]][0])} {varis[geg[0]][1]} und Prozentsatz {strNW(varis[geg[1]][0])} {varis[geg[1]][1]}  und gesucht ist der {benennung[ges]}'.replace('\\','')
     if ges=='p':
         aufgabe=F'Prozentwert {strNW(varis[geg[1]][0])} {varis[geg[1]][1]} und Grundwert {strNW(varis[geg[0]][0])} {varis[geg[0]][1]}  und gesucht ist der {benennung[ges]}'.replace('\\','')
-    chatgptFrage=F'Erstell mir eine Prozentwertaufgabe mit {aufgabe}. Schreibe nur die Frage und den Antwortsatz auf. Schreibe Frage vor der Frage und Antwortsatz vor dem Antwortsatz. Schreibe XXX im Antwortsatz, anstatt der Zahlen'
+    chatgptFrage=F'Erstell mir eine Sachaufgabe zur Prozenzrechnung mit {aufgabe}. Schreibe nur die Frage und den Antwortsatz auf. Schreibe Frage vor der Frage und Antwortsatz vor dem Antwortsatz. Schreibe XXX im Antwortsatz, anstatt der Zahlen'
     afg,antwortsatz=stelleChatGptDieFrage(frage=chatgptFrage)
     verschiebung=0
     if umformen:
@@ -142,7 +142,7 @@ def erzeugeZinsrechnungTextAufgabe(ges='',HS=False,umformen=False,anzSpalten=2):
         ges=random.choice(geg)
     geg.remove(ges)
     formel='Z=K*p/100'
-    chatgptFrage=F'Erstell mir eine Zinsrechenaufgabe mit {benennung[geg[1]]} ist {strNW(varis[geg[1]][0])} {varis[geg[1]][1]} und {benennung[geg[0]]} ist {strNW(varis[geg[0]][0])} {varis[geg[0]][1]} und gesucht {artikel[ges]} {benennung[ges]}'.replace('\\','')
+    chatgptFrage=F'Erstell mir eine Sachaufgabe zur Zunsrechnung mit {benennung[geg[1]]} ist {strNW(varis[geg[1]][0])} {varis[geg[1]][1]} und {benennung[geg[0]]} ist {strNW(varis[geg[0]][0])} {varis[geg[0]][1]} und gesucht {artikel[ges]} {benennung[ges]}'.replace('\\','')
     afg,antwortsatz=stelleChatGptDieFrage(frage=chatgptFrage)
     verschiebung=0
     if umformen:
@@ -158,4 +158,27 @@ def erzeugeZinsrechnungTextAufgabe(ges='',HS=False,umformen=False,anzSpalten=2):
             lsg=ausgabeGrundwertBerechnenFuerTabelle(inhalte=[['',varis['Z'][0],varis['p'][0],varis['Z'][1]]],mitDreisatz=True,bez=['K','Z','p'])
         verschiebung=6
     fuegeAntwortsatzEin(erg=varis[ges][0],antwortsatz=antwortsatz,dy=F'-1.75-{verschiebung}',lsg=lsg,anzSpalten=anzSpalten) 
+    return [[ersetzePlatzhalterMitSymbolen(x) for x in [afg]],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
+
+
+def erzeugeEinfZinseszinsTextaufgabe(HS=False,anzSpalten=2):
+    K=random.choice([random.randint(100,10000),random.randint(10000,100000)])
+    p=random.choice([random.randint(5,30)/10,random.randint(10,100)/10])
+    werte=[K,round(K*p/100,2),p]
+    jahre=random.randint(2,4)
+    Kwerte=[K*(1+p/100)**(i) for i in range(jahre)]
+    art='€'
+    varis={'K':[werte[0],art],'Z':[werte[1],art],'p':[werte[2],'\\%']}
+    benennung={'K':'Kapital','Z':'Zinsen','p':'Zinsatz'}
+    artikel={'K':'ist das','Z':'sind die','p':'ist der'}
+    geg=list(varis.keys())
+    ges='Z'
+    geg.remove(ges)
+    formel='Z=K*p/100'
+    chatgptFrage=F'Erstell mir eine Sachaufgabe zum Zinseszins mit Kapital ist {strNW(varis["K"][0])} €, Zinssatz ist {strNW(varis["p"][0])} € und das Geld ist {jahre} Jahre angelegt.'.replace('\\','')
+    afg,antwortsatz=stelleChatGptDieFrage(frage=chatgptFrage)
+    verschiebung=0
+    lsg=loeseZinseszinsRechnung(Kwerte=Kwerte,pP=p,jahre=jahre,anzSpalten=anzSpalten)
+#    lsg.append('\\\\')
+    lsg.insert(len(lsg) - 1,F'Antwort: {antwortsatz.replace("XXX",strNW(Kwerte[-1]+Kwerte[-1]*p/100,True))}')
     return [[ersetzePlatzhalterMitSymbolen(x) for x in [afg]],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]

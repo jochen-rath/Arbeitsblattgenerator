@@ -48,6 +48,8 @@ def loeseFunktion(formel='W=G*p/100',varis={'W':[16.6,'Autos'],'G':[200,'Autos']
         glLsg[-1]=F'{glLsg[-1].split("&")[0]} {"§§%" if ges=="p" else ""}&{glLsg[-1].split("&")[1]}~\\mbox{{{varis[ges][1]}}}&{glLsg[-1].split("&")[2]}&{glLsg[-1].split("&")[3]}'.replace('§§','\\')
         for i,zeile in enumerate(glLsg):
             glLsg[i]=zeile.replace('0000000000','')
+            glLsg[i]=zeile.replace('000000000','')
+            glLsg[i]=zeile.replace('00000000','')
         lsg=lsg+glLsg
     lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
     lsg.append('\\end{aligned}$};')

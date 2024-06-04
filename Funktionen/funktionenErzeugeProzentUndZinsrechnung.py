@@ -227,17 +227,23 @@ def erzeugeTagesMonatsZinsberechnungKapitalGesucht(art=''):
     zeitEinheit=('Monate' if zeit > 1 else 'Monat') if art=='Monatszinsen' else ('Tage' if zeit > 1 else 'Tag') 
     return [afg,lsg,[ K,Z,pP,zeit]]
 
-def einfachZinseszinsen(anzSpalten=2):
+def einfachZinseszinsen(mitText=True,anzSpalten=2):
     K, Z, pP, E = erzeugeProzentRechnungen(E='\euro{}', kapital=True)
-    j=random.randint(2,4)
-    afg=F'Berechne das ersparte Geld nach {j} Jahren für K={strNW(K)} € und p\%={strNW(pP)} \%'
-    Kwerte=[K*(1+pP/100)**(i) for i in range(j)]
+    jahre=random.randint(2,4)
+    afg=F'Berechne das ersparte Geld nach {jahre} Jahren für K={strNW(K)} € und p\%={strNW(pP)} \%'
+    afg=afg if mitText else F'Z=? nach {jahre} Jahren für K={strNW(K)} € und p\%={strNW(pP)} \%'
+    Kwerte=[K*(1+pP/100)**(i) for i in range(jahre)]
+    lsg=loeseZinseszinsRechnung(Kwerte=Kwerte,pP=pP,jahre=jahre,anzSpalten=anzSpalten)
+    return [afg,lsg,[]]
+
+def loeseZinseszinsRechnung(Kwerte=[1100,1110,1111],pP=2,jahre=2,anzSpalten=2):
     lsg=[F'\\pbox{{{15 if anzSpalten==1 else 5}cm}}{{']
-    for i in range(j):
-        lsg.append(F'Nach {i+1} Jahr{"" if j<1 else "en"}: \\\\')
+    for i in range(jahre):
+        lsg.append(F'Nach {i+1} Jahr{"" if jahre<1 else "en"}: \\\\')
         lsg.append('$\\begin{aligned}')
-        lsg.append(F'Z_{i+1}&=K_{i if i>0 else "{start}"}\\cdot p\\% \\\\')
-        lsg.append(F'&={strNW(Kwerte[i],True)} € \\cdot {strNW(pP/100)} \\\\')
+#        lsg.append(F'Z_{i+1}&=K_{i if i>0 else "{start}"}\\cdot p\\% \\\\')
+        lsg.append(F'Z_{i+1}&=K_{i if i>0 else "{start}"}\\cdot p : 100 \\\\')
+        lsg.append(F'&={strNW(Kwerte[i],True)} € \\cdot {strNW(pP)} : 100 \\\\')
         lsg.append(F'&={strNW(Kwerte[i]*pP/100,True)} €\\\\')
         lsg.append(F'K_{i+1}&=K_{i if i>0 else "{start}"}+Z \\\\')
         lsg.append(F'&={strNW(Kwerte[i],True)} €+ {strNW(Kwerte[i]*pP/100,True)} €\\\\')
@@ -245,7 +251,7 @@ def einfachZinseszinsen(anzSpalten=2):
         lsg.insert(-1, F'\\makebox[0pt][l]{{\\uuline{{\\phantom{{${lsg[-1].replace("&", "")}$}} }} }}')
         lsg.append('\\end{aligned}$ \\\\')
     lsg.append('}')
-    return [afg,lsg,[]]
+    return lsg
 def erzeugeVermehrterGrundwertAufgaben(n=12,lsgMitDreisatz=True):
 #Aufruf 
 #     ausgabe=erzeugeProzentsatzAufgaben(Anzahl)
