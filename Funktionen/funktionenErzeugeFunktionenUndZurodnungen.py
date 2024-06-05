@@ -84,8 +84,12 @@ def erzeugeAfgLineareFunktionZeichnen(art='linear',steigung='bruch',achsenlaenge
 def erzeugeAfgLineareFktErkennen(art='linear',steigung='bruch',achsenlaenge=10,maxX=3,maxM=5,breitePbox=6,mitText=True):
     m=[1000,1000]
     if steigung=='bruch':
-        while m[1]>maxX:
+        nichtPassend=True
+        while nichtPassend:
+            nichtPassend=False
             [m,b]=erzeugeLineareFunktion(art=art,steigung=steigung,maxM=(maxX if maxM==None else maxM))
+            if m[1]>maxX or m[0]/m[1]==3:
+                nichtPassend=True
     else:
         [m, b] = erzeugeLineareFunktion(art=art, steigung=steigung, maxM=(maxX if maxM == None else maxM))
     term=(str(m[0]/m[1]) if type(m)==list else str(m))+'*x+'+str(b)

@@ -142,7 +142,7 @@ def erzeugeZinsrechnungTextAufgabe(ges='',HS=False,umformen=False,anzSpalten=2):
         ges=random.choice(geg)
     geg.remove(ges)
     formel='Z=K*p/100'
-    chatgptFrage=F'Erstell mir eine Sachaufgabe zur Zunsrechnung mit {benennung[geg[1]]} ist {strNW(varis[geg[1]][0])} {varis[geg[1]][1]} und {benennung[geg[0]]} ist {strNW(varis[geg[0]][0])} {varis[geg[0]][1]} und gesucht {artikel[ges]} {benennung[ges]}'.replace('\\','')
+    chatgptFrage=F'Erstell mir eine Sachaufgabe zur Zinsrechnung mit {benennung[geg[1]]} ist {strNW(varis[geg[1]][0])} {varis[geg[1]][1]} und {benennung[geg[0]]} ist {strNW(varis[geg[0]][0])} {varis[geg[0]][1]} und gesucht {artikel[ges]} {benennung[ges]}'.replace('\\','')
     afg,antwortsatz=stelleChatGptDieFrage(frage=chatgptFrage)
     verschiebung=0
     if umformen:
@@ -175,7 +175,8 @@ def erzeugeEinfZinseszinsTextaufgabe(HS=False,anzSpalten=2):
     ges='Z'
     geg.remove(ges)
     formel='Z=K*p/100'
-    chatgptFrage=F'Erstell mir eine Sachaufgabe zum Zinseszins mit Kapital ist {strNW(varis["K"][0])} €, Zinssatz ist {strNW(varis["p"][0])} € und das Geld ist {jahre} Jahre angelegt.'.replace('\\','')
+    name=F' für {"Herrn" if random.getrandbits(1) else "Frau"} {random.choice(nachnamen)}'  #if random.getrandbits(1) else ''
+    chatgptFrage=F'Erstell mir eine Sachaufgabe zum Zinseszins{name} mit Kapital ist {strNW(varis["K"][0])} €, Zinssatz ist {strNW(varis["p"][0])} € und das Geld ist {jahre} Jahre angelegt.'.replace('\\','')
     afg,antwortsatz=stelleChatGptDieFrage(frage=chatgptFrage)
     verschiebung=0
     lsg=loeseZinseszinsRechnung(Kwerte=Kwerte,pP=p,jahre=jahre,anzSpalten=anzSpalten)
