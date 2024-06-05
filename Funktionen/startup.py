@@ -14,3 +14,4 @@ import sympy
 import zipfile
 import copy
 import openai
+import xlsxwriter

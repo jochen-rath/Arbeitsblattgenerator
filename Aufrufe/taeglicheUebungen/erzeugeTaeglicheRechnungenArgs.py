@@ -32,6 +32,11 @@ def main():
     startRechnungenIndex=11
 #    for arg in sys.argv[startRechnungenIndex:anzahlRechnungen+startRechnungenIndex]:
     for arg in sys.argv[startRechnungenIndex:]:
+#Soll ein Kahoot-Arbeitsblatt erzeugt werden?
+        if 'kahoot' in arg:
+            filename=erzeugeKahootTabellenInhalt(anzahl=10,zeit=20,dateiName='newFile',datum='')
+            print('Dateiname:'+filename)
+            return 
         auswahl=auswahl+[arg]
     anzahlGleicherTypen=[]
     vergleich=auswahl[0]
