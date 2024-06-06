@@ -107,7 +107,7 @@ def writeLatexDoc(inhalt,ausgabeName='newfile.tex'):
     with open(ausgabeName, 'w') as f:
         f.write('\n'.join(inhalt))
 
-def beginDoc(kopf='',title='',anfang='',wichtig='',vspace=1):
+def beginDoc(kopf='',title='',anfang='',wichtig='',vspace=0):
     if False:
        wichtig='\\textbf{Wichtig:} Schreibe jede Ziffer in genau ein Kästchen.\\\\'
     begin=[]
