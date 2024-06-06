@@ -19,7 +19,7 @@ import psutil
 import time
 import re
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 app.secret_key = '7a51514f04b8e8039965d1fd33ad6540'
 maXAnzahlAuswahl = 12
 anzahlAuswahl=6
@@ -212,9 +212,31 @@ def hilfeSeite():
     html.append('<title>Hilfe zum Arbeitsblattgenerator.</title>')
     html.append('</head>')
     html.append('<style type="text/css">body{margin:40px auto;max-width:900px;line-height:1.6;font-size:18px;background-color:#EEEEEE;color:#444;padding:0 10px}h1,h2,h3{line-height:1.2}</style>')
+    html.append("<style>")
+    html.append("img {")
+    html.append("  border: 1px solid #ddd; /* Gray border */")
+    html.append("  border-radius: 4px;  /* Rounded border */")
+    html.append("  padding: 5px; /* Some padding */")
+    html.append("  width: 50px; /* Set a small width */")
+    html.append("}")
+    html.append("")
+    html.append("/* Add a hover effect (blue shadow) */")
+    html.append("img:hover {")
+    html.append("  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);")
+    html.append("}")
+    html.append("</style>")    
     html.append('<body>')
     html.append('<h2>Idee</h2>')
     html.append('<p>Als ich als Lehrer anfing, wurde sehr schnell klar, dass meine Schülerinnen und Schüler Probleme haben, Inhalte zu bearbeiten, wenn zwischen der Einführung und erneuten Behandlung ein halbes Jahr oder mehr vergangen ist. Es fehlt die regelmäßige Übung, um die Lerninhalte zu festigen. Weiter fehlte es mir aber auch an Material, um den Schülerinnen regelmäßige Übungsaufgaben zur Verfügung zu stellen. Und bei den Aufgaben, die ich hatte, fehlten entweder die Lösungen oder diese waren nur sehr kurz und knapp gehalten. Ich wollte aber meinen Schülerinnen regelmäßige Übungsaufgaben mit sehr ausführlichen Lösungen zur Verfügung stellen, mit denen diese sich selber Schritt für Schritt kontrollieren können.</p>')
+    html.append('<h2>Kahoot</h2>')
+    html.append('<ul>')
+    html.append('<li>Erstelle eine neues Kahoot <a target="_blank" href="/static/images/kahoot01.png"> <img src ="/static/images/kahoot01.png"></a></li>')
+    html.append('<li>Wähle leere Leinwand <a target="_blank" href="/static/images/kahoot02.png"> <img src ="/static/images/kahoot02.png"></a></li>')
+    html.append('<li>Füge eine neue Frage hinzu und wähle Tabellenblatt importieren <a target="_blank" href="/static/images/kahoot03.png"> <img src ="/static/images/kahoot03.png"></a></li>')
+    html.append('<li>Gehe auf Datei auswählen und suche die erstellte xlsx Datei. <a target="_blank" href="/static/images/kahoot04.png"> <img src ="/static/images/kahoot04.png"></a></li>')
+    html.append('</ul>')
+    html.append('<h2>Schiffe Versenken</h2>')
+    html.append('<p>Erzeuge 2 Arbeitsblätter, dass immer 2 SuS gegeneinder spielen können. Im Aufgabenteil sind die Schiffe, die der Gegner finden muss. In der Lösung kann der Spieler seine Schüsse eintragen. </p>')
     html.append('<h2>Beschreibungen</h2>')
     html.append('<ul>')
     html.append('<li><u>Title:</u> Überschrift und Dateiname</li>')
