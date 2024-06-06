@@ -25,6 +25,32 @@ def erzeugeKahootXlsxDatei(aufgaben=[['']*7]*8,dateiName='newFile',datum=''):
     workbook.close()
     return F'{dateiName}.xlsx'
 
+
+
+def kahootAdditionSchaetzen(zeit=10):
+    calc=str(random.randint(1000,9999))+' + '+str(random.randint(1000,9999))
+    erg=str(eval(calc))
+    erg2=str(random.randint(1000,19999))
+    while erg2[-1] == erg[-1]:
+        erg2=str(random.randint(1000,19999))
+    results=[str(random.randint(0,1000)),erg,erg2,str(random.randint(20000,99999))]
+    random.shuffle(results)
+    return [f'Was ist {calc}?']+results+[zeit,results.index(erg)+1]
+
+def kahootSubtraktionSchaetzen(zeit=10):
+    differenz=random.randint(50,1000)
+    subtrahend=random.randint(100,1000)
+    minuend=differenz+subtrahend
+    calc=str(minuend)+' - '+str(subtrahend)
+    erg=str(differenz)
+    erg2=str(random.randint(1,1000))
+    while erg2[-1] == erg[-1]:
+        erg2=str(random.randint(1,1000))
+    results=[str(random.randint(minuend,3*minuend)),erg,erg2,str(random.randint(minuend-30,minuend))]
+    random.shuffle(results)
+    return [f'Was ist {calc}?']+results+[zeit,results.index(erg)+1]
+
+
 def erzeugeKahootKopfrechnen(zeit=10):
     afg,lsg,erg=erzeugeKopfrechenAufgabe()
     results=[erg]
@@ -37,10 +63,48 @@ def erzeugeKahootKopfrechnen(zeit=10):
     kahootAfg=[F'Was ist {afg.replace("=","")}?'] +results  + [zeit] + [results.index(erg)+1]
     return kahootAfg
 
-def erzeugeKahootTabellenInhalt(anzahl=10,zeit=20,dateiName='newFile',datum=''):
+def erzeugeKahootFachwoerter(zeit=10,art=''):
+    z1,z2=random.randint(20,30),random.randint(5,19)
+    fachwoerter={}
+    fachwoerter['Addition']={'Aufgabe':f'{z1} + {z2} = {z1+z2}','Summand1':z1,'Summand2':z2,'Summe':z1+z2}
+    fachwoerter['Subtraktion']={'Aufgabe':f'{z1+z2} - {z2} = {z1}','Minuend':z1+z2,'Subtrahend':z2,'Differenz':z1}
+    fachwoerter['Multiplikation']={'Aufgabe':f'{z1} · {z2} = {z1*z2}','Faktor1':z1,'Faktor2':z2,'Produkt':z1*z2}    
+    fachwoerter['Division']={'Aufgabe':f'{z1*z2} : {z2} = {z1}','Dividend':z1*z2,'Divisor':z2,'Quotient':z1}
+    if len(art)<1:
+        art=random.choice(list(fachwoerter.keys()))
+    if random.randint(1,6)<6:
+        ges= random.choice(list(fachwoerter[art].keys())[1:])
+        afg=f'{fachwoerter[art]["Aufgabe"]} - Wie lautet das Fachwort für die {fachwoerter[art][ges]}?'
+        results=[art]+list(fachwoerter[art].keys())[1:]
+    else:
+        afg=f'{fachwoerter[art]["Aufgabe"]} - Was für eine Aufgabe ist das?'
+        results=list(fachwoerter.keys())
+        ges=art
+#Entferne die Zahlen
+    ges=''.join([i for i in ges if not i.isdigit()])
+    results=[''.join([i for i in x if not i.isdigit()]) for x in results]
+    if ges=='Summand':
+        results[results.index(ges)]='Faktor'
+    if ges=='Faktor':
+        results[results.index(ges)]='Summand'
+    random.shuffle(results)        
+    return [afg] + results  + [zeit] + [results.index(ges)+1]
+    
+    return afg
+def erzeugeKahootTabellenInhalt(anzahl=10,zeit=20,dateiName='newFile',datum='',typ=''):
     aufgaben=[]
     for i in range(anzahl):
-        aufgaben.append(erzeugeKahootKopfrechnen(zeit=zeit))
+#Die Funktionen werden in der For-Schleife gesetzt und nicht davor, da bei jeder neuen
+#Aufgabe zwischen + und - große Zahlen schätzen gewählt werden soll.
+        kahootFkt=['erzeugeKahootKopfrechnen(zeit=zeit)',random.choice(['kahootAdditionSchaetzen(zeit=zeit)','kahootSubtraktionSchaetzen(zeit=zeit)']),'erzeugeKahootFachwoerter(zeit=zeit)']
+        auswahl=list(kahootFkt)
+        if typ=='Kopf':
+            auswahl=[kahootFkt[0]]
+        if typ=='Grossezahlen':
+            auswahl=[kahootFkt[1]]
+        if typ=='Fachwoerter':
+            auswahl=[kahootFkt[2]]
+        aufgaben.append(eval(random.choice(auswahl)))
     return erzeugeKahootXlsxDatei(aufgaben,dateiName=dateiName,datum=datum)
     
     
