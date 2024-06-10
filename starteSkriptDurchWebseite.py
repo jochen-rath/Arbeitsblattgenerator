@@ -301,8 +301,8 @@ def htmlScriptAufrufSeite(anzahlAuswahl=4):
     html.append('')
     html.append('<style type="text/css">body{margin:40px auto;max-width:900px;line-height:1.6;font-size:18px;background-color:#EEEEEE;color:#444;padding:0 10px}h1,h2,h3{line-height:1.2}</style>')
     html.append('<body>')
-    html.append('<b> Achtung, neue Internetadresse: <a href="https://abgenerator.de/">https://abgenerator.de/</a></b><p>')
-    html.append('Die Alten werden in laufe der nächten Wochen/Monaten nichtmehr verfügbar sein.')
+#    html.append('<b> Achtung, neue Internetadresse: <a href="https://abgenerator.de/">https://abgenerator.de/</a></b><p>')
+#    html.append('Die Alten werden in laufe der nächten Wochen/Monaten nichtmehr verfügbar sein.')
     html.append('    <form method="POST">')
     html.append('        {{ form.csrf_token }}')
     html=html+htmlTabelle(anzahlAuswahl)
@@ -321,7 +321,7 @@ def htmlScriptAufrufSeite(anzahlAuswahl=4):
     if os.path.isfile(os.path.join(os.path.expanduser('~'), 'impressum.html')):
         html.append(F'    <p><a href="{{{{ url_for({chr(39)}impressum_form{chr(39)}) }}}}">Impressum</a></p>')
     if os.path.isfile('wasistneu.html'):
-        html.append(F'    <p><a href="{{{{ url_for({chr(39)}wasistneu_form{chr(39)}) }}}}">Was Ist Neu?</a> Letzte Änderung: 09.06.2024</p>')
+        html.append(F'    <p><a href="{{{{ url_for({chr(39)}wasistneu_form{chr(39)}) }}}}">Was Ist Neu?</a> Letzte Änderung: 10.06.2024</p>')
     html.append('</body>')
     return html
 

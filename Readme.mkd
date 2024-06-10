@@ -5,6 +5,7 @@
 * [Vorbemerkung](#vorbemerkung)
 * [Idee hinter dem Projekt](#idee-hinter-dem-projekt)
 * [Voraussetzungen und Installation](#voraussetzungen-und-installation)
+* [Mandalas] (#mandalas))
 * [Website](#website)
 * [Impressum](#impressum)
 * [Programmaufbau und Ablauf](#programmaufbau-und-ablauf)
@@ -60,6 +61,18 @@ pip3 install -U Pillow
 ### Installation des Skriptes
 Kopiere die gesamte Ordnerstruktur unter /home/pi/abgen.
 
+## Mandalas
+Damit Mandalas genutzt werden können muss man RandomMandala und tikzplotlib installieren. Das Problem ist, dass tikzplotlib eine Version von webcolors nutzt, die wohl nicht mehr akutell ist. tikzplotlib ruft eine Funktion auf, die es nicht mehr gibt. Da wir eh nur Schwarz-Weiße Mandalas nutze, muss folgendes angepasst werden:
+```
+vi .local/lib/python3.10/site-packages/tikzplotlib/_color.py 
+```
+Und füge folgendes ein:
+```
+def _get_closest_colour_name(rgb):
+    match = None
+    mindiff = 1.0e15
+    return 'black',0
+```
 
 ## Website
 Starte das Skript mit dem Befehl

@@ -7,3 +7,5 @@ flask_wtf==0.15.1
 wtforms==2.3.3
 psutil
 openai
+RandomMandala
+tikzplotlib
