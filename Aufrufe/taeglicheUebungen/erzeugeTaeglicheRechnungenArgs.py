@@ -54,7 +54,7 @@ def main():
                 vergleich=a
                 i=1
         anzahlGleicherTypen.append(i)
-        if len(list(set(anzahlGleicherTypen)))==1 and len(anzahlGleicherTypen):
+        if len(list(set(anzahlGleicherTypen)))==1 and len(anzahlGleicherTypen)>1:
             if anzahlGleicherTypen[0] > 1:
                 if anzahlGleicherTypen[0]<26:
                     aufgabenNummern=[F'{x}{y}' for x in range(1,len(anzahlGleicherTypen)+1) for y in buchstabenKlein[:anzahlGleicherTypen[0]]]
