@@ -6,12 +6,36 @@ import random
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
 
-def aufgabenZufallsversuch(typ='Münzwurf',werte=['Kopf','Zahl',['1','1']],einstufig=True):
+def einfacherZufallsversuch(anzSpalten=2):
+    einstufig=True
+    zufall=zufallsversuch(einstufig=einstufig)
+    for i in range(2):
+        if zufall=='Münzwurf':
+            zufall = zufallsversuch(einstufig=einstufig)
+    auswahl=random.choice(list(zufall.keys()))
+    gesucht=[random.choice(zufall[auswahl][:-1]) for i in range(1 if einstufig else 2)]
+    aufgabe, wahrscheinlichkeiten = aufgabenZufallsversuch(typ=auswahl,werte=zufall[auswahl],einstufig=einstufig,baumdia=False)
+    afg=[F'\\pbox{{{15 if anzSpalten==1 else 7}cm}}{{']
+#    afg=afg+aufgabe+['\\\\']
+    afg=afg+[F'Berechne die Wahrscheinlichkeit $P({",".join([F"&&mbox{{{x}}}" for x in gesucht])})$ {aufgabe[0]}'.replace('&&','\\')]
+    if len(aufgabe)>1:
+        afg=afg+aufgabe[1:]
+    afg=afg+['}']
+    ergebnis={}
+    for i,e in enumerate(zufall[auswahl][:-1]):
+        ergebnis[e[0]]=wahrscheinlichkeiten[i]
+    lsg=[F'$P(\\mbox{{{",".join([F"&&mbox{{{x}}}" for x in gesucht])}}})={erzeugeLatexFracAusdruck(ergebnis[gesucht[0][0]])}{"" if einstufig else F"*{erzeugeLatexFracAusdruck(ergebnis[gesucht[1][0]])}"}={strNW(eval(ergebnis[gesucht[0][0]])*(1 if einstufig else eval(ergebnis[gesucht[1][0]]))*100,2)}\\%$'.replace('&&','\\').replace('*','\\cdot ')]
+    return [afg,lsg,[]]
+
+def aufgabenZufallsversuch(typ='Münzwurf',werte=['Kopf','Zahl',['1','1']],einstufig=True,baumdia=True):
     anzahl=[eval(x) for x in werte[-1]]
     wahrscheinlichkeiten=[F'{x}/{sum(anzahl)}' for x in anzahl]
     print(typ,werte,wahrscheinlichkeiten,anzahl)
     anzahlVersuchsergebnisse=', '.join([F'{"" if anzahl[i]==1 else F"{anzahl[i]} mal "}{x}' for i,x in enumerate(werte[:-1])])
-    afgText=F'Erstelle das Baumdiagramm für den {"" if einstufig else "zweistufigen "}Zufallsversuch'
+    if baumdia:
+        afgText=F'Erstelle das Baumdiagramm für den {"" if einstufig else "zweistufigen "}Zufallsversuch'
+    else:
+        afgText=F'für den Zufallsversuch'
     if typ in ['Münzwurf','Loseziehen']:
         afg = [F'{afgText} {typ} mit {anzahlVersuchsergebnisse}.']
     if typ=='Würfelwurf':
@@ -19,7 +43,10 @@ def aufgabenZufallsversuch(typ='Münzwurf',werte=['Kopf','Zahl',['1','1']],einst
     if typ=='Beutelziehen':
         afg = [F'{afgText} {typ} mit {"" if einstufig else "zurücklegen und"} {anzahlVersuchsergebnisse}.']
     if 'Drehscheibe' in typ:
-        afg = [F'Erstelle das Baumdiagramm {"für folgende" if einstufig else "wenn folgende"} Drehscheibe {"" if einstufig else "zweimal gedreht wird"}:\\\\']
+        if baumdia:
+            afg = [F'Erstelle das Baumdiagramm {"für folgende" if einstufig else "wenn folgende"} Drehscheibe {"" if einstufig else "zweimal gedreht wird"}:\\\\']
+        else:
+            afg = [F'für folgende Drehscheibe :\\\\']
         farben=[]
         for i,n in enumerate(anzahl):
             farben=farben+[werte[i]]*int(n)
