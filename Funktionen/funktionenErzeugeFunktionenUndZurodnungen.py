@@ -81,7 +81,7 @@ def erzeugeAfgLineareFunktionZeichnen(art='linear',steigung='bruch',achsenlaenge
     werte=[m,b]
     return [afg,lsg,werte]
 
-def erzeugeAfgLineareFktErkennen(art='linear',steigung='bruch',achsenlaenge=10,maxX=3,maxM=5,breitePbox=6,mitText=True):
+def erzeugeAfgLineareFktErkennen(art='linear',steigung='bruch',achsenlaenge=10,maxX=3,maxM=5,anzSpalten=[2,2],mitText=True):
     m=[1000,1000]
     if steigung=='bruch':
         nichtPassend=True
@@ -93,8 +93,9 @@ def erzeugeAfgLineareFktErkennen(art='linear',steigung='bruch',achsenlaenge=10,m
     else:
         [m, b] = erzeugeLineareFunktion(art=art, steigung=steigung, maxM=(maxX if maxM == None else maxM))
     term=(str(m[0]/m[1]) if type(m)==list else str(m))+'*x+'+str(b)
-    yAchsenSettings=setzeAchsenEinteilungLaenge(minMaxY(term,'x',maxX)+[achsenlaenge*1.5])[1:-1]
-    afg=['\\pbox{'+str(breitePbox)+'cm}{Gib die Funktionsgleichung an: \\\\'] if mitText else []
+    yAchsenSettings=setzeAchsenEinteilungLaenge(minMaxY(term,'x',maxX)+[achsenlaenge*1.5])[1:-1]    
+    groesse='{17 cm}' if anzSpalten[0] == 1 else '{7 cm}'
+    afg=[f'\\pbox{groesse}{{Gib die Funktionsgleichung an: \\\\'] if mitText else []
     afg=afg+diagrammTikzVorgBreiteHoehe(zuPlotten=[[term,'black']],xAchse=[-maxX,maxX,achsenlaenge],yAchse=list(yAchsenSettings)+[achsenlaenge])+(['}']  if mitText else [])
     termText=(frac(m[0],m[1]) if type(m)==list else strNW(m))+'\\cdot x'+((('+'+str(b)) if b>0 else str(b)) if not (b ==0) else '')
     lsg=['$y='+termText+'$']
