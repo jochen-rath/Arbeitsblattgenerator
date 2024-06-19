@@ -29,6 +29,7 @@ def stelleChatGptDieFrage(frage='Erstelle mit eine Sachaufgabe zur Multiplikatio
     except:
         afg='Kein ChatGPT Kontakt'
         antwortsatz=f'Dies ist ein sehr sehr sehr langer Antworttext, um die Ausgabe zu testen. Das Ergebnis ist XXX. Die Frage war: {frage}'
+    #afg=['\\pbox{\\linewidth}{']+[afg]+['}']
     return afg,antwortsatz
 
 def fuegeAntwortsatzEin(erg=0,antwortsatz='Langer Text',dy='0',lsg=['0']*4,anzSpalten=2,listPos=3):
@@ -59,7 +60,7 @@ def erzeugeSchriftMultiDiviAufgabe(multi=True,anzSpalten=2):
     lsg=schreibeMultiplikationenStellengerecht(F'{z1}*{z2}') if multi else erzeugeDivisionStellengerecht(F'{z1}/{z2}',mitLoesung=True)
     verschiebung=F'{"" if multi else "-1"}'
     fuegeAntwortsatzEin(erg=z3,antwortsatz=antwortsatz,dy=F'{verschiebung}-2.25{"" if z2<10 else "-1"}',lsg=lsg,anzSpalten=anzSpalten)
-    return [[ersetzePlatzhalterMitSymbolen(x) for x in [afg]], [ersetzePlatzhalterMitSymbolen(x) for x in lsg], []]
+    return [[ersetzePlatzhalterMitSymbolen(x) for x in afg], [ersetzePlatzhalterMitSymbolen(x) for x in lsg], []]
 
 def erzeugeSchriftAddiSubtrakAufgabe(addi=True,anzSpalten=2):
     z1=random.choice([random.randint(11,999),random.randint(1001,9999)])

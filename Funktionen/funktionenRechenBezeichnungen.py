@@ -8,6 +8,7 @@ import random
 
 
 def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
+    anzSpaltenGesamt=[anzSpalten,anzSpaltenAfg]
 #Diese Funktion erzeugt eine Liste von verschiedenen Aufgaben. 
 #Welche Aufgaben, ist in der Liste "art" angegeben.
 #art = 'ggT','kgV','Basis','Kopf','erweitern','kuerzen'
@@ -39,11 +40,11 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
                           'erweitern':'erzeugeErweitern()','kuerzen':'erzeugeKuerzen()','kuerzenMitTeiler':'erzeugeKuerzen(mitTeiler=True)',
                           'reihe':'BruchReiheAufgabe()','reihePosZufaellig':'BruchReiheAufgabe(faktorenBeliebig=True)','bruchVergleichen':'erzeugeBruchVergleichen()',
 #Spass
-        'labyrinthKlein':f'erzeugeLabyrinthAufgabe(hoehe=5,anzSpalten={anzSpalten})',
-        'labyrinthMittel':f'erzeugeLabyrinthAufgabe(hoehe=10,anzSpalten={anzSpalten})',
-        'labyrinthGross':f'erzeugeLabyrinthAufgabe(hoehe=20,anzSpalten={anzSpalten})',
-        'labyrinthRiesig':f'erzeugeLabyrinthAufgabe(hoehe=20,anzSpalten={anzSpalten},riesig=True)',
-        'schiffeversenken':f'erzeugeSchiffeVersenken(anzSpalten={anzSpalten})',
+        'labyrinthKlein':f'erzeugeLabyrinthAufgabe(hoehe=5,anzSpalten={anzSpaltenAfg})',
+        'labyrinthMittel':f'erzeugeLabyrinthAufgabe(hoehe=10,anzSpalten={anzSpaltenAfg})',
+        'labyrinthGross':f'erzeugeLabyrinthAufgabe(hoehe=20,anzSpalten={anzSpaltenAfg})',
+        'labyrinthRiesig':f'erzeugeLabyrinthAufgabe(hoehe=20,anzSpalten={anzSpaltenAfg},riesig=True)',
+        'schiffeversenken':f'erzeugeSchiffeVersenken(anzSpalten={anzSpaltenGesamt})',
         'mandala':f'erzeugeMandala(anzSpalten={anzSpalten})',
 #Bruchrechnen
         'BruchzuGemischteZahl':'erzeugeBruchzuGemischteZahl()', 'GemischteZahlzuBruch':'erzeugeGemischteZahlZuBruch()',
@@ -105,19 +106,20 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'zahlenStrahlGanzeZahlen':F'erzeugeZahlenstrahlGanzeZahlen(laenge=4,nurNatuerlich=False,anzPfeile=-1,ohneKammazahlen=True,mitText={mitText})',
         'zahlenStrahlRationaleZahlenEinfach':F'erzeugeZahlenstrahlGanzeZahlen(laenge=4,nurNatuerlich=False,anzPfeile=-1,ohneKammazahlen=True,mitText={mitText})',
         'zahlenStrahlRationaleZahlenSchwer':F'erzeugeZahlenstrahleDezimalzahlenEinteilungTikz(laenge=5,anzPfeile=2,zufall=True,mitText={mitText},rational=True)',
+#Koordinatensysteme
         'koordinatensystemGanzeZahlenMitVorgabe':F'erzeugePunkteImKoordsystemAufgabe(mitKoordsystem=True,nurGroesserNull=False,mitText={mitText})',
         'koordinatensystemGanzeZahlen': F'erzeugePunkteImKoordsystemAufgabe(nurGroesserNull=False,mitText={mitText})',
         'koordinatensystemRationaleZahlenMitVorgabe': F'erzeugePunkteImKoordsystemAufgabe(mitKoordsystem=True,kommazahlen=True,nurGroesserNull=False,mitText={mitText})',
         'koordinatensystemRationaleZahlen': F'erzeugePunkteImKoordsystemAufgabe(kommazahlen=True,nurGroesserNull=False,mitText={mitText})',
-        'koordinatensystemGanzZahlenAuto':F'zeichneFigurImKoordsystem(auswahl="auto",faktor=1,mitKoordsystem=False,mitText={mitText})',
-        'koordinatensystemRationaleZahlenAuto':F'zeichneFigurImKoordsystem(auswahl="auto",faktor=0.1,mitKoordsystem=False,mitText={mitText})',
-        'koordinatensystemGanzeZahlenNikolaushaus':F'zeichneFigurImKoordsystem(auswahl="nikolaushaus",faktor=2,mitKoordsystem=False,mitText={mitText})',
-        'koordinatensystemRationaleZahlenNikolaushaus':F'zeichneFigurImKoordsystem(auswahl="nikolaushaus",faktor=2.5,mitKoordsystem=False,mitText={mitText})',
-        'koordinatensystemRationaleZahlenNikolaushausMitKoord':F'zeichneFigurImKoordsystem(auswahl="nikolaushaus",faktor=2.5,mitKoordsystem=True,mitText={mitText})',
-        'koordinatensystemDinoNatuerlicheZahlen':F'zeichneFigurImKoordsystem(auswahl="dino",faktor=1,mitKoordsystem=True,mitText={mitText})',
-        'koordinatensystemDinoGanzeZahlen':F'zeichneFigurImKoordsystem(auswahl="dino",negZahlen=True,faktor=1,mitKoordsystem=True,mitText={mitText})',
-        'koordinatensystemDracheNatuerlicheZahlen':F'zeichneFigurImKoordsystem(auswahl="drache",faktor=1,mitKoordsystem=True,mitText={mitText})',
-        'koordinatensystemDracheGanzeZahlen':F'zeichneFigurImKoordsystem(auswahl="drache",negZahlen=True,faktor=1,mitKoordsystem=True,mitText={mitText})',
+        'koordinatensystemGanzZahlenAuto':F'zeichneFigurImKoordsystem(auswahl="auto",faktor=1,mitKoordsystem=False,mitText={mitText},anzSpalten={anzSpaltenGesamt})',
+        'koordinatensystemRationaleZahlenAuto':F'zeichneFigurImKoordsystem(auswahl="auto",faktor=0.1,mitKoordsystem=False,mitText={mitText},anzSpalten={anzSpaltenGesamt})',
+        'koordinatensystemGanzeZahlenNikolaushaus':F'zeichneFigurImKoordsystem(auswahl="nikolaushaus",faktor=2,mitKoordsystem=False,mitText={mitText},anzSpalten={anzSpaltenGesamt})',
+        'koordinatensystemRationaleZahlenNikolaushaus':F'zeichneFigurImKoordsystem(auswahl="nikolaushaus",faktor=2.5,mitKoordsystem=False,mitText={mitText},anzSpalten={anzSpaltenGesamt})',
+        'koordinatensystemRationaleZahlenNikolaushausMitKoord':F'zeichneFigurImKoordsystem(auswahl="nikolaushaus",faktor=2.5,mitKoordsystem=True,mitText={mitText},anzSpalten={anzSpaltenGesamt})',
+        'koordinatensystemDinoNatuerlicheZahlen':F'zeichneFigurImKoordsystem(auswahl="dino",faktor=1,mitKoordsystem=True,mitText={mitText},anzSpalten={anzSpaltenGesamt})',
+        'koordinatensystemDinoGanzeZahlen':F'zeichneFigurImKoordsystem(auswahl="dino",negZahlen=True,faktor=1,mitKoordsystem=True,mitText={mitText},anzSpalten={anzSpaltenGesamt})',
+        'koordinatensystemDracheNatuerlicheZahlen':F'zeichneFigurImKoordsystem(auswahl="drache",faktor=1,mitKoordsystem=True,mitText={mitText},anzSpalten={anzSpaltenGesamt})',
+        'koordinatensystemDracheGanzeZahlen':F'zeichneFigurImKoordsystem(auswahl="drache",negZahlen=True,faktor=1,mitKoordsystem=True,mitText={mitText},anzSpalten={anzSpaltenGesamt})',
         'UmfangMessen':'erzeugeUmfangRechnung(mitText='+str(mitText)+')',
         'FlaecheMessen':'erzeugeFlaechenberechnung(mitText='+str(mitText)+')',
         'FlaecheUmfang':'erzeugeUmfangFlaechenBerechnung(mitText='+str(mitText)+')',
@@ -222,7 +224,7 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'einfacheGleichungOhneKomma':F'erzeugeEinfacheGleichung(variabel=random.choice(["a","b","x","y"]),ohneKomma=True,mitText={mitText})',
         'einfacheGleichungMitKlammer':F'erzeugeEinfacheGleichung(variabel=random.choice(["a","b","x","y"]),mitKlammer=True,mitText={mitText})',
         'einfacheGleichungMitQuadrat':F'erzeugeEinfacheGleichung(variabel=random.choice(["a","b","x","y"]),mitKlammer=True,mitQuadrat=True,mitText={mitText})',
-        'einfacheFormelUmformen':'erzeugeEinfacheFormelnUmformen()',
+        'einfacheFormelUmformen':F'erzeugeEinfacheFormelnUmformen(anzSpalten={anzSpaltenGesamt})',
         'einfacheGleichMitSummenKlammern':F'erzeugeGleichungMitSummenklammernAusmulti(mitText={mitText},ohneKomma=True,ergUnter10=True)',
         'einfacheGleichMitSummenKlammernGrZahlen':F'erzeugeGleichungMitSummenklammernAusmulti(mitText={mitText},ohneKomma=True,ergUnter10=False)',
         'einfacheGleichMitSummenKlammernSchwer':F'erzeugeGleichungMitSummenklammernAusmulti(mitText={mitText},ohneKomma=False,ergUnter10=False)',
@@ -236,7 +238,7 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'einfacheGleichungZweiVariablenZeichnen':'erzeugeGleichungmitZweiVariablenZeichnen()',
         'ZweiGleichungmitZweiVariablenZeichnen':'erzeugeZweiGleichungmitZweiVariablen(zeichnerisch=True)',
         'ZweiGleichungmitZweiVariablenGleichsetzen':'erzeugeZweiGleichungmitZweiVariablen(zeichnerisch=False)',
-        'einfacheFormelUmformen':'erzeugeEinfacheFormelnUmformen()',
+#        'einfacheFormelUmformen':'erzeugeEinfacheFormelnUmformen()',
         'flaechenFormelUmformenAnwenden':F'erzeugeFlaechenFormelUmformenUndAnwenden(auswahl="",mitText={mitText})',
 #Quaratwurzel
         'quadratwurzelEinfach':'erzeugeWurzelRechnungen(typ="Einfach")',

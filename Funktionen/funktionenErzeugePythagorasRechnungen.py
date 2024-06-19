@@ -24,7 +24,8 @@ def erzeugePythagorasBerechnen(seitenwahl=-1,mitBogen=True,mitText=True):
     seitenAfg=[strNW(x,True)+' '+einheit for x in [a,b,c]]
     seitenAfg[seitenwahl]=seiten[seitenwahl]
     afg=afg+dreieckRechtwinklig(kx=a/2,ky=b/2,rotWinkel=random.randint(0,360),seiten=seitenAfg,mitBogen=mitBogen,rechtWinkBei=rechtWinkBei)
-    lsg=['\\pbox{5cm}{']
+    setzePBox(afg)
+    lsg=['\\pbox{\\linewidth}{']
     if seitenwahl==0:
         lsg=lsg+['$\\begin{aligned}']
         lsg=lsg+['a^2&=c^2-b^2 &\\mid \\sqrt{~}']+['\\\\']

@@ -4,13 +4,14 @@
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
 
-def erzeugeSchiffeVersenken(anzSpalten=1):
+def erzeugeSchiffeVersenken(anzSpalten=[2,2]):
     schiffe=[[1,0],[2,4],[3,3],[4,2],[5,1]]    #--> [Schiffgröße,Anzahl]
     grenzen=[0,10,5,1]
 #    templateContent,templateStyles=entpackeOdtDatei(template)
     schiffKoord=erzeugeListeMitSchiffskoordinaten(schiffe,grenzen)
-    groesse='{!}{9 cm}' if anzSpalten == 1 else '{6 cm}{!}'
+    groesse='{!}{9 cm}' if anzSpalten[0] == 1 else '{6 cm}{!}'
     afg=[f'\\resizebox{groesse}{{']+zeichneSchiffe(schiffKoord=schiffKoord)+['}']
+    groesse='{!}{9 cm}' if anzSpalten[1] == 1 else '{6 cm}{!}'
     lsg=[f'\\resizebox{groesse}{{']+zeichneSchiffe(schiffKoord=[])+['}']
     return [afg,lsg,[]]
 

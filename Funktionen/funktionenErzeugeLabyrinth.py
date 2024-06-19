@@ -20,7 +20,7 @@ import random
 
 def erzeugeLabyrinthAufgabe(hoehe=5,anzSpalten=2,riesig=False):
     sys.setrecursionlimit(20000)
-    breite=5 if anzSpalten==2 else 15
+    breite=7 if anzSpalten==2 else 17
     maze=Maze(breite*2 if not riesig else breite*4, hoehe*2 if not riesig else hoehe*4, 0, 0)
     maze.make_maze()
     maze.escape()

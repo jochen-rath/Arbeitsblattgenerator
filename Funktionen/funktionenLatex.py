@@ -35,6 +35,7 @@ def latexHead(arraystretch=False,size=2):
     head.append('\\usepackage[shortlabels]{enumitem}')
     head.append('\\usepackage{tabularx,xltabular}')
     head.append('\\usepackage{graphicx}')
+    head.append('\\usepackage{adjustbox}')
     head.append('\\usepackage{hyperref}')
     head.append('\\usepackage{verbatim}')
     head.append('\\usepackage{geometry}')
@@ -102,6 +103,12 @@ def setzeGleichheitszeichenAufLinie(gleichheitszeichen):
     return ausgabe
 
 
+def setzePBox(code=[]):
+    if isinstance(code, list):
+        code.insert(0,'\\pbox{\\linewidth}{')
+        code.append('}')
+    if isinstance(code, str):
+        return '\\pbox{\\linewidth}{'+code+'}'
 
 def writeLatexDoc(inhalt,ausgabeName='newfile.tex'):
     with open(ausgabeName, 'w') as f:

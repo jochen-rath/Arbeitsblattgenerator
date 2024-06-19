@@ -18,8 +18,10 @@ def variabelErsetzen(mitText=True):
         term=erzeugeTerm(variablen=vari, anzahl=2, variMaxAnzProUnterterm=1)
     if mitText:
 #       afg=F'Setze für die Variabel {vari} den Wert {wert} ein und berechne die Lösung für y:'
-        afg=F'Setze für die Variabel {vari} den Wert {wert} ein und berechne den Wert des Terms:'
-        afg=afg+F'$${term}$$'.replace("*"," \\cdot ").replace('XX','\\')
+        afg=['\\pbox{\\linewidth}{']
+        afg.append(F'Setze für die Variabel {vari} den Wert {wert} ein und berechne den Wert des Terms:\\\\')
+        afg.append(F'${term}$'.replace("*"," \\cdot ").replace('XX','\\'))
+        afg.append('}')
     else:
         afg = F' ${vari}={wert}~ XXrightarrow ~ {term}=?$'.replace("*"," \\cdot ").replace('XX','\\')
 #        afg=['$\\begin{aligned}']
@@ -73,7 +75,7 @@ def ersetzePlatzhalterMitSymbolen(T):
     T=T.replace('vari','')
     return T
 
-def erzeugeEinfacheFormelnUmformen(formel='',gesucht=''):
+def erzeugeEinfacheFormelnUmformen(formel='',gesucht='',anzSpalten=[2,2]):
 #Diese Funktion erzeugt eine Aufgabe, bei der eine Formel nach einem vorgegebenen Wert umgeformt werden muss. Es gilt:
 #
 #      [afg,lsg,G]=erzeugeEinfacheFormelnUmformen(formel='',gesucht='')
@@ -88,8 +90,9 @@ def erzeugeEinfacheFormelnUmformen(formel='',gesucht=''):
     G=Formeln[formel][0]
     gesucht=gesucht if len(gesucht)>0 else random.choice(Formeln[formel][1])
     L,R=G.split('=')
-    afg='Forme die '+formel+' $'+ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(L))+' ='+ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(R))+'$ nach $'+ersetzePlatzhalterMitSymbolen(gesucht)+'$ um.'
-    lsg=formeEinfacheFormelNachVorgabenUm(G=G,gesucht=gesucht)
+    afg='Forme die '+formel+' $'+ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(L))+' ='+ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(R))+'$ nach $'+ersetzePlatzhalterMitSymbolen(gesucht)+'$ um.'    
+    groesse='{6 cm}{!}' if anzSpalten[1] == 2 else '{!}{!}'
+    lsg=[f'\\resizebox{groesse}{{']+formeEinfacheFormelNachVorgabenUm(G=G,gesucht=gesucht)+['}']
     return [afg,lsg,G]
 
 
@@ -230,15 +233,15 @@ def erzeugeSummenAusmultiAuskl(n=2,ausKlammern=False,mitText=True):
     lsg.append(F'=&{lsg3} \\\\')
     lsg.append(('\\end{aligned}$'))
     if ausKlammern:
-        afg='Klammer soweit wie möglich aus:'
-        afg=(afg if mitText else "")+ F'$${"".join(lsg2)}$$'
+        afg='Klammer soweit wie möglich aus:\\\\'
+        afg=['\\pbox{\\linewidth}{']+[(afg if mitText else "")]+ [F'${"".join(lsg2)}$']+['}']
         lsg = ['$\\begin{aligned}']
         lsg.append(F'{lsg2[0]}&{"".join(lsg2[1:])} \\\\')
         lsg.append(F'=&{"".join(lsgRot)} \\\\')
         klammer=(F'§§textcolor{{red}}{{{vorKl}}}*({"".join(terme)})')
         lsg.append(F'=&{klammer} \\\\')
         lsg.append(('\\end{aligned}$'))
-    return [[ersetzePlatzhalterMitSymbolen(afg)],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
+    return [[ersetzePlatzhalterMitSymbolen(x)  for x in afg],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
 
 def erzeugeKlammerAufloesenVereinfachen(mitText=True):
     variablen=['a','b','c','d','x','y','z']

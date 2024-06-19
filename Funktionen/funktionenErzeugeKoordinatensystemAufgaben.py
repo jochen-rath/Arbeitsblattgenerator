@@ -7,7 +7,7 @@
 #       exec(open("Funktionen/funktionen.py").read())
 
 
-def erzeugePunkteImKoordsystemAufgabe(mitKoordsystem=False,kommazahlen=False,nurGroesserNull=False,mitText=True):
+def erzeugePunkteImKoordsystemAufgabe(mitKoordsystem=False,kommazahlen=False,nurGroesserNull=False,mitText=True,anzSpalten=[2,2]):
 #Diese Funktion erzeugt eine Aufgabe, in der die Schüler Punkte in einem Koordinatensystem
 #eintragen sollen.
     xMin,xMax,yMin,yMax=[0,5,0,5] if nurGroesserNull else [-5,5,-5,5]
@@ -82,11 +82,12 @@ def koordinatenFiguren(auswahl='auto',faktor=1,negZahlen=False):
         streckenzug=[2,drache,auge]
     return [streckenzug,xAchse,yAchse]
 
-def zeichneFigurImKoordsystem(auswahl='auto',negZahlen=False,faktor=1,mitKoordsystem=False,mitText=True):
+def zeichneFigurImKoordsystem(auswahl='auto',negZahlen=False,faktor=1,mitKoordsystem=False,mitText=True,anzSpalten=[2,2]):
     [streckenzug,xAchse,yAchse]=koordinatenFiguren(auswahl=auswahl, faktor=faktor,negZahlen=negZahlen)
     punkte=[]
     afgText='Zeichne und verbinde folgende Punkte in ein Koordinatensystem. Jeder Buchstabe ist ein einzelner Streckenzug von Anfang bis Ende.\\\\'
-    afg=['\\pbox{\\hsize}{'+(afgText if mitText else '')]
+    groesse='{6 cm}{!}' if anzSpalten[0] == 2 else '{!}{!}'
+    afg=['\\pbox{\\hsize}{']+[(afgText if mitText else '')]
     if isinstance(streckenzug[0],int):
         nr=0
         for strZug in streckenzug[1:]:
@@ -98,8 +99,10 @@ def zeichneFigurImKoordsystem(auswahl='auto',negZahlen=False,faktor=1,mitKoordsy
         afg.append(','.join([F' ${{P_{{{i}}}({strNW(streckenzug[i][0])}|{strNW(streckenzug[i][1])})}}$' for i in range(len(streckenzug))]))
         punkte=[x+['x', 'red'] for x in streckenzug]
     if mitKoordsystem:
-        afg=afg+diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=xAchse,yAchse=yAchse)
+        groesse='{6 cm}{!}' if anzSpalten[1] == 2 else '{!}{!}'
+        afg=afg+[f'\\resizebox{groesse}{{']+diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=xAchse,yAchse=yAchse)+['}']
     afg=afg+['}']
-    lsg=diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=xAchse,yAchse=yAchse,streckenzug=streckenzug,textNode=punkte)
+    groesse='{6 cm}{!}' if anzSpalten[1] == 2 else '{!}{!}'
+    lsg=[f'\\resizebox{groesse}{{']+diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=xAchse,yAchse=yAchse,streckenzug=streckenzug,textNode=punkte)+['}']
     return [afg,lsg,[streckenzug]]
 

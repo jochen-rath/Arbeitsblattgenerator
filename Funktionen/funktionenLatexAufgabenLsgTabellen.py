@@ -9,6 +9,7 @@
 
 def erzeugeEinfacheTabelle(inhalt=[['a)','afg1'],['b)','afg2']],spalten=2):
 #inhalt=[['a)',afg1],['b)',afg2],usw]
+    breite=7 if spalten==2 else 17
     tabelle=[]
     spaltendef='|'
     for i in range(spalten):
@@ -16,7 +17,13 @@ def erzeugeEinfacheTabelle(inhalt=[['a)','afg1'],['b)','afg2']],spalten=2):
     tabelle.append('\\begin{xltabular}{\\textwidth}{'+spaltendef+'}')
     tabelle.append('\\arrayrulecolor{black}\\hline')
     for i,inh in enumerate(inhalt):
-        tabelle.append(inh[0]+'&'+inh[1])
+        tabelle.append(inh[0]+'&') #+inh[1])
+        if (('$' in inh[1]) or ('tikzpicture' in inh[1])) and not (('pbox' in inh[1]) or ('resizebox' in inh[1]) or ('$$' in inh[1])):
+            tabelle.append(F'\\begin{{adjustbox}}{{max width={breite} cm}}')
+            tabelle.append(inh[1])
+            tabelle.append(F'\\end{{adjustbox}}')
+        else:
+            tabelle.append(inh[1])
         tabelle.append('&' if (i+1)%spalten>0 else '\\\\\\hline' )
     tabelle.append('\\end{xltabular}')
     tabelle.append('\\vspace{0.5cm}')
