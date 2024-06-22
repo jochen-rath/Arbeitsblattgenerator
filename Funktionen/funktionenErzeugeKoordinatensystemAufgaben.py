@@ -24,9 +24,10 @@ def erzeugePunkteImKoordsystemAufgabe(mitKoordsystem=False,kommazahlen=False,nur
     afg=[F'{(("Erstelle ein Koordinatensystem und t" if not mitKoordsystem else "T")+"rage folgende Punkte ein:")}' ] if mitText else []
     afg.append(','.join([F' ${buchstabenGross[i]}({strNW(koords[i][0])}|{strNW(koords[i][1])})$' for i in range(anzKoord)]))
     if mitKoordsystem:
-        afg=['\\pbox{\\hsize}{']+afg+['\\\\']
+        breite=7 if anzSpalten[0]==2 else 17
+        afg.append(F'\\begin{{adjustbox}}{{max width={breite} cm}}')
         afg=afg+diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=[xMin,xMax,(xMax-xMin)+1],yAchse=[yMin,yMax,(yMax-yMin)+1])
-        afg=afg+['}']
+        afg.append(F'\\end{{adjustbox}}')
     textNode=[[koords[i][0],koords[i][1],"x",'red'] for i in range(anzKoord)]
     textNode=textNode+[[koords[i][0],koords[i][1],buchstabenGross[i],'above'] for i in range(anzKoord)]
     lsg=diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=[xMin,xMax,(xMax-xMin)+1],yAchse=[yMin,yMax,(yMax-yMin)+1],textNode=textNode)
@@ -86,7 +87,6 @@ def zeichneFigurImKoordsystem(auswahl='auto',negZahlen=False,faktor=1,mitKoordsy
     [streckenzug,xAchse,yAchse]=koordinatenFiguren(auswahl=auswahl, faktor=faktor,negZahlen=negZahlen)
     punkte=[]
     afgText='Zeichne und verbinde folgende Punkte in ein Koordinatensystem. Jeder Buchstabe ist ein einzelner Streckenzug von Anfang bis Ende.\\\\'
-    groesse='{6 cm}{!}' if anzSpalten[0] == 2 else '{!}{!}'
     afg=['\\pbox{\\hsize}{']+[(afgText if mitText else '')]
     if isinstance(streckenzug[0],int):
         nr=0
@@ -99,10 +99,13 @@ def zeichneFigurImKoordsystem(auswahl='auto',negZahlen=False,faktor=1,mitKoordsy
         afg.append(','.join([F' ${{P_{{{i}}}({strNW(streckenzug[i][0])}|{strNW(streckenzug[i][1])})}}$' for i in range(len(streckenzug))]))
         punkte=[x+['x', 'red'] for x in streckenzug]
     if mitKoordsystem:
-        groesse='{6 cm}{!}' if anzSpalten[1] == 2 else '{!}{!}'
-        afg=afg+[f'\\resizebox{groesse}{{']+diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=xAchse,yAchse=yAchse)+['}']
+        breite=7 if anzSpalten[0]==2 else 17
+        afg.append(F'\\begin{{adjustbox}}{{max width={breite} cm}}')
+        afg=afg+diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=xAchse,yAchse=yAchse)
+        afg.append(F'\\end{{adjustbox}}')
     afg=afg+['}']
-    groesse='{6 cm}{!}' if anzSpalten[1] == 2 else '{!}{!}'
-    lsg=[f'\\resizebox{groesse}{{']+diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=xAchse,yAchse=yAchse,streckenzug=streckenzug,textNode=punkte)+['}']
+#    groesse='{6 cm}{!}' if anzSpalten[0] == 2 else '{!}{!}'
+#    lsg=[f'\\resizebox{groesse}{{']+diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=xAchse,yAchse=yAchse,streckenzug=streckenzug,textNode=punkte)+['}']
+    lsg=diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=xAchse,yAchse=yAchse,streckenzug=streckenzug,textNode=punkte)
     return [afg,lsg,[streckenzug]]
 

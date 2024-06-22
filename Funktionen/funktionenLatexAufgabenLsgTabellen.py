@@ -18,7 +18,7 @@ def erzeugeEinfacheTabelle(inhalt=[['a)','afg1'],['b)','afg2']],spalten=2):
     tabelle.append('\\arrayrulecolor{black}\\hline')
     for i,inh in enumerate(inhalt):
         tabelle.append(inh[0]+'&') #+inh[1])
-        if ('tikzpicture' in inh[1]) and not (('resizebox' in inh[1]) or ('$$' in inh[1])):
+        if ('tikzpicture' in inh[1]) and not any([x in inh[1] for x in ['resizebox','$$','adjustbox']]):
             tabelle.append(F'\\begin{{adjustbox}}{{max width={breite} cm}}')
             tabelle.append(inh[1])
             tabelle.append(F'\\end{{adjustbox}}')

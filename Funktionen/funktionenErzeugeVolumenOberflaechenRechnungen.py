@@ -34,11 +34,15 @@ def erzeugeSchraegbilderAfg(typ='Trapez',anzSpalten=2,mitText=True):
     return [aufg,lsg,[]]
     
 
-def erzeugeQuaderOberVolBerech(breitePbox='\\hsize',maxDim=14,einheit='cm'):
+def erzeugeQuaderOberVolBerech(maxDim=14,einheit='cm',mitText=True,anzSpalten=[2,2]):
 #Diese Funktion erzeugt eine Aufgabe und Lösung zum Addieren und Subtrahieren von Dezimalzahlen
 #Ausgabe: [aufg,lsg]=erzeugeQuaderOberVolBerech(breitePbox)
-    aufg=['\\pbox{'+str(breitePbox)+'cm}{Berechne das Volumen und die Oberfläche von:\\\\']
-    lsg=['\\pbox{'+str(breitePbox)+'cm}{']
+    breitePbox='\\hsize'
+    groesse='{17 cm}' if anzSpalten[0] == 1 else '{7 cm}'
+    aufg=[f'\\pbox{groesse}{{']
+    aufg=aufg + (['Berechne das Volumen und die Oberfläche von:\\\\'] if mitText else [])
+    lsg=[]
+    #lsg=['\\pbox{'+str(breitePbox)+'cm}{']
     a,b,c=[random.randint(1,maxDim) for i in range(3)]
     aufg=aufg+quader(a=a, b=b, c=c,ursprung=[0,0],buchstabe='Q',aName='a='+strNW(a)+' '+einheit,bName='b='+strNW(b)+'  '+einheit,cName='c='+strNW(c)+'  '+einheit)
     lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
@@ -67,7 +71,7 @@ def erzeugeQuaderOberVolBerech(breitePbox='\\hsize',maxDim=14,einheit='cm'):
     lsg.append('\\end{tikzpicture}') 
     lsg.append('\\endgroup')
     aufg.append('}')
-    lsg.append('}')
+    #lsg.append('}')
     return [aufg,lsg,[]]
 
 def erzeugeQuaderFehlSeiteBerech(anzSpalten=2,mitText=True):
@@ -222,11 +226,16 @@ def erzeugeTrapezPrismaOberVolBerech(anzSpalten=2,mitText=True,messen=False,einh
     return [aufg,lsg,[]]
 
 
-def erzeugeZylibderOberVolBerech(breitePbox='\\textwidth',maxDim=14,einheit='cm'):
+def erzeugeZylinderOberVolBerech(einheit='cm',mitText=True,anzSpalten=[2,2]):
 #Diese Funktion erzeugt eine Aufgabe und Lösung zum Addieren und Subtrahieren von Dezimalzahlen
 #Ausgabe: [aufg,lsg]=erzeugeQuaderOberVolBerech(breitePbox)
-    aufg=['\\pbox{'+str(breitePbox)+('' if 'textwidth' in str(breitePbox) else 'cm')+'}{Berechne das Volumen und die Oberfläche von:\\\\']
-    lsg=['\\pbox{'+str(breitePbox)+('' if 'textwidth' in str(breitePbox) else 'cm')+'}{']
+    maxDim=14 if anzSpalten[0] == 1 else 5
+    breitePbox='\\hsize'
+    groesse='{17 cm}' if anzSpalten[0] == 1 else '{7 cm}'
+    aufg=[f'\\pbox{groesse}{{']
+    aufg=aufg+(['Berechne das Volumen und die Oberfläche von:\\\\'] if mitText else [] )
+    lsg=[]
+    #lsg=['\\pbox{'+str(breitePbox)+('' if 'textwidth' in str(breitePbox) else 'cm')+'}{']
     R,h=[random.randint(1,maxDim) for i in range(2)]
     R=R/2.0
 #    aufg=aufg+zylinder(R=R, h=h, ursprung=[0,0],buchstabe='Z',rName='R='+strNW(R)+' '+einheit,hName='h='+strNW(h)+' '+einheit)
@@ -255,14 +264,18 @@ def erzeugeZylibderOberVolBerech(breitePbox='\\textwidth',maxDim=14,einheit='cm'
     lsg.append('\\end{tikzpicture}') 
     lsg.append('\\endgroup')
     aufg.append('}')
-    lsg.append('}')
     return [aufg,lsg,[]]
 
-def erzeugeZylibderOberVolBerech(breitePbox='\\textwidth',maxDim=14,einheit='cm'):
+def erzeugeZylinderOberVolBerech(einheit='cm',mitText=True,anzSpalten=[2,2]):
 #Diese Funktion erzeugt eine Aufgabe und Lösung zum Addieren und Subtrahieren von Dezimalzahlen
 #Ausgabe: [aufg,lsg]=erzeugeQuaderOberVolBerech(breitePbox)
-    aufg=['\\pbox{'+str(breitePbox)+('' if 'textwidth' in str(breitePbox) else 'cm')+'}{Berechne das Volumen und die Oberfläche von:\\\\']
-    lsg=['\\pbox{'+str(breitePbox)+('' if 'textwidth' in str(breitePbox) else 'cm')+'}{']
+    maxDim=14 if anzSpalten[0] == 1 else 5
+    breitePbox='\\hsize'
+    groesse='{17 cm}' if anzSpalten[0] == 1 else '{7 cm}'
+    aufg=[f'\\pbox{groesse}{{']
+    aufg=aufg+(['Berechne das Volumen und die Oberfläche von:\\\\'] if mitText else [] )
+    lsg=[]
+    #lsg=['\\pbox{'+str(breitePbox)+('' if 'textwidth' in str(breitePbox) else 'cm')+'}{']
     R,h=[random.randint(1,maxDim) for i in range(2)]
     R=R/2.0
 #    aufg=aufg+zylinder(R=R, h=h, ursprung=[0,0],buchstabe='Z',rName='R='+strNW(R)+' '+einheit,hName='h='+strNW(h)+' '+einheit)
@@ -291,7 +304,6 @@ def erzeugeZylibderOberVolBerech(breitePbox='\\textwidth',maxDim=14,einheit='cm'
     lsg.append('\\end{tikzpicture}')
     lsg.append('\\endgroup')
     aufg.append('}')
-    lsg.append('}')
     return [aufg,lsg,[]]
 
 def umfangsFormeln():
@@ -335,7 +347,7 @@ def prismaOberflaechenFormeln():
         prismaOberfl[name]=[F'variO=2*{"(" if mitKlammer else ""}{flaechen[art][0].split("=")[1]}{")" if mitKlammer else  ""}+{"(" if mitKlammerU else ""}{umfaenge[art][0].split("=")[1]}{")" if mitKlammerU else  ""}*{hoehe}',list(set(flaechen[art][1]+umfaenge[art][1]+[hoehe]))[::-1]]
     return prismaOberfl
 
-def erzeugePrismaFehlendeSeiteBerechnen(anzSpalten=2,auswahl='',mitText=True,VoO=''):
+def erzeugePrismaFehlendeSeiteBerechnen(anzSpalten=[2,2],auswahl='',mitText=True,VoO=''):
     VoO= VoO if VoO in ['V','O'] else'V' if random.randint(0,1) >0 else 'O'
     einheit='cm'
     breite=6 if anzSpalten==2 else 14
@@ -357,9 +369,11 @@ def erzeugePrismaFehlendeSeiteBerechnen(anzSpalten=2,auswahl='',mitText=True,VoO
     prismaArt=F'{auswahl}{"" if auswahl=="Quader" else "-Prismas"}'
     seiteFlaeche='Fläche' if ges in ['G','M'] else 'Seite'
     afgText=F'Berechne die fehlende {seiteFlaeche} eines {prismaArt} bei folgenden gegebenen Größen: &&&&'
-    aufg=[F'\\pbox{{{breite } cm}}{{{afgText if mitText else F"{prismaArt}:" }'.replace('&&&&','\\\\')]
+    groesse='{17 cm}' if anzSpalten[0] == 1 else '{7 cm}'
+    aufg=[f'\\pbox{groesse}{{']
+    aufg=aufg+[(afgText if mitText else F"{prismaArt}:").replace('&&&&','\\\\')]
     aufg=aufg+['; '.join([F'${art}={strNW(varis[art])}~{einheit}{"^3" if art==F"variV" else ("^2" if art in ["variG","variO","variM"] else "")}$' for art in list(varis.keys())])]
-    lsg=[F'\\pbox{{{ breite} cm}}{{']
+    lsg=[]
     lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
     lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
     lsg.append('\\begin{tikzpicture}[show background grid]')
@@ -389,30 +403,40 @@ def erzeugePrismaFehlendeSeiteBerechnen(anzSpalten=2,auswahl='',mitText=True,VoO
     lsg.append('\\end{tikzpicture}')
     lsg.append('\\endgroup')
     aufg.append('}')
-    lsg.append('}')
     return [[ersetzePlatzhalterMitSymbolen(x) for x in aufg],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
 
-def erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten=2,typ='Sechseck',mitText=True):
+def erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten=[2,2],typ='Sechseck',mitText=True):
     einheit='cm'
-    breite=6 if anzSpalten==2 else 14
-    breite=breite/2 if typ=='Sechseck' else breite
+    breite=6 if anzSpalten[0]==2 else 14
+#    breite=breite/2 if typ=='Sechseck' else breite
+    zuGross=True
+    while zuGross:
 #    for vari in 'a','b','c','g','h','h_K','h_D','h_a','h_c':
 #        exec(F'vari{vari}=random.randint(15,10*min(8,breite))/10')
-    varia,varib,varic,varig,varih,varih_K,varih_D,varih_a,varih_c=[random.randint(15,10*min(8,breite))/10 for i in range(9)]
-    while abs(varia-varic)<0.5:
-        varia,varic=[random.randint(15,10*min(8,breite))/10 for i in range(2)]
-    if typ=='Sechseck':
-        varic=round(2*varia*math.cos(60*math.pi/180)+varia,1)
-        varih=round(varia*math.sin(60*math.pi/180),1)
-    if typ=='Trapez':
-        varib=round((varia**2+((varia-varic)/2)**2)**0.5,1)
-        varid=varib
-    if typ=='Dreieck':
-        varidc=random.randint(10,int(varic)*10)/10
-        varia=round((varih_c**2+varidc**2)**0.5,1)
-        varib=round((varih_c**2+(varic-varidc)**2)**0.5,1)
-    if typ=='Haus':
-        varic=round(((varia/2)**2+varih_D**2)**0.5,1)
+        varia,varib,varic,varig,varih,varih_K,varih_D,varih_a,varih_c=[random.randint(10 if typ=='Sechseck' else 15,10*min(8,breite))/10 for i in range(9)]
+        dHk=math.sin(math.radians(45))*varih_K
+        while abs(varia-varic)<0.5:
+            varia,varic=[random.randint(15,10*min(8,breite))/10 for i in range(2)]
+        if typ=='Sechseck':
+            varic=round(2*varia*math.cos(60*math.pi/180)+varia,1)
+            varih=round(varia*math.sin(60*math.pi/180),1)
+            if varic+dHk<breite-0.2:
+                zuGross=False
+        if typ=='Trapez':
+            varib=round((varia**2+((varia-varic)/2)**2)**0.5,1)
+            varid=varib
+            if (varia+dHk<breite-0.2) and (varic+dHk<breite-0.2):
+                zuGross=False
+        if typ=='Dreieck':
+            varidc=random.randint(10,int(varic)*10)/10
+            varia=round((varih_c**2+varidc**2)**0.5,1)
+            varib=round((varih_c**2+(varic-varidc)**2)**0.5,1)
+            if varic+dHk<breite-0.2:
+                zuGross=False
+        if typ=='Haus':
+            varic=round(((varia/2)**2+varih_D**2)**0.5,1)
+            if varia+dHk<breite-0.2:
+                zuGross=False
     geg=['varig','varia','varib','varic','varid','varih','varih_D','varih_K']
     ges=['V','O']
     messen=True
@@ -421,68 +445,69 @@ def erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten=2,typ='Sechseck',mitT
     auswahl['Sechseck']=[['variG=2*(varia+varic)*varih_a/2','variu=6*varia'],'sechseckPrimsa3D(a=varia,h_K=varih_K,messen=messen)',['varia','varic','varih_a','varih_K']]
     auswahl['Haus']=[['variG=varia*varib+varia*varih_D/2','variu=varia+varib+varic+varic+varib'],'hausPrisma(a=varia,b=varib,h_D=varih_D,h_K=varih_K, messen=messen)',['varia','varib','varic','varih_D','varih_K']]
     geg=auswahl[typ][2]
-    aufg=[F'\\pbox{{{breite } cm}}{{{"Messe die Seiten und Berechne dann das Volumen und die Oberfläche von: &&&&" if mitText else ""}'.replace('&&&&','\\\\')]
-    lsg=[F'\\pbox{{{ breite} cm}}{{']
+    groesse='{17 cm}' if anzSpalten[0] == 1 else '{7 cm}'
+    aufg=[f'\\pbox{groesse}{{']
+    aufg=aufg+[("Messe die Seiten und Berechne dann das Volumen und die Oberfläche von: &&&&" if mitText else "").replace('&&&&','\\\\')]
+    groesse='{17 cm}' if anzSpalten[1] == 1 else '{7 cm}'
+    lsg=[] #[f'\\pbox{groesse}{{']
+    lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
     scope=globals()|locals()
     aufg=aufg+eval(auswahl[typ][1],scope)
     messen=False
     scope=globals()|locals()
-    lsg=lsg+eval(auswahl[typ][1],scope)+['\\\\']
+    lsg=lsg+eval(auswahl[typ][1],scope)#+['\\\\']
+    start=0.75
+    lsg.insert(-1,f'\\node[left] at (0,-{start}) {{Geg.: }};')
     nLsg=len(lsg)
-    lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
-    lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
-    lsg.append('\\begin{tikzpicture}[show background grid]')
-    lsg.append('\\node[left] at (0,-0.25) {Geg.: };')
     for x in geg:
-        lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-4-nLsg)}) {{${x}={strNW(eval(x),1)}~{einheit}$}};')
-    lsg.append(F'\\node[left] at (0,{-0.25-0.5*(len(lsg)-4-nLsg)}) {{Ges.: }};')
-    lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-5-nLsg)}) {{${ges[0]}  = ?~cm^3$}};')
-    lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-5-nLsg)}) {{${ges[1]}  = ?~cm^2$}};')
-    lsg.append(F'\\node[below right] at (0,{-0.25-0.5*(len(lsg)-5-nLsg)}) {{')
-    lsg.append('$\\begin{aligned}')
-    lsg.append(F'V&=G\\cdot h_K & & \\\\')
-    lsg.append(F'O&=2\\cdot G + M & & \\\\')
-    lsg.append(F'\\\\')
+        lsg.insert(-1,F'\\node[right] at (0,{-start-0.5*(len(lsg)-nLsg)}) {{${x}={strNW(eval(x),1)}~{einheit}$}};')
+    lsg.insert(-1,F'\\node[left] at (0,{-start-0.5*(len(lsg)-nLsg)}) {{Ges.: }};')
+    lsg.insert(-1,F'\\node[right] at (0,{-start-0.5*(len(lsg)-nLsg-1)}) {{${ges[0]}  = ?~cm^3$}};')
+    lsg.insert(-1,F'\\node[right] at (0,{-start-0.5*(len(lsg)-nLsg-1)}) {{${ges[1]}  = ?~cm^2$}};')
+    lsg.insert(-1,F'\\node[below right] at (0,{-start-0.5*(len(lsg)-nLsg-1)}) {{')
+    lsg.insert(-1,'$\\begin{aligned}')
+    lsg.insert(-1,F'V&=G\\cdot h_K & & \\\\')
+    lsg.insert(-1,F'O&=2\\cdot G + M & & \\\\')
+    lsg.insert(-1,F'\\\\')
     formelG=auswahl[typ][0][0]
     G=eval(formelG.split("=")[1],scope)
-    lsg.append(F'{formelG.split("=")[0]}&={formelG.split("=")[1].replace("*","&&cdot ")}& & \\\\'.replace('&&','\\').replace("/",":"))
+    lsg.insert(-1,F'{formelG.split("=")[0]}&={formelG.split("=")[1].replace("*","&&cdot ")}& & \\\\'.replace('&&','\\').replace("/",":"))
     for x in geg:
         formelG = formelG.replace(x, strNW(eval(x),1))
-    lsg.append(F'{formelG.split("=")[0]}&={formelG.split("=")[1].replace("*","&&cdot ")}& & \\\\'.replace("&&","\\").replace("/",":"))
-    lsg.append(F'{formelG.split("=")[0]}&={strNW(G,2)}~cm^2& & \\\\'.replace('&&','\\').replace('/',':'))
+    lsg.insert(-1,F'{formelG.split("=")[0]}&={formelG.split("=")[1].replace("*","&&cdot ")}& & \\\\'.replace("&&","\\").replace("/",":"))
+    lsg.insert(-1,F'{formelG.split("=")[0]}&={strNW(G,2)}~cm^2& & \\\\'.replace('&&','\\').replace('/',':'))
 #Zwischenergebniss einfach unterstreichen
-    lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
-    lsg.append(F'V&=G\\cdot h_K & & \\\\')
-    lsg.append(F'V&={strNW(G,2)}\\cdot {strNW(varih_K,2)} & & \\\\')
-    lsg.append(F'V&={strNW(G*varih_K,2)} cm^3& & \\\\')
+    lsg.insert(-2,'\\makebox[0pt][l]{\\uline{\\phantom{$' +  lsg[-2].replace('&', '').replace('\\\\', '')  + '$}}}')
+    lsg.insert(-1,F'V&=G\\cdot h_K & & \\\\')
+    lsg.insert(-1,F'V&={strNW(G,2)}\\cdot {strNW(varih_K,2)} & & \\\\')
+    lsg.insert(-1,F'V&={strNW(G*varih_K,2)} cm^3& & \\\\')
 # Ergebniss doppelt unterstreichen
-    lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
-    lsg.append(F'\\\\')
-    lsg.append(F'M&=u\\cdot h_K & & \\\\')
+    lsg.insert(-2,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-2].replace('&', '').replace('\\\\', '')  + '$}}}')
+    lsg.insert(-1,F'\\\\')
+    lsg.insert(-1,F'M&=u\\cdot h_K & & \\\\')
     formelU=auswahl[typ][0][1]
     U=eval(formelU.split("=")[1],scope)
-    lsg.append(F'{formelU.split("=")[0]}&={formelU.split("=")[1].replace("*","&&cdot ")}& & \\\\'.replace('&&','\\').replace("/",":"))
+    lsg.insert(-1,F'{formelU.split("=")[0]}&={formelU.split("=")[1].replace("*","&&cdot ")}& & \\\\'.replace('&&','\\').replace("/",":"))
     for x in geg:
         formelU = formelU.replace(x, strNW(eval(x),1))
-    lsg.append(F'{formelU.split("=")[0]}&={formelU.split("=")[1].replace("*","&&cdot ")}& & \\\\'.replace("&&","\\").replace("/",":"))
-    lsg.append(F'{formelU.split("=")[0]}&={strNW(U,2)}~cm& & \\\\'.replace('&&','\\').replace('/',':'))
+    lsg.insert(-1,F'{formelU.split("=")[0]}&={formelU.split("=")[1].replace("*","&&cdot ")}& & \\\\'.replace("&&","\\").replace("/",":"))
+    lsg.insert(-1,F'{formelU.split("=")[0]}&={strNW(U,2)}~cm& & \\\\'.replace('&&','\\').replace('/',':'))
 #Zwischenergebniss einfach unterstreichen
-    lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
-    lsg.append(F'M&=u\\cdot h_K & & \\\\')
-    lsg.append(F'M&={strNW(U,2)}\\cdot {strNW(varih_K,2)} & & \\\\')
-    lsg.append(F'M&={strNW(U*varih_K,2)} cm^2& & \\\\')
+    lsg.insert(-2,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-2].replace('&', '').replace('\\\\', '') + '$}}}')
+    lsg.insert(-1,F'M&=u\\cdot h_K & & \\\\')
+    lsg.insert(-1,F'M&={strNW(U,2)}\\cdot {strNW(varih_K,2)} & & \\\\')
+    lsg.insert(-1,F'M&={strNW(U*varih_K,2)} cm^2& & \\\\')
     # Zwischenergebniss einfach unterstreichen
-    lsg.insert(-1, '\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
-    lsg.append(F'O&=2\\cdot G + M & & \\\\')
-    lsg.append(F'O&=2\\cdot {strNW(G,2)} + {strNW(U*varih_K,2)} & & \\\\')
-    lsg.append(F'O&={strNW(2*G+U*varih_K,2)} cm^2& & \\\\')
+    lsg.insert(-2, '\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-2].replace('&', '').replace('\\\\', '') + '$}}}')
+    lsg.insert(-1,F'O&=2\\cdot G + M & & \\\\')
+    lsg.insert(-1,F'O&=2\\cdot {strNW(G,2)} + {strNW(U*varih_K,2)} & & \\\\')
+    lsg.insert(-1,F'O&={strNW(2*G+U*varih_K,2)} cm^2& & \\\\')
     # Zwischenergebniss einfach unterstreichen
-    lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
-    lsg.append('\\end{aligned}$};')
-    lsg.append('\\end{tikzpicture}')
+    lsg.insert(-2,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-2].replace('&', '').replace('\\\\', '') + '$}}}')
+    lsg.insert(-1,'\\end{aligned}$};')
     lsg.append('\\endgroup')
     aufg.append('}')
-    lsg.append('}')
+    #lsg.append('}')
     return [[ersetzePlatzhalterMitSymbolen(x) for x in aufg],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
 def erzeugeQuaderMitLochBerech(breitePbox='\\textwidth',maxDim=14,einheit='cm',werte=[],namen=[]):
 #Diese Funktion erzeugt eine Aufgabe und Lösung zum Addieren und Subtrahieren von Dezimalzahlen

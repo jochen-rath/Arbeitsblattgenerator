@@ -8,7 +8,7 @@ import random
 
 
 def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
-    anzSpaltenGesamt=[anzSpalten,anzSpaltenAfg]
+    anzSpaltenGesamt=[anzSpaltenAfg,anzSpalten]
 #Diese Funktion erzeugt eine Liste von verschiedenen Aufgaben. 
 #Welche Aufgaben, ist in der Liste "art" angegeben.
 #art = 'ggT','kgV','Basis','Kopf','erweitern','kuerzen'
@@ -183,18 +183,20 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'TagesMonatsZinsen':'erzeugeTagesMonatsZinsberechnung(gesucht="Z")',
         'TagesMonatsZinsenUmformen':'erzeugeTagesMonatsZinsberechnung()',
         'einfacheZinsesZinsrechnung':F'einfachZinseszinsen(mitText={mitText},anzSpalten={anzSpaltenAfg})',
-        'QuaderVolOber':'erzeugeQuaderOberVolBerech(breitePbox=5,maxDim=5,einheit="cm")','ZylinderVolOber':'erzeugeZylibderOberVolBerech(breitePbox=5,maxDim=5,einheit="cm")',
+#Prismen
+        'QuaderVolOber':f'erzeugeQuaderOberVolBerech(einheit="cm",mitText={mitText},anzSpalten={anzSpaltenGesamt})',
+        'ZylinderVolOber':f'erzeugeZylinderOberVolBerech(einheit="cm",mitText={mitText},anzSpalten={anzSpaltenGesamt})',
         'QuaderMitLoch':'erzeugeQuaderMitLochBerech(breitePbox=5,maxDim=5)',
         'Dreiecksprisma':'erzeugeDreiecksPrismaOberVolBerech(breitePbox="5",maxDim=5,mitText='+str(mitText)+')',
         'DreiecksprismaMessen':'erzeugeDreiecksPrismaOberVolBerech(breitePbox="5",maxDim=5,mitText='+str(mitText)+',messen=True)',
         'quaderFehlSeiteBerechnen':F'erzeugeQuaderFehlSeiteBerech(anzSpalten={anzSpaltenAfg},mitText={mitText})',
-        'prismaFehlSeiteBerechnen':F'erzeugePrismaFehlendeSeiteBerechnen(anzSpalten={anzSpaltenAfg},mitText={mitText})',
-        'prismaFehlSeiteBerechnenVol': F'erzeugePrismaFehlendeSeiteBerechnen(anzSpalten={anzSpaltenAfg},mitText={mitText},VoO="V")',
-        'prismaFehlSeiteBerechnenOber': F'erzeugePrismaFehlendeSeiteBerechnen(anzSpalten={anzSpaltenAfg},mitText={mitText},VoO="O")',
-        'trapezPrisErstMessen':F'erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten={anzSpaltenAfg},typ="Trapez",mitText={mitText})',
-        'dreieckPrisErstMessen':F'erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten={anzSpaltenAfg},typ="Dreieck",mitText={mitText})',
-        'sechseckPrisErstMessen':F'erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten={anzSpaltenAfg},typ="Sechseck",mitText={mitText})',
-        'hausPrisErstMessen':F'erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten={anzSpaltenAfg},typ="Haus",mitText={mitText})',
+        'prismaFehlSeiteBerechnen':F'erzeugePrismaFehlendeSeiteBerechnen(anzSpalten={anzSpaltenGesamt},mitText={mitText})',
+        'prismaFehlSeiteBerechnenVol': F'erzeugePrismaFehlendeSeiteBerechnen(anzSpalten={anzSpaltenGesamt},mitText={mitText},VoO="V")',
+        'prismaFehlSeiteBerechnenOber': F'erzeugePrismaFehlendeSeiteBerechnen(anzSpalten={anzSpaltenGesamt},mitText={mitText},VoO="O")',
+        'trapezPrisErstMessen':F'erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten={anzSpaltenGesamt},typ="Trapez",mitText={mitText})',
+        'dreieckPrisErstMessen':F'erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten={anzSpaltenGesamt},typ="Dreieck",mitText={mitText})',
+        'sechseckPrisErstMessen':F'erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten={anzSpaltenGesamt},typ="Sechseck",mitText={mitText})',
+        'hausPrisErstMessen':F'erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten={anzSpaltenGesamt},typ="Haus",mitText={mitText})',
         'quaderSchraegbild': F'erzeugeSchraegbilderAfg(typ="Quader",anzSpalten={anzSpaltenAfg},mitText={mitText})',
         'dreieckSchraegbild': F'erzeugeSchraegbilderAfg(typ="Dreieck",anzSpalten={anzSpaltenAfg},mitText={mitText})',
         'trapezSchraegbild': F'erzeugeSchraegbilderAfg(typ="Trapez",anzSpalten={anzSpaltenAfg},mitText={mitText})',
@@ -229,9 +231,9 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'einfacheGleichMitSummenKlammernGrZahlen':F'erzeugeGleichungMitSummenklammernAusmulti(mitText={mitText},ohneKomma=True,ergUnter10=False)',
         'einfacheGleichMitSummenKlammernSchwer':F'erzeugeGleichungMitSummenklammernAusmulti(mitText={mitText},ohneKomma=False,ergUnter10=False)',
         'propFktZeichnen':'erzeugeAfgLineareFunktionZeichnen(art="prop",steigung=random.choice(["bruch","dezi","nat"]),achsenlaenge=7,maxX=3)',
-        'propFktErkennen':f'erzeugeAfgLineareFktErkennen(art="prop",steigung="bruch",achsenlaenge=7,maxX=3,anzSpalten={anzSpaltenGesamt})',
+        'propFktErkennen':f'erzeugeAfgLineareFktErkennen(art="prop",steigung="bruch",anzSpalten={anzSpaltenGesamt})',
         'lineareFktZeichnen':'erzeugeAfgLineareFunktionZeichnen(art="linear",steigung=random.choice(["bruch","dezi","nat"]),achsenlaenge=7,maxX=3)',
-        'lineareFktErkennen':f'erzeugeAfgLineareFktErkennen(art="linear",steigung="bruch",achsenlaenge=7,maxX=3,anzSpalten={anzSpaltenGesamt})',
+        'lineareFktErkennen':f'erzeugeAfgLineareFktErkennen(art="linear",steigung="bruch",anzSpalten={anzSpaltenGesamt})',
         'umfangsFunktionRechteck':F'erzeugeUmfangsFunktion(typ="Rechteck",mitText={mitText})',
         'umfangsFunktionDreieck':F'erzeugeUmfangsFunktion(typ="Dreieck",mitText={mitText})',
         'einfacheGleichungZweiVariablen':F'erzeugeGleichungmitZweiVariablen(mitText={mitText})',
@@ -279,12 +281,12 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'kreisFlaecheUmfKreisabschnitt':F'erzeugeUmfangFlaecheKreisabschnitt(mitText={mitText})',
         'kreisUmfangDreieckHalbkreis':F'umfangDreieckMitHalbkreis(mitText={mitText})',
 #Geometrie
-        'strahlensatzFarbig':F'erzeugeStrahlensaetzeAufgaben(mitText={mitText})',
+        'strahlensatzFarbig':F'erzeugeStrahlensaetzeAufgaben(mitText={mitText},anzSpalten={anzSpaltenGesamt})',
         'Mittelsenkrechte':F'erzeugeMittelsenkrechteAufgabe(mitText={mitText})',
-        'Winkelhalbierende':F'erzeugeWinkelhalbbierendeAufgabe(mitText={mitText})',
-        'DreieckSSS':F'erzeugeDreieckSSSKonstruktion(mitText={mitText})',
-        'DreieckSWS':F'erzeugeDreieckSWSKonstruktion(mitText={mitText})',
-        'DreieckWSW':F'erzeugeDreieckWSWKonstruktion(mitText={mitText})',
+        'Winkelhalbierende':F'erzeugeWinkelhalbbierendeAufgabe(mitText={mitText},anzSpalten={anzSpaltenGesamt})',
+        'DreieckSSS':F'erzeugeDreieckSSSKonstruktion(mitText={mitText},anzSpalten={anzSpaltenGesamt})',
+        'DreieckSWS':F'erzeugeDreieckSWSKonstruktion(mitText={mitText},anzSpalten={anzSpaltenGesamt})',
+        'DreieckWSW':F'erzeugeDreieckWSWKonstruktion(mitText={mitText},anzSpalten={anzSpaltenGesamt})',
 #Daten und Zufall
         'datenZurodnen':F'erzeugeSaeulenStreifenKreisDiagramm(typ="zuordnen",mitText={mitText})',
         'datenZeichnenEinfaerben':F'erzeugeSaeulenStreifenKreisDiagramm(typ="ZeichnenUndEinfaerben",mitText={mitText})',

@@ -10,7 +10,7 @@ import math
 import random
 #    farben={"magenta":"Magenta","darkgray":"Dunkelgrau", "violet":"Violett","blue":"Blau","gray":"Grau","green":"Green","brown":"Braun","black":"Schwarz","pink":"Rosa","red":"Rot","yellow":"Gelb","orange":"Orange"}
 
-def erzeugeStrahlensaetzeAufgaben(mitText=True):
+def erzeugeStrahlensaetzeAufgaben(mitText=True,anzSpalten=[2,2]):
     k=random.randint(14,21)/10
     k=k*random.choice([1,-1])
     einheit=random.choice(['mm', 'cm', 'dm', 'm', 'km'])
@@ -52,7 +52,8 @@ def erzeugeStrahlensaetzeAufgaben(mitText=True):
 #    auswahlFarben[entfernt[0]:entfernt[1]+1]=['black']*2
 #Es bleiben vier Strecken ueber. Eine davon muss berechnet werden.
     xNr=random.randint(0,3)
-    afg=['\\pbox{5cm}{']
+    groesse='{17 cm}' if anzSpalten[0] == 1 else '{7 cm}'
+    afg=[f'\\pbox{groesse}{{']
     afg=afg+(['Zeichne die angegebenen Strecken farbig nach und berechne die fehlende Seite.\\\\'] if mitText else [])
     afg=afg+strahlensatz(A=A, B=B,k=k, farben=['black']*6,punkte=punkte,strecken=['']*len(strecken))
     afg=afg+['$\\begin{aligned}']
@@ -72,7 +73,8 @@ def erzeugeStrahlensaetzeAufgaben(mitText=True):
     auswahlFarben[streckenLaengenIndexe[nenner1Nr]]=farben[1]
     auswahlFarben[streckenLaengenIndexe[zaehler2Nr]]=farben[2]
     auswahlFarben[streckenLaengenIndexe[nenner2Nr]]=farben[3]
-    lsg=['\\pbox{5cm}{']
+    groesse='{17 cm}' if anzSpalten[1] == 1 else '{7 cm}'
+    lsg=[f'\\pbox{groesse}{{']
     lsg=lsg+strahlensatz(A=A,B=B,k=k,farben=auswahlFarben,punkte=punkte,strecken=['']*len(strecken))
     lsg=lsg+['$\\begin{aligned}']
     lsg=lsg+[F'\\frac{{\\color{{{farben[0]}}}{{x}}}}{{\\overline{{\\color{{{farben[1]}}}{{{streckenRed[nenner1Nr]}}}}}}}&=\\frac{{\\overline{{\\color{{{farben[2]}}}{{{streckenRed[zaehler2Nr]}}}}}}}{{\\overline{{\\color{{{farben[3]}}}{{{streckenRed[nenner2Nr]}}}}}}} \\quad &  \\\\']
@@ -89,40 +91,47 @@ def erzeugeMittelsenkrechteAufgabe(mitText=True):
     lsg=mittelsenkrechte(laenge)
     return [afg,lsg,[]]
 
-def erzeugeWinkelhalbbierendeAufgabe(mitText=True):
+def erzeugeWinkelhalbbierendeAufgabe(mitText=True,anzSpalten=[2,2]):
     alpha=random.randint(20,160)
-    afg=['\\pbox{5cm}{']
+    groesse='{17 cm}' if anzSpalten[1] == 1 else '{7 cm}'
+    afg=[f'\\pbox{groesse}{{']
     afg=afg+([F'Zeichne die Winkelhalbierende für:\\\\']  if mitText else [])
     afg=afg+winkelhalbierende(winkel=alpha,mitLsg=False)+['}']
     lsg=winkelhalbierende(alpha)
     return [afg,lsg,[]]
 
-def erzeugeDreieckSSSKonstruktion(mitText=True):
+def erzeugeDreieckSSSKonstruktion(mitText=True,anzSpalten=[2,2]):
     a,b,c=random.randint(20,60)/10,random.randint(20,60)/10,random.randint(20,60)/10
-    afg=['\\pbox{5cm}{']
+    groesse='{17 cm}' if anzSpalten[1] == 1 else '{7 cm}'
+    afg=[f'\\pbox{groesse}{{']
     afg=afg+([F'Konstruiere das Dreieck mit den Seiten\\\\']  if mitText else [])
-    afg=afg+[F'a={strNW(a)} cm \\\\']
-    afg=afg+[F'b={strNW(b)} cm \\\\']
-    afg=afg+[F'c={strNW(c)} cm \\\\']
+    afg=afg+[F'$\\begin{{aligned}}']
+    afg=afg+[F'a&={strNW(a)}~cm \\\\']
+    afg=afg+[F'b&={strNW(b)}~cm \\\\']
+    afg=afg+[F'c&={strNW(c)}~cm \\\\']
+    afg=afg+[F'\\end{{aligned}}$']
     afg=afg+['}']
     lsg=dreieckSSSKonstruktion(a,b,c)
     return [afg,lsg,[]]
 
-def erzeugeDreieckSWSKonstruktion(mitText=True):
+def erzeugeDreieckSWSKonstruktion(mitText=True,anzSpalten=[2,2]):
     auswahl=random.randint(0,2)
     winkelBez=['alpha','beta','gamma']
     seitenBez=[['c','b'],['a','c'],['b','a']]
     l1,l2=random.randint(20,60)/10,random.randint(20,60)/10
     winkel=random.randint(20,140)
-    afg=['\\pbox{5cm}{']
+    groesse='{17 cm}' if anzSpalten[1] == 1 else '{7 cm}'
+    afg=[f'\\pbox{groesse}{{']
     afg=afg+([F'Konstruiere das Dreieck aus folgenden Werten:\\\\']  if mitText else [])
-    afg=afg+[F'{seitenBez[auswahl][0]}={strNW(l1)} cm \\\\']
-    afg=afg+[F'$\\{winkelBez[auswahl]}={winkel}^\\circ$ \\\\']
-    afg=afg+[F'{seitenBez[auswahl][1]}={strNW(l2)} cm \\\\']
+    afg=afg+[F'$\\begin{{aligned}}']
+    afg=afg+[F'{seitenBez[auswahl][0]}&={strNW(l1)}~cm \\\\']
+    afg=afg+[F'\\{winkelBez[auswahl]}&={winkel}^\\circ \\\\']
+    afg=afg+[F'{seitenBez[auswahl][1]}&={strNW(l2)}~cm \\\\']
+    afg=afg+[F'\\end{{aligned}}$']
     afg=afg+['}']
     lsg=dreieckSWSKonstruktion(l1=l1,winkel=winkel,l2=l2,winkelBei=winkelBez[auswahl])
     return [afg,lsg,[]]
-def erzeugeDreieckWSWKonstruktion(mitText=True):
+def erzeugeDreieckWSWKonstruktion(mitText=True,anzSpalten=[2,2]):
     auswahl=random.randint(0,2)
     seiten=['a','b','c']
     winkelBez=[['beta','gamma'],['gamma','alpha'],['alpha','beta']]
@@ -133,11 +142,14 @@ def erzeugeDreieckWSWKonstruktion(mitText=True):
         w1=random.randint(80,110)
         w2=(180-w1)+random.randint(5,30)
     l=random.randint(20,60)/10
-    afg=['\\pbox{5cm}{']
+    groesse='{17 cm}' if anzSpalten[1] == 1 else '{7 cm}'
+    afg=[f'\\pbox{groesse}{{']
     afg=afg+([F'Konstruiere das Dreieck aus folgenden Werten:\\\\']  if mitText else [])
-    afg=afg+[F'$\\{winkelBez[auswahl][0]}={strNW(w1)}^\\circ$ \\\\']
-    afg=afg+[F'{seiten[auswahl]}={strNW(l)} cm\\\\']
-    afg=afg+[F'$\\{winkelBez[auswahl][1]}={strNW(w2)}^\\circ$  \\\\']
+    afg=afg+[F'$\\begin{{aligned}}']
+    afg.append(f'\\{winkelBez[auswahl][0]}&={strNW(w1)}^\\circ \\\\')
+    afg=afg+[F'{seiten[auswahl]}&={strNW(l)}~cm\\\\']
+    afg=afg+[F'\\{winkelBez[auswahl][1]}&={strNW(w2)}^\\circ  \\\\']
+    afg=afg+[F'\\end{{aligned}}$']
     afg=afg+['}']
     lsg=dreieckWSWKonstruktion(w1=w1,l=l,w2=w2,seite=seiten[auswahl])
     return [afg,lsg,[]]
