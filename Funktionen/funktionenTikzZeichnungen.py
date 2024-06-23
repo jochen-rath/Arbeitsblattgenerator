@@ -232,7 +232,8 @@ def dreieckMitHalbkreis(kx=3,ky=2,seiten=[],mitUmrandung=True,ohneHyp=True,hypRo
     tikzcommand.append(F'\\coordinate (b) at ({kx},{ky});')
     tikzcommand=tikzcommand+dreieckRechtwinklig(kx=kx,ky=ky,rotWinkel=0,mitBogen=False,seiten=seiten,rechtWinkBei=rechtWinkBei,mitUmrandung=False)
     if ohneHyp:
-        tikzcommand[-5]=''
+        #tikzcommand[-5]=''
+        del tikzcommand[-5]
     if hypRot:
         tikzcommand[-5]=tikzcommand[-5].replace('black','red')
     alpha= round(math.degrees(math.asin(ky/c)), 6)

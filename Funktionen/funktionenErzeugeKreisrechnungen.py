@@ -65,9 +65,12 @@ def umfangDreieckMitHalbkreis(mitText=True):
     kx=random.randint(20,50)/10.0
     ky=random.randint(20,50)/10.0
     c = (kx ** 2 + ky ** 2) ** 0.5
-    afg=['Berechne den Umfang von ' if mitText else '']
-    afg=afg+dreieckMitHalbkreis(kx=0.6*kx,ky=0.6*ky,seiten=['',F'{strNW(ky,True)} {einheit}',F'{strNW(kx,True)} {einheit}'],ohneHyp=True)
-    lsg = ['\\pbox{5cm}{']
+    tikz=dreieckMitHalbkreis(kx=0.6*kx,ky=0.6*ky,seiten=['',F'{strNW(ky,True)} {einheit}',F'{strNW(kx,True)} {einheit}'],ohneHyp=True)
+    if mitText:      
+        afg=['\\pbox{\\linewidth}{']+['Berechne den Umfang von ']+tikz+['}']
+    else:
+        afg=tikz
+    lsg = ['\\pbox{\\hsize}{']
     lsg=lsg+dreieckMitHalbkreis(kx=0.6*kx,ky=0.6*ky,seiten=[F'{strNW(c,True)} {einheit}',F'{strNW(ky,True)} {einheit}',F'{strNW(kx,True)} {einheit}'],ohneHyp=False)
     lsg=lsg+['\\\\']
     lsg=lsg+['$\\begin{aligned}']
