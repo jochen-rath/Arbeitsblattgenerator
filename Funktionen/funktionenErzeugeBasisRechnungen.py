@@ -42,7 +42,7 @@ def erzeugePlusMinusMalGeteiltAufgabe():
        calc=calc.replace('*','·')
     if operator=='/':
        quotient=random.randint(1,50)
-       divisor=random.randint(1,50)
+       divisor=random.randint(1,10)
        calc=str(quotient*divisor)+' : '+str(divisor)
        erg=quotient
     return [calc+' = ',calc+' = '+strNW(erg),erg]

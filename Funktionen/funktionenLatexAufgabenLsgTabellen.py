@@ -9,7 +9,7 @@
 
 def erzeugeEinfacheTabelle(inhalt=[['a)','afg1'],['b)','afg2']],spalten=2):
 #inhalt=[['a)',afg1],['b)',afg2],usw]
-    breite=7 if spalten==2 else 17
+    breite=7 if spalten==2 else 15
     tabelle=[]
     spaltendef='|'
     for i in range(spalten):

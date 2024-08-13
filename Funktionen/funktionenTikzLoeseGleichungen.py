@@ -81,12 +81,14 @@ def loeseGleichungEinfachMitEinerVariabel(G="2*x+6=3*x-2",variable='x',mitTikzUm
         latexcommand.append(erzeugeLatexFracAusdruck(ersetzePlatzhalterMitSymbolen(L))+' &='+ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(R))+'& & \\\\ ')
         L,R=klammernEntfernen(L),klammernEntfernen(R)
 #Wenn die Terme nicht Reduziert sind, reduziere sie.
-    if not(L==str(sympy.simplify(L)) and  R==str(sympy.simplify(R))):
+#sympy.simplify erzeugt Leerzeichen zur besseren Lesbarkeit, die stören aber beim Vergleichen.
+    if not(L.replace(' ','')==str(sympy.simplify(L)).replace(' ','') and  R.replace(' ','')==str(sympy.simplify(R)).replace(' ','')):
         #Entferne für die Ausgabe das führende Pluszeichen
         L=L if not L[0]=='+' else L[1:]
         R=R if not R[0]=='+' else R[1:]
 #        latexcommand.append(L.replace('**','^').replace('*','\\cdot ')+' &='+R.replace('**','^').replace('*','\\cdot ')+'& & \\\\')
-        latexcommand.append(erzeugeLatexFracAusdruck(ersetzePlatzhalterMitSymbolen(L.replace('.',',')))+' &='+ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(R.replace('.',',')))+'& &  \\\\')
+#        print(F'Not {L=}=={str(sympy.simplify(L))=}')
+        latexcommand.append(erzeugeLatexFracAusdruck(ersetzePlatzhalterMitSymbolen(L.replace('.',',')))+' &='+ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(R.replace('.',',')))+'& & \\mid~\\mbox{Vereinfachen}  \\\\')
         L=str(sympy.simplify(L))
         R=str(sympy.simplify(R))
     operator='+0'
