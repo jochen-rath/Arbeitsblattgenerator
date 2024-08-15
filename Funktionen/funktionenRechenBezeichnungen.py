@@ -15,6 +15,8 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
 #      'kuerzMit','reihe','reihePosZufaellig'
     rechnungsFunktionen={'ggT':'erzeugeGgt()','kgV':'erzeugeKgv()',
                           'Basis':'erzeugePlusMinusMalGeteiltAufgabe()','Kopf':'erzeugeKopfrechenAufgabe()',
+                          'grZahlenAdd':'erzeugeGroßeZahlenAddierenSubtrahieren(op="+")',
+                          'grZahlenSub':'erzeugeGroßeZahlenAddierenSubtrahieren(op="-")',
                           'addSchriftLeicht':'erzeugeSchrAdditionsSubtraktionsRechnung(differenzierung=0,operator="+")',
                           'addSchrift':'erzeugeSchrAdditionsSubtraktionsRechnung(differenzierung=1,operator="+")',
                           'addSchriftSchwer':'erzeugeSchrAdditionsSubtraktionsRechnung(differenzierung=2,operator="+")',
@@ -344,7 +346,7 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
 
 
 def MoeglicheRechnungen(auswahl='keys',gebeListeZurueck=False):
-    listeRechnungen={'Basisaufgaben':[('Basis','Plus, Minus, Mal, Geteil'),('Kopf','Kopfrechenaufgaben')],
+    listeRechnungen={'Basisaufgaben':[('Basis','Plus, Minus, Mal, Geteil'),('Kopf','Kopfrechenaufgaben'),('grZahlenAdd','Kopf Große Zahlen Addieren'),('grZahlenSub','Kopf Große Zahlen Subtrahieren')],
                      'Spass':[('labyrinthKlein','Labryrinth Klein'),('labyrinthMittel','Labryrinth Mittel'),('labyrinthGross','Labryrinth Gross'),('labyrinthRiesig','Labryrinth Riesig'),('schiffeversenken','Schiffe versenken'),('mandala','Mandala zum Ausmalen')],
                      'Schriftliche Add-Sub':[('addSchriftLeicht','Addition Leicht'),('addSchrift','Addition Normal'),('addSchriftSchwer','Addition Schwer'),('subSchriftLeicht','Subtraktion Leicht'),('subSchrift','Subtraktion Normal'),('subSchriftSchwer','Subtraktion Schwer'),('addSubSchriftLeicht','Zufällig Leicht'),('addSubSchrift','Zufällig Normal'),('addSubSchriftSchwer','Zufällig Schwer')],
                      'Schriftl. Multi.-Division':[('multiSchrEinFaktorOhneUbertrag','Multi. Fakt einstellig ohne Übertrag'),('multiSchrEinFaktorMitUbertrag','Multi. Fakt einstellig mit Übertrag'),('multiSchr','Schriftliche Multiplikation'),('multiSchrSchwer','Schrft. Multiplikation Schwer'),('diviSchr','Division'),('diviSchr2stellig','Division 2 Stellig'),('diviSchrMitRest','Division mit Rest'),('diviSchrLinienVorg','Div. Linien Vorgegeben'),('diviSchrSubtrSchritt','Division Subtraktionsschritt'),('diviSchrMultiSchritt','Division Multiplikationsschritt'),('diviSchrRunterzSchritt','Division Runterziehen'),('diviSchrResteintr','Division Rest eintragen'),('diviSchrErgEintrSchritt','Division Ergebnis Eintragen')],
