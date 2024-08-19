@@ -103,12 +103,13 @@ def erzeugeGroßeZahlenAddierenSubtrahieren(op='+'):
 
 
 
-def erzeugeGroßeZahlenMultiplizierenDividieren(op='+'):
-    z1=random.randint(21,75)
-    z2=random.randint(1,z1)
-    multi=eval(f'1e{random.randint(1,4)}')
-    modi=0 if random.randint(1,4)<4 else random.randint(1,5)
-    z1,z2=int(z1*multi)+modi , eval(F'{int(z2*multi)}{"-" if op=="+" else "+"}{modi}')
-    afg=F'{strNW(z1)}+{strNW(z2)}=' if op=='+' else F'{strNW(z1)}-{strNW(z2)}'
-    lsg=F'{strNW(z1)}+{strNW(z2)}={strNW(z1+z2)}' if op=='+' else F'{strNW(z1)}-{strNW(z2)}={strNW(z1-z2)}'
+def erzeugeGroßeZahlenMultiplizierenDividieren(op='*'):
+    z1=random.randint(1,12)
+    z2=random.randint(1,10)
+    fak1=random.randint(2,4)
+    fak2=random.randint(1,fak1)
+    multi,multi2=eval(f'1e{fak1}'),eval(f'1e{fak2}')
+    z1,z2=int(z1*multi) if op=='*' else int(z1*z2*multi), int(z2*multi2)
+    afg=F'{strNW(z1)} · {strNW(z2)}=' if op=='*' else F'{strNW(z1)} : {strNW(z2)}'
+    lsg=F'{strNW(z1)} · {strNW(z2)}={strNW(z1*z2)}' if op=='*' else F'{strNW(z1)}:{strNW(z2)}={strNW(z1/z2)}'
     return [afg,lsg,[]]
