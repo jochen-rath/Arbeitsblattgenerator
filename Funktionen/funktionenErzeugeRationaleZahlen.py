@@ -52,3 +52,31 @@ def erzeugeRationaleZahlenAufgabeMalGeteilt(operator='',leicht=True):
     afg=zahl1+operator+zahl2+'='
     lsg=afg+strNW(eval(zahl1))+operator+(strNW(eval(zahl2)) if eval(zahl2)>0 else zahl2)+'='+strNW(eval(afg[:-1]))
     return ['$'+ersetzePlatzhalterMitSymbolen(afg)+'$','$'+ersetzePlatzhalterMitSymbolen(lsg)+'$',[zahl1,zahl2]]
+
+def erzeugeThermometerAblesen(mitText=True):
+    T=random.randint(-20,21)
+    afg=['\\pbox{7cm}{Lies die angebene Temperatur ab\\\\'] if mitText else []
+    afg=afg+temperaturSkalaRationaleZahlen(T=T,ablesen=True)
+    afg=afg+(['}'] if mitText else [])
+    lsg=temperaturSkalaRationaleZahlen(T=T,mitLsg=True)
+    return [afg,lsg,[]]
+
+def erzeugeThermometerEintragen(mitText=True):
+    T=random.randint(-20,21)
+    afg=['\\pbox{7cm}{Zeichne die angegebene Temperatur ein\\\\'] if mitText else []
+    afg=afg+temperaturSkalaRationaleZahlen(T=T,einzeichnen=True)
+    afg=afg+(['}'] if mitText else [])
+    lsg=temperaturSkalaRationaleZahlen(T=T,mitLsg=True)
+    return [afg,lsg,[]]
+
+
+def erzeugeThermometerAenderung(mitText=True):
+    T,dT=random.randint(-20,21),random.randint(-40,41)
+    while T+dT>20 or T+dT<-20 or dT==0:
+        T,dT=random.randint(-20,21),random.randint(-40,41)
+    afg=['\\pbox{7cm}{']
+    afg=afg+([F'Zeichne ein, wenn es bei sich von ${T}~^\\circ C$ um ${abs(dT)}~^\\circ C$ {"erwärmt" if dT>0 else "abkühlt"}\\\\'] if mitText else [F'${T}~^\\circ C$\\\\']+[F'um ${abs(dT)}~^\\circ C$ {"wärmer" if dT>0 else "kälter"}\\\\'])
+    afg=afg+temperaturSkalaRationaleZahlen(T=T,einzeichnen=True)
+    afg=afg+['}']
+    lsg=temperaturSkalaRationaleZahlen(T=T,dT=dT,mitLsg=True)
+    return [afg,lsg,[]]

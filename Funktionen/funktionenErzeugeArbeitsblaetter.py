@@ -6,6 +6,7 @@
 
 
 def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,anfang,anzSpalten=[2,2],mitText=True,karoBereich=0,extraKaroseite=False,agfLsgGetrennt=False,texAusgabe=False,aufgabenNummern=buchstabenKlein):
+    nurThermometerAufgaben=True if len(list(set([True if x.startswith('temperaturRat') else False for x in auswahl])))<2 else False
     ausgabeName='newFile'
     datumAuswahl=datum
     dateiName,datum=filename(dateiName,datum=(datetime.date.today() + datetime.timedelta(days=1)).strftime("%d.%m.%Y") if datum=="KeinDatum" else datum)
@@ -26,8 +27,8 @@ def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,
             l='\n'.join(l)
         afg.append([aufgabenNummern[i]+')',a])
         lsg.append([aufgabenNummern[i]+')',l])
-    tabAfg=erzeugeEinfacheTabelle(afg,anzSpalten[0])
-    tabLsg=erzeugeEinfacheTabelle(lsg,anzSpalten[1])
+    tabAfg=erzeugeEinfacheTabelle(afg,anzSpalten[0],nurThermometerAufgaben)
+    tabLsg=erzeugeEinfacheTabelle(lsg,anzSpalten[1],nurThermometerAufgaben)
 #Erzeuge eine Leere Karo Tabelle, in der die SuS was schreiben können.
     karoTabelle=initialisiereTabellenwerte([[10,34]])
     tabelleLeer=erzeugeLatexTabelleMitRechnungen(karoTabelle[0])

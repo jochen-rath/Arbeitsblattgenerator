@@ -3,7 +3,7 @@
 import random
 
 def proportionalPaar(anti=False):
-    paare=[['Anzahl','Preis in \euro{}'],['Zeit in min','Preis in \euro{}'],['Anzahl','Volumen in l'],['Tage','Strecke in km'],['Kinder','Gruppen'],['Anzahl','Kartons'],['Zeit in min','Anzahl']]
+    paare=[['Anzahl','Preis in \euro{}'],['Zeit in min','Preis in \euro{}'],['Anzahl','Volumen in l'],['Tage','Strecke in km'],['Kinder','Gruppen'],['Anzahl','Kartons']]#,['Zeit in min','Anzahl']]
     paareAnti=[ ['Stuhlreihen', 'Stühle'], ['Anzahl', 'Stücklänge in cm'],['Arbeiter', 'Zeit in h'], ['Entfernung in km', 'Geschw. in $\\frac{km}{h}$'],['Anzahl Personen', 'Gewinn in €'], ['Schrittlänge in cm', 'Anzahl Schritte']]
     return paareAnti if anti else paare
 
@@ -39,26 +39,51 @@ def erzeugeAntiPropTabllenAufgaben(mitPfeilen=True,mitBeschr=True):
     lsg=tikzPropTabelle(l,r,title=title,mitLsg=True,anitProp=True)
     return [afg,lsg,[[]]]
 
+def erzeugePropDiagrammErstellAufgaben(diagrammVorgegeben=True,mitText=True):
+    multi=random.randint(1,12)
+    xMax=6
+    yMax=math.ceil((multi*xMax)/10)*10
+    afg=['\\pbox{14cm}{']
+    afg=afg+[F'{"Übertrage die Werte" if diagrammVorgegeben else "Erstelle aus den Werten"} {"in das " if diagrammVorgegeben else "ein"} Diagramm.\\\\' if mitText else '\\phantom{e}']
+    tabelle=tikzTabelle(tabelle=[['x','y']]+[[strNW(x),strNW(multi*x)]for x in range(xMax+1)],dim=[1.5,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[-4.5,4.5])
+    if diagrammVorgegeben:
+        diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=[0,6,7],yAchse=[0,yMax,11],xlabel='x',ylabel='y',urspr=[0,0],mitUmrandung=False)
+    else:
+        diagramm=[F'\\node at (7,11) {{ }};']
+    afg=afg+(tabelle[:-1]+diagramm+[tabelle[-1]])
+    afg=afg+ (['}'])
+    tabelle=tikzTabelle(tabelle=[['x','y']]+[[x,multi*x]for x in range(xMax)],dim=[1.5,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[-4.5,4.5])
+    diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{multi}*x','black']],xAchse=[0,6,7],yAchse=[0,yMax,11],xlabel='x',ylabel='y',urspr=[0,0],mitUmrandung=False)
+    lsg=tabelle[:-1]+diagramm+[tabelle[-1]]
+    return [afg,lsg,[multi]]
 
 def erzeugePropDiagrammAufgaben(diagrammVorgegeben=True,mitText=True):
+    nurText=False
     auswahl=random.choice(proportionalPaar())
     multi=random.randint(2,10)
+    afg=['\\pbox{14cm}{']
     afg=afg+[F'{"Übertrage die Werte" if diagrammVorgegeben else "Erstelle aus den Werten"} der Tabelle {"in das " if diagrammVorgegeben else "ein"} Diagramm.\\\\' if mitText else '\\phantom{e}']
     xwerte=[1]
     for i in range(4):
         xwerte.append(xwerte[-1]+random.randint(1,3))
     ywerte=[x*multi for x in xwerte]
-    tabelle=tikzTabelle(tabelle=[auswahl]+[[strNW(x),strNW(x*multi)]for x in xwerte],dim=[1.5,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[-4.5,4.5])
+    ywerteAfg=list(ywerte)
+    bleibt=random.randint(0,len(ywerte)-1)
+    ywerteAfg=[x if i==bleibt else '' for i,x in enumerate(ywerte)]
+    xMax=max(xwerte)
+    yMax=max(ywerte)
+    #[auswahl]+[[strNW(x),strNW(x*multi)]for x in xwerte]
+    tabelle=tikzTabelle(tabelle=[[auswahl[0]]+xwerte,[auswahl[1]]+ywerteAfg,],dim=[2.0,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[0,-1.5])
+    tabelleLsg=tikzTabelle(tabelle=[[auswahl[0]]+xwerte,[auswahl[1]]+ywerte,],dim=[2.0,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[0,-1.5])
     if diagrammVorgegeben:
         diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=[0,xwerte[-1],xwerte[-1]+1],yAchse=[0,ywerte[-1],11],xlabel=auswahl[0],ylabel=auswahl[1],urspr=[0,0],mitUmrandung=False)
     else:
         diagramm=[F'\\node at (7,11) {{ }};']
     afg=afg+ ([] if nurText else (tabelle[:-1]+diagramm+[tabelle[-1]]))
     afg=afg+ ([] if nurText else ['}'])
-
-    diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{v}*x','black']],xAchse=[0,6,7],yAchse=[0,vMax,11],xlabel='t in s',ylabel='s in  m',urspr=[0,0],mitUmrandung=False)
-    lsg=tabelle[:-1]+diagramm+[tabelle[-1]]
-    return [afg,lsg,[v]]
+    diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{multi}*x','black']],xAchse=[0,xMax,11],yAchse=[0,yMax,11],xlabel='t in s',ylabel='s in  m',urspr=[0,0],mitUmrandung=False)
+    lsg=tabelleLsg[:-1]+diagramm+[tabelle[-1]]
+    return [afg,lsg,[multi]]
 
 def propDreisatz():
     auswahl=random.choice(proportionalPaar())

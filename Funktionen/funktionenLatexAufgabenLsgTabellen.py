@@ -7,9 +7,12 @@
 #       exec(open("Funktionen/funktionen.py").read())
 
 
-def erzeugeEinfacheTabelle(inhalt=[['a)','afg1'],['b)','afg2']],spalten=2):
+def erzeugeEinfacheTabelle(inhalt=[['a)','afg1'],['b)','afg2']],spalten=2,nurThermometerAufgaben=False):
 #inhalt=[['a)',afg1],['b)',afg2],usw]
     breite=7 if spalten==2 else 15
+    if nurThermometerAufgaben:
+        spalten=4
+        breite=3.5
     tabelle=[]
     spaltendef='|'
     for i in range(spalten):

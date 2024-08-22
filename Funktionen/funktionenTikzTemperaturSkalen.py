@@ -59,8 +59,8 @@ def temperaturSkalaSiedepunkt(R=0.25,H=13,NP=1,SW=1,T=28,ursprung=[0,0],mitLsg=F
     return tikzcommand
 
 
-def temperaturSkalaRationaleZahlen(T=5,multi=1,verschiebung=5,R=0.25,H=13,NP=5,SW=1.0,ursprung=[0,0],mitLsg=False,mitUmrandung=True,ohneStuetzpkte=True,mitHintergrund=True):
-    SP=NP+10*SW
+def temperaturSkalaRationaleZahlen(T=5,dT=0,R=0.25,H=20,startT=-20,SW=2.0,ursprung=[0,0],mitLsg=False,mitHintergrund=True,mitUmrandung=True,ablesen=False,einzeichnen=False):
+    endT=startT+H*SW
     tikzcommand=[]
     if mitUmrandung:
         if mitHintergrund:
@@ -70,14 +70,31 @@ def temperaturSkalaRationaleZahlen(T=5,multi=1,verschiebung=5,R=0.25,H=13,NP=5,S
             tikzcommand.append('\\noindent\\begin{tikzpicture}[]')
     tikzcommand.append(F'\\draw[black] ({ursprung[0]},0cm) -- ({ursprung[0]},{H+ursprung[1]}); ')
     tikzcommand.append(F'\\draw[black] ({2*R+ursprung[0]},0cm) -- ({2*R+ursprung[0]},{H+ursprung[1]}); ')
-    tikzcommand.append('\\draw ('+str(ursprung[0])+',0+'+str(ursprung[1])+') arc (180:360:\\R) ;')
-    tikzcommand.append('\\draw ('+str(ursprung[0])+',\\Hoehe+'+str(ursprung[1])+') arc (180:0:\\R) ;')
-    tikzcommand.append(F'\\draw[red,thick] ({R+ursprung[0]},{-R+ursprung[1]}) -- ({R+ursprung[0]},{T++ursprung[1]}); ')
-    for temp in range(10):
-        tikzcommand.append(F' \\draw[black] ({R*0.2+ursprung[0]},{temp+ursprung[1]}) -- ({1.8*R+ursprung[0]}),{temp+ursprung[1]});')
-        tikzcommand.append(F' \\node[right] at ({R*2.2+ursprung[0]},{schritt+ursprung[1]}) {{{4}$^\\circ$C}};')
-    if mitLsg:
-        tikzcommand.append('\\node[below] at (\\R+'+str(ursprung[0])+',-\\R+'+str(ursprung[1])+') {T='+str(T)+' $^\\circ$C};')
+    tikzcommand.append(F'\\draw ({ursprung[0]},{0+ursprung[1]}) arc (180:360:{R}) ;')
+    tikzcommand.append(F'\\draw ({ursprung[0]},{H+ursprung[1]}) arc (180:0:{R}) ;')
+    temperaturen=list(np.linspace(startT,endT,int((endT-startT)/SW+1)))
+    for i,temp in enumerate(temperaturen):
+        tikzcommand.append(F' \\draw[black] ({R*0.2+ursprung[0]},{i+ursprung[1]}) -- ({1.8*R+ursprung[0]},{i+ursprung[1]});')
+        if ablesen or einzeichnen:
+            if i%2==0:
+                tikzcommand.append(F' \\node[right] at ({R*2.2+ursprung[0]},{i+ursprung[1]}) {{{temp}$^\\circ$C}};')
+        else:
+            tikzcommand.append(F' \\node[right] at ({R*2.2+ursprung[0]},{i+ursprung[1]}) {{{temp}$^\\circ$C}};')
+    Thoehe=(T-startT)/SW if T<endT else endT
+    dThoehe=((T+dT)-startT)/SW if T+dT<endT else endT
+    if ablesen:
+        tikzcommand.append(F'\\draw[red,thick] ({R+ursprung[0]},{-R+ursprung[1]}) -- ({R+ursprung[0]},{dThoehe+ursprung[1]}); ')
+    if mitLsg:                
+        tikzcommand.append(F'\\draw[red,thick] ({R+ursprung[0]},{-R+ursprung[1]}) -- ({R+ursprung[0]},{dThoehe+ursprung[1]}); ')
+        if dT>0 or dT<0:
+            tikzcommand.append(F'\\draw[green,{"dashed," if dT>0 else ""}thick,->] ({R+ursprung[0]},{Thoehe+ursprung[1]}) -- ({R+ursprung[0]},{dThoehe+ursprung[1]}); ')
+            tikzcommand.append(F'\\draw[red,thick,->] ({R+ursprung[0]},{Thoehe+ursprung[1]}) -- ({R+ursprung[0]+2},{Thoehe+ursprung[1]}) coordinate (A) node[right] {{{T} $^\\circ$C}}; ')
+            tikzcommand.append(F'\\draw[red,thick,->] ({R+ursprung[0]},{dThoehe+ursprung[1]}) -- ({R+ursprung[0]+2},{dThoehe+ursprung[1]}) coordinate (B) node[right] {{{T+dT} $^\\circ$C}}; ')
+            tikzcommand.append(F'\\draw[green,thick,->] (A) -- node[right,black] {{{"+" if dT>0 else "-"}{dT} $^\\circ$C}} (B);')
+        else:
+            tikzcommand.append(F'\\node[below] at ({R+ursprung[0]},{-R+ursprung[1]}) {{T={T} $^\\circ$C}};')
+    if einzeichnen:
+        tikzcommand.append(F'\\node[above,right] at ({R+ursprung[0]},{H+R+0.5+ursprung[1]}) {{T={T} $^\\circ$C}};')
     if mitUmrandung:
         tikzcommand.append('\end{tikzpicture}')
     return tikzcommand
