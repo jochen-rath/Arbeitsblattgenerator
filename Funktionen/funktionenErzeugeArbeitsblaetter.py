@@ -6,7 +6,8 @@
 
 
 def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,anfang,anzSpalten=[2,2],mitText=True,karoBereich=0,extraKaroseite=False,agfLsgGetrennt=False,texAusgabe=False,aufgabenNummern=buchstabenKlein):
-    nurThermometerAufgaben=True if len(list(set([True if x.startswith('temperaturRat') else False for x in auswahl])))<2 else False
+    temperaturRatAbfrage=list(set([True if x.startswith('temperaturRat') else False for x in auswahl]))
+    nurThermometerAufgaben=True if len(temperaturRatAbfrage)<2 and temperaturRatAbfrage[0]==True else False
     ausgabeName='newFile'
     datumAuswahl=datum
     dateiName,datum=filename(dateiName,datum=(datetime.date.today() + datetime.timedelta(days=1)).strftime("%d.%m.%Y") if datum=="KeinDatum" else datum)

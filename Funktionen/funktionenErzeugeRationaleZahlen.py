@@ -72,7 +72,7 @@ def erzeugeThermometerEintragen(mitText=True):
 
 def erzeugeThermometerAenderung(mitText=True):
     T,dT=random.randint(-20,21),random.randint(-40,41)
-    while T+dT>20 or T+dT<-20 or dT==0:
+    while T>20 or T<-20 or T+dT>20 or T+dT<-20 or dT==0:
         T,dT=random.randint(-20,21),random.randint(-40,41)
     afg=['\\pbox{7cm}{']
     afg=afg+([F'Zeichne ein, wenn es bei sich von ${T}~^\\circ C$ um ${abs(dT)}~^\\circ C$ {"erwärmt" if dT>0 else "abkühlt"}\\\\'] if mitText else [F'${T}~^\\circ C$\\\\']+[F'um ${abs(dT)}~^\\circ C$ {"wärmer" if dT>0 else "kälter"}\\\\'])
