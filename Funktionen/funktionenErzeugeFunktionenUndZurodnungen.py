@@ -123,3 +123,31 @@ def erzeugeAfgLinearFktWertetabelle(variabel='x',wertTab=3,achsenlaenge=10):
     lsg=lsg[:-1]+diagrammTikzVorgBreiteHoehe(zuPlotten=[[term,'black']],koordinaten=[[x,sympy.simplify(term).subs(sympy.symbols(variabel),x)]for x in range(-wertTab,wertTab+1)],xAchse=[-wertTab,wertTab,achsenlaenge],yAchse=[minY,maxY,achsenlaenge*1.5],xlabel='x',ylabel='y',urspr=[0,-hoehe-2],mitUmrandung=False)+[lsg[-1]]
     werte=[term]
     return [afg,lsg,werte]
+
+def erzeugeFunkTabDiaAfg(diagrammVorgegeben=True,mitText=True):
+    m=random.randint(5,20)/10
+    b=random.randint(-3,3)
+    nurText=False
+    afg=['\\pbox{14cm}{']
+    afg=afg+[F'Übertrage die Werte der Funktion $y={m}\cdot x{"+" if b>0 else "-"}{abs(b)}$ in die Tabelle und zeichne die Funktion.']
+    xwerte=[1]
+    for i in range(4):
+        xwerte.append(xwerte[-1]+random.randint(1,3))
+    ywerte=[x*multi for x in xwerte]
+    ywerteAfg=list(ywerte)
+    bleibt=random.randint(0,len(ywerte)-1)
+    ywerteAfg=[x if i==bleibt else '' for i,x in enumerate(ywerte)]
+    xMax=max(xwerte)
+    yMax=max(ywerte)
+    #[auswahl]+[[strNW(x),strNW(x*multi)]for x in xwerte]
+    tabelle=tikzTabelle(tabelle=[[auswahl[0]]+xwerte,[auswahl[1]]+ywerteAfg,],dim=[2.0,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[0,-1.5])
+    tabelleLsg=tikzTabelle(tabelle=[[auswahl[0]]+xwerte,[auswahl[1]]+ywerte,],dim=[2.0,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[0,-1.5])
+    if diagrammVorgegeben:
+        diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=[0,xwerte[-1],xwerte[-1]+1],yAchse=[0,ywerte[-1],11],xlabel=auswahl[0],ylabel=auswahl[1],urspr=[0,0],mitUmrandung=False)
+    else:
+        diagramm=[F'\\node at (7,11) {{ }};']
+    afg=afg+ ([] if nurText else (tabelle[:-1]+diagramm+[tabelle[-1]]))
+    afg=afg+ ([] if nurText else ['}'])
+    diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{multi}*x','black']],xAchse=[0,xMax,11],yAchse=[0,yMax,11],xlabel='t in s',ylabel='s in  m',urspr=[0,0],mitUmrandung=False)
+    lsg=tabelleLsg[:-1]+diagramm+[tabelle[-1]]
+    return [afg,lsg,[multi]]
