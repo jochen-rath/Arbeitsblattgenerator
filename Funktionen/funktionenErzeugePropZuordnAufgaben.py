@@ -168,7 +168,7 @@ def erzeugeAntiProportionaleDreisatzRechnungen(einfach=False,komma=False,mitText
     #
     #      rechnung=[G,W,pP,Einheit]
     maxWert=9 if einfach else 20
-    antiPaar=[['Anzahl Arbeiter','Arbeitsstunden h',[2,maxWert]],['Zeit h','Geschw. $\\frac{km}{h}$',[2,maxWert]],['Stuhlreihen ','Anzahl Stühle',[2,maxWert]]]
+    antiPaar=[['Anzahl Arbeiter','Arbeitsstunden h',[2,maxWert]],['Zeit h','Geschw. $\\frac{km}{h}$',[2,maxWert]],['Stuhlreihen Reihen','Anzahl Stühle',[2,maxWert]]]
     E = random.choice(antiPaar)
     grundwert=random.randint(E[2][0]*100,E[2][1]*100)/100 if komma else random.randint(E[2][0],E[2][1])
     xStart,xZiel=1,1
@@ -183,15 +183,15 @@ def erzeugeAntiProportionaleDreisatzRechnungen(einfach=False,komma=False,mitText
     art2,einh2=E[1].split(" ")
     if einh1=='Arbeiter':
         afg=F'Wie lange brauchen {strNW(xZiel,True)} {einh1} für die Arbeit, wenn {strNW(xStart,True)} {einh1} {strNW(yStart*xZiel,True)} {einh2} brauchen?'
-        afg=afg if mitText else (F'{art}:$${strNW(xStart,True)}~{einh1}\hat{{=}} {strNW(yStart,True)}~\\mbox{{h}} \\rightarrow {strNW(xZiel,True)}~{einh1}=\\mbox{{?}}$$')
+        afg=afg if mitText else (F'{art1}:$${strNW(xStart,True)}~{einh1}\hat{{=}} {strNW(yStart,True)}~\\mbox{{h}} \\rightarrow {strNW(xZiel,True)}~{einh1}=\\mbox{{?}}$$')
     elif 'h' == einh1:
         afg=F'Du brauchst für {yStart*xZiel*xStart} km {xStart} h, fährst also {yStart*xZiel} $\\frac{{km}}{{h}}$. Welche Geschwindigkeit brauchst du für {yStart*xZiel*xStart} km, wenn du {xZiel} h fahren willst.'
         afg=afg if mitText else (F'Geschwindigkeit:$${strNW(xStart,True)}~{einh1}\hat{{=}} {strNW(yStart*xZiel,True)}~\\frac{{km}}{{h}} \\rightarrow {strNW(xZiel,True)}~{einh1}=\\mbox{{?}}$$')
-    elif len(einh1)<=1:
+    elif 'Reihen'==einh1:
         xStart=int(xStart)
         xZiel=int(xZiel)
         afg=F'Wie viele Stühle stehen in {strNW(xZiel,True)} Reihen, wenn {yStart*xZiel} Stühle in {xStart} Stuhlreihen stehen?'
-        afg=afg if mitText else (F'{art}:$${strNW(xStart,True)}\hat{{=}} {strNW(yStart,True)}~\\mbox{{\\euro{{}}}} \\rightarrow {strNW(xZiel,True)}=\\mbox{{?}}$$')
+        afg=afg if mitText else (F'{art1}:$${strNW(xStart,True)}~\\mbox{{{einh1}}}\hat{{=}} {strNW(yStart,True)}~\\mbox{{{einh2}}} \\rightarrow {strNW(xZiel,True)}~\\mbox{{{einh1}}}=\\mbox{{?}}$$')
     else:
         afg='Noch nichts.'
     lsg=dreiSatz(links=[strNW(x,True) for x in [xStart,'1',xZiel]],rechts=[strNW(x,True) for x in [yStart*xZiel, yStart*xZiel*xStart, yStart*xStart]],title=E,breit=True,antiProp=True)

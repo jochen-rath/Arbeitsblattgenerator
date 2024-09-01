@@ -124,30 +124,28 @@ def erzeugeAfgLinearFktWertetabelle(variabel='x',wertTab=3,achsenlaenge=10):
     werte=[term]
     return [afg,lsg,werte]
 
-def erzeugeFunkTabDiaAfg(diagrammVorgegeben=True,mitText=True):
+def erzeugeFunkTabDiaAfg(diagrammVorgegeben=True,mitText=True,nurText=False,anzSpalten=[1,1]):
     m=random.randint(5,20)/10
-    b=random.randint(-3,3)
-    nurText=False
-    afg=['\\pbox{14cm}{']
-    afg=afg+[F'Übertrage die Werte der Funktion $y={m}\cdot x{"+" if b>0 else "-"}{abs(b)}$ in die Tabelle und zeichne die Funktion.']
-    xwerte=[1]
-    for i in range(4):
-        xwerte.append(xwerte[-1]+random.randint(1,3))
-    ywerte=[x*multi for x in xwerte]
-    ywerteAfg=list(ywerte)
-    bleibt=random.randint(0,len(ywerte)-1)
-    ywerteAfg=[x if i==bleibt else '' for i,x in enumerate(ywerte)]
-    xMax=max(xwerte)
-    yMax=max(ywerte)
-    #[auswahl]+[[strNW(x),strNW(x*multi)]for x in xwerte]
-    tabelle=tikzTabelle(tabelle=[[auswahl[0]]+xwerte,[auswahl[1]]+ywerteAfg,],dim=[2.0,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[0,-1.5])
-    tabelleLsg=tikzTabelle(tabelle=[[auswahl[0]]+xwerte,[auswahl[1]]+ywerte,],dim=[2.0,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[0,-1.5])
+    b=random.randint(-30,30)/10
+    afg=[F'\\pbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
+    afg=afg+([F'Übertrage die Werte der Funktion $y={strNW(m)}\cdot x{"+" if b>0 else "-"}{strNW(abs(b))}$ in die Tabelle und zeichne die Funktion.'] if mitText else [F'$y={strNW(m)}\cdot x{"+" if b>0 else "-"}{strNW(abs(b))}$'])
+    xStart=random.randint(-3,3) if  anzSpalten[0]<2 else random.randint(-2,2)
+    xWerte=list(range(xStart,xStart+ (6 if  anzSpalten[0]<2 else 4) ))
+    yWerte=[x*m+b for x in xWerte]
+    xMax=max(xWerte) if max(xWerte)>0 else 0
+    xMin=min(xWerte) if min(xWerte)<0 else 0
+    yMax=max(yWerte) if max(yWerte)>0 else 0
+    yMin=min(yWerte) if min(yWerte)<0 else 0
+    tabelle=tikzTabelle(tabelle=[['x']+xWerte,['y']+['']*len(xWerte),],dim=[1.5 if  anzSpalten[0]<2 else 1.0 ,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[0,-1.5])
+    tabelleLsg=tikzTabelle(tabelle=[['x']+xWerte,['y']+[strNW(y) for y in yWerte],],dim=[1.5 if  anzSpalten[0]<2 else 1.0 ,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[0,-1.5])
     if diagrammVorgegeben:
-        diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=[0,xwerte[-1],xwerte[-1]+1],yAchse=[0,ywerte[-1],11],xlabel=auswahl[0],ylabel=auswahl[1],urspr=[0,0],mitUmrandung=False)
+        diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=[xMin,xMax,(xMax-xMin)+1],yAchse=[yMin,yMax,(yMax-yMin)+1],xlabel='x',ylabel='y',urspr=[0,0],mitUmrandung=False)
     else:
         diagramm=[F'\\node at (7,11) {{ }};']
     afg=afg+ ([] if nurText else (tabelle[:-1]+diagramm+[tabelle[-1]]))
     afg=afg+ ([] if nurText else ['}'])
-    diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{multi}*x','black']],xAchse=[0,xMax,11],yAchse=[0,yMax,11],xlabel='t in s',ylabel='s in  m',urspr=[0,0],mitUmrandung=False)
+    if nurText:
+        afg=F'{"Zeichne die Wertetabelle und das Diagramm zur Funktion: " if mitText else ""}$y={strNW(m)}\cdot x{"+" if b>0 else "-"}{strNW(abs(b))}$'
+    diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{m}*x+{b}','black']],koordinaten=[[x,yWerte[i]] for i,x in enumerate(xWerte)],xAchse=[xMin,xMax,(xMax-xMin)+1],yAchse=[yMin,yMax,(yMax-yMin)+1],xlabel='x',ylabel='y',urspr=[0,0],mitUmrandung=False)
     lsg=tabelleLsg[:-1]+diagramm+[tabelle[-1]]
-    return [afg,lsg,[multi]]
+    return [afg,lsg,[m,b]]
