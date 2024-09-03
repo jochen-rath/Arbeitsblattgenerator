@@ -72,4 +72,4 @@ def erzeugeQuadVariAuslesen(mitB=False,mitC=False,mitText=True,anzSpalten=[1,1])
     diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{a}*(x+{b})*(x+{b})+{c}','black']],streckenzug=aBest,textNode=beschr,xAchse=[xMin,xMax,(xMax-xMin)+1],yAchse=[yMin,yMax,(yMax-yMin)+1],xlabel='x',ylabel='y')
     lsg=lsg+diagramm
     lsg=lsg+['}']
-    return [afg,lsg,[a,b,c]
+    return [afg,lsg,[a,b,c]]
