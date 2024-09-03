@@ -44,7 +44,8 @@ def erzeugeQuadFunkTabDiaAfg(diagrammVorgegeben=True,mitText=True,nurText=False,
     afg=afg+ ([] if nurText else ['}'])
     if nurText:
         afg=F'{"Zeichne die Wertetabelle und das Diagramm zur Funktion: " if mitText else ""}${fktStr}$'
-    diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{a}*(x+{b})*(x+{b})+{c}','red']],textNode=[[-b,c,F'{strNW(yMin,True)}','below']],koordinaten=[[x,yWerte[i]] for i,x in enumerate(xWerte)],xAchse=[xMin,xMax,(xMax-xMin)+1],yAchse=[yMin,yMax,(yMax-yMin)+1],xlabel='x',ylabel='y',urspr=[0,0],mitUmrandung=False)
+    textNode=[[-b,c,F'{strNW(c,True)}','below' if a>0 else 'above']]
+    diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{a}*(x+{b})*(x+{b})+{c}','red']],textNode=textNode,koordinaten=[[x,yWerte[i]] for i,x in enumerate(xWerte)],xAchse=[xMin,xMax,(xMax-xMin)+1],yAchse=[yMin,yMax,(yMax-yMin)+1],xlabel='x',ylabel='y',urspr=[0,0],mitUmrandung=False)
     lsg=tabelleLsg[:-1]+diagramm+[tabelle[-1]]
     return [afg,lsg,[a,b,c]]
 
