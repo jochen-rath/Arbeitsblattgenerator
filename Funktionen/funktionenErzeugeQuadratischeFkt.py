@@ -55,7 +55,7 @@ def erzeugeQuadVariAuslesen(mitB=False,mitC=False,mitText=True,anzSpalten=[1,1])
     afg=[F'\\pbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
     bestimme=f'a{", b" if mitB else ""}{", c" if mitC else ""}'
     gleichung=f'a\cdot {"(x+b)^2" if mitB else "x^2"}{"+c" if mitC else ""}'
-    afg=afg+[f'Bestimme {bestimme} der Parabellgleichen ${gleichung}$ für die Parabell']
+    afg=afg+[f'Bestimme {bestimme} der Parabelgleichen ${gleichung}$ für die Parabel']
     afg=afg+diagramm
     afg=afg+['}']
     lsg=[F'\\pbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
@@ -72,4 +72,4 @@ def erzeugeQuadVariAuslesen(mitB=False,mitC=False,mitText=True,anzSpalten=[1,1])
     diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{a}*(x+{b})*(x+{b})+{c}','black']],streckenzug=aBest,textNode=beschr,xAchse=[xMin,xMax,(xMax-xMin)+1],yAchse=[yMin,yMax,(yMax-yMin)+1],xlabel='x',ylabel='y')
     lsg=lsg+diagramm
     lsg=lsg+['}']
-    return [afg,lsg,[a,b,c]]
+    return [afg,lsg,[a,b,c]
