@@ -70,7 +70,7 @@ def diagrammTikzVorgBreiteHoehe(zuPlotten=['x','black'],koordinaten=[],streckenz
     xTickDist,xMin,xMax,breite=setzeAchsenEinteilungLaenge(xAchse)
     yTickDist,yMin,yMax,hoehe=setzeAchsenEinteilungLaenge(yAchse)
 #    print(urspr)
-    tikzcommand.append(F'\\begin{{axis}}[    axis lines = middle, scale only axis=true, at={{({urspr[0]}cm,{urspr[1]}cm)}},')
+    tikzcommand.append(F'\\begin{{axis}}[    axis lines = middle, scale only axis=true, at={{({urspr[0]}cm,{urspr[1]}cm)}},clip=false,')
     tikzcommand.append('    width='+str(breite)+' cm, xmin = '+str(xMin)+', xmax = '+str(xMax)+',xtick distance = '+str(xTickDist)+',')
     tikzcommand.append('    height='+str(hoehe)+'cm, ymin = '+str(yMin)+', ymax = '+str(yMax)+', ytick distance = '+str(yTickDist)+',')
     tikzcommand.append('    xlabel = {'+xlabel+'},x label style={at={(current axis.right of origin)},anchor=north, below=5mm},')
