@@ -31,7 +31,7 @@ def erzeugeParabelFkt(hoehe=12,mitB=False,mitC=True):
 
 def erzeugeQuadFunkTabDiaAfg(diagrammVorgegeben=True,mitText=True,nurText=False,mitB=False,mitC=True,anzSpalten=[1,1]):
 #y=a*(x+b)^2+c
-    a,b,c,fktStr,xWerte,yWerte,xMin,xMax,yMin,yMax=erzeugeParabelFkt(hoehe=(12 if  anzSpalten[0] <2 else 8))
+    a,b,c,fktStr,xWerte,yWerte,xMin,xMax,yMin,yMax=erzeugeParabelFkt(hoehe=(12 if  anzSpalten[0] <2 else 8),mitB=mitB,mitC=mitC)
     afg=[F'\\pbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
     afg=afg+([F'Übertrage die Werte der Funktion ${fktStr}$ in die Tabelle und zeichne die Funktion.'] if mitText else [F'${fktStr}$'])
     tabelle=tikzTabelle(tabelle=[['x']+[strNW(x) for x in xWerte],['y']+['']*len(xWerte),],dim=[1.5 if  anzSpalten[0]<2 else 1.0 ,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[0,-1.5])
