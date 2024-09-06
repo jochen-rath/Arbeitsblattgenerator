@@ -32,8 +32,8 @@ def erzeugeParabelFkt(hoehe=12,mitB=False,mitC=True):
 def erzeugeQuadFunkTabDiaAfg(diagrammVorgegeben=True,mitText=True,nurText=False,mitB=False,mitC=True,anzSpalten=[1,1]):
 #y=a*(x+b)^2+c
     a,b,c,fktStr,xWerte,yWerte,xMin,xMax,yMin,yMax=erzeugeParabelFkt(hoehe=(12 if  anzSpalten[0] <2 else 8),mitB=mitB,mitC=mitC)
-    afg=[F'\\pbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
-    afg=afg+([F'Übertrage die Werte der Funktion ${fktStr}$ in die Tabelle und zeichne die Funktion.'] if mitText else [F'${fktStr}$'])
+    afg=[F'\\parbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
+    afg=afg+([F'Übertrage die Werte der Funktion ${fktStr}$ in die Tabelle und zeichne die Funktion.\\'] if mitText else [F'${fktStr}$'])
     tabelle=tikzTabelle(tabelle=[['x']+[strNW(x) for x in xWerte],['y']+['']*len(xWerte),],dim=[1.5 if  anzSpalten[0]<2 else 1.0 ,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[0,-1.5])
     tabelleLsg=tikzTabelle(tabelle=[['x']+[strNW(x) for x in xWerte],['y']+[strNW(y,True) for y in yWerte],],dim=[1.5 if  anzSpalten[0]<2 else 1.0 ,0.5],spaltenBreite=[],zeilenHoehe=[],newCBuchst='A',tabellenPos=[0,-1.5])
     if diagrammVorgegeben:
@@ -53,13 +53,13 @@ def erzeugeQuadVariAuslesen(mitB=False,mitC=False,mitText=True,anzSpalten=[1,1])
     a,b,c,fktStr,xWerte,yWerte,xMin,xMax,yMin,yMax=erzeugeParabelFkt(hoehe=(12 if  anzSpalten[0] <2 else 8),mitB=mitB,mitC=mitC)
     diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{a}*(x+{b})*(x+{b})+{c}','black']],xAchse=[xMin,xMax,(xMax-xMin)+1],yAchse=[yMin,yMax,(yMax-yMin)+1],xlabel='x',ylabel='y')
     term='a*(x+b)**2+c'
-    afg=[F'\\pbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
+    afg=[F'\\parbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
     bestimme=f'a{", b" if mitB else ""}{", c" if mitC else ""}'
     gleichung=f'a\cdot {"(x+b)^2" if mitB else "x^2"}{"+c" if mitC else ""}'
-    afg=afg+[f'Bestimme {bestimme} der Parabelgleichen ${gleichung}$ für die Parabel']
+    afg=afg+[f'Bestimme {bestimme} der Parabelgleichen ${gleichung}$ für die Parabel \\']
     afg=afg+diagramm
     afg=afg+['}']
-    lsg=[F'\\pbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
+    lsg=[F'\\parbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
     lsg=lsg+[f'a={strNW(a)}{f", b={strNW(b)}" if not b==0 else ""}{f", c={strNW(c)}" if not c==0 else ""}']
     aBest=[2]+[[[-b,c],[-b+1,c],[-b+1,c+a]]]
     beschr=[[-b+1,c+a/2,f'a={strNW(a)}','right']]
@@ -74,3 +74,42 @@ def erzeugeQuadVariAuslesen(mitB=False,mitC=False,mitText=True,anzSpalten=[1,1])
     lsg=lsg+diagramm
     lsg=lsg+['}']
     return [afg,lsg,[a,b,c]]
+
+def erzeugeFindNullstellenQuaFkt(mitB=True,mitC=True,mitText=True,anzSpalten=[1,1]):
+    a,c= 1,1
+    while (a>0 and c>0) or (a<0 and c<0):
+        a,b,c,fktStr,xWerte,yWerte,xMin,xMax,yMin,yMax=erzeugeParabelFkt(hoehe=(12 if  anzSpalten[0] <2 else 8),mitB=mitB,mitC=mitC)
+        if random.randint(0,6)>5:
+            break
+    afg=[f'{"Bestimme die Nullstellen der Funktion " if mitText else ""}${fktStr}$']
+    term=f'{f"{a}*" if not a==1 else ""}{f"(x+{b})" if mitB else "x"}**2{"+" if c>0 else ""}{f"{c}" if mitC else ""}'
+    textNode=[]
+    nullPkte=[]
+    diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{a}*(x+{b})*(x+{b})+{c}','black']],koordinaten=nullPkte,textNode=textNode,xAchse=[xMin,xMax,(xMax-xMin)+1],yAchse=[yMin,yMax,(yMax-yMin)+1],xlabel='x',ylabel='y')
+    lsgUmB=[F'\\parbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
+    lsgUmE=['}']
+    if (a>0 and c<0) or (a<0 and c>0):
+        lsg=quadFktnullStellenBerechPQFormel(fkt=term,mitTikzUmrandung=True)
+        p,q=[2*b,b**2+c/a]
+        x1=-p/2+((p/2)**2-q)**0.5
+        x2=-p/2-((p/2)**2-q)**0.5
+        textNode=[[x1,0,f'$x_1={strNW(x1,True)}$','above'],[x2,0,f'$x_2={strNW(x2,True)}$','above']]
+        textNode=textNode+[[-b,c,f'$b={strNW(b,True)};~c={strNW(c,True)}$','above' if a<0 else 'below']]
+        if x2<xMin:
+            xWerte=[x2]+xWerte
+            yWerte=[0]+yWerte
+            xMin=x2
+        if x1>xMax:
+            xWerte=xWerte+[x1]
+            yWerte=yWerte+[0]
+            xMax=x1
+        nullPkte=[[x1,0],[x2,0],[-b,c]]
+        diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{a}*(x+{b})*(x+{b})+{c}','black']],koordinaten=nullPkte,textNode=textNode,xAchse=[xMin,xMax,(xMax-xMin)+1],yAchse=[yMin,yMax,(yMax-yMin)+1],xlabel='x',ylabel='y',urspr=[0,1],mitUmrandung=False)
+        lsg=lsg[0:-2]+diagramm+lsg[-2:]
+    elif c==0:
+        lsg=[f'Nullstelle: x={strNW(-b)} \\\\'] + diagramm
+        lsg=lsgUmB+lsg+lsgUmE
+    else:
+        lsg=[f'Es existieren keine Nullstellen zur Funktion ${fktStr}$.\\\\']  + diagramm
+        lsg=lsgUmB+lsg+lsgUmE
+    return [afg,lsg,[]]

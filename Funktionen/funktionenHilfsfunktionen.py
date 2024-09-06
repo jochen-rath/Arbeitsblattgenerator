@@ -16,6 +16,7 @@ nachnamen=['Müller','Schmidt','Schneider','Fischer','Weber','Meyer','Wagner','B
 tikzFarben=['black','red','green','blue','cyan','magenta','olive','orange','pink','purple','brown','yellow','darkgray','gray','lightgray','lime','teal','violet','white']
 farbenTikzDeutsch={'Schwarz':'black','Rot':'red','Grün':'green','Blau':'blue','Cyan':'cyan','Magenta':'magenta','Olive':'olive','Orange':'orange','Pink':'pink','Lila':'purple','Braun':'brown','Gelb':'yellow','Dunkelgrün':'darkgray','Grau':'gray','Hellgrau':'lightgray','Lime':'lime','Blaugrün':'teal','violett':'violet','Weiß':'white'}
 zahlenWoerter=['Null','Eins','Zwei','Drei','Vier','Fuenf','Sechs','Sieben','Acht','Neun','Zehn','Elf','Zwoelf']
+
 def spliteSeiteAddSub(S):
 #Am Anfang der Gleichung muss ein Plus oder Minus stehen, damit bei der Termumformung die richtige Operation gewählt werden kann.
     if not (S[0]=='-' or S[0]=='+'):
@@ -30,6 +31,47 @@ def spliteSeiteAddSub(S):
         pmSPos=[i for i in range(len(S)) if ('+'==S[i] or '-'==S[i]) and (True not in [(KlOffenPos[j]<i and KlGeschlPos[j]>i) for j in range(len(KlOffenPos))])]+[len(S)]
         Ssplit=[S[pmSPos[i]:pmSPos[i+1]] for i in range(len(pmSPos[:-1]))]
     return Ssplit
+
+def gebePolynomVarisAus(poly='2*(x-2)**2-5',x='x'):
+#Keine Klammern
+#Polynom expandieren und sortieren
+    S=str(sympy.expand(poly))
+    if not (S[0]=='-' or S[0]=='+'):
+        S='+'+S
+    power=re.findall('\*\*\d',S)
+    if len(power)>0:
+        maxPower=max([int(x.replace('**','')) for x in power])
+    else:
+        maxPower=1 if x in S else 0
+    polyList=['+0']*(maxPower+1)
+    pmSPos=[i for i in range(len(S)) if '+'==S[i] or '-'==S[i]]+[len(S)]
+    Ssplit=[S[pmSPos[i]:pmSPos[i+1]] for i in range(len(pmSPos[:-1]))]
+    for i,p in enumerate(Ssplit):
+        if '**' in p:
+            polyList[maxPower-int(p.split('**')[1])]=p.split('*x')[0]
+        else:
+            polyList[-2 if x in p else -1]=p if not x in p else p.split('*x')[0]
+    return polyList
+    
+def setzePolyListeZusammen(polyList=['-2','+0','+5','+6']):
+    maxPower=len(polyList)-1
+    poly=''
+    for i,p in enumerate(polyList):
+        poly=F'{poly}{"+" if not (p[0]=="+" or p[0]=="-") else ""}{p}*x**{maxPower-i}'
+    return str(sympy.expand(poly))
+
+
+def setzePolyListeZusammenLatexAusgabe(polyList=['-2','+0','+5','+6']):
+    maxPower=len(polyList)-1
+    poly=''
+    for i,p in enumerate(polyList):
+        p=float(p.replace(' ',''))
+        if abs(p)>0:
+            x=F'x**{maxPower-i}' if maxPower-i>1 else ("x" if maxPower-i>0 else "")
+            p=f'{"+" if p>0 else "-"}'+ (''if p==1 else f'{strNW(abs(p),True)}{"*" if i<maxPower else ""}')
+            p=p[1:] if (i==0 and p[0]=='+') else p
+            poly=F'{poly}{p}{x}'
+    return poly
 
 def entferneEinzelKlammer(term):
     term = [(x.replace('(', '') if ('(' in x) and (not ')' in x) else x) for x in term]
