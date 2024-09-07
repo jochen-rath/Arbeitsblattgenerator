@@ -98,13 +98,18 @@ def erzeugeFindNullstellenQuaFkt(mitB=True,mitC=True,mitText=True,anzSpalten=[1,
         if x2<xMin:
             xWerte=[x2]+xWerte
             yWerte=[0]+yWerte
-            xMin=x2
+            xMin=x2-0.5
         if x1>xMax:
             xWerte=xWerte+[x1]
             yWerte=yWerte+[0]
-            xMax=x1
+            xMax=x1+0.5
+        y1=a*(x1+b)**2+c
+        y2=a*(x2+b)**2+c
         nullPkte=[[x1,0],[x2,0],[-b,c]]
-        diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{a}*(x+{b})*(x+{b})+{c}','black']],koordinaten=nullPkte,textNode=textNode,xAchse=[xMin,xMax,(xMax-xMin)+1],yAchse=[yMin,yMax,(yMax-yMin)+1],xlabel='x',ylabel='y',urspr=[0,1],mitUmrandung=False)
+        yMin=min(c,-1) if c<0 else 0
+        yMax=max(c,1) if c>0 else 0
+        ursprY=-abs(yMax-yMin)-6
+        diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{a}*(x+{b})*(x+{b})+{c}','black']],koordinaten=nullPkte,textNode=textNode,xAchse=[x2-0.5,x1+0.5,(x1-x2+1)+1],yAchse=[yMin,yMax,(yMax-yMin)+1],xlabel='x',ylabel='y',urspr=[0,ursprY],mitUmrandung=False)
         lsg=lsg[0:-2]+diagramm+lsg[-2:]
     elif c==0:
         lsg=[f'Nullstelle: x={strNW(-b)} \\\\'] + diagramm
