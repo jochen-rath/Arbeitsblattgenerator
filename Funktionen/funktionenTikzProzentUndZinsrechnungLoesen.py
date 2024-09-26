@@ -193,7 +193,7 @@ def ausgabeVerminderteGrundwertBerechnenFuerTabelle(inhalte=[['2a',420,56,'\euro
         latexcommand.append('\\endgroup')
     return latexcommand
 
-def ausgabeVerminderteGrundwertAusgebenMitQ(inhalte=[['2a',420,56,'\euro{}'],['2b',78536,'kg']],bez=['G','W','p','G_{V-}']):
+def ausgabeVerminderteGrundwertAusgebenMitQ(inhalte=[['2a',420,56,'\euro{}'],['2b',78536,'kg']],bez=['G','W','p_{-}','G_{V-}']):
 #Diese Funktion erzeugt eine Latex-Ausgabe, welche die Lösung einer gesuchten Prozentsatzaufgabe entspricht.
 #Die Ausgabe wird in einer Tikz-Zeichnung ausgegeben, damit man die Lösung in einer Tabelle zusammenfassen kann.
 #     latexcommand=prozentsatzBerechnen(inhalt)
@@ -213,8 +213,8 @@ def ausgabeVerminderteGrundwertAusgebenMitQ(inhalte=[['2a',420,56,'\euro{}'],['2
         latexcommand.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')  
         latexcommand.append('\\begin{tikzpicture}[show background grid]')  
         latexcommand.append('\\node[left] at (0,-0.25) {'+nr+'Geg.: };')  
-        latexcommand.append('\\node[right] at (0,-0.25) {'+bez[0]+' = '+strNW(G,True)+' '+E+'};') 
-        latexcommand.append('\\node[right] at (0,-0.75) {'+bez[2]+'\\% = '+strNW(pP,True)+'\%};')  
+        latexcommand.append('\\node[right] at (0,-0.25) {$'+bez[0]+'$ = '+strNW(G,True)+' '+E+'};') 
+        latexcommand.append('\\node[right] at (0,-0.75) {$'+bez[2]+'$\\% = '+strNW(pP,True)+'\%};')  
         latexcommand.append('\\node[left] at (0,-1.-0.25) {Ges.: };')  
         latexcommand.append('\\node[right] at (0,-1.-0.25) {$'+bez[3]+'$  = ? };')  
         latexcommand.append('\\node[below right] at (0,-1.75) {')  
@@ -230,7 +230,7 @@ def ausgabeVerminderteGrundwertAusgebenMitQ(inhalte=[['2a',420,56,'\euro{}'],['2
         latexcommand.append('\\end{aligned}$};')
         latexcommand.append('\\node[below right] at (0,-5.25) {')
         latexcommand.append('$\\begin{aligned}')  
-        latexcommand.append('q\\ &=\\ 100 \\%- p\\% \\\\')
+        latexcommand.append('q\\ &=\\ 100 \\%- p_{-}\\% \\\\')
         latexcommand.append(F'q\\ &=\\ 100 \\%- {strNW(pP,True)} \\% \\\\')
         latexcommand.append(F'q\\ &=\\ {strNW(100-pP,True)} \\%= {strNW((100-pP)/100,True)}\\\\')
 #        latexcommand.append(''+bez[3]+'\\ &=\\ '+bez[0]+'\\cdot '+bez[2]+' : 100 \\\\')

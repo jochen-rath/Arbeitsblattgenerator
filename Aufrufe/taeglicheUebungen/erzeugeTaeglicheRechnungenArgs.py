@@ -27,9 +27,10 @@ def main():
     agfLsgGetrennt=eval(sys.argv[8].split('-')[1])
     erzArbeit=eval(sys.argv[9].split('-')[1])
     texAusgabe=eval(sys.argv[10].split('-')[1])
+    pngAusgabe=eval(sys.argv[11].split('-')[1])
     auswahl=[]
     anzahlRechnungen=26
-    startRechnungenIndex=11
+    startRechnungenIndex=12
 #    for arg in sys.argv[startRechnungenIndex:anzahlRechnungen+startRechnungenIndex]:
     for arg in sys.argv[startRechnungenIndex:]:
 #Soll ein Kahoot-Arbeitsblatt erzeugt werden?
@@ -66,7 +67,7 @@ def main():
     if erzArbeit:
         filename=erzeugeArbeit(auswahl,title,dateiName,datum,anfang)
     else:
-        filename=erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,'' if not 'datum' in locals() else datum ,'' if not 'anfang' in locals() else anfang,2 if not 'anzSpalten' in locals() else anzSpalten,mitText=mitText,karoBereich=karoBereich,extraKaroseite=extraKaroseite,agfLsgGetrennt=agfLsgGetrennt,texAusgabe=texAusgabe,aufgabenNummern=aufgabenNummern)
+        filename=erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,'' if not 'datum' in locals() else datum ,'' if not 'anfang' in locals() else anfang,2 if not 'anzSpalten' in locals() else anzSpalten,mitText=mitText,karoBereich=karoBereich,extraKaroseite=extraKaroseite,agfLsgGetrennt=agfLsgGetrennt,texAusgabe=texAusgabe,pngAusgabe=pngAusgabe,aufgabenNummern=aufgabenNummern)
     print('Dateiname:'+filename)
     return 
 

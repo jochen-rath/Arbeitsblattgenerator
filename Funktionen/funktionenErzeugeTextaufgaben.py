@@ -76,6 +76,20 @@ def erzeugeSchriftAddiSubtrakAufgabe(addi=True,anzSpalten=2):
     fuegeAntwortsatzEin(erg=z3,antwortsatz=antwortsatz,dy=F'-2.25',lsg=lsg,anzSpalten=anzSpalten)
     return [[ersetzePlatzhalterMitSymbolen(x) for x in [afg]], [ersetzePlatzhalterMitSymbolen(x) for x in lsg], []]
 
+def erzeugeTextRatAufgabe(anzSpalten=2):
+    art={'Im Meer':['Meter','random.randint(-1000,200)','random.randint(0,200)']}
+    art['Geld']=['€','random.randint(-1000,1000)','random.randint(0,2000)']
+    art['Temperatur']=['°C','random.randint(-200,200)/10','random.randint(0,200)/10']
+    auswahl=random.choice(list(art.keys()))
+    z1,z2=eval(art[auswahl][1]),eval(art[auswahl][2])
+    op=random.choice(['-','+'])
+    erg=eval(F'{z1}{op}{z2}')
+    chatgptFrage=F'Erstell mir eine Sachaufgabe zu Rationalen Zahlen zum Thema {auswahl} mit {z1} {"Plus" if op=="+" else "Minus"} {z2} {art[auswahl][0]}.'
+    afg,antwortsatz=stelleChatGptDieFrage(frage=chatgptFrage)
+    lsg=[F'Rechnung: {z1}{op}{z2}={strNW(erg)} \\\\']
+    lsg=lsg+[antwortsatz.replace('XXX',F'${strNW(erg)}$')]
+    lsg=[F'\\pbox{{{7 if anzSpalten==2 else 16} cm}}{{']+lsg+['}']
+    return [[ersetzePlatzhalterMitSymbolen(x) for x in [afg]], [ersetzePlatzhalterMitSymbolen(x) for x in lsg], [z1,z2,auswahl,chatgptFrage]]
 
 
 def erzeugeProzentwertTextAufgabe(ges='',HS=False,umformen=False,anzSpalten=2):

@@ -49,9 +49,13 @@ def erzeugeZahlenstrahlGanzeZahlen(laenge=4,nurNatuerlich=False,ohneKomma=False,
 #Erzeuge die Nebenunterteilung mit linespace: Bsp: [-45,42.5,-40,37.5,-35]
     UT=np.linspace(startwert, endwert, 2*laenge+1)
 #Pfeile
-    anzPfeile=(random.randint(2,5) if len(list(UT))>5 else 1) if anzPfeile<1 else anzPfeile
+    pfeileAuswahl=[x for x in UT if x not in HT]
+    anzPfeile=random.randint(2,len(pfeileAuswahl)) if anzPfeile<1 else min(anzPfeile,len(pfeileAuswahl))
     pfeileId=random.sample(range(len(UT[:-1])),anzPfeile)
-    pfeileWert=[UT[i] for i in pfeileId]
+#    pfeileWert=[UT[i] for i in pfeileId]
+    pfeileWert=random.sample(pfeileAuswahl,anzPfeile)
+#    pfeileId=[UT.index(x) for x in pfeileWert]
+    pfeileId=[list(UT).index(x) for x in pfeileWert]
 #Wandel die Haupteinteilung in einen Liste um, die das Zahlenstrahl skript darstellen kann.
 #Dabei wird jeder Zahl eine x-Position zugeordnet
     HT, UT=passeHaupteinteilungAnXXcmZahlenstrahlAn(HT, UT, laenge+2)
@@ -90,14 +94,17 @@ def erzeugeZahlenstrahleDezimalzahlenEinteilungTikz(startwert=10,endwert=0,laeng
         schritteUT=schritteHT*einteilung
     HT=np.linspace(startwert, endwert, int(round(schritteHT+0.00001))+1)
     UT=np.linspace(startwert, endwert, int(round(schritteUT+0.00001))+1)
-    anzPfeile=(random.randint(2,5) if len(list(UT))>5 else 1) if anzPfeile<1 else anzPfeile
+    pfeileAuswahl=[x for x in UT if x not in HT]
+    anzPfeile=random.randint(2,min(5,len(pfeileAuswahl))) if anzPfeile<1 else min(anzPfeile,len(pfeileAuswahl))
     pfeileId=random.sample(range(len(UT[:-1])),anzPfeile)
     pfeileWert=[UT[i] for i in pfeileId]
+    pfeileWert=random.sample(pfeileAuswahl,anzPfeile)
+    pfeileId=[list(UT).index(x) for x in pfeileWert]
 #    laenge=(schritteHT-1)*4 if (schritteHT-1)*4<laenge else laenge
     HT,UT=passeHaupteinteilungAnXXcmZahlenstrahlAn(HT,UT,laenge)
 #Entferne Lange Nachkommastellen aus den Dezimalzahlen, z.b. 1.78000000000000000001
     HT=[[x[0],strNW(round(x[1],kommastelle+3))] for x in HT]
-    pfeile=[[UT[id],strNW(round(pfeileWert[i],kommastelle+3))] for i,id in enumerate(pfeileId)]
+    pfeile=[[UT[index],strNW(round(pfeileWert[i],kommastelle+3))] for i,index in enumerate(pfeileId)]
     print(HT)
     afg='\pbox{20cm}{Bestimme die Zahlen an den Pfeilen:\\\\' if mitText else ''
     afg=afg+'\n'.join(zahlenstrahlBruchDezimalzahlenTikz([HT,UT],pfeile,laenge,mitLSG=False))

@@ -45,6 +45,7 @@ class Form(Form):
     agfLsgGetrennt=BooleanField('Aufgaben und Lösungen getrennt ausgeben')
     erzeugeArbeit=BooleanField('Erzeuge eine Arbeitsvorlage.')
     texAusgabe=BooleanField('Gib eine LaTeX tex Datei mit aus.')
+    pngAusgabe=BooleanField('Gib die Aufgaben als png-Bild Dateien mit aus.')
     submit = SubmitField("Senden")
 
 @app.route('/', methods = ['GET', 'POST'])
@@ -80,6 +81,7 @@ def viewAuswahlRechnungen():
             agfLsgGetrennt=F'afgLsg-{form.agfLsgGetrennt.data}'
             erzeugeArbeit=F'erzArbeit-{form.erzeugeArbeit.data}'
             texAusgabe=F'texAusgabe-{form.texAusgabe.data}'
+            pngAusgabe=F'pngAusgabe-{form.pngAusgabe.data}'
 #            seitenumbruch='Seitenumbruch-False'
 #            if form.aufgSeitenumbruch.data:
 #                seitenumbruch='Seitenumbruch-True'
@@ -113,12 +115,14 @@ def viewAuswahlRechnungen():
                 allesKorrekt=False
             if not bool(zugelassenZeichen.search(texAusgabe)):
                 allesKorrekt=False
+            if not bool(zugelassenZeichen.search(pngAusgabe)):
+                allesKorrekt=False
             if not bool(zugelassenZeichen.search(''.join(anzRech))):
                 allesKorrekt=False
 #Wenn alles Korrekt ist und auch ein paar Aufgaben gefwählt wurde, Starte das Skript.
             if len(anzRech)>0 and allesKorrekt:
                 warteZeit=300 if 'erzeugeAlleAtome' in anzRech else 90
-                parameterListe=[sys.executable,script, titel,beschreibung,datum, anzSpalten,mitText, karoBereich,extraKaroseite, agfLsgGetrennt,erzeugeArbeit,texAusgabe]+anzRech
+                parameterListe=[sys.executable,script, titel,beschreibung,datum, anzSpalten,mitText, karoBereich,extraKaroseite, agfLsgGetrennt,erzeugeArbeit,texAusgabe,pngAusgabe]+anzRech
                 print(parameterListe)
                 filename,rc=run_command(['timeout',F'{warteZeit}'] + parameterListe)
                 print('Run')
@@ -321,7 +325,7 @@ def htmlScriptAufrufSeite(anzahlAuswahl=4):
     if os.path.isfile(os.path.join(os.path.expanduser('~'), 'impressum.html')):
         html.append(F'    <p><a href="{{{{ url_for({chr(39)}impressum_form{chr(39)}) }}}}">Impressum</a></p>')
     if os.path.isfile('wasistneu.html'):
-        html.append(F'    <p><a href="{{{{ url_for({chr(39)}wasistneu_form{chr(39)}) }}}}">Was Ist Neu?</a> Letzte Änderung: 07.09.2024</p>')
+        html.append(F'    <p><a href="{{{{ url_for({chr(39)}wasistneu_form{chr(39)}) }}}}">Was Ist Neu?</a> Letzte Änderung: 26.09.2024</p>')
     html.append('</body>')
     return html
 
@@ -357,6 +361,7 @@ def htmlTabelle(anzahlAuswahl=4):
     tabelle.append('            {{ form.agfLsgGetrennt.label }}: {{ form.agfLsgGetrennt }}<br>')
     tabelle.append('            {{ form.erzeugeArbeit.label }}: {{ form.erzeugeArbeit }}<br>')
     tabelle.append('            {{ form.texAusgabe.label }}: {{ form.texAusgabe }}<br>')
+    tabelle.append('            {{ form.pngAusgabe.label }}: {{ form.pngAusgabe }}<br>')
     tabelle.append('         </fieldset>')
     return tabelle
 

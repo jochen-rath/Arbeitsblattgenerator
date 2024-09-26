@@ -39,6 +39,7 @@ def latexHead(arraystretch=False,size=2):
     head.append('\\usepackage{hyperref}')
     head.append('\\usepackage{verbatim}')
     head.append('\\usepackage{geometry}')
+    head.append('\\usepackage{scalerel}')
 #Unterstreichen
     head.append('\\usepackage{ulem}')
 #Euro Sympol:
@@ -90,6 +91,8 @@ def latexHead(arraystretch=False,size=2):
     head.append('\\newcolumntype{L}[1]{>{\\raggedright\\let\\newline\\\\\\arraybackslash\\hspace{0pt}}m{#1}}')
     head.append('\\newcolumntype{C}[1]{>{\\centering\\let\\newline\\\\\\arraybackslash\\hspace{0pt}}m{#1}}')
     head.append('\\newcolumntype{R}[1]{>{\\raggedleft\\let\\newline\\\\\\arraybackslash\\hspace{0pt}}m{#1}}')
+    head.append('\\def\\mcirc{\\mathbin{\\scalerel*{\\circ}{j}}}')
+    head.append('\\def\\msquare{\\mathord{\\scalerel*{\\Box}{\\strut}}}')
     return head
 
 def setzeGleichheitszeichenAufLinie(gleichheitszeichen):

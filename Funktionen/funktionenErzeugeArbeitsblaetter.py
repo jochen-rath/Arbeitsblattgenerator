@@ -5,7 +5,7 @@
 #       exec(open("Funktionen/funktionen.py").read())
 
 
-def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,anfang,anzSpalten=[2,2],mitText=True,karoBereich=0,extraKaroseite=False,agfLsgGetrennt=False,texAusgabe=False,aufgabenNummern=buchstabenKlein):
+def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,anfang,anzSpalten=[2,2],mitText=True,karoBereich=0,extraKaroseite=False,agfLsgGetrennt=False,texAusgabe=False,pngAusgabe=False,aufgabenNummern=buchstabenKlein):
     temperaturRatAbfrage=list(set([True if x.startswith('temperaturRat') else False for x in auswahl]))
     nurThermometerAufgaben=True if len(temperaturRatAbfrage)<2 and temperaturRatAbfrage[0]==True else False
     ausgabeName='newFile'
@@ -56,7 +56,10 @@ def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,
             os.remove(ausgabeName+'_lsg.'+endung)
     if texAusgabe:
         os.system(F'zip {dateiName}.zip {dateiName}.pdf {dateiName}.tex')
+    if pngAusgabe:
+        os.system(F'pdftoppm -png {dateiName}.pdf {dateiName}')
+        os.system(F'zip {dateiName}.zip {dateiName}.pdf {dateiName}*.png')
     for endung in ['aux','log','out']:
         os.remove(ausgabeName+'.'+endung)
     os.chdir('..')
-    return F'{dateiName}.{"zip" if agfLsgGetrennt or texAusgabe else "pdf"}'
+    return F'{dateiName}.{"zip" if agfLsgGetrennt or texAusgabe or pngAusgabe else "pdf"}'

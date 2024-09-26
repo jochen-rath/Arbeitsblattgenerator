@@ -185,6 +185,7 @@ def erzeugeVerminderteGrundwertAufgaben(n=12,lsgMitDreisatz=True):
     dezi=[]
     for i in range(n):
         r=erzeugeProzentRechnungen(E='\euro{}')
+        r=erzeugeProzentRechnungen(E='')
         rechnungen.append('Grundwert~'+strNW(r[0])+'~'+r[3]+';  Verminderung~um~'+strNW(r[2])+'~\\%')
         if lsgMitDreisatz:
             lsgen=ausgabeVerminderteGrundwertBerechnenFuerTabelle(inhalte=[['',r[0],r[2],r[3]]],mitDreisatz=lsgMitDreisatz)

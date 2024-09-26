@@ -137,7 +137,7 @@ def deziZahlenVergleichen(nachkommestellen=3,mitText=True):
     op=random.choice(['+','-'])
     zahl2=round(eval(str(zahl)+op+str(random.randint(1,9)*10**(-random.randint(nachkommestellen-1,nachkommestellen)))),nachkommestellen)
     vergl='<' if zahl<zahl2 else '>'
-    aufg=('Vergleiche: ' if mitText else '')+'$'+strNW(zahl)+'~\\square~'+strNW(zahl2)+'$'
+    aufg=('Vergleiche: ' if mitText else '')+'$'+strNW(zahl)+'~\\msquare~'+strNW(zahl2)+'$'
     lsg='$'+strNW(zahl)+vergl+strNW(zahl2)+'$'
     return [aufg,lsg,[zahl,zahl2]]
 

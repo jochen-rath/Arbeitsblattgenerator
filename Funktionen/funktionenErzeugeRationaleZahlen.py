@@ -5,6 +5,15 @@
 #       exec(open("Funktionen/funktionen.py").read())
 import random
 
+def erzeugeRatZahlVergleichen(dezi=False):
+    z1=random.randint(-50,50)+(random.randint(0,100)/100 if dezi else 0)
+    z2=random.randint(-50,50)+(random.randint(0,100)/100 if dezi else 0)
+    z2=z2 if random.randint(0,6) <6 else z1
+    afg=f'${strNW(z1)}~~\msquare ~~ {strNW(z2)}$'
+    vergl='<' if z1<z2 else ('=' if z1==z2 else '>')
+    lsg=f'${strNW(z1)}~~ {vergl} ~~ {strNW(z2)}$'
+    return [afg,lsg,[z1,z2]]
+
 def erzeugeRationaleZahlenKlammerAufloesen(mitText=True):
     zahl=str(random.choice(['+','-']))+'('+str(random.choice(['+','-']))+str(random.randint(1,100))+')'
     afg=[F'{"Löse die Klammer auf: " if mitText else ""}{zahl}=']
