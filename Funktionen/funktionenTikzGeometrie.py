@@ -10,6 +10,24 @@ import random
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
 
+def dreieckSWScBetaa(A=[4,40,"A","a","$\\alpha$"],B=[3,60,"B","b","$\\beta$"],C=[5,80,"C","c","$\\gamma$"]):
+#
+    x0=random.randint(0,5)/10
+    y0=random.randint(0,5)/10
+    sW=random.randint(-45,45)
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    tikzcommand.append(F'\\draw[thick,black] ({x0},{y0}) coordinate(A) -- node[below,sloped]{{{C[3]}}} ++({sW}:{C[0]}) coordinate(B) -- node[above,sloped]{{{A[3]}}} ++({180-B[1]+sW}:{A[0]} ) coordinate(C) -- node[above,sloped]{{{B[3]}}} cycle;')
+    tikzcommand.append(F'\\pic [draw,thick, -,angle radius=0.7cm, "{A[4]}"] {{angle = B--A--C}};')
+    tikzcommand.append(F'\\pic [angle radius=0.3cm, "{A[2]}"] {{angle = C--A--B}};')
+    tikzcommand.append(F'\\pic [draw,thick, -,angle radius=0.7cm, "{B[4]}"] {{angle = C--B--A}};')
+    tikzcommand.append(F'\\pic [angle radius=0.3cm, "{B[2]}"] {{angle = A--B--C}};')
+    tikzcommand.append(F'\\pic [draw,thick, -,angle radius=0.7cm, "{C[4]}"] {{angle = A--C--B}};')
+    tikzcommand.append(F'\\pic [angle radius=0.3cm, "{C[2]}"] {{angle = B--C--A}};')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+    
+
 def mittelsenkrechte(l=random.randint(5,10)):
     R=0.6*l
     winkelDiff=60

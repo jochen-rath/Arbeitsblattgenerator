@@ -68,7 +68,8 @@ def latexHead(arraystretch=False,size=2):
     head.append('\\usepackage{colortbl}')
     head.append('\\usepackage{array}')
 #Deutsche Anfuehrungszeichen
-    head.append('\\usepackage{german}')
+#Diese Package beisst sich mit dem \pic im Winkelbogen.
+#    head.append('\\usepackage{german}')
 #Ich möchte im ganzen Dokument keinen Einzug (Indention) haben.
     head.append('\\setlength\\parindent{0pt}')
 #Dickere Vertikale Linie
