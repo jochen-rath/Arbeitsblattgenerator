@@ -36,7 +36,7 @@ def dreieckWinkelBer(schwierigkeit="einfach",anzSpalten=2,mitText=True):
     entf=random.choice(['A','B','C'])
     exec(F'{entf}[4]=""')
     dreieckAfg=dreieckSWScBetaa(A=A,B=B,C=C)
-    aufg='Bestimme den fehlenden Winkel: \\\\'
-    afg=['\\pbox{\\linewidth}{']+[(aufg if mitText else "")]+ dreieckAfg+['}']
+    aufg=['Bestimme den fehlenden Winkel: \\\\']
+    afg=['\\pbox{\\linewidth}{']+(aufg if mitText else [])+ dreieckAfg+['}']
     lsg=dreieckLsg
     return [afg,lsg,[]]

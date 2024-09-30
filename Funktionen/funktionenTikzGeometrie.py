@@ -27,6 +27,17 @@ def dreieckSWScBetaa(A=[4,40,"A","a","$\\alpha$"],B=[3,60,"B","b","$\\beta$"],C=
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
     
+def zeichneLinienMitVorgWinkel(linienWinkel=[5,2,0,7,2,10],laenge=5):
+    tikzcommand=['\\begin{tikzpicture}']
+    for i,w in enumerate(linienWinkel):
+        if isinstance(w, list):
+            farbe=w[1]
+            w=w[0]
+        else:
+            farbe='black'
+        tikzcommand.append(F'\\draw[thick,{farbe}] (0,{i*0.3}) node[left] {{{chr(65+i)}}}  -- ++({w}:{laenge});')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
 
 def mittelsenkrechte(l=random.randint(5,10)):
     R=0.6*l

@@ -10,6 +10,18 @@ import math
 import random
 #    farben={"magenta":"Magenta","darkgray":"Dunkelgrau", "violet":"Violett","blue":"Blau","gray":"Grau","green":"Green","brown":"Braun","black":"Schwarz","pink":"Rosa","red":"Rot","yellow":"Gelb","orange":"Orange"}
 
+def erzeugeFindeParallelLinien(anzahl=6,mitText=True,anzSpalten=[2,2]):
+    winkel=random.sample(list(range(-anzahl,anzahl)),anzahl)
+    gleich=random.sample(list(range(0,anzahl)),2)
+    winkel[gleich[0]]=winkel[gleich[1]]
+    aufg=['Finde die zwei parallele Linien']
+    afg=['\\pbox{\\linewidth}{']+ (aufg if mitText else [])+ zeichneLinienMitVorgWinkel(linienWinkel=winkel)+['}']
+    winkel[gleich[0]]=[winkel[gleich[0]],'red']
+    winkel[gleich[1]]=[winkel[gleich[1]],'red']
+    lsg=zeichneLinienMitVorgWinkel(linienWinkel=winkel)
+    return [afg,lsg,[]]
+        
+
 def erzeugeStrahlensaetzeAufgaben(mitText=True,anzSpalten=[2,2]):
     k=random.randint(14,21)/10
     k=k*random.choice([1,-1])
