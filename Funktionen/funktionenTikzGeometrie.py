@@ -26,8 +26,34 @@ def dreieckSWScBetaa(A=[4,40,"A","a","$\\alpha$"],B=[3,60,"B","b","$\\beta$"],C=
     tikzcommand.append(F'\\pic [angle radius=0.3cm, "{C[2]}"] {{angle = B--C--A}};')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
-    
-def zeichneLinienMitVorgWinkel(linienWinkel=[5,2,0,7,2,10],laenge=5):
+
+
+def zeichneRechtwinklLinien(linienWinkel=[[2,4,89,[93,'red']],[[3,'red'],0,91,95]],laenge=5):
+    tikzcommand=['\\begin{tikzpicture}']
+    for i,winkel in enumerate(linienWinkel):
+        if i==0:
+            for j,w in enumerate(winkel):
+                if isinstance(w, list):
+                    farbe=w[1]
+                    w=w[0]
+                else:
+                    farbe='black'
+                pos='left' if w<45 else 'below'
+                tikzcommand.append(F'\\draw[thick,{farbe}] {f"(-0.5,{j*0.3})" if w<45 else f"({j*0.3},-0.5)"} node[{pos}] {{{chr(65+i*len(winkel)+j)}}}  -- ++({w}:{laenge});')
+        elif i==1:
+            for j,w in enumerate(winkel):
+                if isinstance(w, list):
+                    farbe=w[1]
+                    w=w[0]
+                else:
+                    farbe='black'
+                pos='left' if w<45 else 'below'
+                tikzcommand.append(F'\\draw[thick,{farbe}] {f"(-0.5,{laenge-1-j*0.3})" if w<45 else f"({laenge-0.5-j*0.3},-0.5)"} node[{pos}] {{{chr(65+i*len(winkel)+j)}}}  -- ++({w}:{laenge});')        
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+
+
+def zeichneLinienMitVorgWinkel(linienWinkel=[5,[2,'red'],0,7,[2,'red'],10],laenge=5):
     tikzcommand=['\\begin{tikzpicture}']
     for i,w in enumerate(linienWinkel):
         if isinstance(w, list):

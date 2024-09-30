@@ -20,7 +20,29 @@ def erzeugeFindeParallelLinien(anzahl=6,mitText=True,anzSpalten=[2,2]):
     winkel[gleich[1]]=[winkel[gleich[1]],'red']
     lsg=zeichneLinienMitVorgWinkel(linienWinkel=winkel)
     return [afg,lsg,[]]
-        
+
+def erzeugeSenkrechteLinien(anzahlProEcke=2,mitText=True,anzSpalten=[2,2]):
+    winkel=random.sample(list(range(-4*anzahlProEcke,4*anzahlProEcke)),4*anzahlProEcke)
+    gleich=random.sample(list(range(0,len(winkel))),2)
+#Setze eine horizontale Linie und eine Senkrechte Linie genau Senkrecht zueinander,
+#indem sie den gleichen Winkel haben.
+    indi0=random.choice([j*anzahlProEcke+i for j in range(4) for i in range(anzahlProEcke) if j%2==0])
+    indi90=random.choice([j*anzahlProEcke+i for j in range(4) for i in range(anzahlProEcke) if j%2==1])
+    winkel[indi90]=winkel[indi0]
+    winkel0=winkel[indi0]
+    winkel90=90+winkel[indi0]
+#Winkel nach den 4 Ecken sortieren und um 90° drehen
+    winkel=[winkel[:int(len(winkel)/4)]+[x+90 for x in winkel[int(len(winkel)/4):2*int(len(winkel)/4)]]]+[winkel[2*int(len(winkel)/4):3*int(len(winkel)/4)]+[x+90 for x in winkel[3*int(len(winkel)/4):]]]
+    aufg=['Finde die zwei senkrechten Linien']
+    afg=['\\pbox{\\linewidth}{']+ (aufg if mitText else [])+ zeichneRechtwinklLinien(linienWinkel=winkel)+['}']
+    for x in winkel:
+        if winkel0 in x:
+            x[x.index(winkel0)]=[x[x.index(winkel0)],'red']
+        if winkel90 in x:
+            x[x.index(winkel90)]=[x[x.index(winkel90)],'red']
+    lsg=zeichneRechtwinklLinien(linienWinkel=winkel)
+    return [afg,lsg,[]]
+
 
 def erzeugeStrahlensaetzeAufgaben(mitText=True,anzSpalten=[2,2]):
     k=random.randint(14,21)/10

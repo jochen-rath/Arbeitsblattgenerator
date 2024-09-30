@@ -58,6 +58,9 @@ def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,
         os.system(F'zip {dateiName}.zip {dateiName}.pdf {dateiName}.tex')
     if pngAusgabe:
         os.system(F'pdftoppm -png {dateiName}.pdf {dateiName}')
+        for x in [x for x in os.listdir('.') if dateiName in x and x.endswith('png')]:
+            os.system(F'convert {x} -transparent white {dateiName}_ohneWeiss{x.replace(dateiName,"")}')            
+        os.system(F'pdftoppm -png {dateiName}.pdf {dateiName}')
         os.system(F'zip {dateiName}.zip {dateiName}.pdf {dateiName}*.png')
     for endung in ['aux','log','out']:
         os.remove(ausgabeName+'.'+endung)
