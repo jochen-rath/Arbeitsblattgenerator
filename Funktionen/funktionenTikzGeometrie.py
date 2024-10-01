@@ -10,6 +10,16 @@ import random
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
 
+def winkelZeichnen(winkel=[34,'34'],laenge=5,LSG=True):
+    sW=0 if LSG else random.randint(-45,45)
+    tikzcommand=['\\begin{tikzpicture}']
+    tikzcommand.append(F'\\draw[thick,black] (0,0) coordinate(A) --  ++({sW}:{laenge} ) coordinate(B) ;')
+    tikzcommand.append(F'\\draw[thick,black] (A) --  ++({winkel[0]+sW}:{laenge} ) coordinate(C) ;') 
+    tikzcommand.append(F'\\pic [draw,thick, -,angle radius=0.7cm, "{winkel[1]}"] {{angle = B--A--C}};')    
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+    
+
 def dreieckSWScBetaa(A=[4,40,"A","a","$\\alpha$"],B=[3,60,"B","b","$\\beta$"],C=[5,80,"C","c","$\\gamma$"]):
 #
     x0=random.randint(0,5)/10

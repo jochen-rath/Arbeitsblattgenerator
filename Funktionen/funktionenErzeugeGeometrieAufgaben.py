@@ -10,6 +10,16 @@ import math
 import random
 #    farben={"magenta":"Magenta","darkgray":"Dunkelgrau", "violet":"Violett","blue":"Blau","gray":"Grau","green":"Green","brown":"Braun","black":"Schwarz","pink":"Rosa","red":"Rot","yellow":"Gelb","orange":"Orange"}
 
+def erzeugeWinkelZeichnenMessen(zeichnen=True,mitText=True,anzSpalten=[2,2]):
+    winkel=random.randint(20,180)
+    name=random.choice(['\\alpha','\\beta','\\gamma','\\delta'])
+    aufg=[f'{"Zeichne " if zeichnen else "Messe folgen"}den Winkel{f" ${name}$={winkel}°:" if zeichnen else ":"}\\\\']
+    afg=['\\pbox{\\linewidth}{']+aufg+winkelZeichnen(winkel=[winkel,f'${name}$'])+['}']
+    lsg=winkelZeichnen(winkel=[winkel,f'{winkel}°'],LSG=True)
+    lsg=['\\pbox{\\linewidth}{']+[f'${name}$={winkel}° \\\\']+lsg+['}']
+    return [afg,lsg,[]]
+    
+
 def erzeugeFindeParallelLinien(anzahl=6,mitText=True,anzSpalten=[2,2]):
     winkel=random.sample(list(range(-anzahl,anzahl)),anzahl)
     gleich=random.sample(list(range(0,anzahl)),2)
