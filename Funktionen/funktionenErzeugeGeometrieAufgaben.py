@@ -13,7 +13,7 @@ import random
 def erzeugeWinkelZeichnenMessen(zeichnen=True,mitText=True,anzSpalten=[2,2]):
     winkel=random.randint(20,180)
     name=random.choice(['\\alpha','\\beta','\\gamma','\\delta'])
-    aufg=[f'{"Zeichne " if zeichnen else "Messe folgen"}den Winkel{f" ${name}$={winkel}°:" if zeichnen else ":"}\\\\']
+    aufg=[f'{"Zeichne " if zeichnen else "Miss folgen"}den Winkel{f" ${name}$={winkel}°:" if zeichnen else ":"}\\\\']
     afg=['\\pbox{\\linewidth}{']+aufg+winkelZeichnen(winkel=[winkel,f'${name}$'])+['}']
     lsg=winkelZeichnen(winkel=[winkel,f'{winkel}°'],LSG=True)
     lsg=['\\pbox{\\linewidth}{']+[f'${name}$={winkel}° \\\\']+lsg+['}']
