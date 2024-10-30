@@ -11,7 +11,7 @@
 #  funktionenpfad='/home/jochen/Schule/skripteArbeitsblaetter/Funktionen/'
 
 buchstabenKlein=[chr(i) for i in range(97,97+26)]
-grBuchst=['\u03B1','\u03B2','\u03B3','\u03B4','\u03B5','\u03B6']
+grBuchst=[chr(i) for i in range(945,945+26)]
 funktionenpfad= 'Funktionen' if not 'funktionenpfad' in locals() else funktionenpfad
 import os
 

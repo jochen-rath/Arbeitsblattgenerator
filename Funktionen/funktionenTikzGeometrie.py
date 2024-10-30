@@ -13,7 +13,7 @@ import random
 def winkelZeichnen(winkel=[34,'34'],laenge=5,LSG=True):
     sW=0 if LSG else random.randint(-45,45)
     tikzcommand=['\\begin{tikzpicture}']
-    tikzcommand.append(F'\\draw[thick,black] (0,0) coordinate(A) --  ++({sW}:{laenge} ) coordinate(B) ;')
+    tikzcommand.append(F'\\draw[thick,black] (0,0) coordinate(A) --  ++({sW}:{laenge if winkel[0]<110 else laenge/2} ) coordinate(B) ;')
     tikzcommand.append(F'\\draw[thick,black] (A) --  ++({winkel[0]+sW}:{laenge} ) coordinate(C) ;') 
     tikzcommand.append(F'\\pic [draw,thick, -,angle radius=0.7cm, "{winkel[1]}"] {{angle = B--A--C}};')    
     tikzcommand.append('\\end{tikzpicture}')
@@ -38,7 +38,7 @@ def dreieckSWScBetaa(A=[4,40,"A","a","$\\alpha$"],B=[3,60,"B","b","$\\beta$"],C=
     return tikzcommand
 
 
-def zeichneRechtwinklLinien(linienWinkel=[[2,4,89,[93,'red']],[[3,'red'],0,91,95]],laenge=5):
+def zeichneRechtwinklLinien(linienWinkel=[[2,4,89,[93,'red']],[[3,'red'],0,91,95]],laenge=6):
     tikzcommand=['\\begin{tikzpicture}']
     for i,winkel in enumerate(linienWinkel):
         if i==0:
@@ -63,7 +63,7 @@ def zeichneRechtwinklLinien(linienWinkel=[[2,4,89,[93,'red']],[[3,'red'],0,91,95
     return tikzcommand
 
 
-def zeichneLinienMitVorgWinkel(linienWinkel=[5,[2,'red'],0,7,[2,'red'],10],laenge=5):
+def zeichneLinienMitVorgWinkel(linienWinkel=[5,[2,'red'],0,7,[2,'red'],10],laenge=6):
     tikzcommand=['\\begin{tikzpicture}']
     for i,w in enumerate(linienWinkel):
         if isinstance(w, list):
@@ -71,7 +71,7 @@ def zeichneLinienMitVorgWinkel(linienWinkel=[5,[2,'red'],0,7,[2,'red'],10],laeng
             w=w[0]
         else:
             farbe='black'
-        tikzcommand.append(F'\\draw[thick,{farbe}] (0,{i*0.3}) node[left] {{{chr(65+i)}}}  -- ++({w}:{laenge});')
+        tikzcommand.append(F'\\draw[thick,{farbe}] (0,{i*0.5}) node[left] {{{chr(65+i)}}}  -- ++({w}:{laenge});')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
