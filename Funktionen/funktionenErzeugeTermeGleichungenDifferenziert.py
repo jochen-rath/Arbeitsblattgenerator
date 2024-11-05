@@ -63,7 +63,7 @@ def erzeugeMalGeteiltDifferenziert(mitZahlen=False):
         a=random.randint(2,12)
         b=random.randint(2,12)
         x=a*b        
-    afg=[f'x{opZumText[op]}{a} & ={b} & & \\mid {f"{opZumText[invOp[op]]}{a}" if mitZahlen else linie} \\\\[0.5cm]']
+    afg=[f'{(f"{a}·x" if mitZahlen else f"{a}x") if op=="*" else f"$$frac{{x}}{{{a}}}"} & ={b} & & \\mid {f"{opZumText[invOp[op]]}{a}" if mitZahlen else linie} \\\\[0.5cm]'.replace('$$','\\')]
     if mitZahlen:
         afg.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{x = {linie} }}}}}}')
     afg.append(f'x & = {linie}  & & \\\\[0.5cm]')
