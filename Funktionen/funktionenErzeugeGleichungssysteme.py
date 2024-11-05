@@ -61,17 +61,22 @@ def erzeugeZweiGleichungmitZweiVariablen(variabel='x y',mitKlammer=False,zeichne
         while not ((x in G1) and  (y in G1)):
             term1=erzeugeTerm(variablen=variabel,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=4,mitKlammer=False)
             term2=erzeugeTerm(variablen=variabel,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=4,mitKlammer=False)
-            G1=term1+'='+term2              
+            G1=term1+'='+term2  
+            if ohneUmformen:
+                term1=erzeugeTerm(variablen=x,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=4,mitKlammer=False)
+                if sympy.simplify(term1)==0:
+                    term1='0'
+                G1=F'{y}={term1}'
         G2=''
         while not ((x in G2) and  (y in G2)):
             term1=erzeugeTerm(variablen=variabel,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=4,mitKlammer=False)
             term2=erzeugeTerm(variablen=variabel,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=4,mitKlammer=False)
             G2=term1+'='+term2
-        if ohneUmformen:
-            term1=erzeugeTerm(variablen=x,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=4,mitKlammer=False)
-            term2=erzeugeTerm(variablen=x,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=4,mitKlammer=False)
-            G1=F'{y}={term1}'
-            G2=F'{y}={term2}'
+            if ohneUmformen:
+                term2=erzeugeTerm(variablen=x,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=4,mitKlammer=False)
+                if sympy.simplify(term2)==0:
+                    term2='0'
+                G2=F'{y}={term2}'
         afg=['\\pbox{\\linewidth}{']
         afg=afg+(['Bestimme den Schnittpunkt der beiden Gleichungen'] if zeichnerisch else ['Löse die beiden Gleichungen durch Gleichsetzen'])
         afg=afg+['\\\\']
