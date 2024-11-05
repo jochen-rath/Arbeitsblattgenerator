@@ -46,7 +46,7 @@ def erzeugeGleichungmitZweiVariablenZeichnen(variabel='x y',mitKlammer=False,mit
     return [afg,lsg,G]
 
 
-def erzeugeZweiGleichungmitZweiVariablen(variabel='x y',mitKlammer=False,zeichnerisch=True):
+def erzeugeZweiGleichungmitZweiVariablen(variabel='x y',mitKlammer=False,zeichnerisch=True,ohneUmformen=False):
 #Diese Funktion erzeugt zwei Gleichungen mit zwei Variablen
 #
 #Aufruf
@@ -54,17 +54,24 @@ def erzeugeZweiGleichungmitZweiVariablen(variabel='x y',mitKlammer=False,zeichne
 #
 #   variabel= Variabel der Gleichung, x oder y oder a usw.
     lsg='Error'
+    x=variabel.split(' ')[0]
+    y=variabel.split(' ')[1]
     while 'Error' in lsg:
         G1=''
-        while not ((variabel.split(' ')[0] in G1) and  (variabel.split(' ')[1] in G1)):
+        while not ((x in G1) and  (y in G1)):
             term1=erzeugeTerm(variablen=variabel,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=4,mitKlammer=False)
             term2=erzeugeTerm(variablen=variabel,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=4,mitKlammer=False)
-            G1=term1+'='+term2
+            G1=term1+'='+term2              
         G2=''
-        while not ((variabel.split(' ')[0] in G2) and  (variabel.split(' ')[1] in G2)):
+        while not ((x in G2) and  (y in G2)):
             term1=erzeugeTerm(variablen=variabel,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=4,mitKlammer=False)
             term2=erzeugeTerm(variablen=variabel,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=4,mitKlammer=False)
             G2=term1+'='+term2
+        if ohneUmformen:
+            term1=erzeugeTerm(variablen=x,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=4,mitKlammer=False)
+            term2=erzeugeTerm(variablen=x,anzahl=2,variMaxAnzProUnterterm=1,maxMulti=4,mitKlammer=False)
+            G1=F'{y}={term1}'
+            G2=F'{y}={term2}'
         afg=['\\pbox{\\linewidth}{']
         afg=afg+(['Bestimme den Schnittpunkt der beiden Gleichungen'] if zeichnerisch else ['Löse die beiden Gleichungen durch Gleichsetzen'])
         afg=afg+['\\\\']
