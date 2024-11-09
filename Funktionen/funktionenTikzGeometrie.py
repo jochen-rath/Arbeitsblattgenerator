@@ -10,6 +10,23 @@ import random
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
 
+def scheitelNebenStufenWechselWinkel(w1='0',w2='0',laenge=5):
+    import numbers
+    w1=w1 if isinstance(w1, numbers.Number) else random.randint(-44,44)
+    w2=w2 if isinstance(w2, numbers.Number) else random.randint(46,134)
+    tikzcommand=['\\begin{tikzpicture}']
+    tikzcommand.append(F'\\draw[thick,black] (0,0) coordinate(S) --  ++({w1}:{laenge/2} ) coordinate(B) ;')
+    tikzcommand.append(F'\\draw[thick,black] (0,0) --  ++({w1+180}:{laenge/2} ) coordinate(A) ;')
+    tikzcommand.append(F'\\draw[thick,black] (0,0) --  ++({w2}:{laenge/2} ) coordinate(D) ;')
+    tikzcommand.append(F'\\draw[thick,black] (0,0) --  ++({w2+180}:{laenge/2} ) coordinate(C) ;')
+    tikzcommand.append(F'\\pic [draw,thick, black,fill=red,angle radius=0.7cm, " "] {{angle = B--S--D}};')    
+    tikzcommand.append(F'\\pic [draw,thick, -,angle radius=0.6cm, " "] {{angle = D--S--A}};')    
+    tikzcommand.append(F'\\pic [draw,thick, -,angle radius=0.7cm, " "] {{angle = A--S--C}};')    
+    tikzcommand.append(F'\\pic [draw,thick, -,angle radius=0.6cm, " "] {{angle = C--S--B}};')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+    
+
 def winkelZeichnen(winkel=[34,'34'],laenge=5,LSG=True):
     sW=0 if LSG else random.randint(-45,45)
     tikzcommand=['\\begin{tikzpicture}']
