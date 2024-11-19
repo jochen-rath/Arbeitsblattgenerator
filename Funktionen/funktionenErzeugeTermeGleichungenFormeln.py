@@ -214,7 +214,7 @@ def erzeugeSummenAusmultiAuskl(n=2,ausKlammern=False,mitText=True):
     terme[0]=terme[0][1:] if terme[0][0]=='+' else terme[0]
     klammer=(F'{vorKl}*({"".join(terme)})')
     afg='Multipliziere die Klammer aus:'
-    afg=(afg if mitText else "")+ F'${"$" if mitText else ""}{klammer}{"$" if mitText else ""}$'
+    afg=[(afg if mitText else "")+ F'${"$" if mitText else ""}{klammer}{"$" if mitText else ""}$']
     vorKl=F'({vorKl})' if vorKl[0]=='-' else vorKl
 #Schreibe die Lösung auf, indem der Term vor der Klammer zwischen + oder -  und dem dazugehörigen Term geschrieben wird.
 #Achtung, der erste Term in der Klammer hat eventuell kein +

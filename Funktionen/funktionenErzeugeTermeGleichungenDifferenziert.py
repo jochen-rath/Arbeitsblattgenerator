@@ -85,68 +85,119 @@ def erzeugeMalGeteiltDifferenziert(mitZahlen=False):
     lsg=erzeugeTikzAlignedUmrandung(lsg)
     return [afg,lsg,[]]
 
-def erzeugeMalPlusMinusDifferenziert(mitZahlen=False):
-    op=random.choice(['+','-'])
-    x=random.randint(1,12) if random.randint(0,1)>0 else -random.randint(1,12) 
-    a=random.randint(2,10)
-    b=random.randint(1,50)
-    c=a*x+b if op=='+' else a*x-b
-    afg=[f'{a}x{op}{b} & ={c} & & \\mid {f"{invOp[op]}{b}" if mitZahlen else linie} \\\\[0.5cm]']
-    afg=afg+[f'{a}x & ={linie} & & \\mid {f":{a}" if mitZahlen else linie} \\\\[0.5cm]']
-    if mitZahlen:
-        afg.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{x = {linie} }}}}}}')
-    afg=afg+[f'x & = {linie}  & & \\\\[0.5cm]']
-    afg.append(f'\\mbox{{Probe}}: \\qquad&   & & \\\\')
-    afg.append(f'{a}x{op}{b} & ={c}& &  \\\\[0.5cm]')
-    afg.append(f'{a}·{(x if x>0 else f"({x})") if mitZahlen else linie}{op}{b} & ={c} & &  \\\\[0.5cm]')
-    afg.append(f'{a*x if mitZahlen else linie}{op}{b} & ={c} & &  \\\\[0.5cm]')
-    if mitZahlen:
-        afg.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{x = {linie} }}}}}}')
-    afg.append(f'{linie} & ={c} & &  \\\\[0.5cm]')
-    lsg=[f'{a}x{op}{b} & ={c} & & \\mid \\uline{{~\\textcolor{{red}}{{{f"{invOp[op]}{b}"}}}~}} \\\\[0.5cm]']
-    lsg=lsg+[f'{a}{opZumText["*"]}x & =\\uline{{~\\textcolor{{red}}{{{eval(f"{c}{invOp[op]}{b}")}}}~}} & & \\mid \\uline{{~\\textcolor{{red}}{{{f":{a}"}}}~}} \\\\[0.5cm]']
-    lsg.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{x = {linie} }}}}}}')
-    lsg=lsg+[f'x & = \\uline{{~\\textcolor{{red}}{{{x}}}~}}  & & \\\\[0.5cm]']
-    lsg.append(f'\\mbox{{Probe}}: \\qquad&   & & \\\\[0.5cm]')
-    lsg.append(f'{a}x{op}{b} & ={c}& &  \\\\[0.5cm]')
-    lsg.append(f'{a}·\\uline{{~\\textcolor{{red}}{{{(x if x>0 else f"({x})")}}}~}}{op}{b} & ={c} & &  \\\\[0.5cm]')
-    lsg.append(f'\\uline{{~\\textcolor{{red}}{{{a*x}}}~}}{op}{b} & ={c} & &  \\\\[0.5cm]')
-    lsg.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{x = {linie} }}}}}}')
-    lsg.append(f'\\uline{{~\\textcolor{{red}}{{{c}}}~}} & ={c} & &  \\\\[0.5cm]')
-    afg=erzeugeTikzAlignedUmrandung(afg)
-    lsg=erzeugeTikzAlignedUmrandung(lsg)
-    return [afg,lsg,[]]
+def listZuAligned(eingabe):
+    ausgabe=[]
+    maxSpalten=1
+    for zeile in eingabe:
+        maxSpalten=max(maxSpalten,len(zeile))
+        if not (True in ['makebox' in x for x in zeile]):
+            ausgabe.append(f'{"&".join(zeile)}  \\\\[0.5cm]')
+        else:
+            ausgabe.append(''.join(zeile))
+    return ausgabe
+
+def lsgRot(rot,mitLsg=False):
+    return '\\textcolor{red}{'+str(rot)+'}' if mitLsg else rot
+def schMit(a,mittenDrin=False,mitLsg=False):
+#Schreibe Mittendrin, d.h. diese Funktion wird von einer anderen Aufgabe aufgerufen
+    return a if not mittenDrin else (lsgRot(a,mitLsg) if mitLsg else linie)
+
+def schreibeMalPlusMinus(a=-2,b=-3,x=6,mitZahlen=False,mitLsg=False,umdrehen=False,mitDrin=False):
+    c=a*x+b
+    op='-' if b<0 else '+'
+    calc=[[f'{schMit(a,mitDrin,mitLsg)}x{op}{schMit(abs(b),mitDrin,mitLsg)} ',f'={schMit(c,mitDrin,mitLsg)}',' ',f'\\mid {lsgRot(f"{invOp[op]}{abs(b)}",mitLsg) if mitZahlen or mitLsg else linie}']]
+    calc.append([f'{schMit(a,mitDrin,mitLsg)}x',f'= {lsgRot(c-b,mitLsg) if mitLsg else linie}',' ',f'\\mid {lsgRot(f":{a}",mitLsg) if mitZahlen or mitLsg else linie}'])
+    calc.append([f'x',f'={lsgRot(x,mitLsg) if mitLsg else linie}',' ',' '])
+    calc.append([f'\\mbox{{Probe}}: \\qquad',' ',' ',' '])
+    if mittenDrin:
+        return calc
+    calc.append([f'{a}x{op}{abs(b)}',f'={c}',' ',' ',])
+    calc.append([f'{a}·{lsgRot(x if x>0 else f"({x})",mitLsg) if mitZahlen or mitLsg else linie}{op}{abs(b)}',f'={c} ',' ',' '])
+    calc.append([f'{lsgRot(a*x,mitLsg) if mitZahlen or mitLsg else linie}{op}{abs(b)} ',f'={c} ',' ',' '])
+    calc.append([f'{lsgRot(c,mitLsg) if mitLsg else linie} ',f'={c}',' ',' '])
+#Unterstreichen
+    if umdrehen:
+        for i in 0,1,4,5,6,7:
+            calc[i][0],calc[i][1]=calc[i][1].replace('=',''),f'={calc[i][0]}'
+        calc.insert(2,[f'{lsgRot(x,mitLsg) if mitLsg else linie}','=x',' ',f'\\mid {lsgRot("$$mbox{{umdrehen}}",mitLsg) if mitLsg else linie} '.replace('$$','\\')])
+    if mitZahlen or mitLsg:
+        calc.insert(-1,[f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{{x} = {x}\quad }}}}}}'])
+        calc.insert(3 if umdrehen else 2,[f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{{x} = {x} }}}}}}'])
+    return listZuAligned(calc)
+
+
+def schreibeMalPlusMinus(a=-2,b=-3,x=6,c=0,mitZahlen=False,mitLsg=False,umdrehen=False,mitDrin=False):
+#mitDrin=mittenDrin,schMit=schreibeMittendrin: Die Zahl wird nicht geschrieben, wenn die Funktion
+#von einer anderen Lösungsfunktion aufgerufen wird.
+#    a*x+b=c*x+d
+    d=a*x+b-c*x
+    calc=[]
+    L=f'{schMit(a,mitDrin,mitLsg)}x{vZ(b)}{schMit(abs(b),mitDrin,mitLsg)}'
+    if not c==0:
+        R=f'{schMit(d,mitDrin,mitLsg)}{vZ(c)}{schMit(abs(c),mitDrin,mitLsg)}x' if umdrehen else f'{schMit(abs(c),mitDrin,mitLsg)}x{vZ(d)}{schMit(abs(d),mitDrin,mitLsg)}'
+        calc.append([f'{L}',f'={R}',' ',f' \\mid {lsgRot(invOp[vZ(c)]+str(abs(c))+"x",mitLsg) if mitZahlen or mitLsg else linie}'])
+        L=f'{lsgRot(a-c,mitLsg) if mitLsg else linie}x{vZ(b)}{schMit(abs(b),mitDrin,mitLsg)}'
+        R=f'{d if mitLsg else linie}'
+    else:
+        R=f'{schMit(d,mitDrin,mitLsg)}'
+    calc.append([f'{L}',f'={R}',' ',f' \\mid {lsgRot(invOp[vZ(b)]+str(abs(b)),mitLsg) if mitZahlen or mitLsg else linie}'])    
+    calc.append([f'{lsgRot(a-c,mitLsg)}x',f'={lsgRot(d-b,mitLsg)}',' ',f'\\mid {lsgRot(":"+("(" if a-c<0 else "" )+f"{a-c}"+(")" if a-c<0 else "" ),mitLsg) if mitZahlen or mitLsg else linie}'])
+    calc.append([f'x',f'={lsgRot(x,mitLsg) if mitLsg else linie}',' ',' '])
+    calc.append([f'\\mbox{{Probe}}: \\qquad',' ',' ',' '])
+    if mitDrin:
+        return calc
+    calc.append([f'{a}x{vZ(b)}{abs(b)}',f'={c}',' ',' ',])
+    calc.append([f'{a}·{lsgRot(x if x>0 else f"({x})",mitLsg) if mitZahlen or mitLsg else linie}{vZ(b)}{abs(b)}',f'={c} ',' ',' '])
+    calc.append([f'{lsgRot(a*x,mitLsg) if mitZahlen or mitLsg else linie}{vZ(b)}{abs(b)} ',f'={c} ',' ',' '])
+    calc.append([f'{lsgRot(c,mitLsg) if mitLsg else linie} ',f'={c}',' ',' '])
+#Unterstreichen
+    if umdrehen:
+        for i in 0,1,4,5,6,7:
+            calc[i][0],calc[i][1]=calc[i][1].replace('=',''),f'={calc[i][0]}'
+        calc.insert(2,[f'{lsgRot(x,mitLsg) if mitLsg else linie}','=x',' ',f'\\mid {lsgRot("$$mbox{{umdrehen}}",mitLsg) if mitLsg else linie} '.replace('$$','\\')])
+    if mitZahlen or mitLsg:
+        calc.insert(-1,[f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{{x} = {x}\quad }}}}}}'])
+        calc.insert(3 if umdrehen else 2,[f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{{x} = {x} }}}}}}'])
+    return listZuAligned(calc)
+
+
+def schreibeMalPlusMinusBeideSeiten(a=-4,b=-6,c=7,x=5,mitZahlen=False,mitLsg=False,gedreht=False,mittenDrin=False):
+    #Löst eine Gleichung der Form: a*x+b=c*x+d
+    d=a*x+b-c*x
+    L=f'{schMit(a,mittenDrin,mitLsg)}x{vZ(b)}{schMit(abs(b),mittenDrin,mitLsg)}'
+    R=f'{schMit(d,mittenDrin,mitLsg)}{vZ(c)}{schMit(abs(c),mittenDrin,mitLsg)}x' if gedreht else f'{schMit(abs(c),mittenDrin,mitLsg)}x{vZ(d)}{schMit(abs(d),mittenDrin,mitLsg)}'
+    calc=[[f'{L}',f'={R}',' ',f' \\mid {lsgRot(invOp[vZ(c)]+str(abs(c))+"x",mitLsg) if mitZahlen or mitLsg else linie}']]
+    calc=calc+schreibeMalPlusMinus(a=a-c,b=b,x=x,mitZahlen=mitZahlen,mitLsg=mitLsg,mittenDrin=True)
+    if mittenDrin:
+        return calc
+    calc.append([f'{L}',f'={R}',' ',' ',])    
+    L=f'{a if not mittenDrin else (lsgRot(a,mitLsg) if mitLsg else linie)}·{lsgRot(x if x>0 else f"({x})",mitLsg) if mitZahlen or mitLsg else linie}{vorz["b"]}{abs(b) if not mittenDrin else (lsgRot(abs(b),mitLsg) if mitLsg else linie)}'
+    R=f'{d}{vorz["c"]}{abs(c)}·{lsgRot(x if x>0 else f"({x})",mitLsg) if mitZahlen or mitLsg else linie}' if gedreht else f'{c}·{lsgRot(x if x>0 else f"({x})",mitLsg) if mitZahlen or mitLsg else linie}{vorz["d"]}{abs(d)}'
+    calc.append([f'{L}',f'={R}',' ',' ',])
+    L=f'{lsgRot(a*x,True) if mitLsg else linie}{vorz["b"]}{abs(b)}'
+    R=f'{d}{vorz["c"]}{lsgRot(abs(c)*x,mitLsg) if mitLsg else linie}' if gedreht else f'{lsgRot(c*x,True) if mitLsg else linie}{vorz["d"]}{abs(d)}'
+    calc.append([f'{L}',f'={R}',' ',' ',]) 
+    calc.append([f'{lsgRot(a*x+b,mitLsg) if mitLsg else linie}',f'={lsgRot(c*x+d,mitLsg) if mitLsg else linie}',' ',' ',])       
+    return listZuAligned(calc)
+
+def schreibeErstZusammenfassen(x=-13,wL=[6, 5, 37, -28],wR=[-1, -9, 35, -299],iL= [0, 2, 3, 1],iR=[3, 2, 1, 0],mitZahlen=False,mitLsg=False):
+    wxL=[f'{vZ(wL[0])}{abs(wL[0])}x',f'{vZ(wL[1])}{abs(wL[1])}x',f'{vZ(wL[2])}{abs(wL[2])}',f'{vZ(wL[3])}{abs(wL[3])}']
+    wxR=[f'{vZ(wR[0])}{abs(wR[0])}x',f'{vZ(wR[1])}{abs(wR[1])}x',f'{vZ(wR[2])}{abs(wR[2])}',f'{vZ(wR[3])}{abs(wR[3])}']
+    L=''.join([wxL[i] for i in iL])
+    R=''.join([wxR[i] for i in iR])
+    L,R=L[1:] if L[0]=='+' else L,R[1:] if R[0]=='+' else R
+    calc=[[f'{L}',f'={R}',' ',f' \\mid {"$$mbox{Zusammenfassen}" if mitZahlen or mitLsg else linie}'.replace('$$','\\')]]
+    calc=calc+schreibeMalPlusMinusBeideSeiten(a=wL[0]+wL[1],b=wL[2]+wL[3],c=wR[0]+wR[1],x=x,mitZahlen=mitZahlen,mitLsg=mitLsg,mittenDrin=True)
+    return listZuAligned(calc)
     
-def erzeugeMalPlusMinusXRechtsDifferenziert(mitZahlen=False):
+def erzeugeMalPlusMinusDifferenziert(mitZahlen=False,xRechts=False):
     op=random.choice(['+','-'])
     x=random.randint(1,12) if random.randint(0,1)>0 else -random.randint(1,12) 
     a=random.randint(2,10)
     b=random.randint(1,50)
     c=a*x+b if op=='+' else a*x-b
-    afg=[f'{c}& = {a}x{op}{b} & & \\mid {f"{invOp[op]}{b}" if mitZahlen else linie} \\\\[0.5cm]']
-    afg=afg+[f' {linie} & ={a}x& & \\mid {f":{a}" if mitZahlen else linie} \\\\[0.5cm]']
-    afg=afg+[f' {linie} & =x& & \\mid {"$$mbox{umdrehen}" if mitZahlen else linie} \\\\[0.5cm]'.replace('$$','\\')]
-    if mitZahlen:
-        afg.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{x = {linie} }}}}}}')
-    afg=afg+[f'x & = {linie}  & & \\\\[0.5cm]']
-    afg.append(f'\\mbox{{Probe}}: \\quad&   & & \\\\')
-    afg.append(f'{c} & = {a}x{op}{b}& &  \\\\[0.5cm]')
-    afg.append(f' {c}& = {a}·{(x if x>0 else f"({x})") if mitZahlen else linie}{op}{b}& &  \\\\[0.5cm]')
-    afg.append(f'{c}& = {a*x if mitZahlen else linie}{op}{b} & &  \\\\[0.5cm]')
-    if mitZahlen:
-        afg.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{x = {linie} }}}}}}')
-    afg.append(f'{c} & ={linie} & &  \\\\[0.5cm]')
-    lsg=[f'{c} & ={a}x{op}{b} & & \\mid \\uline{{~\\textcolor{{red}}{{{f"{invOp[op]}{b}"}}}~}} \\\\[0.5cm]']
-    lsg=lsg+[f'\\uline{{~\\textcolor{{red}}{{{eval(f"{c}{invOp[op]}{b}")}}}~}} & ={a}{opZumText["*"]}x  & & \\mid \\uline{{~\\textcolor{{red}}{{{f":{a}"}}}~}} \\\\[0.5cm]']
-    lsg=lsg+[f'\\uline{{~\\textcolor{{red}}{{{x}}}~}} & = x  & & \\mid \\mbox{{umdrehen}} \\\\[0.5cm]']
-    lsg.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{x = {linie} }}}}}}')
-    lsg=lsg+[f'x & = \\uline{{~\\textcolor{{red}}{{{x}}}~}}  & & \\\\[0.5cm]']
-    lsg.append(f'\\mbox{{Probe}}: \\quad&   & & \\\\[0.5cm]')
-    lsg.append(f'{c}& ={a}x{op}{b} & &  \\\\[0.5cm]')
-    lsg.append(f'{c} & ={a}·\\uline{{~\\textcolor{{red}}{{{(x if x>0 else f"({x})")}}}~}}{op}{b} & &  \\\\[0.5cm]')
-    lsg.append(f'{c} & =\\uline{{~\\textcolor{{red}}{{{a*x}}}~}}{op}{b}& &  \\\\[0.5cm]')
-    lsg.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{x = {linie} }}}}}}')
-    lsg.append(f'{c}& = \\uline{{~\\textcolor{{red}}{{{c}}}~}} & &  \\\\[0.5cm]')
+    afg=schreibeMalPlusMinus(a=a,b=b,x=x,mitZahlen=mitZahlen,mitLsg=False,umdrehen=xRechts)
+    lsg=schreibeMalPlusMinus(a=a,b=b,x=x,mitZahlen=mitZahlen,mitLsg=True,umdrehen=xRechts)
     afg=erzeugeTikzAlignedUmrandung(afg)
     lsg=erzeugeTikzAlignedUmrandung(lsg)
     return [afg,lsg,[]]
@@ -155,59 +206,37 @@ def erzeugeMalPlusMinusXRechtsDifferenziert(mitZahlen=False):
 def erzeugeMalPlusMinusBeideSeitenDifferenziert(mitZahlen=False):
     a,b,c,d=1,1,1,1
     gedreht=random.choice([True,False])
-    while int(a)==int(d) or a==c:
+    while int(a)==int(d) or a==c or int(d)==0:
         x=random.randint(1,20) if random.randint(0,1)>0 else -random.randint(1,20) 
         a=random.randint(2,10)
         b=random.choice([random.randint(-50,-1),random.randint(1,50)])
         c=random.randint(2,10) if random.randint(0,1)>0 else -random.randint(2,10) 
         d=a*x+b-c*x
-    vorzeiB="+" if b>0 else "-"
-    vorzeiC="+" if c>0 else "-"
-    vorzeiD="+" if d>0 else "-"
-    vorzeiAC="+" if a-c>0 else "-"
-    vorzeiCX="+" if c*x>0 else "-"
-    L=f'{a}x{vorzeiB}{abs(b)}'
-    R=f'{d}{vorzeiC}{abs(c)}x' if gedreht else f'{c}x{vorzeiD}{abs(d)}'
-    afg=[f'{L} & ={R} & & \\mid {f"{invOp[vorzeiC]}{abs(c)}x" if mitZahlen else linie} \\\\[0.5cm]']
-#    afg.append(f'{(f"{a-c}x" if not a-c==1 else "") if mitZahlen else linie} {vorzeiB}{abs(b)}& ={d} & & \\mid {f"{invOp[vorzeiB]}{abs(b)}" if mitZahlen else linie} \\\\[0.5cm]')
-    afg.append(f'{linie} {vorzeiB}{abs(b)}& ={d} & & \\mid {f"{invOp[vorzeiB]}{abs(b)}" if mitZahlen else linie} \\\\[0.5cm]')
-    if not a-c==1:
-        klammer=f':{f"({vorzeiAC}" if a-c<0 else ""}{abs(a-c)}{f")" if a-c<0 else ""}'
-#        afg.append(f'{f"{a-c}x" if mitZahlen else linie} & ={linie} & & \\mid {f"{klammer}" if mitZahlen else linie} \\\\[0.5cm]')
-        afg.append(f'{linie} & ={linie} & & \\mid {f"{klammer}" if mitZahlen else linie} \\\\[0.5cm]')
-    if mitZahlen:
-        afg.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{x = {linie} }}}}}}')
-    afg.append(f'{"x" if mitZahlen else linie}  & = {linie}  & & \\\\[0.5cm]')
-    afg.append(f'\\mbox{{Probe}}: \\qquad&   & & \\\\')
-    afg.append(f'{L} & ={R}& &  \\\\[0.5cm]')
-    L=f'{a}·{(x if x>0 else f"({x})") if mitZahlen else linie}{vorzeiB}{abs(b)} '
-    R=f'{d}{vorzeiC}{abs(c)}·{(x if x>0 else f"({x})") if mitZahlen else linie}' if gedreht else f'{c}·{(x if x>0 else f"({x})") if mitZahlen else linie}{vorzeiD}{abs(d)}'
-    afg.append(f'{L} & ={R}& &  \\\\[0.5cm]')
-    L=f'{linie}{vorzeiB}{abs(b)} '
-    R=f'{d}{vorzeiC}{linie}' if gedreht else f'{linie}{vorzeiD}{abs(d)}'
-    afg.append(f'{L} & ={R}& &  \\\\[0.5cm]')
-    if mitZahlen:
-        afg.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{{linie} = {linie} }}}}}}')
-    afg.append(f'{linie} & ={linie} & &  \\\\[0.5cm]')
-    L=f'{a}x{vorzeiB}{abs(b)}'
-    R=f'{d}{vorzeiC}{abs(c)}x' if gedreht else f'{c}x{vorzeiD}{abs(d)}'
-    lsg=[f'{L} & ={R} & & \\mid ~\\textcolor{{red}}{{{invOp[vorzeiC]}{abs(c)}x}} \\\\[0.5cm]']
-    lsg.append(f'~\\textcolor{{red}}{{{f"{a-c}" if not a-c==1 else ""}x}}{vorzeiB}{abs(b)}& ={d} & & \\mid ~\\textcolor{{red}}{{{f"{invOp[vorzeiB]}{abs(b)}"}}} \\\\[0.5cm]')
-    if not a-c==1:
-        klammer=f'~\\textcolor{{red}}{{:{f"({vorzeiAC}" if a-c<0 else ""}{abs(a-c)}{f")" if a-c<0 else ""}}}'
-        lsg.append(f'{a-c}x & =~\\textcolor{{red}}{{{d-b}}} & & \\mid {klammer} \\\\[0.5cm]')
-    lsg.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{x = {linie} }}}}}}')
-    lsg.append(f'x & = ~\\textcolor{{red}}{{{x}}}  & & \\\\[0.5cm]')
-    lsg.append(f'\\mbox{{Probe}}: \\qquad&   & & \\\\')
-    lsg.append(f'{L} & ={R}& &  \\\\[0.5cm]')
-    L=f'{a}·\\textcolor{{red}}{{{(x if x>0 else f"({x})")}}}{vorzeiB}{abs(b)} '
-    R=f'{d}{vorzeiC}{abs(c)}·\\textcolor{{red}}{{{(x if x>0 else f"({x})")}}}' if gedreht else f'{c}·\\textcolor{{red}}{{{(x if x>0 else f"({x})")}}}{vorzeiD}{abs(d)}'
-    lsg.append(f'{L} & ={R}& &  \\\\[0.5cm]')
-    L=f'\\textcolor{{red}}{{{a*x}}}{vorzeiB}{abs(b)} '
-    R=f'{d}{vorzeiCX}\\textcolor{{red}}{{{abs(c*x)}}}' if gedreht else f'\\textcolor{{red}}{{{c*x}}}{vorzeiD}{abs(d)}'
-    lsg.append(f'{L} & ={R}& &  \\\\[0.5cm]')
-    lsg.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{{a*x+b} = {a*x+b} }}}}}}')
-    lsg.append(f'\\textcolor{{red}}{{{a*x+b}}} & =\\textcolor{{red}}{{{c*x+d}}} & &  \\\\[0.5cm]')
+    afg=erzeugeTikzAlignedUmrandung(schreibeMalPlusMinusBeideSeiten(a=a,b=b,c=c,x=x,mitZahlen=mitZahlen,mitLsg=False))
+    lsg=erzeugeTikzAlignedUmrandung(schreibeMalPlusMinusBeideSeiten(a=a,b=b,c=c,x=x,mitZahlen=mitZahlen,mitLsg=True))
+    return [afg,lsg,[]]
+
+def vZ(x):
+    return "+" if x>0 else "-"
+
+def erzeugeGlErstZusammenfassenDifferenziert(mitZahlen=False,nurLinks=True,xRechts=False):
+    wL,wR=4*[0],4*[0]
+    while 0 in wL or 0 in wR or x==0:
+        wL=[random.randint(-12,12),random.randint(-12,12),random.randint(-50,50),random.randint(-50,50)]
+        wR=[random.randint(-12,12),random.randint(-12,12),random.randint(-50,50),random.randint(-50,50)]
+        x=random.randint(-30,30)
+        wR[-1]=wL[0]*x+wL[1]*x+wL[2]+wL[3]-wR[0]*x-wR[1]*x-wR[2]
+    iL,iR=list(range(4)),list(range(4))
+    random.shuffle(iL)
+    random.shuffle(iR)
+    return x,wL,wR,iL,iR
+    op=random.choice(['+','-'])
+    x=random.randint(1,12) if random.randint(0,1)>0 else -random.randint(1,12) 
+    a=random.randint(2,10)
+    b=random.randint(1,50)
+    c=a*x+b if op=='+' else a*x-b
+    afg=schreibeMalPlusMinus(a=a,b=b,x=x,mitZahlen=mitZahlen,mitLsg=False,umdrehen=xRechts)
+    lsg=schreibeMalPlusMinus(a=a,b=b,x=x,mitZahlen=mitZahlen,mitLsg=True,umdrehen=xRechts)
     afg=erzeugeTikzAlignedUmrandung(afg)
     lsg=erzeugeTikzAlignedUmrandung(lsg)
     return [afg,lsg,[]]

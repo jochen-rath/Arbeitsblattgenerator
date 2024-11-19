@@ -234,8 +234,8 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'einfGlNurMalGeteiltDiff':F'erzeugeMalGeteiltDifferenziert(mitZahlen=False)',
         'einfGlNurMalPlusMinusDiffMitZahlen':F'erzeugeMalPlusMinusDifferenziert(mitZahlen=True)',
         'einfGlNurMalPlusMinusDiff':F'erzeugeMalPlusMinusDifferenziert(mitZahlen=False)',
-        'einfGlNurMalPlusMinusXRechtsDiffMitZahlen':F'erzeugeMalPlusMinusXRechtsDifferenziert(mitZahlen=True)',
-        'einfGlNurMalPlusMinusXRechtsDiff':F'erzeugeMalPlusMinusXRechtsDifferenziert(mitZahlen=False)',
+        'einfGlNurMalPlusMinusXRechtsDiffMitZahlen':F'erzeugeMalPlusMinusDifferenziert(mitZahlen=True,xRechts=True)',
+        'einfGlNurMalPlusMinusXRechtsDiff':F'erzeugeMalPlusMinusDifferenziert(mitZahlen=False,xRechts=True)',
         'einfGlNurMalPlusMinusBeideSeitenDiffMitZahlen':F'erzeugeMalPlusMinusBeideSeitenDifferenziert(mitZahlen=True)',
         'einfGlNurMalPlusMinusBeideSeitenDiff':F'erzeugeMalPlusMinusBeideSeitenDifferenziert(mitZahlen=False)',
 #Gleichungen 
