@@ -17,6 +17,27 @@ tikzFarben=['black','red','green','blue','cyan','magenta','olive','orange','pink
 farbenTikzDeutsch={'Schwarz':'black','Rot':'red','Grün':'green','Blau':'blue','Cyan':'cyan','Magenta':'magenta','Olive':'olive','Orange':'orange','Pink':'pink','Lila':'purple','Braun':'brown','Gelb':'yellow','Dunkelgrün':'darkgray','Grau':'gray','Hellgrau':'lightgray','Lime':'lime','Blaugrün':'teal','violett':'violet','Weiß':'white'}
 zahlenWoerter=['Null','Eins','Zwei','Drei','Vier','Fuenf','Sechs','Sieben','Acht','Neun','Zehn','Elf','Zwoelf']
 
+
+def erzeugeTikzAlignedUmrandung(alignedBefehle=['x&=5+8']):
+    latexcommand=[]
+    latexcommand.append('\\begingroup\\setlength{\\jot}{-0.03cm}')
+    latexcommand.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')  
+    latexcommand.append('\\begin{tikzpicture}[show background grid]')  
+    latexcommand.append('\\node[below right] at (0,0.1) {')  
+    latexcommand.append('$\\begin{aligned}')
+    latexcommand.append('\\end{aligned}$};')
+    latexcommand.append('\\end{tikzpicture}')   
+    latexcommand.append('\\endgroup')
+    return latexcommand[:5]+alignedBefehle+latexcommand[-3:]
+
+def erzeugeTikzUmrandung(tikzcommand=['\\draw (0,0) -- ++(1,0) -- ++(0,1) -- ++(-1,0) -- cycle;']):
+    latexcommand=[]
+
+    latexcommand.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')  
+    latexcommand.append('\\begin{tikzpicture}[show background grid]')  
+    latexcommand.append('\\end{tikzpicture}')   
+    return latexcommand[:2]+tikzcommand+latexcommand[-1:]
+
 def spliteSeiteAddSub(S):
 #Am Anfang der Gleichung muss ein Plus oder Minus stehen, damit bei der Termumformung die richtige Operation gewählt werden kann.
     if not (S[0]=='-' or S[0]=='+'):

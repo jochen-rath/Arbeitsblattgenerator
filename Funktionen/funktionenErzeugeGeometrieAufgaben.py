@@ -159,42 +159,43 @@ def erzeugeDreieckSSSKonstruktion(mitText=True,anzSpalten=[2,2]):
     lsg=dreieckSSSKonstruktion(a,b,c)
     return [afg,lsg,[]]
 
-def erzeugeDreieckSWSKonstruktion(mitText=True,anzSpalten=[2,2]):
-    auswahl=random.randint(0,2)
-    winkelBez=['alpha','beta','gamma']
-    seitenBez=[['c','b'],['a','c'],['b','a']]
-    l1,l2=random.randint(20,60)/10,random.randint(20,60)/10
-    winkel=random.randint(20,140)
-    groesse='{17 cm}' if anzSpalten[1] == 1 else '{7 cm}'
-    afg=[f'\\pbox{groesse}{{']
-    afg=afg+([F'Konstruiere das Dreieck aus folgenden Werten:\\\\']  if mitText else [])
+
+def erzeugeDreieckWSWKonstrukt(planfigur=False,mitText=True,anzSpalten=[2,2]):
+    WSW=[['alpha','c','beta'],['beta','a','gamma'],['alpha','b','gamma']]
+    auswahl=random.choice(WSW)
+    w1,w2=90,80
+    minWinkel=20 if anzSpalten[0] < 2 else 40
+    while abs(180-(w1+w2))<minWinkel:
+        w1=random.choice(list(range(20,120,10)))
+        w2=random.choice(list(range(20,180-w1,10)))
+    l=random.randint(40,60)/10 if anzSpalten[0] < 2 else random.randint(20,40)/10 
+    afg=['\\pbox{\\linewidth}{']
+    afg=afg+([F'{"Markiere" if planfigur else "Zeichne"} die Planfigure und Konstruiere das Dreieck für folgende Werten:\\\\']  if mitText else [])
     afg=afg+[F'$\\begin{{aligned}}']
-    afg=afg+[F'{seitenBez[auswahl][0]}&={strNW(l1)}~cm \\\\']
-    afg=afg+[F'\\{winkelBez[auswahl]}&={winkel}^\\circ \\\\']
-    afg=afg+[F'{seitenBez[auswahl][1]}&={strNW(l2)}~cm \\\\']
-    afg=afg+[F'\\end{{aligned}}$']
+    afg.append(f'\\{auswahl[0]}&={strNW(w1)}^\\circ \\\\')
+    afg=afg+[F'{auswahl[1]}&={strNW(l)}~cm\\\\']
+    afg=afg+[F'\\{auswahl[2]}&={strNW(w2)}^\\circ  \\\\']
+    afg=afg+[F'\\end{{aligned}}$ \\\\']
+    afg=afg+dreieckWSWKonstr(werte=[w1,l,w2],seite=auswahl[1],mitLsg=False,zeichnePlanfigur=planfigur)
     afg=afg+['}']
-    lsg=dreieckSWSKonstruktion(l1=l1,winkel=winkel,l2=l2,winkelBei=winkelBez[auswahl])
+    lsg=dreieckWSWKonstr(werte=[w1,l,w2],seite=auswahl[1],mitLsg=True,zeichnePlanfigur=True)
     return [afg,lsg,[]]
-def erzeugeDreieckWSWKonstruktion(mitText=True,anzSpalten=[2,2]):
-    auswahl=random.randint(0,2)
-    seiten=['a','b','c']
-    winkelBez=[['beta','gamma'],['gamma','alpha'],['alpha','beta']]
-    w1,w2=100,100
-    while w1+w2>140:
-        w1,w2=random.randint(20,140),random.randint(20,140)
-    if random.randint(0,9)<1:
-        w1=random.randint(80,110)
-        w2=(180-w1)+random.randint(5,30)
-    l=random.randint(20,60)/10
-    groesse='{17 cm}' if anzSpalten[1] == 1 else '{7 cm}'
-    afg=[f'\\pbox{groesse}{{']
-    afg=afg+([F'Konstruiere das Dreieck aus folgenden Werten:\\\\']  if mitText else [])
+
+def erzeugeDreieckSWSKonstrukt(planfigur=False,mitText=True,anzSpalten=[2,2]):
+    SWS=[['b','alpha','c'],['c','beta','a'],['a','gamma','b']]
+    auswahl=random.choice(SWS)
+    l1=random.randint(40,60)/10 if anzSpalten[0] < 2 else random.randint(20,40)/10
+    l2=random.randint(40,60)/10 if anzSpalten[0] < 2 else random.randint(20,40)/10 
+    w=random.choice(list(range(30,120,10)))
+    afg=['\\pbox{\\linewidth}{']
+    afg=afg+([F'{"Markiere" if planfigur else "Zeichne"} die Planfigure und Konstruiere das Dreieck für folgende Werten:\\\\']  if mitText else [])
     afg=afg+[F'$\\begin{{aligned}}']
-    afg.append(f'\\{winkelBez[auswahl][0]}&={strNW(w1)}^\\circ \\\\')
-    afg=afg+[F'{seiten[auswahl]}&={strNW(l)}~cm\\\\']
-    afg=afg+[F'\\{winkelBez[auswahl][1]}&={strNW(w2)}^\\circ  \\\\']
-    afg=afg+[F'\\end{{aligned}}$']
+    afg.append(f'{auswahl[0]}&={strNW(l1)}~cm \\\\')
+    afg=afg+[F'\\{auswahl[1]}&={strNW(w)}^\\circ \\\\']
+    afg=afg+[F'{auswahl[2]}&={strNW(l2)}~cm  \\\\']
+    afg=afg+[F'\\end{{aligned}}$ \\\\']
+    afg=afg+dreieckSWSKonstr(werte=[l1,w,l2],winkel=auswahl[1],mitLsg=False,zeichnePlanfigur=planfigur)
     afg=afg+['}']
-    lsg=dreieckWSWKonstruktion(w1=w1,l=l,w2=w2,seite=seiten[auswahl])
+    lsg=dreieckSWSKonstr(werte=[l1,w,l2],winkel=auswahl[1],mitLsg=True,zeichnePlanfigur=True)
     return [afg,lsg,[]]
+

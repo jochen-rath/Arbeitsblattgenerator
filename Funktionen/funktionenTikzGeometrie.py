@@ -159,125 +159,97 @@ def dreieckSSSKonstruktion(a=2,b=3,c=4):
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
-def dreieckSWSKonstruktion(l1=4,winkel=55,l2=3,winkelBei='alpha'):
-    l3=(l1**2+l2**2-2*l1*l2*math.cos(winkel*math.pi/180))**0.5
-    if winkelBei not in ['alpha','beta','gamma']:
-        return []
-    if winkelBei=='alpha':
-        alpha=winkel
-        a,b,c=l3,l2,l1
-        beta=math.acos((b**2-a**2-c**2)/(-2*a*c))*180/math.pi
-        gamma=180-alpha-beta
-    if winkelBei=='beta':
-        beta=winkel
-        a,b,c=l1,l3,l2
-        alpha=math.acos((a**2-b**2-c**2)/(-2*b*c))*180/math.pi
-        gamma=180-alpha-beta
-    if winkelBei=='gamma':
-        gamma=winkel
-        a,b,c=l2,l1,l3
-        alpha=math.acos((a**2-b**2-c**2)/(-2*b*c))*180/math.pi
-        beta=180-alpha-gamma
-    bogenR=0.75
-    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
-    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
-    if winkelBei=='alpha':
-        tikzcommand.append(F'\\draw[thick,black] (0,0) node[left]{{A}} --node[below]{{{strNW(c)} cm}} ({c},0) node[right]{{B}};')
-        tikzcommand.append(F'\\draw[thick,black] (0,0)  --node[left]{{{strNW(b)} cm}} ({alpha}:{b}) node[above]{{C}};')
-        tikzcommand.append(F'\\draw[thick,black] ({c},0)  --node[right]{{a}} ({alpha}:{b}) ;')
-        tikzcommand.append(F'\\draw[thick,red] ({bogenR},0) arc (0:{alpha}:{bogenR} cm) ;')
-        tikzcommand.append(F'\\node[red] at ({alpha/2}:{bogenR*0.75}) {{${alpha}^\\circ$}} ;')
-    if winkelBei=='beta':
-        tikzcommand.append(F'\\draw[thick,black] (0,0) node[left]{{A}} --node[below]{{{strNW(c)} cm}} ({c},0) node[right]{{B}};')
-        tikzcommand.append(F'\\draw[thick,black] (0,0)  -- node[left]{{b}} ({alpha}:{b}) node[above]{{C}};')
-        tikzcommand.append(F'\\draw[thick,black] ({c},0)  --node[right]{{{strNW(a)} cm}} ({alpha}:{b}) ;')
-        x=c+bogenR*0.75*math.cos((180-beta/2)*math.pi/180)
-        y=0+bogenR*0.75*math.sin((180-beta/2)*math.pi/180)
-        tikzcommand.append(F'\\draw[thick,red] ({c-bogenR},0) arc (180:{180-beta}:{bogenR} cm) ;')
-        tikzcommand.append(F'\\node[red] at ({x},{y}) {{${beta}^\\circ$}} ;')
-    if winkelBei=='gamma':
-        tikzcommand.append(F'\\draw[thick,black] (0,0) node[left]{{A}} --node[below]{{c}} ({c},0) node[right]{{B}};')
-        tikzcommand.append(F'\\draw[thick,black] (0,0)  --node[left]{{{strNW(b)} cm}} ({alpha}:{b}) node[above]{{C}};')
-        tikzcommand.append(F'\\draw[thick,black] ({c},0)  --node[right]{{{strNW(a)} cm}} ({alpha}:{b}) ;')
-        xBogen=(b-bogenR)*math.cos(alpha*math.pi/180)
-        yBogen=(b-bogenR)*math.sin(alpha*math.pi/180)
-        tikzcommand.append(F'\\draw[thick,red] ({xBogen},{yBogen}) arc ({180+alpha}:{180+alpha+gamma}:{bogenR} cm) ;')
-        xZahl=b*math.cos(math.radians(alpha))+bogenR*0.75*math.cos((180+alpha+gamma/2)*math.pi/180)
-        yZahl=b*math.sin(math.radians(alpha))+bogenR*0.75*math.sin((180+alpha+gamma/2)*math.pi/180)
-        tikzcommand.append(F'\\node[red] at ({xZahl},{yZahl}) {{${gamma}^\\circ$}} ;')
-    tikzcommand.append('\\end{tikzpicture}')
+
+def planfigur(urspr=[0,0],markieren=['alpha','b','gamma']):
+    markierenBefehle={'alpha':F'\\pic [draw,thick, green,angle radius=0.7cm, "$\\alpha$"] {{angle = B--A--C}};'}
+    markierenBefehle['beta']=F'\\pic [draw,thick, green,angle radius=0.7cm, "$\\beta$"] {{angle = C--B--A}};'
+    markierenBefehle['gamma']=F'\\pic [draw,thick, green,angle radius=0.7cm, "$\\gamma$"] {{angle = A--C--B}};'
+    markierenBefehle['a']=F'\\draw[thick,green] (B) -- (C);'
+    markierenBefehle['b']=F'\\draw[thick,green] (A) -- (C);'
+    markierenBefehle['c']=F'\\draw[thick,green] (A) -- (B);'
+    tikzcommand=[]
+    tikzcommand.append(f'\\draw[thick,black] ({urspr[0]},{urspr[1]}) coordinate(A) -- node[below,sloped]{{c}} ++(2,0) coordinate(B) -- node[above,sloped]{{a}} ++(-1,2) coordinate(C) -- node[above,sloped]{{b}} cycle; ')
+    tikzcommand.append(f'\\node[left] at (A) {{A}};')
+    tikzcommand.append(f'\\node[right] at (B) {{B}};')
+    tikzcommand.append(f'\\node[above] at (C) {{C}};')
+    tikzcommand.append(F'\\pic [draw,thick, black,angle radius=0.7cm, "$\\alpha$"] {{angle = B--A--C}};')
+    tikzcommand.append(F'\\pic [draw,thick, black,angle radius=0.7cm, "$\\beta$"] {{angle = C--B--A}};')
+    tikzcommand.append(F'\\pic [draw,thick, black,angle radius=0.7cm, "$\\gamma$"] {{angle = A--C--B}};')
+    for m in markieren:
+        tikzcommand.append(markierenBefehle[m])
     return tikzcommand
 
-def dreieckWSWKonstruktion(w1=40,l=5,w2=110,seite='c'):
-    bogenR=0.75
-    if seite not in ['a','b','c']:
-        return []
-    if w1+w2>180:
-        x=l+l*math.cos(math.radians(180-w2))
-        y=0+l*math.sin(math.radians(180-w2))
-        tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
-        tikzcommand.append('\\begin{tikzpicture}[show background grid]')
-        tikzcommand.append(F'\\draw[thick,black] (0,0)  -- node[below]{{{l} cm}}({l},0) ;')
-        tikzcommand.append(F'\\draw[thick,black] (0,0)--({w1}:{l}) ;')
-        tikzcommand.append(F'\\draw[thick,black] ({l},0) --({x},{y}) ;')
-        tikzcommand.append(F'\\draw[thick,red] ({bogenR},0) arc (0:{w1}:{bogenR} cm) ;')
-        tikzcommand.append(F'\\node[red] at ({w1/2}:{bogenR*0.75}) {{${w1}^\\circ$}} ;')
-        tikzcommand.append(F'\\draw[thick,red] ({l-bogenR},0) arc ({180}:{180-w2}:{bogenR} cm) ;')
-        tikzcommand.append(F'\\node[red] at ({l+bogenR*0.75*math.cos(math.radians(180-w2/2))},{bogenR*0.75*math.sin(math.radians(180-w2/2))}) {{${w2}^\\circ$}} ;')
-        tikzcommand.append('\\end{tikzpicture}')
-        return tikzcommand
-    if seite=='a':
-        a=l
-        beta=w1
-        gamma=w2
-        alpha=180-beta-gamma
-        b=a/math.sin(math.radians(alpha))*math.sin(math.radians(beta))
-        c=a/math.sin(math.radians(alpha))*math.sin(math.radians(gamma))
-    if seite=='b':
-        b=l
-        gamma=w1
-        alpha=w2
-        beta=180-alpha-gamma
-        a=b/math.sin(math.radians(beta))*math.sin(math.radians(alpha))
-        c=b/math.sin(math.radians(beta))*math.sin(math.radians(gamma))
-    if seite=='c':
-        c=l
-        alpha=w1
-        beta=w2
-        gamma=180-alpha-beta
-        a=c/math.sin(math.radians(gamma))*math.sin(math.radians(alpha))
-        b=c/math.sin(math.radians(gamma))*math.sin(math.radians(beta))
-    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
-    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
-    x=c+bogenR*0.75*math.cos((180-beta/2)*math.pi/180)
-    y=0+bogenR*0.75*math.sin((180-beta/2)*math.pi/180)
-    xBogen=(b-bogenR)*math.cos(alpha*math.pi/180)
-    yBogen=(b-bogenR)*math.sin(alpha*math.pi/180)
-    xZahl=b*math.cos(math.radians(alpha))+bogenR*0.75*math.cos((180+alpha+gamma/2)*math.pi/180)
-    yZahl=b*math.sin(math.radians(alpha))+bogenR*0.75*math.sin((180+alpha+gamma/2)*math.pi/180)
-    if seite=='c':
-        tikzcommand.append(F'\\draw[thick,black] (0,0) node[left]{{A}} --node[below]{{{strNW(c)} cm}} ({c},0) node[right]{{B}};')
-        tikzcommand.append(F'\\draw[thick,black] (0,0)  --node[left]{{b}} ({alpha}:{b}) node[above]{{C}};')
-        tikzcommand.append(F'\\draw[thick,black] ({c},0)  --node[right]{{a}} ({alpha}:{b}) ;')
-        tikzcommand.append(F'\\draw[thick,red] ({bogenR},0) arc (0:{alpha}:{bogenR} cm) ;')
-        tikzcommand.append(F'\\node[red] at ({alpha/2}:{bogenR*0.75}) {{${alpha}^\\circ$}} ;')
-        tikzcommand.append(F'\\draw[thick,red] ({c-bogenR},0) arc (180:{180-beta}:{bogenR} cm) ;')
-        tikzcommand.append(F'\\node[red] at ({x},{y}) {{${beta}^\\circ$}} ;')
-    if seite=='a':
-        tikzcommand.append(F'\\draw[thick,black] (0,0) node[left]{{A}} --node[below]{{c}} ({c},0) node[right]{{B}};')
-        tikzcommand.append(F'\\draw[thick,black] (0,0)  -- node[left]{{b}} ({alpha}:{b}) node[above]{{C}};')
-        tikzcommand.append(F'\\draw[thick,black] ({c},0)  --node[right]{{{strNW(a)} cm}} ({alpha}:{b}) ;')
-        tikzcommand.append(F'\\draw[thick,red] ({c-bogenR},0) arc (180:{180-beta}:{bogenR} cm) ;')
-        tikzcommand.append(F'\\node[red] at ({x},{y}) {{${beta}^\\circ$}} ;')
-        tikzcommand.append(F'\\draw[thick,red] ({xBogen},{yBogen}) arc ({180+alpha}:{180+alpha+gamma}:{bogenR} cm) ;')
-        tikzcommand.append(F'\\node[red] at ({xZahl},{yZahl}) {{${gamma}^\\circ$}} ;')
-    if seite=='b':
-        tikzcommand.append(F'\\draw[thick,black] (0,0) node[left]{{A}} --node[below]{{c}} ({c},0) node[right]{{B}};')
-        tikzcommand.append(F'\\draw[thick,black] (0,0)  --node[left]{{{strNW(b)} cm}} ({alpha}:{b}) node[above]{{C}};')
-        tikzcommand.append(F'\\draw[thick,black] ({c},0)  --node[right]{{a}} ({alpha}:{b}) ;')
-        tikzcommand.append(F'\\draw[thick,red] ({xBogen},{yBogen}) arc ({180+alpha}:{180+alpha+gamma}:{bogenR} cm) ;')
-        tikzcommand.append(F'\\node[red] at ({xZahl},{yZahl}) {{${gamma}^\\circ$}} ;')
-        tikzcommand.append(F'\\draw[thick,red] ({bogenR},0) arc (0:{alpha}:{bogenR} cm) ;')
-        tikzcommand.append(F'\\node[red] at ({alpha/2}:{bogenR*0.75}) {{${alpha}^\\circ$}} ;')
-    tikzcommand.append('\\end{tikzpicture}')
-    return tikzcommand
+def dreieckWSWKonstr(werte=[40,5,80],seite='b',mitLsg=True,zeichnePlanfigur=True):
+    markieren={'c':['alpha','c','beta'],'a':['beta','a','gamma'],'b':['gamma','b','alpha']}
+    markierenBefehle={'alpha':F'\\pic [draw,thick, angle radius=0.7cm, "$\\alpha$"] {{angle = B--A--C}};'}
+    markierenBefehle['beta']=F'\\pic [draw,thick, angle radius=0.7cm, "$\\beta$"] {{angle = C--B--A}};'
+    markierenBefehle['gamma']=F'\\pic [draw,thick, angle radius=0.7cm, "$\\gamma$"] {{angle = A--C--B}};'
+    urspr={'c':[-3,0],'a':[-6,0],'b':[-4,-3]}
+    dR=0#random.randint(-10,10)
+    sW={'c':0,'a':90+dR,'b':180+90+dR}
+    pktBez={'a':['B','C','A'],'b':['C','A','B'],'c':['A','B','C']}
+    seitenBez={'a':['a','b','c'],'b':['b','c','a'],'c':['c','a','b']}
+    labelPos={'A':225,'B':315,'C':90}
+    seitenPos={'a':'above,sloped','b':'above,sloped','c':'below,sloped'}
+#w1 ist immer der Winkel links auf der Strecke, gedreht gegen Uhrzeigersinn.
+    w1=sW[seite]+werte[0]
+    w2=sW[seite]+180-werte[2]
+    l=werte[1]
+#Beschriftungen
+    pktLabel1=f"[label={labelPos[pktBez[seite][0]]}:{pktBez[seite][0]}]" if mitLsg and pktBez[seite][0] in markieren[seite] else ""
+    pktLabel2=f"[label={labelPos[pktBez[seite][1]]}:{pktBez[seite][1]}]" if mitLsg and pktBez[seite][1] in markieren[seite] else ""
+    pktLabel3=f"[label={labelPos[pktBez[seite][2]]}:{pktBez[seite][2]}]" if mitLsg and pktBez[seite][2] in markieren[seite] else ""
+    seitenLabel1=(f" -- " if mitLsg else "") + (f"node[{seitenPos[seitenBez[seite][0]]}] {{{seitenBez[seite][0]}}}" if mitLsg and seitenBez[seite][0] in markieren[seite] else "")
+    seitenLabel2=(f" -- " if mitLsg else "") + (f"node[{seitenPos[seitenBez[seite][1]]}] {{{seitenBez[seite][1]}}}" if mitLsg and seitenBez[seite][1] in markieren[seite] else "")
+    seitenLabel3=(f" -- " if mitLsg else "") + (f"node[{seitenPos[seitenBez[seite][2]]}] {{{seitenBez[seite][2]}}}" if mitLsg and seitenBez[seite][2] in markieren[seite] else "")+("  cycle" if mitLsg else "")
+#Dreieck zeichnen
+    tikzcommand=[f'\\coordinate{pktLabel1} (E) at (0,0);']
+    tikzcommand.append(f'\\node (E2) at ($(E)+({w1}:1)$) {{}};')
+    tikzcommand.append(f'\\coordinate{pktLabel2} (F) at ({sW[seite]}:{l});')
+    tikzcommand.append(f'\\node (F2) at ($(F)+({w2}:1)$) {{}};')
+    tikzcommand.append(f'\\coordinate{pktLabel3} (G) at (intersection of E--E2 and F--F2);')
+    tikzcommand.append(f'\\draw (E) coordinate ({pktBez[seite][0]}) {seitenLabel1} (F) coordinate ({pktBez[seite][1]})  {seitenLabel2} (G) coordinate ({pktBez[seite][2]})  {seitenLabel3};')    
+    if mitLsg:
+        tikzcommand.append(markierenBefehle[markieren[seite][0]])
+        tikzcommand.append(markierenBefehle[markieren[seite][2]])
+    if mitLsg or zeichnePlanfigur:
+        tikzcommand=tikzcommand+planfigur(urspr=urspr[seite],markieren=markieren[seite] if mitLsg else [])
+    else:
+        tikzcommand.append(f'\\node (U) at  ({urspr[seite][0]},{urspr[seite][1]}) {{}};')
+    return erzeugeTikzUmrandung(tikzcommand)
+
+def dreieckSWSKonstr(werte=[4,60,5],winkel='gamma',mitLsg=True,zeichnePlanfigur=True):
+    markieren={'alpha':['b','alpha','c'],'beta':['c','beta','a'],'gamma':['a','gamma','b']}
+    markierenBefehle={'alpha':F'\\pic [draw,thick, angle radius=0.7cm, "$\\alpha$"] {{angle = B--A--C}};'}
+    markierenBefehle['beta']=F'\\pic [draw,thick, angle radius=0.7cm, "$\\beta$"] {{angle = C--B--A}};'
+    markierenBefehle['gamma']=F'\\pic [draw,thick, angle radius=0.7cm, "$\\gamma$"] {{angle = A--C--B}};'
+    urspr={'alpha':[-3,0],'beta':[-3-werte[0],0],'gamma':[-5,-3]}
+    dR=0 #random.randint(-10,10)
+    sW={'alpha':werte[1],'beta':180,'gamma':270+werte[1]+dR}
+    pktBez={'alpha':['A','C','B'],'beta':['B','A','C'],'gamma':['C','B','A']}
+    seitenBez={'alpha':['b','a','c'],'beta':['c','b','a'],'gamma':['a','c','b']}
+    labelPos={'A':225,'B':315,'C':90}
+    seitenPos={'a':'above,sloped','b':'above,sloped','c':'below,sloped'}
+#l1 ist immer die Seite links von dem Winkel, gedreht gegen Uhrzeigersinn.
+    l1=werte[0]
+    l2=werte[2]
+#Beschriftungen
+    pktLabel1=f"[label={labelPos[pktBez[winkel][0]]}:{pktBez[winkel][0]}]" if mitLsg and pktBez[winkel][0] in markieren[winkel] else ""
+    pktLabel2=f"[label={labelPos[pktBez[winkel][1]]}:{pktBez[winkel][1]}]" if mitLsg and pktBez[winkel][1] in markieren[winkel] else ""
+    pktLabel3=f"[label={labelPos[pktBez[winkel][2]]}:{pktBez[winkel][2]}]" if mitLsg and pktBez[winkel][2] in markieren[winkel] else ""
+    seitenLabel1=(f" -- " if mitLsg else "") + (f"node[{seitenPos[seitenBez[winkel][0]]}] {{{seitenBez[winkel][0]}}}" if mitLsg and seitenBez[winkel][0] in markieren[winkel] else "")
+    seitenLabel2=(f" -- " if mitLsg else "") + (f"node[{seitenPos[seitenBez[winkel][1]]}] {{{seitenBez[winkel][1]}}}" if mitLsg and seitenBez[winkel][1] in markieren[winkel] else "")
+    seitenLabel3=(f" -- " if mitLsg else "") + (f"node[{seitenPos[seitenBez[winkel][2]]}] {{{seitenBez[winkel][2]}}}" if mitLsg and seitenBez[winkel][2] in markieren[winkel] else "")+("  cycle" if mitLsg else "")
+#Dreieck zeichnen
+    tikzcommand=[f'\\coordinate{pktLabel1} (E) at (0,0);']
+    tikzcommand.append(f'\\coordinate{pktLabel2} (F) at ({sW[winkel]}:{l1});')
+    tikzcommand.append(f'\\coordinate{pktLabel3} (G) at ({sW[winkel]-werte[1]}:{l2});')
+    tikzcommand.append(f'\\draw (E) coordinate ({pktBez[winkel][0]})  {seitenLabel1} (F) coordinate ({pktBez[winkel][1]})  {seitenLabel2} (G) coordinate ({pktBez[winkel][2]})  {seitenLabel3};')
+    if mitLsg:
+        tikzcommand.append(markierenBefehle[winkel])
+    if mitLsg or zeichnePlanfigur:
+        tikzcommand=tikzcommand+planfigur(urspr=urspr[winkel],markieren=markieren[winkel] if mitLsg else [])
+    else:
+        tikzcommand.append(f'\\node (U) at  ({urspr[winkel][0]},{urspr[winkel][1]}) {{}};')
+    return erzeugeTikzUmrandung(tikzcommand)
+

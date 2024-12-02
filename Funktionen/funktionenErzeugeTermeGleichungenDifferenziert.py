@@ -13,17 +13,9 @@ invOp={'+':'-','-':'+','*':'/','/':'*'}
 linie='\\rule{1cm}{0.15mm}'
 linie='\\uline{\\qquad}'
 
-def erzeugeTikzAlignedUmrandung(alignedBefehle=['x&=5+8']):
-    latexcommand=[]
-    latexcommand.append('\\begingroup\\setlength{\\jot}{-0.03cm}')
-    latexcommand.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')  
-    latexcommand.append('\\begin{tikzpicture}[show background grid]')  
-    latexcommand.append('\\node[below right] at (0,0.1) {')  
-    latexcommand.append('$\\begin{aligned}')
-    latexcommand.append('\\end{aligned}$};')
-    latexcommand.append('\\end{tikzpicture}')   
-    latexcommand.append('\\endgroup')
-    return latexcommand[:5]+alignedBefehle+latexcommand[-3:]
+
+
+
 
 def erzeugePlusMinusDifferenziert(mitZahlen=False):
     x=random.randint(-50,50)
@@ -102,7 +94,7 @@ def schMit(a,mittenDrin=False,mitLsg=False):
 #Schreibe Mittendrin, d.h. diese Funktion wird von einer anderen Aufgabe aufgerufen
     return a if not mittenDrin else (lsgRot(a,mitLsg) if mitLsg else linie)
 
-def schreibeMalPlusMinus(a=-2,b=-3,x=6,mitZahlen=False,mitLsg=False,umdrehen=False,mitDrin=False):
+def schreibeMalPlusMinusAlt(a=-2,b=-3,x=6,mitZahlen=False,mitLsg=False,umdrehen=False,mitDrin=False):
     c=a*x+b
     op='-' if b<0 else '+'
     calc=[[f'{schMit(a,mitDrin,mitLsg)}x{op}{schMit(abs(b),mitDrin,mitLsg)} ',f'={schMit(c,mitDrin,mitLsg)}',' ',f'\\mid {lsgRot(f"{invOp[op]}{abs(b)}",mitLsg) if mitZahlen or mitLsg else linie}']]
@@ -126,11 +118,13 @@ def schreibeMalPlusMinus(a=-2,b=-3,x=6,mitZahlen=False,mitLsg=False,umdrehen=Fal
     return listZuAligned(calc)
 
 
-def schreibeMalPlusMinus(a=-2,b=-3,x=6,c=0,mitZahlen=False,mitLsg=False,umdrehen=False,mitDrin=False):
+def schreibeMalPlusMinus(a=-2,b=-3,c=0,d=None,x=6,mitZahlen=False,mitLsg=False,umdrehen=False,mitDrin=False):
 #mitDrin=mittenDrin,schMit=schreibeMittendrin: Die Zahl wird nicht geschrieben, wenn die Funktion
 #von einer anderen Lösungsfunktion aufgerufen wird.
 #    a*x+b=c*x+d
-    d=a*x+b-c*x
+    d=a*x+b-c*x if d==None else d
+    b=c*x+d-a*x if b==None else b
+    x=(b-d)/(a-c) if not (b==None or d==None) else x
     calc=[]
     L=f'{schMit(a,mitDrin,mitLsg)}x{vZ(b)}{schMit(abs(b),mitDrin,mitLsg)}'
     if not c==0:
@@ -141,29 +135,38 @@ def schreibeMalPlusMinus(a=-2,b=-3,x=6,c=0,mitZahlen=False,mitLsg=False,umdrehen
     else:
         R=f'{schMit(d,mitDrin,mitLsg)}'
     calc.append([f'{L}',f'={R}',' ',f' \\mid {lsgRot(invOp[vZ(b)]+str(abs(b)),mitLsg) if mitZahlen or mitLsg else linie}'])    
-    calc.append([f'{lsgRot(a-c,mitLsg)}x',f'={lsgRot(d-b,mitLsg)}',' ',f'\\mid {lsgRot(":"+("(" if a-c<0 else "" )+f"{a-c}"+(")" if a-c<0 else "" ),mitLsg) if mitZahlen or mitLsg else linie}'])
+    calc.append([f'{lsgRot(a-c,mitLsg)}x',f'={lsgRot(d-b,mitLsg) if mitLsg else linie}',' ',f'\\mid {lsgRot(":"+("(" if a-c<0 else "" )+f"{a-c}"+(")" if a-c<0 else "" ),mitLsg) if mitZahlen or mitLsg else linie}'])
     calc.append([f'x',f'={lsgRot(x,mitLsg) if mitLsg else linie}',' ',' '])
     calc.append([f'\\mbox{{Probe}}: \\qquad',' ',' ',' '])
     if mitDrin:
         return calc
-    calc.append([f'{a}x{vZ(b)}{abs(b)}',f'={c}',' ',' ',])
-    calc.append([f'{a}·{lsgRot(x if x>0 else f"({x})",mitLsg) if mitZahlen or mitLsg else linie}{vZ(b)}{abs(b)}',f'={c} ',' ',' '])
-    calc.append([f'{lsgRot(a*x,mitLsg) if mitZahlen or mitLsg else linie}{vZ(b)}{abs(b)} ',f'={c} ',' ',' '])
-    calc.append([f'{lsgRot(c,mitLsg) if mitLsg else linie} ',f'={c}',' ',' '])
+    L=f'{f"{a}x{vZ(b)}" if not a==0 else ("" if b>=0 else vZ(b))}{abs(b) if not b==0 else ""}'
+    R=f'={f"{c}x{vZ(d)}" if not c==0 else ("" if d>=0 else vZ(d))}{abs(d) if not d==0 else ""}'
+    calc.append([L,R,' ',' ',])
+    klammerX=f"({x})"
+    L=f'{f"{a}·{lsgRot(x if x>0 else klammerX,mitLsg) if mitZahlen or mitLsg else linie}{vZ(b)}" if not a==0 else ("" if b>=0 else vZ(b))}{abs(b) if not b==0 else ""}'
+    R=f'={f"{c}·{lsgRot(x if x>0 else klammerX,mitLsg) if mitZahlen or mitLsg else linie}{vZ(d)}" if not c==0 else ("" if d>=0 else vZ(d))}{abs(d) if not d==0 else ""}'
+    calc.append([L,R,' ',' '])
+    L=f'{f"{lsgRot(a*x,mitLsg) if mitZahlen or mitLsg else linie}{vZ(b)}" if not a==0 else ("" if b>=0 else vZ(b))}{abs(b) if not b==0 else ""}'
+    R=f'={f"{lsgRot(c*x,mitLsg) if mitZahlen or mitLsg else linie}{vZ(d)}" if not c==0 else ("" if d>=0 else vZ(d))}{abs(d) if not b==0 else ""}'
+    calc.append([L,R,' ',' '])
+    calc.append([f'{lsgRot(a*x+b,mitLsg) if mitLsg else linie} ',f'={lsgRot(c*x+d,mitLsg) if mitLsg else linie} ',' ',' '])
 #Unterstreichen
-    if umdrehen:
-        for i in 0,1,4,5,6,7:
-            calc[i][0],calc[i][1]=calc[i][1].replace('=',''),f'={calc[i][0]}'
-        calc.insert(2,[f'{lsgRot(x,mitLsg) if mitLsg else linie}','=x',' ',f'\\mid {lsgRot("$$mbox{{umdrehen}}",mitLsg) if mitLsg else linie} '.replace('$$','\\')])
+#    if umdrehen:
+#        for i in 0,1,4,5,6,7:
+#            calc[i][0],calc[i][1]=calc[i][1].replace('=',''),f'={calc[i][0]}'
+#        calc.insert(2,[f'{lsgRot(x,mitLsg) if mitLsg else linie}','=x',' ',f'\\mid {lsgRot("$$mbox{{umdrehen}}",mitLsg) if mitLsg else linie} '.replace('$$','\\')])
     if mitZahlen or mitLsg:
         calc.insert(-1,[f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{{x} = {x}\quad }}}}}}'])
         calc.insert(3 if umdrehen else 2,[f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{{x} = {x} }}}}}}'])
     return listZuAligned(calc)
 
 
-def schreibeMalPlusMinusBeideSeiten(a=-4,b=-6,c=7,x=5,mitZahlen=False,mitLsg=False,gedreht=False,mittenDrin=False):
+def schreibeMalPlusMinusBeideSeiten(a=-4,b=-6,c=7,x=5,d=None,mitZahlen=False,mitLsg=False,gedreht=False,mittenDrin=False):
     #Löst eine Gleichung der Form: a*x+b=c*x+d
-    d=a*x+b-c*x
+    d=a*x+b-c*x if d==None else d
+    b=c*x+d-a*x if b==None else b
+    x=(b-d)/(a-c) if not (b==None or d==None) else x
     L=f'{schMit(a,mittenDrin,mitLsg)}x{vZ(b)}{schMit(abs(b),mittenDrin,mitLsg)}'
     R=f'{schMit(d,mittenDrin,mitLsg)}{vZ(c)}{schMit(abs(c),mittenDrin,mitLsg)}x' if gedreht else f'{schMit(abs(c),mittenDrin,mitLsg)}x{vZ(d)}{schMit(abs(d),mittenDrin,mitLsg)}'
     calc=[[f'{L}',f'={R}',' ',f' \\mid {lsgRot(invOp[vZ(c)]+str(abs(c))+"x",mitLsg) if mitZahlen or mitLsg else linie}']]
@@ -193,11 +196,11 @@ def schreibeErstZusammenfassen(x=-13,wL=[6, 5, 37, -28],wR=[-1, -9, 35, -299],iL
 def erzeugeMalPlusMinusDifferenziert(mitZahlen=False,xRechts=False):
     op=random.choice(['+','-'])
     x=random.randint(1,12) if random.randint(0,1)>0 else -random.randint(1,12) 
-    a=random.randint(2,10)
-    b=random.randint(1,50)
-    c=a*x+b if op=='+' else a*x-b
-    afg=schreibeMalPlusMinus(a=a,b=b,x=x,mitZahlen=mitZahlen,mitLsg=False,umdrehen=xRechts)
-    lsg=schreibeMalPlusMinus(a=a,b=b,x=x,mitZahlen=mitZahlen,mitLsg=True,umdrehen=xRechts)
+    a=random.choice([random.randint(-10,-2),random.randint(2,10)])
+    b=random.choice([random.randint(-50,-1),random.randint(1,50)])
+    a,b,c,d=a,b,0,None if not xRechts else 0,None,a,b
+    afg=schreibeMalPlusMinus(a=a,b=b,c=0,d=d,x=x,mitZahlen=mitZahlen,mitLsg=False,umdrehen=xRechts)
+    lsg=schreibeMalPlusMinus(a=a,b=b,c=0,d=d,x=x,mitZahlen=mitZahlen,mitLsg=True,umdrehen=xRechts)
     afg=erzeugeTikzAlignedUmrandung(afg)
     lsg=erzeugeTikzAlignedUmrandung(lsg)
     return [afg,lsg,[]]

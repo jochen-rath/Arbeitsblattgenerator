@@ -87,8 +87,8 @@ def erzeugePythagorasFormulieren(seitenBeshr=True,pktBeschr=False,gemischt=False
     ky=random.randint(1,4)
     rotWinkel=random.randint(0,360)
     afg=['\\pbox{\\hsize}{']+afg+['\\\\']
-    afg=afg+dreieckRechtwinklig(kx=kx,ky=ky,rotWinkel=rotWinkel,seiten=seiten,punkte=punkte,mitBogen=mitBogen,rechtWinkBei=winkel[winkelWahl])
-    afg=afg+['}']
+    afg=(afg if mitText else [])+dreieckRechtwinklig(kx=kx,ky=ky,rotWinkel=rotWinkel,seiten=seiten,punkte=punkte,mitBogen=mitBogen,rechtWinkBei=winkel[winkelWahl])
+    afg=afg+(['}'] if mitText else [])
     lsg=['\\pbox{\\hsize}{']
     lsg=lsg+dreieckRechtwinklig(kx=kx,ky=ky,rotWinkel=rotWinkel,seiten=sLsg,punkte=pLsg,mitBogen='True',rechtWinkBei=winkel[winkelWahl])
     lsg=lsg+['\\\\']
