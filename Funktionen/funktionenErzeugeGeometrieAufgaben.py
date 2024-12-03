@@ -145,21 +145,6 @@ def erzeugeWinkelhalbbierendeAufgabe(mitText=True,anzSpalten=[2,2]):
     lsg=winkelhalbierende(alpha)
     return [afg,lsg,[]]
 
-def erzeugeDreieckSSSKonstruktion(mitText=True,anzSpalten=[2,2]):
-    a,b,c=random.randint(20,60)/10,random.randint(20,60)/10,random.randint(20,60)/10
-    groesse='{17 cm}' if anzSpalten[1] == 1 else '{7 cm}'
-    afg=[f'\\pbox{groesse}{{']
-    afg=afg+([F'Konstruiere das Dreieck mit den Seiten\\\\']  if mitText else [])
-    afg=afg+[F'$\\begin{{aligned}}']
-    afg=afg+[F'a&={strNW(a)}~cm \\\\']
-    afg=afg+[F'b&={strNW(b)}~cm \\\\']
-    afg=afg+[F'c&={strNW(c)}~cm \\\\']
-    afg=afg+[F'\\end{{aligned}}$']
-    afg=afg+['}']
-    lsg=dreieckSSSKonstruktion(a,b,c)
-    return [afg,lsg,[]]
-
-
 def erzeugeDreieckWSWKonstrukt(planfigur=False,mitText=True,anzSpalten=[2,2]):
     WSW=[['alpha','c','beta'],['beta','a','gamma'],['alpha','b','gamma']]
     auswahl=random.choice(WSW)
@@ -199,3 +184,18 @@ def erzeugeDreieckSWSKonstrukt(planfigur=False,mitText=True,anzSpalten=[2,2]):
     lsg=dreieckSWSKonstr(werte=[l1,w,l2],winkel=auswahl[1],mitLsg=True,zeichnePlanfigur=True)
     return [afg,lsg,[]]
 
+
+def erzeugeDreieckSSSKonstrukt(planfigur=False,mitText=True,anzSpalten=[2,2]):
+    minL,maxL=[15,30] if anzSpalten[0]>1 else [30,70]
+    a,b,c=random.randint(minL,maxL)/10,random.randint(minL,maxL)/10,random.randint(minL,maxL)/10
+    afg=['\\pbox{\\linewidth}{']
+    afg=afg+([F'{"Markiere" if planfigur else "Zeichne"} die Planfigure und Konstruiere das Dreieck für folgende Werten:\\\\']  if mitText else [])
+    afg=afg+[F'$\\begin{{aligned}}']
+    afg=afg+[F'a&={strNW(a)}~cm \\\\']
+    afg=afg+[F'b&={strNW(b)}~cm \\\\']
+    afg=afg+[F'c&={strNW(c)}~cm \\\\']
+    afg=afg+[F'\\end{{aligned}}$']
+    afg=afg+dreieckSSSKonstr(werte=[a,b,c],mitLsg=False,zeichnePlanfigur=planfigur)
+    afg=afg+['}']
+    lsg=dreieckSSSKonstr(werte=[a,b,c],mitLsg=True,zeichnePlanfigur=True)
+    return [afg,lsg,[]]

@@ -136,37 +136,16 @@ def winkelhalbierende(winkel=random.randint(20,160),mitLsg=True):
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
-
-def dreieckSSSKonstruktion(a=2,b=3,c=4):
-    if abs((a**2-b**2-c**2)/(-2*b*c))>1:
-        alpha=-1
-    else:
-        alpha=math.acos((a**2-b**2-c**2)/(-2*b*c))*180/math.pi
-    winkelStartUmA=-10
-    winkelEndUmA=190 if alpha > 90 or alpha <0 else 100
-    winkelStartUmB=-10 if b>c and alpha<45 else 80
-    winkelEndUmB=190
-    x=c+a*math.cos(winkelStartUmB*math.pi/180)
-    y=0+a*math.sin(winkelStartUmB*math.pi/180)
-    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
-    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
-    tikzcommand.append(F'\\draw[thick,black] (0,0) node[left]{{A}} --node[below]{{c}} ({c},0) node[right]{{B}};')
-    if alpha>0:
-        tikzcommand.append(F'\\draw[thick,black] (0,0)  --node[left]{{b}} ({alpha}:{b}) node[above]{{C}};')
-        tikzcommand.append(F'\\draw[thick,black] ({c},0)  --node[right]{{a}} ({alpha}:{b});')
-    tikzcommand.append(F'\\draw[thick,red] ({winkelStartUmA}:{b}) arc ({winkelStartUmA}:{winkelEndUmA}:{b} cm);')
-    tikzcommand.append(F'\\draw[thick,red] ({x},{y}) arc ({winkelStartUmB}:{winkelEndUmB}:{a} cm);')
-    tikzcommand.append('\\end{tikzpicture}')
-    return tikzcommand
-
+def dreieckMarkieren(seiteWinkel="",farbe='green'):
+    markierenBefehle={'alpha':F'\\pic [draw,thick, {farbe},angle radius=0.7cm, "$\\alpha$"] {{angle = B--A--C}};'}
+    markierenBefehle['beta']=F'\\pic [draw,thick, {farbe},angle radius=0.7cm, "$\\beta$"] {{angle = C--B--A}};'
+    markierenBefehle['gamma']=F'\\pic [draw,thick, {farbe},angle radius=0.7cm, "$\\gamma$"] {{angle = A--C--B}};'
+    markierenBefehle['a']=F'\\draw[thick,{farbe}] (B) -- (C);'
+    markierenBefehle['b']=F'\\draw[thick,{farbe}] (A) -- (C);'
+    markierenBefehle['c']=F'\\draw[thick,{farbe}] (A) -- (B);'
+    return markierenBefehle[seiteWinkel] if seiteWinkel in list(markierenBefehle.keys()) else ""
 
 def planfigur(urspr=[0,0],markieren=['alpha','b','gamma']):
-    markierenBefehle={'alpha':F'\\pic [draw,thick, green,angle radius=0.7cm, "$\\alpha$"] {{angle = B--A--C}};'}
-    markierenBefehle['beta']=F'\\pic [draw,thick, green,angle radius=0.7cm, "$\\beta$"] {{angle = C--B--A}};'
-    markierenBefehle['gamma']=F'\\pic [draw,thick, green,angle radius=0.7cm, "$\\gamma$"] {{angle = A--C--B}};'
-    markierenBefehle['a']=F'\\draw[thick,green] (B) -- (C);'
-    markierenBefehle['b']=F'\\draw[thick,green] (A) -- (C);'
-    markierenBefehle['c']=F'\\draw[thick,green] (A) -- (B);'
     tikzcommand=[]
     tikzcommand.append(f'\\draw[thick,black] ({urspr[0]},{urspr[1]}) coordinate(A) -- node[below,sloped]{{c}} ++(2,0) coordinate(B) -- node[above,sloped]{{a}} ++(-1,2) coordinate(C) -- node[above,sloped]{{b}} cycle; ')
     tikzcommand.append(f'\\node[left] at (A) {{A}};')
@@ -176,14 +155,11 @@ def planfigur(urspr=[0,0],markieren=['alpha','b','gamma']):
     tikzcommand.append(F'\\pic [draw,thick, black,angle radius=0.7cm, "$\\beta$"] {{angle = C--B--A}};')
     tikzcommand.append(F'\\pic [draw,thick, black,angle radius=0.7cm, "$\\gamma$"] {{angle = A--C--B}};')
     for m in markieren:
-        tikzcommand.append(markierenBefehle[m])
+        tikzcommand.append(dreieckMarkieren(m))
     return tikzcommand
 
 def dreieckWSWKonstr(werte=[40,5,80],seite='b',mitLsg=True,zeichnePlanfigur=True):
-    markieren={'c':['alpha','c','beta'],'a':['beta','a','gamma'],'b':['gamma','b','alpha']}
-    markierenBefehle={'alpha':F'\\pic [draw,thick, angle radius=0.7cm, "$\\alpha$"] {{angle = B--A--C}};'}
-    markierenBefehle['beta']=F'\\pic [draw,thick, angle radius=0.7cm, "$\\beta$"] {{angle = C--B--A}};'
-    markierenBefehle['gamma']=F'\\pic [draw,thick, angle radius=0.7cm, "$\\gamma$"] {{angle = A--C--B}};'
+    markieren={'a':['beta','a','gamma'],'b':['gamma','b','alpha'],'c':['alpha','c','beta']}
     urspr={'c':[-3,0],'a':[-6,0],'b':[-4,-3]}
     dR=0#random.randint(-10,10)
     sW={'c':0,'a':90+dR,'b':180+90+dR}
@@ -210,8 +186,8 @@ def dreieckWSWKonstr(werte=[40,5,80],seite='b',mitLsg=True,zeichnePlanfigur=True
     tikzcommand.append(f'\\coordinate{pktLabel3} (G) at (intersection of E--E2 and F--F2);')
     tikzcommand.append(f'\\draw (E) coordinate ({pktBez[seite][0]}) {seitenLabel1} (F) coordinate ({pktBez[seite][1]})  {seitenLabel2} (G) coordinate ({pktBez[seite][2]})  {seitenLabel3};')    
     if mitLsg:
-        tikzcommand.append(markierenBefehle[markieren[seite][0]])
-        tikzcommand.append(markierenBefehle[markieren[seite][2]])
+        tikzcommand.append(dreieckMarkieren(seiteWinkel=markieren[seite][0],farbe='black'))
+        tikzcommand.append(dreieckMarkieren(seiteWinkel=markieren[seite][2],farbe='black'))
     if mitLsg or zeichnePlanfigur:
         tikzcommand=tikzcommand+planfigur(urspr=urspr[seite],markieren=markieren[seite] if mitLsg else [])
     else:
@@ -220,9 +196,6 @@ def dreieckWSWKonstr(werte=[40,5,80],seite='b',mitLsg=True,zeichnePlanfigur=True
 
 def dreieckSWSKonstr(werte=[4,60,5],winkel='gamma',mitLsg=True,zeichnePlanfigur=True):
     markieren={'alpha':['b','alpha','c'],'beta':['c','beta','a'],'gamma':['a','gamma','b']}
-    markierenBefehle={'alpha':F'\\pic [draw,thick, angle radius=0.7cm, "$\\alpha$"] {{angle = B--A--C}};'}
-    markierenBefehle['beta']=F'\\pic [draw,thick, angle radius=0.7cm, "$\\beta$"] {{angle = C--B--A}};'
-    markierenBefehle['gamma']=F'\\pic [draw,thick, angle radius=0.7cm, "$\\gamma$"] {{angle = A--C--B}};'
     urspr={'alpha':[-3,0],'beta':[-3-werte[0],0],'gamma':[-5,-3]}
     dR=0 #random.randint(-10,10)
     sW={'alpha':werte[1],'beta':180,'gamma':270+werte[1]+dR}
@@ -246,10 +219,47 @@ def dreieckSWSKonstr(werte=[4,60,5],winkel='gamma',mitLsg=True,zeichnePlanfigur=
     tikzcommand.append(f'\\coordinate{pktLabel3} (G) at ({sW[winkel]-werte[1]}:{l2});')
     tikzcommand.append(f'\\draw (E) coordinate ({pktBez[winkel][0]})  {seitenLabel1} (F) coordinate ({pktBez[winkel][1]})  {seitenLabel2} (G) coordinate ({pktBez[winkel][2]})  {seitenLabel3};')
     if mitLsg:
-        tikzcommand.append(markierenBefehle[winkel])
+        tikzcommand.append(dreieckMarkieren(seiteWinkel=markieren[winkel][1],farbe='black'))
     if mitLsg or zeichnePlanfigur:
         tikzcommand=tikzcommand+planfigur(urspr=urspr[winkel],markieren=markieren[winkel] if mitLsg else [])
     else:
         tikzcommand.append(f'\\node (U) at  ({urspr[winkel][0]},{urspr[winkel][1]}) {{}};')
     return erzeugeTikzUmrandung(tikzcommand)
 
+def dreieckSSSKonstr(werte=[4,5,6],mitLsg=True,zeichnePlanfigur=True):
+    a,b,c=werte
+    markieren=['a','b','c']
+    if abs((a**2-b**2-c**2)/(-2*b*c))>1:
+        alpha=-1
+    else:
+        alpha=math.acos((a**2-b**2-c**2)/(-2*b*c))*180/math.pi
+    winkelStartUmA=-10
+    winkelEndUmA=190 if alpha > 90 or alpha <0 else 100
+    winkelStartUmB=-10 if b>c and alpha<45 else 80
+    winkelEndUmB=190
+    urspr=[-3,0]
+    labelPos={'A':225,'B':315,'C':90}
+    seitenPos={'a':'above,sloped','b':'above,sloped','c':'below,sloped'}
+#l1 ist immer die Seite links von dem Winkel, gedreht gegen Uhrzeigersinn.
+    b=werte[1]
+    c=werte[2]
+#Beschriftungen
+    seitenLabel1=(f"-- node[{seitenPos['c']}] {{{'c'}}}" if mitLsg else "")
+    seitenLabel2=(f"-- node[{seitenPos['a']}] {{{'a'}}}" if mitLsg else "")
+    seitenLabel3=(f"-- node[{seitenPos['b']}] {{{'b'}}}" if mitLsg else "")
+#Dreieck zeichnen
+    tikzcommand=[f'\\coordinate (A) at (0,0);']
+    tikzcommand.append(f'\\coordinate (B) at (0:{c});')
+    tikzcommand.append(f'\\coordinate (C) at ({alpha}:{b});')
+    if alpha>0:
+        tikzcommand.append(f'\\draw (A) {seitenLabel1} (B)   {seitenLabel2} (C)  {seitenLabel3} (A);')
+    else:
+        tikzcommand.append(f'\\draw (A) {seitenLabel1} (B);')
+    if mitLsg:
+        tikzcommand.append(F'\\draw[thick,red] ($(A)+({winkelStartUmA}:{b})$) arc ({winkelStartUmA}:{winkelEndUmA}:{b} cm);')
+        tikzcommand.append(F'\\draw[thick,red] ($(B)+({winkelStartUmB}:{a})$) arc ({winkelStartUmB}:{winkelEndUmB}:{a} cm);')
+    if mitLsg or zeichnePlanfigur:
+        tikzcommand=tikzcommand+planfigur(urspr=urspr,markieren=markieren if mitLsg else [])
+    else:
+        tikzcommand.append(f'\\node (U) at  ({urspr[0]},{urspr[1]}) {{}};')
+    return erzeugeTikzUmrandung(tikzcommand)

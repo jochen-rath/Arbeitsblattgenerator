@@ -93,6 +93,31 @@ def erzeugeDreieckWSWKonstruktion(mitText=True,anzSpalten=[2,2]):
     return [afg,lsg,[]]
 
 
+def dreieckSSSKonstruktion(a=2,b=3,c=4):
+    if abs((a**2-b**2-c**2)/(-2*b*c))>1:
+        alpha=-1
+    else:
+        alpha=math.acos((a**2-b**2-c**2)/(-2*b*c))*180/math.pi
+    winkelStartUmA=-10
+    winkelEndUmA=190 if alpha > 90 or alpha <0 else 100
+    winkelStartUmB=-10 if b>c and alpha<45 else 80
+    winkelEndUmB=190
+    x=c+a*math.cos(winkelStartUmB*math.pi/180)
+    y=0+a*math.sin(winkelStartUmB*math.pi/180)
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    tikzcommand.append(F'\\draw[thick,black] (0,0) node[left]{{A}} --node[below]{{c}} ({c},0) node[right]{{B}};')
+    if alpha>0:
+        tikzcommand.append(F'\\draw[thick,black] (0,0)  --node[left]{{b}} ({alpha}:{b}) node[above]{{C}};')
+        tikzcommand.append(F'\\draw[thick,black] ({c},0)  --node[right]{{a}} ({alpha}:{b});')
+    tikzcommand.append(F'\\draw[thick,red] ({winkelStartUmA}:{b}) arc ({winkelStartUmA}:{winkelEndUmA}:{b} cm);')
+    tikzcommand.append(F'\\draw[thick,red] ({x},{y}) arc ({winkelStartUmB}:{winkelEndUmB}:{a} cm);')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+
+
+
+
 def dreieckWSWKonstruktion(w1=40,l=5,w2=110,seite='c'):
     bogenR=0.75
     if seite not in ['a','b','c']:

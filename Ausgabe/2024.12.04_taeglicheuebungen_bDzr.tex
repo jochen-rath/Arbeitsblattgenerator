@@ -1,0 +1,1094 @@
+\documentclass[12pt]{article}
+\usepackage[table]{xcolor}
+\usepackage[shortlabels]{enumitem}
+\usepackage{tabularx,xltabular}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{geometry}
+\usepackage{scalerel}
+\usepackage{ulem}
+\usepackage[official]{eurosym}
+\usepackage{tikz}
+\usetikzlibrary{arrows,backgrounds,calc,decorations.markings,patterns,3d,positioning,fit,angles, quotes}
+\usepackage{pgfplots}
+\usepackage{circuitikz}
+\pgfplotsset{compat = newest}
+\usetikzlibrary{fit}
+\newcommand\addvmargin[1]{
+\usetikzlibrary{arrows}
+\node[fit=(current bounding box),inner ysep=#1,inner xsep=0]{};}
+\usepackage{cancel}
+\usepackage{fontspec}
+\usepackage{array}  
+\geometry{a4paper, top=2cm, left=2cm, right=2cm, bottom=2cm, headsep=1cm}
+\usepackage{tabu}
+\usepackage{pst-node}
+\usepackage{colortbl}
+\usepackage{array}
+\setlength\parindent{0pt}
+\newcolumntype{?}{!{\vrule width 1pt}}
+\usepackage{makecell}
+\renewcommand{\arraystretch}{2.5}
+\usepackage{pbox}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\def\mcirc{\mathbin{\scalerel*{\circ}{j}}}
+\def\msquare{\mathord{\scalerel*{\Box}{\strut}}}
+\begin{document}
+\rightline{Datum: 04.12.2024}
+\centerline{{\Large Tägliche Übungen}} 
+\noindent \\
+
+
+\begin{xltabular}{\textwidth}{|C{0.75cm}|X|C{0.75cm}|X|}
+\arrayrulecolor{black}\hline
+1a)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=2,8~cm \\
+b&=3~cm \\
+c&=1,5~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.5);
+\coordinate (C) at (67.73512514990817:3.0);
+\draw (A)  (B)    (C)   (A);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\end{tikzpicture}
+}
+&
+1b)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=1,7~cm \\
+b&=2,2~cm \\
+c&=2,7~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.7);
+\coordinate (C) at (38.94244126898138:2.2);
+\draw (A)  (B)    (C)   (A);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\end{tikzpicture}
+}
+\\\hline
+1c)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=1,7~cm \\
+b&=2,2~cm \\
+c&=1,7~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.7);
+\coordinate (C) at (49.679784930029356:2.2);
+\draw (A)  (B)    (C)   (A);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\end{tikzpicture}
+}
+&
+1d)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=2~cm \\
+b&=2,9~cm \\
+c&=2,9~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.9);
+\coordinate (C) at (40.34254269292996:2.9);
+\draw (A)  (B)    (C)   (A);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\end{tikzpicture}
+}
+\\\hline
+1e)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=2,9~cm \\
+b&=2~cm \\
+c&=2,2~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.2);
+\coordinate (C) at (87.19920455425321:2.0);
+\draw (A)  (B)    (C)   (A);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\end{tikzpicture}
+}
+&
+1f)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=2,7~cm \\
+b&=1,7~cm \\
+c&=1,7~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.7);
+\coordinate (C) at (105.14398891391494:1.7);
+\draw (A)  (B)    (C)   (A);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\end{tikzpicture}
+}
+\\\hline
+1g)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=2,7~cm \\
+b&=2,6~cm \\
+c&=2,7~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.7);
+\coordinate (C) at (61.21779531941862:2.6);
+\draw (A)  (B)    (C)   (A);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\end{tikzpicture}
+}
+&
+1h)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=2,3~cm \\
+b&=2,9~cm \\
+c&=1,7~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.7);
+\coordinate (C) at (52.44422265559216:2.9);
+\draw (A)  (B)    (C)   (A);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\end{tikzpicture}
+}
+\\\hline
+1i)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=1,8~cm \\
+b&=2,9~cm \\
+c&=2,3~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.3);
+\coordinate (C) at (38.361750711690334:2.9);
+\draw (A)  (B)    (C)   (A);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\end{tikzpicture}
+}
+&
+1j)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=2,5~cm \\
+b&=2,3~cm \\
+c&=2,7~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.7);
+\coordinate (C) at (59.35869258247079:2.3);
+\draw (A)  (B)    (C)   (A);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\end{tikzpicture}
+}
+\\\hline
+1k)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=1,7~cm \\
+b&=2,7~cm \\
+c&=1,6~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.6);
+\coordinate (C) at (36.33605751461392:2.7);
+\draw (A)  (B)    (C)   (A);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\end{tikzpicture}
+}
+&
+1l)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=2,7~cm \\
+b&=3~cm \\
+c&=2,3~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.3);
+\coordinate (C) at (59.519414274394904:3.0);
+\draw (A)  (B)    (C)   (A);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\end{tikzpicture}
+}
+\\\hline
+2a)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=2,6~cm \\
+b&=2,4~cm \\
+c&=2,7~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.7);
+\coordinate (C) at (60.96528167794355:2.4);
+\draw (A)  (B)    (C)   (A);
+\node (U) at  (-3,0) {};
+\end{tikzpicture}
+}
+&
+2b)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=1,9~cm \\
+b&=2,2~cm \\
+c&=1,9~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.9);
+\coordinate (C) at (54.62345984805838:2.2);
+\draw (A)  (B)    (C)   (A);
+\node (U) at  (-3,0) {};
+\end{tikzpicture}
+}
+\\\hline
+2c)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=1,9~cm \\
+b&=3~cm \\
+c&=2,5~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.5);
+\coordinate (C) at (39.104215808914276:3.0);
+\draw (A)  (B)    (C)   (A);
+\node (U) at  (-3,0) {};
+\end{tikzpicture}
+}
+&
+2d)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=1,7~cm \\
+b&=2,9~cm \\
+c&=1,9~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.9);
+\coordinate (C) at (34.05569125160922:2.9);
+\draw (A)  (B)    (C)   (A);
+\node (U) at  (-3,0) {};
+\end{tikzpicture}
+}
+\\\hline
+2e)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=2,6~cm \\
+b&=1,7~cm \\
+c&=2,2~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.2);
+\coordinate (C) at (82.54894830230228:1.7);
+\draw (A)  (B)    (C)   (A);
+\node (U) at  (-3,0) {};
+\end{tikzpicture}
+}
+&
+2f)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=1,8~cm \\
+b&=1,7~cm \\
+c&=2,4~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.4);
+\coordinate (C) at (48.47167716436772:1.7);
+\draw (A)  (B)    (C)   (A);
+\node (U) at  (-3,0) {};
+\end{tikzpicture}
+}
+\\\hline
+2g)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=2,2~cm \\
+b&=2~cm \\
+c&=2,7~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.7);
+\coordinate (C) at (53.328788061597955:2.0);
+\draw (A)  (B)    (C)   (A);
+\node (U) at  (-3,0) {};
+\end{tikzpicture}
+}
+&
+2h)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=2,8~cm \\
+b&=2,3~cm \\
+c&=1,9~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.9);
+\coordinate (C) at (83.03393469973444:2.3);
+\draw (A)  (B)    (C)   (A);
+\node (U) at  (-3,0) {};
+\end{tikzpicture}
+}
+\\\hline
+2i)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=2,4~cm \\
+b&=1,8~cm \\
+c&=2,9~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.9);
+\coordinate (C) at (55.654892156878695:1.8);
+\draw (A)  (B)    (C)   (A);
+\node (U) at  (-3,0) {};
+\end{tikzpicture}
+}
+&
+2j)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=1,6~cm \\
+b&=2,4~cm \\
+c&=2,8~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.8);
+\coordinate (C) at (34.7719440319486:2.4);
+\draw (A)  (B)    (C)   (A);
+\node (U) at  (-3,0) {};
+\end{tikzpicture}
+}
+\\\hline
+2k)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=1,5~cm \\
+b&=2,7~cm \\
+c&=2,1~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.1);
+\coordinate (C) at (33.55730976192073:2.7);
+\draw (A)  (B)    (C)   (A);
+\node (U) at  (-3,0) {};
+\end{tikzpicture}
+}
+&
+2l)&
+\pbox{\linewidth}{
+$\begin{aligned}
+a&=2,5~cm \\
+b&=2~cm \\
+c&=2,8~cm \\
+\end{aligned}$
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.8);
+\coordinate (C) at (60.05905339334767:2.0);
+\draw (A)  (B)    (C)   (A);
+\node (U) at  (-3,0) {};
+\end{tikzpicture}
+}
+\\\hline
+\end{xltabular}
+\vspace{0.5cm}
+\newpage
+\rightline{Datum: 04.12.2024}
+\centerline{{\large Lösungen Tägliche Übungen}} 
+\vspace{0.5cm}
+
+\begin{xltabular}{\textwidth}{|C{0.75cm}|X|C{0.75cm}|X|}
+\arrayrulecolor{black}\hline
+1a)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.5);
+\coordinate (C) at (67.73512514990817:3.0);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:3.0)$) arc (-10:100:3.0 cm);
+\draw[thick,red] ($(B)+(80:2.8)$) arc (80:190:2.8 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+&
+1b)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.7);
+\coordinate (C) at (38.94244126898138:2.2);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.2)$) arc (-10:100:2.2 cm);
+\draw[thick,red] ($(B)+(80:1.7)$) arc (80:190:1.7 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+\\\hline
+1c)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.7);
+\coordinate (C) at (49.679784930029356:2.2);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.2)$) arc (-10:100:2.2 cm);
+\draw[thick,red] ($(B)+(80:1.7)$) arc (80:190:1.7 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+&
+1d)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.9);
+\coordinate (C) at (40.34254269292996:2.9);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.9)$) arc (-10:100:2.9 cm);
+\draw[thick,red] ($(B)+(80:2.0)$) arc (80:190:2.0 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+\\\hline
+1e)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.2);
+\coordinate (C) at (87.19920455425321:2.0);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.0)$) arc (-10:100:2.0 cm);
+\draw[thick,red] ($(B)+(80:2.9)$) arc (80:190:2.9 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+&
+1f)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.7);
+\coordinate (C) at (105.14398891391494:1.7);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:1.7)$) arc (-10:190:1.7 cm);
+\draw[thick,red] ($(B)+(80:2.7)$) arc (80:190:2.7 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+\\\hline
+1g)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.7);
+\coordinate (C) at (61.21779531941862:2.6);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.6)$) arc (-10:100:2.6 cm);
+\draw[thick,red] ($(B)+(80:2.7)$) arc (80:190:2.7 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+&
+1h)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.7);
+\coordinate (C) at (52.44422265559216:2.9);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.9)$) arc (-10:100:2.9 cm);
+\draw[thick,red] ($(B)+(80:2.3)$) arc (80:190:2.3 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+\\\hline
+1i)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.3);
+\coordinate (C) at (38.361750711690334:2.9);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.9)$) arc (-10:100:2.9 cm);
+\draw[thick,red] ($(B)+(-10:1.8)$) arc (-10:190:1.8 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+&
+1j)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.7);
+\coordinate (C) at (59.35869258247079:2.3);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.3)$) arc (-10:100:2.3 cm);
+\draw[thick,red] ($(B)+(80:2.5)$) arc (80:190:2.5 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+\\\hline
+1k)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.6);
+\coordinate (C) at (36.33605751461392:2.7);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.7)$) arc (-10:100:2.7 cm);
+\draw[thick,red] ($(B)+(-10:1.7)$) arc (-10:190:1.7 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+&
+1l)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.3);
+\coordinate (C) at (59.519414274394904:3.0);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:3.0)$) arc (-10:100:3.0 cm);
+\draw[thick,red] ($(B)+(80:2.7)$) arc (80:190:2.7 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+\\\hline
+2a)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.7);
+\coordinate (C) at (60.96528167794355:2.4);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.4)$) arc (-10:100:2.4 cm);
+\draw[thick,red] ($(B)+(80:2.6)$) arc (80:190:2.6 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+&
+2b)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.9);
+\coordinate (C) at (54.62345984805838:2.2);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.2)$) arc (-10:100:2.2 cm);
+\draw[thick,red] ($(B)+(80:1.9)$) arc (80:190:1.9 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+\\\hline
+2c)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.5);
+\coordinate (C) at (39.104215808914276:3.0);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:3.0)$) arc (-10:100:3.0 cm);
+\draw[thick,red] ($(B)+(-10:1.9)$) arc (-10:190:1.9 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+&
+2d)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.9);
+\coordinate (C) at (34.05569125160922:2.9);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.9)$) arc (-10:100:2.9 cm);
+\draw[thick,red] ($(B)+(-10:1.7)$) arc (-10:190:1.7 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+\\\hline
+2e)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.2);
+\coordinate (C) at (82.54894830230228:1.7);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:1.7)$) arc (-10:100:1.7 cm);
+\draw[thick,red] ($(B)+(80:2.6)$) arc (80:190:2.6 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+&
+2f)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.4);
+\coordinate (C) at (48.47167716436772:1.7);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:1.7)$) arc (-10:100:1.7 cm);
+\draw[thick,red] ($(B)+(80:1.8)$) arc (80:190:1.8 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+\\\hline
+2g)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.7);
+\coordinate (C) at (53.328788061597955:2.0);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.0)$) arc (-10:100:2.0 cm);
+\draw[thick,red] ($(B)+(80:2.2)$) arc (80:190:2.2 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+&
+2h)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:1.9);
+\coordinate (C) at (83.03393469973444:2.3);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.3)$) arc (-10:100:2.3 cm);
+\draw[thick,red] ($(B)+(80:2.8)$) arc (80:190:2.8 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+\\\hline
+2i)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.9);
+\coordinate (C) at (55.654892156878695:1.8);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:1.8)$) arc (-10:100:1.8 cm);
+\draw[thick,red] ($(B)+(80:2.4)$) arc (80:190:2.4 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+&
+2j)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.8);
+\coordinate (C) at (34.7719440319486:2.4);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.4)$) arc (-10:100:2.4 cm);
+\draw[thick,red] ($(B)+(80:1.6)$) arc (80:190:1.6 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+\\\hline
+2k)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.1);
+\coordinate (C) at (33.55730976192073:2.7);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.7)$) arc (-10:100:2.7 cm);
+\draw[thick,red] ($(B)+(-10:1.5)$) arc (-10:190:1.5 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+&
+2l)&
+\begin{adjustbox}{max width=7 cm}
+\tikzstyle{background grid}=[draw, black!15,step=.5cm]
+\begin{tikzpicture}[show background grid]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0:2.8);
+\coordinate (C) at (60.05905339334767:2.0);
+\draw (A) -- node[below,sloped] {c} (B)   -- node[above,sloped] {a} (C)  -- node[above,sloped] {b} (A);
+\draw[thick,red] ($(A)+(-10:2.0)$) arc (-10:100:2.0 cm);
+\draw[thick,red] ($(B)+(80:2.5)$) arc (80:190:2.5 cm);
+\draw[thick,black] (-3,0) coordinate(A) -- node[below,sloped]{c} ++(2,0) coordinate(B) -- node[above,sloped]{a} ++(-1,2) coordinate(C) -- node[above,sloped]{b} cycle; 
+\node[left] at (A) {A};
+\node[right] at (B) {B};
+\node[above] at (C) {C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\alpha$"] {angle = B--A--C};
+\pic [draw,thick, black,angle radius=0.7cm, "$\beta$"] {angle = C--B--A};
+\pic [draw,thick, black,angle radius=0.7cm, "$\gamma$"] {angle = A--C--B};
+\draw[thick,green] (B) -- (C);
+\draw[thick,green] (A) -- (C);
+\draw[thick,green] (A) -- (B);
+\end{tikzpicture}
+\end{adjustbox}
+\\\hline
+\end{xltabular}
+\vspace{0.5cm}
+\end{document}
