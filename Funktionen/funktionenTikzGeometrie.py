@@ -158,7 +158,7 @@ def planfigur(urspr=[0,0],markieren=['alpha','b','gamma']):
         tikzcommand.append(dreieckMarkieren(m))
     return tikzcommand
 
-def dreieckWSWKonstr(werte=[40,5,80],seite='b',mitLsg=True,zeichnePlanfigur=True):
+def dreieckWSWKonstr(werte=[40,5,80],seite='b',mitLsg=True,zeichnePlanfigur=True,mitHilfe=False):
     markieren={'a':['beta','a','gamma'],'b':['gamma','b','alpha'],'c':['alpha','c','beta']}
     urspr={'c':[-3,0],'a':[-6,0],'b':[-4,-3]}
     dR=0#random.randint(-10,10)
@@ -175,7 +175,7 @@ def dreieckWSWKonstr(werte=[40,5,80],seite='b',mitLsg=True,zeichnePlanfigur=True
     pktLabel1=f"[label={labelPos[pktBez[seite][0]]}:{pktBez[seite][0]}]" if mitLsg and pktBez[seite][0] in markieren[seite] else ""
     pktLabel2=f"[label={labelPos[pktBez[seite][1]]}:{pktBez[seite][1]}]" if mitLsg and pktBez[seite][1] in markieren[seite] else ""
     pktLabel3=f"[label={labelPos[pktBez[seite][2]]}:{pktBez[seite][2]}]" if mitLsg and pktBez[seite][2] in markieren[seite] else ""
-    seitenLabel1=(f" -- " if mitLsg else "") + (f"node[{seitenPos[seitenBez[seite][0]]}] {{{seitenBez[seite][0]}}}" if mitLsg and seitenBez[seite][0] in markieren[seite] else "")
+    seitenLabel1=(f" -- " if (mitLsg or mitHilfe)  else "") + (f"node[{seitenPos[seitenBez[seite][0]]}] {{{seitenBez[seite][0]}}}" if (mitLsg or mitHilfe) and seitenBez[seite][0] in markieren[seite] else "")
     seitenLabel2=(f" -- " if mitLsg else "") + (f"node[{seitenPos[seitenBez[seite][1]]}] {{{seitenBez[seite][1]}}}" if mitLsg and seitenBez[seite][1] in markieren[seite] else "")
     seitenLabel3=(f" -- " if mitLsg else "") + (f"node[{seitenPos[seitenBez[seite][2]]}] {{{seitenBez[seite][2]}}}" if mitLsg and seitenBez[seite][2] in markieren[seite] else "")+("  cycle" if mitLsg else "")
 #Dreieck zeichnen

@@ -333,6 +333,7 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'strahlensatzFarbig':F'erzeugeStrahlensaetzeAufgaben(mitText={mitText},anzSpalten={anzSpaltenGesamt})',
         'Mittelsenkrechte':F'erzeugeMittelsenkrechteAufgabe(mitText={mitText})',
         'Winkelhalbierende':F'erzeugeWinkelhalbbierendeAufgabe(mitText={mitText},anzSpalten={anzSpaltenGesamt})',
+        'DreieckWSWMitPlanHilfe':F'erzeugeDreieckWSWKonstrukt(planfigur=True,mitText={mitText},anzSpalten={anzSpaltenGesamt})',
         'DreieckWSWMitPlan':F'erzeugeDreieckWSWKonstrukt(planfigur=True,mitText={mitText},anzSpalten={anzSpaltenGesamt})',
         'DreieckWSW':F'erzeugeDreieckWSWKonstrukt(planfigur=False,mitText={mitText},anzSpalten={anzSpaltenGesamt})',
         'DreieckSWSMitPlan':F'erzeugeDreieckSWSKonstrukt(planfigur=True,mitText={mitText},anzSpalten={anzSpaltenGesamt})',

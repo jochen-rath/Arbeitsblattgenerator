@@ -146,7 +146,7 @@ def erzeugeWinkelhalbbierendeAufgabe(mitText=True,anzSpalten=[2,2]):
     return [afg,lsg,[]]
 
 def erzeugeDreieckWSWKonstrukt(planfigur=False,mitText=True,anzSpalten=[2,2]):
-    WSW=[['alpha','c','beta'],['beta','a','gamma'],['alpha','b','gamma']]
+    WSW=[['alpha','c','beta'],['beta','a','gamma'],['gamma','b','alpha']]
     auswahl=random.choice(WSW)
     w1,w2=90,80
     minWinkel=20 if anzSpalten[0] < 2 else 40
