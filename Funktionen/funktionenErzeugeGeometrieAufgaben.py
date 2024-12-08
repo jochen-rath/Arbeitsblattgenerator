@@ -145,7 +145,7 @@ def erzeugeWinkelhalbbierendeAufgabe(mitText=True,anzSpalten=[2,2]):
     lsg=winkelhalbierende(alpha)
     return [afg,lsg,[]]
 
-def erzeugeDreieckWSWKonstrukt(planfigur=False,mitText=True,anzSpalten=[2,2]):
+def erzeugeDreieckWSWKonstrukt(planfigur=False,mitHilfe=False,mitText=True,anzSpalten=[2,2]):
     WSW=[['alpha','c','beta'],['beta','a','gamma'],['gamma','b','alpha']]
     auswahl=random.choice(WSW)
     w1,w2=90,80
@@ -153,7 +153,7 @@ def erzeugeDreieckWSWKonstrukt(planfigur=False,mitText=True,anzSpalten=[2,2]):
     while abs(180-(w1+w2))<minWinkel:
         w1=random.choice(list(range(20,120,10)))
         w2=random.choice(list(range(20,180-w1,10)))
-    l=random.randint(40,60)/10 if anzSpalten[0] < 2 else random.randint(20,40)/10 
+    l=random.randint(40,80)/10 if anzSpalten[0] < 2 else random.randint(20,40)/10 
     afg=['\\pbox{\\linewidth}{']
     afg=afg+([F'{"Markiere" if planfigur else "Zeichne"} die Planfigure und Konstruiere das Dreieck für folgende Werten:\\\\']  if mitText else [])
     afg=afg+[F'$\\begin{{aligned}}']
@@ -161,16 +161,16 @@ def erzeugeDreieckWSWKonstrukt(planfigur=False,mitText=True,anzSpalten=[2,2]):
     afg=afg+[F'{auswahl[1]}&={strNW(l)}~cm\\\\']
     afg=afg+[F'\\{auswahl[2]}&={strNW(w2)}^\\circ  \\\\']
     afg=afg+[F'\\end{{aligned}}$ \\\\']
-    afg=afg+dreieckWSWKonstr(werte=[w1,l,w2],seite=auswahl[1],mitLsg=False,zeichnePlanfigur=planfigur)
+    afg=afg+dreieckWSWKonstr(werte=[w1,l,w2],seite=auswahl[1],mitLsg=False,zeichnePlanfigur=planfigur,mitHilfe=mitHilfe)
     afg=afg+['}']
     lsg=dreieckWSWKonstr(werte=[w1,l,w2],seite=auswahl[1],mitLsg=True,zeichnePlanfigur=True)
     return [afg,lsg,[]]
 
-def erzeugeDreieckSWSKonstrukt(planfigur=False,mitText=True,anzSpalten=[2,2]):
+def erzeugeDreieckSWSKonstrukt(planfigur=False,mitHilfe=False,mitText=True,anzSpalten=[2,2]):
     SWS=[['b','alpha','c'],['c','beta','a'],['a','gamma','b']]
     auswahl=random.choice(SWS)
-    l1=random.randint(40,60)/10 if anzSpalten[0] < 2 else random.randint(20,40)/10
-    l2=random.randint(40,60)/10 if anzSpalten[0] < 2 else random.randint(20,40)/10 
+    l1=random.randint(40,80)/10 if anzSpalten[0] < 2 else random.randint(20,40)/10
+    l2=random.randint(40,80)/10 if anzSpalten[0] < 2 else random.randint(20,40)/10 
     w=random.choice(list(range(30,120,10)))
     afg=['\\pbox{\\linewidth}{']
     afg=afg+([F'{"Markiere" if planfigur else "Zeichne"} die Planfigure und Konstruiere das Dreieck für folgende Werten:\\\\']  if mitText else [])
@@ -179,14 +179,14 @@ def erzeugeDreieckSWSKonstrukt(planfigur=False,mitText=True,anzSpalten=[2,2]):
     afg=afg+[F'\\{auswahl[1]}&={strNW(w)}^\\circ \\\\']
     afg=afg+[F'{auswahl[2]}&={strNW(l2)}~cm  \\\\']
     afg=afg+[F'\\end{{aligned}}$ \\\\']
-    afg=afg+dreieckSWSKonstr(werte=[l1,w,l2],winkel=auswahl[1],mitLsg=False,zeichnePlanfigur=planfigur)
+    afg=afg+dreieckSWSKonstr(werte=[l1,w,l2],winkel=auswahl[1],mitLsg=False,zeichnePlanfigur=planfigur,mitHilfe=mitHilfe)
     afg=afg+['}']
     lsg=dreieckSWSKonstr(werte=[l1,w,l2],winkel=auswahl[1],mitLsg=True,zeichnePlanfigur=True)
     return [afg,lsg,[]]
 
 
-def erzeugeDreieckSSSKonstrukt(planfigur=False,mitText=True,anzSpalten=[2,2]):
-    minL,maxL=[15,30] if anzSpalten[0]>1 else [30,70]
+def erzeugeDreieckSSSKonstrukt(planfigur=False,mitHilfe=False,mitText=True,anzSpalten=[2,2]):
+    minL,maxL=[15,30] if anzSpalten[0]>1 else [30,80]
     a,b,c=random.randint(minL,maxL)/10,random.randint(minL,maxL)/10,random.randint(minL,maxL)/10
     afg=['\\pbox{\\linewidth}{']
     afg=afg+([F'{"Markiere" if planfigur else "Zeichne"} die Planfigure und Konstruiere das Dreieck für folgende Werten:\\\\']  if mitText else [])
@@ -195,7 +195,7 @@ def erzeugeDreieckSSSKonstrukt(planfigur=False,mitText=True,anzSpalten=[2,2]):
     afg=afg+[F'b&={strNW(b)}~cm \\\\']
     afg=afg+[F'c&={strNW(c)}~cm \\\\']
     afg=afg+[F'\\end{{aligned}}$']
-    afg=afg+dreieckSSSKonstr(werte=[a,b,c],mitLsg=False,zeichnePlanfigur=planfigur)
+    afg=afg+dreieckSSSKonstr(werte=[a,b,c],mitLsg=False,zeichnePlanfigur=planfigur,mitHilfe=mitHilfe)
     afg=afg+['}']
     lsg=dreieckSSSKonstr(werte=[a,b,c],mitLsg=True,zeichnePlanfigur=True)
     return [afg,lsg,[]]

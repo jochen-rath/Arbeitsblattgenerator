@@ -7,7 +7,7 @@
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
 
-def erzeugePythagorasBerechnen(seitenwahl=-1,mitBogen=True,mitText=True):
+def erzeugePythagorasBerechnen(seitenwahl='',mitBogen=True,mitText=True):
 #Diese Funktion erzeugt eine Aufgabe, bei der 2 Seiten eines Rechtwinkligen Dreiecks vorgegeben sind.
 #Es soll die fehlende Seite berechnet werden.
 #Aufruf:
@@ -15,48 +15,34 @@ def erzeugePythagorasBerechnen(seitenwahl=-1,mitBogen=True,mitText=True):
 #Seitenwahl: seitenwahl=0 --> a, seitenwahl=1 --> b, seitenwahl=2 --> c
 #Die Seite c ist die Hypothenuse
     rechtWinkBei='gamma'  #-->a=kx,b=ky,c=hyp
-    afg=['Berechne die fehlende Seite:'] if mitText else ['']
+    afg=(['\\pbox{\\linewidth}{']+['Berechne die fehlende Seite: \\\\']) if mitText else []
     einheit=random.choice(['mm','cm','dm','m','km'])
-    seitenwahl=seitenwahl if (seitenwahl>=0 and seitenwahl<=3) else random.randint(0,2)
     seiten=['a','b','c']
-    a,b=random.randint(40,100)/10.0,random.randint(20,100)/10.0
+    seitenAfg=list(seiten)
+    seitenwahl=seitenwahl if len(seitenwahl)>1 else random.choice(seiten)
+    seitenAfg.remove(seitenwahl)
+    seitenOp=list(seitenAfg)
+    if 'c' in seitenOp :
+        seitenOp.remove('c')
+    a,b=random.randint(20,50)/10.0,random.randint(20,50)/10.0
     c=(a**2+b**2)**0.5
-    seitenAfg=[strNW(x,True)+' '+einheit for x in [a,b,c]]
-    seitenAfg[seitenwahl]=seiten[seitenwahl]
-    afg=afg+dreieckRechtwinklig(kx=a/2,ky=b/2,rotWinkel=random.randint(0,360),seiten=seitenAfg,mitBogen=mitBogen,rechtWinkBei=rechtWinkBei)
+    labelDic={'a':f'{strNW(a)} {einheit}','b':f'{strNW(b,True)} {einheit}','c':f'{strNW(c,True)} {einheit}'}
+    label=[(labelDic[x] if x in seitenAfg else '')  for x in seiten]
+    afg=afg+dreieckRechtw(k=[a*1.2,b*0.8],label=label,mitBogen=mitBogen)+(['}'] if mitText else [])
     setzePBox(afg)
-    lsg=['\\pbox{\\linewidth}{']
-    if seitenwahl==0:
-        lsg=lsg+['$\\begin{aligned}']
-        lsg=lsg+['a^2&=c^2-b^2 &\\mid \\sqrt{~}']+['\\\\']
-        lsg=lsg+['a&=\\sqrt{c^2-b^2}&']+['\\\\']
-        lsg=lsg+[ '&=\\sqrt{'+strNW(c,True)+'^2-'+strNW(b,True)+'^2}&']+['\\\\']
-        lsg=lsg+[ '&=\\sqrt{'+strNW(c**2,True)+'-'+strNW(b**2,True)+'}&']+['\\\\']
-        lsg=lsg+[ '&=\\sqrt{'+strNW(c**2-b**2,True)+'}&']+['\\\\']
-        erg='a&='+strNW(a,True)+' \\mbox{ '+einheit+'}&'
-        lsg=lsg+['\\makebox[0pt][l]{\\uuline{\phantom{'+erg.replace('&','')+'}}}']
-        lsg=lsg+[erg]+['\\\\']
-    if seitenwahl==1:
-        lsg=lsg+['$\\begin{aligned}']
-        lsg=lsg+['b^2&=c^2-a^2 &\\mid \\sqrt{~}']+['\\\\']
-        lsg=lsg+['b&=\\sqrt{c^2-a^2}&']+['\\\\']
-        lsg=lsg+[ '&=\\sqrt{'+strNW(c,True)+'^2-'+strNW(a,True)+'^2}&']+['\\\\']
-        lsg=lsg+[ '&=\\sqrt{'+strNW(c**2,True)+'-'+strNW(a**2,True)+'}&']+['\\\\']
-        lsg=lsg+[ '&=\\sqrt{'+strNW(c**2-a**2,True)+'}&']+['\\\\']
-        erg='b&='+strNW(b,True)+' \\mbox{ '+einheit+'}&'
-        lsg=lsg+['\\makebox[0pt][l]{\\uuline{\phantom{'+erg.replace('&','')+'}}}']
-        lsg=lsg+[erg]+['\\\\']
-    if seitenwahl==2:
-        lsg=lsg+['$\\begin{aligned}']
-        lsg=lsg+['c^2&=a^2+b^2 &\\mid \\sqrt{~}']+['\\\\']
-        lsg=lsg+['c&=\\sqrt{a^2+b^2}&']+['\\\\']
-        lsg=lsg+[ '&=\\sqrt{'+strNW(a,True)+'^2+'+strNW(b,True)+'^2}&']+['\\\\']
-        lsg=lsg+[ '&=\\sqrt{'+strNW(a**2,True)+'+'+strNW(b**2,True)+'}&']+['\\\\']
-        lsg=lsg+[ '&=\\sqrt{'+strNW(a**2+b**2,True)+'}&']+['\\\\']
-        erg='c&='+strNW(c,True)+' \\mbox{ '+einheit+'}&'
-        lsg=lsg+['\\makebox[0pt][l]{\\uuline{\phantom{'+erg.replace('&','')+'}}}']
-        lsg=lsg+[erg]+['\\\\']
-    lsg=lsg+['\\end{aligned}$}']
+    lsg=['$\\begin{aligned}']
+    lsg.append(f'\\mbox{{geg: }} {seitenAfg[0]}&={strNW(eval(seitenAfg[0]),True)}~{einheit}& &\\\\')
+    lsg.append(f' {seitenAfg[1]}&={strNW(eval(seitenAfg[1]),True)}~{einheit} & &\\\\')
+#    lsg.append('\\\\')
+    lsg.append(f'\\mbox{{ges: }} {seitenwahl}&=?& & \\\\')
+#    lsg.append('\\\\')
+    lsg.append(' & & \\\\ ')
+    lsg.append(f'c^2&=a^2+b^2 & & \\\\'.replace(seitenAfg[0],strNW(eval(seitenAfg[0]),True)).replace(seitenAfg[1],strNW(eval(seitenAfg[1]),True)))
+    op="" if seitenwahl=='c' else f'\\mid~-{strNW(eval(seitenOp[0])**2,True)},~\\mbox{{umdrehen}}'
+    lsg.append(f'c^2&=a^2+b^2 & & {op} \\\\'.replace(f'{seitenAfg[0]}^2',strNW(eval(seitenAfg[0])**2,True)).replace(f'{seitenAfg[1]}^2',strNW(eval(seitenAfg[1])**2,True)))
+    lsg.append(f'{seitenwahl}^2&={strNW(eval(seitenwahl)**2,True)} & & \\mid~\\sqrt{{~}} \\\\')
+    lsg.append(f'{seitenwahl}&={strNW(eval(seitenwahl),True)}~{einheit}& & \\\\')
+    lsg.append('\\end{aligned}$')
     return [afg,lsg,[seitenAfg]]
 
 def erzeugePythagorasFormulieren(seitenBeshr=True,pktBeschr=False,gemischt=False,mitBogen=True,mitText=True):

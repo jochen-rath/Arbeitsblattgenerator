@@ -194,11 +194,11 @@ def dreieckWSWKonstr(werte=[40,5,80],seite='b',mitLsg=True,zeichnePlanfigur=True
         tikzcommand.append(f'\\node (U) at  ({urspr[seite][0]},{urspr[seite][1]}) {{}};')
     return erzeugeTikzUmrandung(tikzcommand)
 
-def dreieckSWSKonstr(werte=[4,60,5],winkel='gamma',mitLsg=True,zeichnePlanfigur=True):
+def dreieckSWSKonstr(werte=[4,60,5],winkel='gamma',mitLsg=True,zeichnePlanfigur=True,mitHilfe=False):
     markieren={'alpha':['b','alpha','c'],'beta':['c','beta','a'],'gamma':['a','gamma','b']}
     urspr={'alpha':[-3,0],'beta':[-3-werte[0],0],'gamma':[-5,-3]}
     dR=0 #random.randint(-10,10)
-    sW={'alpha':werte[1],'beta':180,'gamma':270+werte[1]+dR}
+    sW={'alpha':werte[1],'beta':180,'gamma':270+dR}
     pktBez={'alpha':['A','C','B'],'beta':['B','A','C'],'gamma':['C','B','A']}
     seitenBez={'alpha':['b','a','c'],'beta':['c','b','a'],'gamma':['a','c','b']}
     labelPos={'A':225,'B':315,'C':90}
@@ -210,14 +210,14 @@ def dreieckSWSKonstr(werte=[4,60,5],winkel='gamma',mitLsg=True,zeichnePlanfigur=
     pktLabel1=f"[label={labelPos[pktBez[winkel][0]]}:{pktBez[winkel][0]}]" if mitLsg and pktBez[winkel][0] in markieren[winkel] else ""
     pktLabel2=f"[label={labelPos[pktBez[winkel][1]]}:{pktBez[winkel][1]}]" if mitLsg and pktBez[winkel][1] in markieren[winkel] else ""
     pktLabel3=f"[label={labelPos[pktBez[winkel][2]]}:{pktBez[winkel][2]}]" if mitLsg and pktBez[winkel][2] in markieren[winkel] else ""
-    seitenLabel1=(f" -- " if mitLsg else "") + (f"node[{seitenPos[seitenBez[winkel][0]]}] {{{seitenBez[winkel][0]}}}" if mitLsg and seitenBez[winkel][0] in markieren[winkel] else "")
+    seitenLabel1=(f" -- " if mitLsg or (mitHilfe and not winkel=='alpha') else "") + (f"node[{seitenPos[seitenBez[winkel][0]]}] {{{seitenBez[winkel][0]}}}" if (mitLsg or (mitHilfe and not winkel=='alpha')) and seitenBez[winkel][0] in markieren[winkel] else "")
     seitenLabel2=(f" -- " if mitLsg else "") + (f"node[{seitenPos[seitenBez[winkel][1]]}] {{{seitenBez[winkel][1]}}}" if mitLsg and seitenBez[winkel][1] in markieren[winkel] else "")
-    seitenLabel3=(f" -- " if mitLsg else "") + (f"node[{seitenPos[seitenBez[winkel][2]]}] {{{seitenBez[winkel][2]}}}" if mitLsg and seitenBez[winkel][2] in markieren[winkel] else "")+("  cycle" if mitLsg else "")
+    seitenLabel3=(f" -- " if mitLsg  or (mitHilfe and winkel=='alpha') else "") + (f"node[{seitenPos[seitenBez[winkel][2]]}] {{{seitenBez[winkel][2]}}}" if (mitLsg or (mitHilfe and winkel=='alpha'))  and seitenBez[winkel][2] in markieren[winkel] else "")
 #Dreieck zeichnen
     tikzcommand=[f'\\coordinate{pktLabel1} (E) at (0,0);']
     tikzcommand.append(f'\\coordinate{pktLabel2} (F) at ({sW[winkel]}:{l1});')
     tikzcommand.append(f'\\coordinate{pktLabel3} (G) at ({sW[winkel]-werte[1]}:{l2});')
-    tikzcommand.append(f'\\draw (E) coordinate ({pktBez[winkel][0]})  {seitenLabel1} (F) coordinate ({pktBez[winkel][1]})  {seitenLabel2} (G) coordinate ({pktBez[winkel][2]})  {seitenLabel3};')
+    tikzcommand.append(f'\\draw (E) coordinate ({pktBez[winkel][0]})  {seitenLabel1} (F) coordinate ({pktBez[winkel][1]})  {seitenLabel2} (G) coordinate ({pktBez[winkel][2]})  {seitenLabel3} (E);')
     if mitLsg:
         tikzcommand.append(dreieckMarkieren(seiteWinkel=markieren[winkel][1],farbe='black'))
     if mitLsg or zeichnePlanfigur:
@@ -226,7 +226,7 @@ def dreieckSWSKonstr(werte=[4,60,5],winkel='gamma',mitLsg=True,zeichnePlanfigur=
         tikzcommand.append(f'\\node (U) at  ({urspr[winkel][0]},{urspr[winkel][1]}) {{}};')
     return erzeugeTikzUmrandung(tikzcommand)
 
-def dreieckSSSKonstr(werte=[4,5,6],mitLsg=True,zeichnePlanfigur=True):
+def dreieckSSSKonstr(werte=[4,5,6],mitLsg=True,zeichnePlanfigur=True,mitHilfe=False):
     a,b,c=werte
     markieren=['a','b','c']
     if abs((a**2-b**2-c**2)/(-2*b*c))>1:
@@ -244,7 +244,7 @@ def dreieckSSSKonstr(werte=[4,5,6],mitLsg=True,zeichnePlanfigur=True):
     b=werte[1]
     c=werte[2]
 #Beschriftungen
-    seitenLabel1=(f"-- node[{seitenPos['c']}] {{{'c'}}}" if mitLsg else "")
+    seitenLabel1=(f"-- node[{seitenPos['c']}] {{{'c'}}}" if mitLsg or mitHilfe else "")
     seitenLabel2=(f"-- node[{seitenPos['a']}] {{{'a'}}}" if mitLsg else "")
     seitenLabel3=(f"-- node[{seitenPos['b']}] {{{'b'}}}" if mitLsg else "")
 #Dreieck zeichnen
