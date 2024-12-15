@@ -302,7 +302,7 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'quadratwurzelAddieren':'wurzelnAddieren(anzahl=random.randint(2,3),mitText='+str(mitText)+')',
 #Pythagoras
         'pythagorasFormulierenSeiten':'erzeugePythagorasFormulieren(seitenBeshr=True,pktBeschr=False,gemischt=False,mitBogen=True,mitText='+str(mitText)+')',
-        'pythagorasFormulierenSeitenOhneBogen':'erzeugePythagorasFormulieren(seitenBeshr=True,pktBeschr=False,gemischt=False,mitBogen=True,mitText='+str(mitText)+')',
+        'pythagorasFormulierenSeitenOhneBogen':'erzeugePythagorasFormulieren(seitenBeshr=True,pktBeschr=False,gemischt=False,mitBogen=False,mitText='+str(mitText)+')',
         'pythagorasFormulierenPunkte':'erzeugePythagorasFormulieren(seitenBeshr=False,pktBeschr=True,gemischt=False,mitBogen=True,mitText='+str(mitText)+')',
         'pythagorasFormulierenPunkteOhneBogen':'erzeugePythagorasFormulieren(seitenBeshr=False,pktBeschr=True,gemischt=False,mitBogen=False,mitText='+str(mitText)+')',
         'pythagorasFormulierenGemischt':'erzeugePythagorasFormulieren(seitenBeshr=False,pktBeschr=False,gemischt=True,mitBogen=True,mitText='+str(mitText)+')',
