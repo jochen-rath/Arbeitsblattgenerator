@@ -20,44 +20,87 @@ def erzeugeKreisberechnungen(typ='',mitText=True):
     r_dStr=['r','d']
     rd_auswahl=random.randint(0,1)
     afg,lsg="",""
+    werte={'r':r,'d':2*r,'u':2*math.pi*r,'A':math.pi*r**2}
+#Berechnungen von u usw.
+    if True:
+        uAusR=[f'u&=2\\pi · r & & \\\\']
+        uAusR.append(f'u&= 2\\pi · {strNW(werte["r"],True)}& & \\\\')
+        uAusR.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{u ={strNW(werte["u"],True)}~~{einheit}}}}}}}')
+        uAusR.append(f'u&={strNW(werte["u"],True)}~{einheit}& & \\\\')
+        uAusD=[f'u&=\\pi · d & & \\\\']
+        uAusD.append(f'u&= \\pi · {strNW(werte["d"],True)}& & \\\\')
+        uAusD.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{u ={strNW(werte["u"],True)}~~{einheit}}}}}}}')
+        uAusD.append(f'u&={strNW(werte["u"],True)}~{einheit}& & \\\\')
+        rAusD=[f'r&=d:2 & & \\\\']
+        rAusD.append(f'r&={strNW(werte["d"],True)}:2 & & \\\\')    
+        rAusD.append(f'\\makebox[0pt][l]{{\\uline{{\\phantom{{u ={strNW(werte["u"],True)}~~{einheit}}}}}}}')
+        rAusD.append(f'r&={strNW(werte["r"],True)} & & \\\\')    
+        A=[f'A&=\\pi·r^2 & & \\\\']
+        A.append(f'A&=\\pi·{strNW(werte["r"],True)}^2 & & \\\\')
+        A.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{u ={strNW(werte["u"],True)}~~{einheit}}}}}}}')
+        A.append(f'A&={strNW(werte["A"],True)}~{einheit}^2& & \\\\')
+        rAusU=[f'u&=2\\pi · r & & \\\\']
+        rAusU.append(f'{strNW(werte["u"],True)}&=2\\pi· r & &\\mid :(2·\\pi)\\mbox{{, umdrehen}} \\\\')
+        rAusU.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{u ={strNW(werte["u"],True)}~~{einheit}}}}}}}')
+        rAusU.append(f'r&={strNW(werte["r"],True)}~{einheit}& & \\\\')
+        rAusA=[f'A&=\\pi · r^2 & & \\\\']
+        rAusA.append(f'{strNW(werte["A"],True)}&=\\pi· r^2 & &\\mid :\\pi \\\\')
+        rAusA.append(f'{strNW(werte["A"]/math.pi,True)}&=r^2 & &\\mid \\sqrt{{~~}}\\mbox{{, umdrehen}}  \\\\')
+        rAusA.append(f'\\makebox[0pt][l]{{\\uuline{{\\phantom{{u ={strNW(werte["u"],True)}~~{einheit}}}}}}}')
+        rAusA.append(f'r&={strNW(werte["r"],True)}~{einheit}& & \\\\')
+    rechnung,geg,ges=[],[],[]  
     if typ=='Umfang':
-        afg=F'{"Berechne den Kreisumfang für " if mitText else ""}${{{r_dStr[rd_auswahl]}={strNW(r_d[rd_auswahl])}~{einheit}}}$'
+        afg=F'{"Berechne den Kreisumfang für " if mitText else ""}${{{r_dStr[rd_auswahl]}={strNW(r_d[rd_auswahl])}~{einheit}~~\\rightarrow u=?}}$'
         lsg=F'$u={"2XXXXcdot" if not rd_auswahl else ""}\\pi\\cdot{strNW(r_d[rd_auswahl],True)}='
         lsg=lsg+strNW(eval(F'{"2*" if not rd_auswahl else "" }math.pi*{r_d[rd_auswahl]}'),True)+einheit+'$'
         lsg=lsg.replace('XXXX','\\')
+        geg=[r_dStr[rd_auswahl]]
+        ges=['u']
+        rechnung=uAusR if r_dStr[rd_auswahl]=='r' else uAusD
     if typ=='Flaeche':
-        afg=F'{"Berechne die Kreisfläche für " if mitText else ""}${{{r_dStr[rd_auswahl]}={strNW(r_d[rd_auswahl])}~{einheit}}}$'
+        afg=F'{"Berechne die Kreisfläche für " if mitText else ""}${{{r_dStr[rd_auswahl]}={strNW(r_d[rd_auswahl])}~{einheit}~~\\rightarrow A=?}}$'
         lsg=F'$A=\\pi\\cdot{"XXXXfrac{" if rd_auswahl else ""}{r_d[rd_auswahl]}^2{"}{4}" if rd_auswahl else ""}='
         lsg=lsg+strNW(eval(F'math.pi*{r_d[rd_auswahl]}**2{"/4" if rd_auswahl else ""}'),True)+einheit+'^2$'
         lsg=lsg.replace('XXXX','\\')
+        geg=[r_dStr[rd_auswahl]]
+        ges=['A']
+        if r_dStr[rd_auswahl]=='d':
+            rechnung=rechnung+rAusD
+        rechnung=rechnung+A
     if typ=='UmfangFlaeche':
-        afg=F'{"Berechne den Kreisumfang, die Fläche für " if mitText else ""}${{{r_dStr[rd_auswahl]}={strNW(r_d[rd_auswahl])}~{einheit}~~\\rightarrow u,A=?}}$'
-        lsg=['$\\begin{aligned}']
-        u=F'u&={"2XXXXcdot" if not rd_auswahl else ""}\\pi\\cdot{strNW(r_d[rd_auswahl],True)}='
-        u=u+strNW(eval(F'{"2*" if not rd_auswahl else "" }math.pi*{r_d[rd_auswahl]}'),True)+einheit
-        lsg=lsg+[u.replace('XXXX','\\')]
-        lsg=lsg+['\\\\']
-        A=F'A&=\\pi\\cdot{"XXXXfrac{" if rd_auswahl else ""}{strNW(r_d[rd_auswahl],True)}^2{"}{4}" if rd_auswahl else ""}='
-        A=A+strNW(eval(F'math.pi*{r_d[rd_auswahl]}**2{"/4" if rd_auswahl else ""}'), True)+einheit+'^2'
-        lsg=lsg+[A.replace('XXXX','\\')]
-        lsg=lsg+['\\end{aligned}$']
+        afg=F'{"Berechne den Kreisumfang, die Fläche für " if mitText else ""}${{{r_dStr[rd_auswahl]}={strNW(r_d[rd_auswahl])}~{einheit}~~\\rightarrow u,A=?}}$'        
+        geg=[r_dStr[rd_auswahl]]
+        ges=['u','A']
+        rechnung=rechnung+u
+        if r_dStr[rd_auswahl]=='d':
+            rechnung=rechnung+rAusD
+        rechnung=rechnung+A
     if typ=='Radius':
         afg=F'{"Berechne den Radius für " if mitText else ""}${{u={strNW(2*math.pi*r,True)}~{einheit}~~\\rightarrow r=?}}$'
-        lsg=F'$r=\\frac{{u}}{{2\\pi}}=\\frac{{{strNW(2*math.pi*r,True)}}}{{2\\pi}}={strNW(r)}~{einheit}$'
+        geg=['u']
+        ges=['r']
+        rechnung=rAusU
     if typ=='UmfachNachFlaeche':
         afg=F'{"Berechne die Kreisfläche für " if mitText else ""}${{u={strNW(2*math.pi*r,True)}~{einheit}~~\\rightarrow A=?}}$'
-        lsg=['$\\begin{aligned}']
-        lsg=lsg+[F'r&=\\frac{{u}}{{2\\pi}}=\\frac{{{strNW(2*math.pi*r,True)}}}{{2\\pi}}={strNW(r)}~{einheit} \\\\']
-        lsg=lsg+[F'A&=\\pi\\cdot{strNW(r,True)}^2={strNW(math.pi*r**2,True)}~{einheit}^2 \\\\']
-        lsg=lsg+['\\end{aligned}$']
+        geg=['u']
+        ges=['A']
+        rechnung=rechnung+rAusU
+        rechnung=rechnung+A
     if typ=='FlaecheNachUmfang':
         afg=F'{"Berechne den Kreisumfang für " if mitText else ""}${{A={strNW(math.pi*r**2,True)}~{einheit}^2~~\\rightarrow u=?}}$'
-        lsg=['$\\begin{aligned}']
-        lsg=lsg+[F'r&=\\sqrt{{\\frac{{A}}{{\\pi}}}}=\\sqrt{{\\frac{{{strNW(math.pi*r**2,True)}}}{{\\pi}}}}={strNW(r)}~{einheit} \\\\']
-        erg = F'u&=2\\pi\\cdot{strNW(r,True)}={strNW(2*math.pi*r,True)}~{einheit}'
-        lsg = lsg + ['\\makebox[0pt][l]{\\uuline{\phantom{' + erg.replace('&', '').replace('\\','') + '}}}']
-        lsg = lsg + [erg+'\\\\']
-        lsg=lsg+['\\end{aligned}$']
+        geg=['A']
+        ges=['u']
+        rechnung=rechnung+rAusA
+        rechnung=rechnung+uAusR
+    lsg=['$\\begin{aligned}']
+    lsg.append(f'\\mbox{{geg: }} {geg[0]}&={strNW(werte[geg[0]],True)}~{einheit}& &\\\\')
+    for z in geg[1:]:
+        lsg.append(f'{z}&={strNW(werte[z],True)}~{einheit}& &\\\\')
+    lsg.append(f'\\mbox{{ges: }} {ges[0]}&=?& & \\\\')
+    for z in ges[1:]:
+        lsg.append(f'{z}&=?& &\\\\')
+    lsg=lsg+rechnung
+    lsg.append('\\end{aligned}$')
     return [afg,lsg,[r_d,rd_auswahl]]
 
 def umfangDreieckMitHalbkreis(mitText=True):
