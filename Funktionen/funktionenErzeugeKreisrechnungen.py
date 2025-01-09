@@ -71,7 +71,7 @@ def erzeugeKreisberechnungen(typ='',mitText=True):
         afg=F'{"Berechne den Kreisumfang, die Fläche für " if mitText else ""}${{{r_dStr[rd_auswahl]}={strNW(r_d[rd_auswahl])}~{einheit}~~\\rightarrow u,A=?}}$'        
         geg=[r_dStr[rd_auswahl]]
         ges=['u','A']
-        rechnung=rechnung+u
+        rechnung=uAusR if r_dStr[rd_auswahl]=='r' else uAusD
         if r_dStr[rd_auswahl]=='d':
             rechnung=rechnung+rAusD
         rechnung=rechnung+A
