@@ -276,6 +276,8 @@ def sternPrisma(l=5,h_K=6,nurVorderseite=False):
     tikzcommand.append(F"{{\\draw[thick,dashed] (\\x) --(\\y) ;}}")
     tikzcommand.append(F"\\end{{tikzpicture}}")
     return tikzcommand
+
+
 def dreiecksPrimsa(Ax=3,Bx=2,Cx=4,Cy=2,hK=4,ursprung=[0,0],messen=False):
 #Diese Funktion erzeugt einen Tikz-code mit dem man einen Zylinder darstellen.
 #Aufruf:
@@ -299,8 +301,8 @@ def dreiecksPrimsa(Ax=3,Bx=2,Cx=4,Cy=2,hK=4,ursprung=[0,0],messen=False):
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid]')
     tikzcommand.append(F'\\draw ({ursprung[0]-Ax},{ursprung[1]}) -- node[below]{{$c{"" if messen else F"={strNW(c,True)} cm"}$}} ({ursprung[0]+Bx},{ursprung[1]});')
-    tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot})-- node[left]{{$b{"" if messen else F"={strNW(b,True)} cm"}$}}({ursprung[0]-Ax},{ursprung[1]});')
-    tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot})-- node[right]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}}({ursprung[0]+Bx},{ursprung[1]});')
+    tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot})-- node[above,sloped]{{$b{"" if messen else F"={strNW(b,True)} cm"}$}}({ursprung[0]-Ax},{ursprung[1]});')
+    tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot})-- node[above,sloped]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}}({ursprung[0]+Bx},{ursprung[1]});')
     tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]},{ursprung[1]})node[above] {{$h{"" if messen else F"={strNW(h,True)} cm"}$}}  -- ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot});')
     tikzcommand.append(F'\\draw ({ursprung[0]-Ax},{ursprung[1]+hK}) -- ({ursprung[0]+Bx},{ursprung[1]+hK});')
     tikzcommand.append(F'\\draw  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot+hK})--({ursprung[0]-Ax},{ursprung[1]+hK});')

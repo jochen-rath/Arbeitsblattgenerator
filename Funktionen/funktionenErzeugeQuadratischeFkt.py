@@ -56,7 +56,7 @@ def erzeugeQuadVariAuslesen(mitB=False,mitC=False,mitText=True,anzSpalten=[1,1])
     afg=[F'\\parbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
     bestimme=f'a{", b" if mitB else ""}{", c" if mitC else ""}'
     gleichung=f'a\cdot {"(x+b)^2" if mitB else "x^2"}{"+c" if mitC else ""}'
-    afg=afg+[f'Bestimme {bestimme} der Parabelgleichen ${gleichung}$ für die Parabel \\']
+    afg=afg+[f'Bestimme {bestimme} der Parabelgleichung ${gleichung}$ für die Parabel \\']
     afg=afg+diagramm
     afg=afg+['}']
     lsg=[F'\\parbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
