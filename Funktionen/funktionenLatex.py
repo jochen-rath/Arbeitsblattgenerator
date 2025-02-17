@@ -28,9 +28,9 @@ def latexHeadTikz():
     return head
 
 
-def latexHead(arraystretch=False,size=2):
+def latexHead(arraystretch=False,size=2,schriftgroesse=12):
     head=[]
-    head.append('\\documentclass[12pt]{article}')
+    head.append(f'\\documentclass[{schriftgroesse}pt]{{extarticle}}')
     head.append('\\usepackage[table]{xcolor}')
     head.append('\\usepackage[shortlabels]{enumitem}')
     head.append('\\usepackage{tabularx,xltabular}')
@@ -40,6 +40,9 @@ def latexHead(arraystretch=False,size=2):
     head.append('\\usepackage{verbatim}')
     head.append('\\usepackage{geometry}')
     head.append('\\usepackage{scalerel}')
+    head.append('\\usepackage{multirow}')
+#Linie mit Scheren Symbol:
+    head.append('\\usepackage{pifont}')
 #Unterstreichen
     head.append('\\usepackage{ulem}')
 #Euro Sympol:
@@ -94,6 +97,8 @@ def latexHead(arraystretch=False,size=2):
     head.append('\\newcolumntype{R}[1]{>{\\raggedleft\\let\\newline\\\\\\arraybackslash\\hspace{0pt}}m{#1}}')
     head.append('\\def\\mcirc{\\mathbin{\\scalerel*{\\circ}{j}}}')
     head.append('\\def\\msquare{\\mathord{\\scalerel*{\\Box}{\\strut}}}')
+#Linie Schere Abschneiden
+    head.append('\\newcommand{\\cuthere}{\\noindent\\raisebox{-2.8pt}[0pt][0.75\\baselineskip]{\\small\\ding{34}}\\unskip{\\tiny\\dotfill}}')
     return head
 
 def setzeGleichheitszeichenAufLinie(gleichheitszeichen):

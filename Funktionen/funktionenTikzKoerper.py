@@ -383,3 +383,35 @@ def quaderMitLoch(a=6, b=4, c=9,R=1.5, ursprung=[0,0],buchstabe='Q',aName='a',bN
     tikzcommand.append(F'\\draw[thick] (-\\a/2,\\h,\\b/2) --(\\a/2,\\h,\\b/2);')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
+
+
+
+
+def mehrereZylinder3D(radien=[3,2,3], hoehen=[2,3,4],einheit='cm'):
+#Diese Funktion erzeugt einen Tikz-code mit dem man einen Zylinder darstellen.
+#Aufruf:
+#        tikzcommand=zylinder3D(R, h_k)
+#
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append(F"\\begin{{tikzpicture}}[show background grid]")
+    tikzcommand.append(F"\\pgfmathsetmacro{{\\winkelA}}{{160}}  ")
+    tikzcommand.append(F"\\pgfmathsetmacro{{\\winkelB}}{{335}}  ")
+    h_0=0
+    for i,r in enumerate(radien):
+        h_1=h_0+hoehen[i]
+        tikzcommand.append(F"\\pgfmathsetmacro{{\\h}}{{{hoehen[i]}}}")
+        tikzcommand.append(F"\\pgfmathsetmacro{{\\R}}{{{r}}}  ")
+        tikzcommand.append(F"\\begin{{scope}}[canvas is xz plane at y={h_0}]")
+        tikzcommand.append(F"\\fill[fill=gray!20,thick] (0,0) circle (\\R cm);")
+        tikzcommand.append(F"\\draw[thick] (0,0) -- node[below] {{r={strNW(r)} {einheit}}} (\\winkelB:\\R cm); ")
+        tikzcommand.append(F"\\draw[thick] ({{\\R*cos(\\winkelA)}},{{\\R*sin(\\winkelA)}}) arc (\\winkelA:\\winkelB-360:\\R);")
+        tikzcommand.append(F"\\draw[thick,dashed] ({{\\R*cos(\\winkelA)}},{{\\R*sin(\\winkelA)}}) arc (\\winkelA:\\winkelB:\\R);")
+        tikzcommand.append(F"\\end{{scope}}")
+        tikzcommand.append(F"   \\draw[thick] ({{\\R*cos(\\winkelA)}},{h_0},{{\\R*sin(\\winkelA)}} ) -- ({{\\R*cos(\\winkelA)}},{h_1},{{\\R*sin(\\winkelA)}} ) -- ({{\\R*cos(\\winkelB)}},{h_1},{{\\R*sin(\\winkelB)}} ) -- node[right] {{$h_k={strNW(hoehen[i])}~{einheit}$}} ({{\\R*cos(\\winkelB)}},{h_0},{{\\R*sin(\\winkelB)}} );")
+        tikzcommand.append(F"\\begin{{scope}}[canvas is xz plane at y={h_1}]")
+        tikzcommand.append(F"\\draw[fill=gray!20,thick] (0,0) circle (\\R cm);")
+        tikzcommand.append(F"\\end{{scope}}")
+        h_0=h_1
+    tikzcommand.append(F"\\end{{tikzpicture}}")
+    return tikzcommand
+

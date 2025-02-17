@@ -112,3 +112,14 @@ def trapezMitTrapezenUmrandet(R=50,h=25,LSG=False):
         tikzcommand.append("\\draw[thick,<->] (0,\\h) --node[right] {\\hWert~cm} (0,\\hges);")
     tikzcommand.append("\\end{tikzpicture}")
     return tikzcommand
+
+def halbkreisAufQuadrat(a=4,einheit='cm',mitLsg=False):
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    tikzcommand.append(f"\\draw[thick] (0,0) coordinate(A) -- node[below]{{$a={strNW(a)}~{einheit}$}} ({a},0) coordinate(B) -- ({a},{a}) coordinate(C)  (0,{a}) coordinate (D) -- node[left]{{a}} (0,0);")
+    tikzcommand.append(f"\\draw[thick] (D) arc (180:0:{a/2});")
+    if mitLsg:
+        tikzcommand.append(f"\\draw[thick] (D) -- (C);")
+        tikzcommand.append(f"\\draw[thick,red] ({a/2},{a}) -- node[below]{{r={strNW(a/2)}~{einheit}}} (C);")
+    tikzcommand.append("\\end{tikzpicture}")
+    return tikzcommand

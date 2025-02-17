@@ -110,24 +110,44 @@ def umfangDreieckMitHalbkreis(mitText=True):
     c = (kx ** 2 + ky ** 2) ** 0.5
     tikz=dreieckMitHalbkreis(kx=0.6*kx,ky=0.6*ky,seiten=['',F'{strNW(ky,True)} {einheit}',F'{strNW(kx,True)} {einheit}'],ohneHyp=True)
     if mitText:      
-        afg=['\\pbox{\\linewidth}{']+['Berechne den Umfang von ']+tikz+['}']
+        afg=['\\pbox{\\linewidth}{']+['Berechne den Umfang und die Fläche von ']+tikz+['}']
     else:
         afg=tikz
     lsg = ['\\pbox{\\hsize}{']
     lsg=lsg+dreieckMitHalbkreis(kx=0.6*kx,ky=0.6*ky,seiten=[F'{strNW(c,True)} {einheit}',F'{strNW(ky,True)} {einheit}',F'{strNW(kx,True)} {einheit}'],ohneHyp=False)
     lsg=lsg+['\\\\']
     lsg=lsg+['$\\begin{aligned}']
-    lsg=lsg+[F'u&={strNW(kx)} + {strNW(ky)}+\pi \\cdot x\\cdot \\frac12\\\\']
-    lsg=lsg+[F'x^2&={strNW(kx)}^2 + {strNW(ky)}^2\\\\']
-    lsg=lsg+[F'x^2&={strNW(kx**2+ky**2,True)}\\\\']
-    lsg=lsg+[F'x&=\\sqrt{{{strNW(kx**2+ky**2,True)}}}\\\\']
-    x =F'x&={strNW((kx**2+ky**2)**0.5,True)}~{einheit}\\\\'
-    lsg = lsg + ['\\makebox[0pt][l]{\\uline{\phantom{' + x.replace('&', '') + '}}}']
-    lsg = lsg + [x] + ['\\\\']
-    lsg=lsg+[F'u&={strNW(kx)} + {strNW(ky)}+\pi \\cdot {strNW((kx**2+ky**2)**0.5,True)}\\cdot \\frac12\\\\']
-    erg =F'u&={strNW(kx+ky+math.pi*((kx**2+ky**2)**0.5)*0.5,True)}~{einheit}\\\\'
-    lsg = lsg + ['\\makebox[0pt][l]{\\uuline{\phantom{' + erg.replace('&', '') + '}}}']
-    lsg = lsg + [erg] + ['\\\\']
+    lsg.append(F'\\mbox{{Geg: }} g&={strNW(kx)}~{einheit} & & \\\\')
+    lsg.append(F' h&={strNW(ky)}~{einheit} & & \\\\')
+    lsg.append(F'\\mbox{{Ges: }} A,u&=? & & \\\\')
+    lsg.append(F'\\\\')
+    lsg.append(F'A&=A_1+A_2 & & \\\\')
+    lsg.append(F'A_1&=\\frac{{g·h}}2 & & \\\\')
+    lsg.append(F'A_1&=\\frac{{{strNW(kx)}·{strNW(ky)}}}2 & & \\\\')
+    lsg.append(F'A_1&={strNW(kx*ky/2,True)}~{einheit}^2 & & \\\\')
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg.append(F'A_2&=\\pi·r^2 & & \\\\')
+    lsg.append(F'r&=d/2 & & \\\\')
+    lsg.append(F'd^2&={{g^2+h^2}} & & \\\\')
+    lsg.append(F'd^2&={{{strNW(kx)}^2+{strNW(ky)}^2}} & & \\mid \\sqrt{{~}}\\\\')
+    lsg.append(F'd&={strNW((kx**2+ky**2)**0.5,True)}~{einheit}\\\\')
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg.append(F'A_2&=\\pi·r^2 & & \\\\')
+    lsg.append(F'A_2&=\\pi·{strNW(c/2,True)}^2 & & \\\\')
+    lsg.append(F'A_2&={strNW(math.pi*(c/2)**2,True)}~{einheit}^2 & & \\\\')
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg.append(F'A&=A_1+A_2 & & \\\\')
+    lsg.append(F'A&={strNW(kx*ky/2,True)}+{strNW(math.pi*(c/2)**2,True)} & & \\\\')
+    lsg.append(F'A&={strNW(kx*ky/2+math.pi*(c/2)**2,True)} & & \\\\')
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg.append(F'u&=h+g+u_{{HK}} & & \\mbox{{HK: Halbkreis}} \\\\')
+    lsg.append(F'u_{{HK}}&=\\frac{{1}}2 · 2\\pi r& & \\\\')
+    lsg.append(F'u_{{HK}}&=\\frac{{1}}2 · 2\\pi · {strNW(c/2,True)}& & \\\\')
+    lsg.append(F'u_{{HK}}&={strNW(math.pi*c/2,True)}& & \\\\')
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg.append(F'u&={strNW(kx,True)}+{strNW(ky,True)}+{strNW(math.pi*c/2,True)} & & \\\\')
+    lsg.append(F'u&={strNW(kx+ky+math.pi*c/2,True)} & & \\\\')
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
     lsg=lsg+['\\end{aligned}$']
     lsg=lsg+['}']
     return [afg,lsg,[kx,ky]]
@@ -158,3 +178,44 @@ def erzeugeUmfangFlaecheKreisabschnitt(mitText=True):
     lsg=lsg+['\\end{aligned}$']
     lsg=lsg+['}']
     return [afg,lsg,[r,alpha]]
+
+
+def umfangFlaecheQuadratMitHalbkreis(mitText=True):
+    einheit=random.choice(['mm','cm','dm','m','km'])
+    a=random.randint(25,50)/10.0
+    tikz=halbkreisAufQuadrat(a=a,einheit=einheit)
+    if mitText:      
+        afg=['\\pbox{\\linewidth}{']+['Berechne den Umfang und die Fläche von ']+tikz+['}']
+    else:
+        afg=tikz
+    lsg = ['\\pbox{\\hsize}{']
+    lsg=lsg+halbkreisAufQuadrat(a=a,einheit=einheit,mitLsg=True)
+    lsg=lsg+['\\\\']
+    lsg=lsg+['$\\begin{aligned}']
+    lsg.append(F'\\mbox{{Geg: }} a&={strNW(a)}~{einheit} & & \\\\')
+    lsg.append(F'\\mbox{{Ges: }} A,u&=? & & \\\\')
+    lsg.append(F'\\\\')
+    lsg.append(F'A&=A_1+A_2 & & \\\\')
+    lsg.append(F'A_1&=a^2 & & \\\\')
+    lsg.append(F'A_1&={strNW(a)}^2 & & \\\\')
+    lsg.append(F'A_1&={strNW(a*a,True)}~{einheit}^2 & & \\\\')
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg.append(F'A_2&=\\pi·r^2 & & \\\\')
+    lsg.append(F'A_2&=\\pi·{strNW(a/2,True)}^2 & & \\\\')
+    lsg.append(F'A_2&={strNW(math.pi*(a/2)**2,True)}~{einheit}^2 & & \\\\')
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg.append(F'A&=A_1+A_2 & & \\\\')
+    lsg.append(F'A&={strNW(a**2,True)}+{strNW(math.pi*(a/2)**2,True)} & & \\\\')
+    lsg.append(F'A&={strNW(a**2+math.pi*(a/2)**2,True)} & & \\\\')
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg.append(F'u&=3a+u_{{HK}} & & \\mbox{{HK: Halbkreis}} \\\\')
+    lsg.append(F'u_{{HK}}&=\\frac{{1}}2 · 2\\pi r& & \\\\')
+    lsg.append(F'u_{{HK}}&=\\frac{{1}}2 · 2\\pi · {strNW(a/2,True)}& & \\\\')
+    lsg.append(F'u_{{HK}}&={strNW(math.pi*a/2,True)}& & \\\\')
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg.append(F'u&=3{strNW(a,True)}+{strNW(math.pi*a/2,True)} & & \\\\')
+    lsg.append(F'u&={strNW(3*a+math.pi*a/2,True)} & & \\\\')
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg=lsg+['\\end{aligned}$']
+    lsg=lsg+['}']
+    return [afg,lsg,[a]]

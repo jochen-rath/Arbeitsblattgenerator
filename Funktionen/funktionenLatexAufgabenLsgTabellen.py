@@ -51,6 +51,7 @@ def erzeugeEinfacheTabelleMitSeitenumbruch(inhalt=[['a)','afg1'],['b)','afg2']],
     tabelle.append('\\end{tabularx}')
     tabelle.append('\\vspace{0.5cm}')
     return tabelle
+
 def erzeugeTabellen10minAfgLsg(rechnungen,beschreibung=''):
 #Diese Funktion erstellt eine Tabelle der Form:
 #           a) Aufgaben 1          b) Aufgabe 2
@@ -358,6 +359,18 @@ def erzeugeTabelleMitKlammerAufgaben(rechnungen):
     for i in range(int(len(rechnungen)/2)):
        tabelle.append(rechnungen[2*i][0]+'&'+''.join(rechnungen[2*i][1:])+'&'+rechnungen[2*i+1][0]+'&'+''.join(rechnungen[2*i+1][1:])+'\\\\\\hline')
     tabelle.append('\\end{tabularx}')
+    tabelle.append('\\vspace{0.5cm}')
+    tabelle.append('')
+    tabelle.append('')
+    return tabelle
+
+def erzeugeTabelleEinfach(inhalt):
+    tabelle=[]
+    tabelle.append(f'\\noindent\\begin{{tabular}}{{{"|c"*len(inhalt[0])}|}}')
+    tabelle.append('\\arrayrulecolor{black}\\hline')
+    for zeile in inhalt:
+        tabelle.append(f'{"&".join(zeile)} \\\\\\hline')
+    tabelle.append('\\end{tabular}')
     tabelle.append('\\vspace{0.5cm}')
     tabelle.append('')
     tabelle.append('')

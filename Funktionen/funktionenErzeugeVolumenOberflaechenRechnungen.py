@@ -354,7 +354,10 @@ def erzeugePrismaFehlendeSeiteBerechnen(anzSpalten=[2,2],auswahl='',mitText=True
     breite=6 if anzSpalten==2 else 14
     prismaVolumen=prismaVolumenFormeln()
     prismaOberfl=prismaOberflaechenFormeln()
-    auswahl=auswahl if len(auswahl)>0 else random.choice(list(prismaVolumen.keys()))
+    if auswahl=="einfach":
+        auswahl=f'{random.choice(["Allgemeinen","Quader","Dreieck"])}'
+    else:
+        auswahl=auswahl if len(auswahl)>0 else random.choice(list(prismaVolumen.keys()))
     prisma=prismaVolumen[auswahl] if VoO=='V' else prismaOberfl[auswahl]
     formel=prisma[0]
     varis={}
@@ -393,12 +396,12 @@ def erzeugePrismaFehlendeSeiteBerechnen(anzSpalten=[2,2],auswahl='',mitText=True
         formel=formel.replace(x,str(varis[x]))
     if not str(sympy.sympify(formel.split("=")[1]))==formelStrNw.split("=")[1]:
         lsg.append(F'{formelStrNw.split("=")[0]}&={formelStrNw.split("=")[1]} & &§§mid~\\mbox{{Zusammenfassen}} \\\\')
-    lsg.append(F'{formelStrNw.split("=")[0]}&={sympy.sympify(formel.split("=")[1])} & &§§mid~\\mbox{{Umdrehen}} \\\\')
-#    lsg.append(F'{sympy.sympify(formelStrNw.split("=")[1])}&={formelStrNw.split("=")[0]} & & \\\\')
+    lsg.append(F'{formelStrNw.split("=")[0]}&={str(sympy.sympify(formel.split("=")[1]))} & &§§mid~\\mbox{{Umdrehen}} \\\\')
     glLsg = loeseGleichungEinfachMitEinerVariabel(G=F'{sympy.sympify(formel.split("=")[1])} = {formelStrNw.split("=")[0].replace(".","").replace(",",".")}', variable=list(ges.keys())[0], latexAusgabe=True)
-    glLsg=glLsg[6:-3]
+    glLsg=glLsg[5:-3]
+#Einheit in die Lösung einbauen:
     glLsg[-1]=F'{glLsg[-1].split("&")[0]}&{glLsg[-1].split("&")[1]}~{einheit}{"^2" if list(ges.keys())[-1] in ["variG","variO","variM"] else " "}&{glLsg[-1].split("&")[2]}&{glLsg[-1].split("&")[3]}'
-    lsg=lsg+glLsg
+    lsg=lsg+glLsg     
     lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
     lsg.append('\\end{aligned}$};')
     lsg.append('\\end{tikzpicture}')

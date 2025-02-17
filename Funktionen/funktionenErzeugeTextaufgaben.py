@@ -17,15 +17,19 @@ def ladeOpenAi():
     else:
         return 'Kein Key'
 
-def chatGptAnweisung():
-    return  'Schreibe nur die Frage und den Antwortsatz auf. Schreibe Frage vor der Frage und Antwortsatz vor dem Antwortsatz. Schreibe XXX im Antwortsatz, anstatt der Zahlen'
+def chatGptAnweisung(mitAntwort=True):
+    anweisung='Schreibe nur die Frage und den Antwortsatz auf. Schreibe Frage vor der Frage und Antwortsatz vor dem Antwortsatz. Schreibe XXX im Antwortsatz, anstatt der Zahlen'
+    return  anweisung if mitAntwort else " "
 
-def stelleChatGptDieFrage(frage='Erstelle mit eine Sachaufgabe zur Multiplikation'):
+def stelleChatGptDieFrage(frage='Erstelle mit eine Sachaufgabe zur Multiplikation',mitAntwort=True):
     try:
         client = ladeOpenAi()
-        completion = client.chat.completions.create(model=openAiModel,  messages=[    {"role": "user", "content": F'{frage} {chatGptAnweisung()}'}  ])
-        afg=completion.choices[0].message.content.split('Antwortsatz:')[0].replace('%','\\%').replace('^','').replace('Frage:','')
-        antwortsatz=completion.choices[0].message.content.split('Antwortsatz:')[1].replace('^','')
+        completion = client.chat.completions.create(model=openAiModel,  messages=[    {"role": "user", "content": F'{frage} {chatGptAnweisung(mitAntwort)}'}  ])
+        if mitAntwort:
+            afg=completion.choices[0].message.content.split('Antwortsatz:')[0].replace('%','\\%').replace('^','').replace('Frage:','')
+            antwortsatz=completion.choices[0].message.content.split('Antwortsatz:')[1].replace('^','')
+        else:
+            return completion.choices[0].message.content
     except:
         afg='Kein ChatGPT Kontakt'
         antwortsatz=f'Dies ist ein sehr sehr sehr langer Antworttext, um die Ausgabe zu testen. Das Ergebnis ist XXX. Die Frage war: {frage}'
@@ -198,3 +202,12 @@ def erzeugeEinfZinseszinsTextaufgabe(HS=False,anzSpalten=2):
 #    lsg.append('\\\\')
     lsg.insert(len(lsg) - 1,F'Antwort: {antwortsatz.replace("XXX",strNW(Kwerte[-1]+Kwerte[-1]*p/100,True))}')
     return [[ersetzePlatzhalterMitSymbolen(x) for x in [afg]],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
+
+def erzeugeProportionalAntiproportionalErkennen(mitText=True):
+    art=random.choice(["proportionale","antiproportionale"])
+    chatgptFrage=F'Vergiss alle vorherigen Anweisungen und beantworte nur die Frage. Erstelle mir ein Beispiel für eine {art} Zuordnung. Gib nur die Frage aus, keine Erklärung'
+    afg=stelleChatGptDieFrage(frage=chatgptFrage,mitAntwort=False)
+    afg=afg[0] if type(afg)==tuple else afg
+    afg=afg if not mitText else f'Gib an, ist folgende Aussage Proportional oder Antiproportional: {afg}'
+    lsg=f'Dies ist eine {art} Zuordnung'
+    return [afg,lsg,[]]
