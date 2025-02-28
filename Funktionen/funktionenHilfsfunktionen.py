@@ -18,6 +18,11 @@ farbenTikzDeutsch={'Schwarz':'black','Rot':'red','Grün':'green','Blau':'blue','
 zahlenWoerter=['Null','Eins','Zwei','Drei','Vier','Fuenf','Sechs','Sieben','Acht','Neun','Zehn','Elf','Zwoelf']
 
 
+def fuegeEinfachenUntersrichEin(liste):
+    liste.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + liste[-1].replace('&', '').replace('^', '') + '$}}}')
+def fuegeDoppelUntersrichEin(liste):
+    liste.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + liste[-1].replace('&', '').replace('^', '') + '$}}}')
+
 def erzeugeTikzAlignedUmrandung(alignedBefehle=['x&=5+8']):
     latexcommand=[]
     latexcommand.append('\\begingroup\\setlength{\\jot}{-0.03cm}')

@@ -354,6 +354,29 @@ def zylinder3D(R=3, h_k=4,einheit='cm'):
     return tikzcommand
 
 
+
+def kegel3D(R=3, h_k=4,einheit='cm'):
+#Diese Funktion erzeugt einen Tikz-code mit dem man einen Zylinder darstellen.
+#Aufruf:
+#        tikzcommand=zylinder3D(R, h_k)
+#
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append(F"\\begin{{tikzpicture}}[show background grid]")
+    tikzcommand.append(F"\\pgfmathsetmacro{{\\R}}{{{R}}}  ")
+    tikzcommand.append(F"\\pgfmathsetmacro{{\\winkelA}}{{167}}  ")
+    tikzcommand.append(F"\\pgfmathsetmacro{{\\winkelB}}{{328}}  ")
+    tikzcommand.append(F"\\pgfmathsetmacro{{\\h}}{{{h_k}}}")
+    tikzcommand.append(F"   \\draw[thick] ({{\\R*cos(\\winkelA)}},0,{{\\R*sin(\\winkelA)}} ) -- (0,\\h,0 ) -- ({{\\R*cos(\\winkelB)}},0,{{\\R*sin(\\winkelB)}} );")
+    tikzcommand.append(F"   \\draw[thick,dashed] (0,0,0) --node[right] {{$h_k={strNW(h_k)}~{einheit}$}} (0,\\h,0 ) ;")
+    tikzcommand.append(F"\\begin{{scope}}[canvas is xz plane at y=0]")
+    tikzcommand.append(F"\\draw[thick] (0,0) -- node[below] {{r={strNW(R)} {einheit}}} (\\winkelB:\\R cm); ")
+    tikzcommand.append(F"\\draw[thick] ({{\\R*cos(\\winkelA)}},{{\\R*sin(\\winkelA)}}) arc (\\winkelA:\\winkelB-360:\\R);")
+    tikzcommand.append(F"\\draw[thick,dashed] ({{\\R*cos(\\winkelA)}},{{\\R*sin(\\winkelA)}}) arc (\\winkelA:\\winkelB:\\R);")
+    tikzcommand.append(F"\\end{{scope}}")
+    tikzcommand.append(F"\\end{{tikzpicture}}")
+    return tikzcommand
+
+
 def quaderMitLoch(a=6, b=4, c=9,R=1.5, ursprung=[0,0],buchstabe='Q',aName='a',bName='b',cName='c',rName='r'):
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid]')

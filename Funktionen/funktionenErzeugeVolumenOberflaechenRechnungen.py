@@ -268,7 +268,6 @@ def erzeugeZylinderOberVolBerech(einheit='cm',mitText=True,anzSpalten=[2,2]):
     return [aufg,lsg,[]]
 
 def erzeugeZylinderOberVolBerech(einheit='cm',mitText=True,anzSpalten=[2,2]):
-#Diese Funktion erzeugt eine Aufgabe und Lösung zum Addieren und Subtrahieren von Dezimalzahlen
 #Ausgabe: [aufg,lsg]=erzeugeQuaderOberVolBerech(breitePbox)
     maxDim=14 if anzSpalten[0] == 1 else 5
     breitePbox='\\hsize'
@@ -307,6 +306,59 @@ def erzeugeZylinderOberVolBerech(einheit='cm',mitText=True,anzSpalten=[2,2]):
     aufg.append('}')
     return [aufg,lsg,[]]
 
+
+def erzeugeKegelOberVolBerech(einheit='cm',mitText=True,anzSpalten=[2,2]):
+#Ausgabe: [aufg,lsg]=erzeugeQuaderOberVolBerech(breitePbox)
+    maxDim=14 if anzSpalten[0] == 1 else 5
+    breitePbox='\\hsize'
+    groesse='{17 cm}' if anzSpalten[0] == 1 else '{7 cm}'
+    aufg=[f'\\pbox{groesse}{{']
+    aufg=aufg+(['Berechne das Volumen und die Oberfläche von:\\\\'] if mitText else [] )
+    lsg=[]
+    #lsg=['\\pbox{'+str(breitePbox)+('' if 'textwidth' in str(breitePbox) else 'cm')+'}{']
+    R,h=[random.randint(1,maxDim) for i in range(2)]
+    R=R/2.0
+#    aufg=aufg+zylinder(R=R, h=h, ursprung=[0,0],buchstabe='Z',rName='R='+strNW(R)+' '+einheit,hName='h='+strNW(h)+' '+einheit)
+    aufg=aufg+kegel3D(R=R, h_k=h, einheit=einheit)
+    lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
+    lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
+    lsg.append('\\begin{tikzpicture}[show background grid]')
+    lsg.append('\\node[left] at (0,-0.25) {Geg.: };')
+    lsg.append('\\node[right] at (0,-0.25) {$r = '+strNW(R,True)+' '+einheit+'$};')
+    lsg.append('\\node[right] at (0,-0.75) {$h_k = '+strNW(h,True)+' '+einheit+'$};')
+    lsg.append('\\node[left] at (0,-1.75) {Ges.: };')
+    lsg.append('\\node[right] at (0,-1.75) {V  = ? };')
+    lsg.append('\\node[right] at (0,-2.25) {O  = ? };')
+    lsg.append('\\node[below right] at (0,-2.75) {')
+    lsg.append('$\\begin{aligned}')
+    lsg.append('V\\ &=\\ \\frac{1}{3}G \\cdot h_k \\\\')
+    lsg.append('G\\ &=\\ \\pi\\cdot r^2 \\\\')
+    lsg.append(f'G\\ &=\\ \\pi\\cdot {strNW(R,True)}^2 \\\\')
+    lsg.append(f'G\\ &=\\ {strNW(math.pi*R**2,True)}~\\mbox{{{einheit}}}^2 \\\\')
+    fuegeEinfachenUntersrichEin(lsg)
+    lsg.append('V\\ &=\\ \\frac{1}{3} '+strNW(math.pi*R**2,True)+' \\cdot '+strNW(h,True)+'\\\\')
+    lsg.append('V\\ &=\\ '+strNW(1/3*math.pi*R**2*h,True)+'\ \\mbox{'+einheit+'}^3\\\\')
+    fuegeDoppelUntersrichEin(lsg)
+    lsg.append('O\\ &=\\ G + M\\\\')
+    lsg.append('M\\ &=\\ \\pi\\cdot r\\cdot s \\\\')
+    lsg.append('s\\ &=\\ \\sqrt{{r^2+h_k^2}} \\\\')
+    lsg.append(f's\\ &=\\ \\sqrt{{{strNW(R,True)}^2+{strNW(h,True)}^2}} \\\\')
+    lsg.append(f's\\ &=\\ {strNW((R**2+h**2)**0.5,True)} ~\\mbox{{'+einheit+'}\\\\')
+    fuegeEinfachenUntersrichEin(lsg)
+    lsg.append(f'M\\ &=\\ \\pi\\cdot {strNW(R,True)}\\cdot {strNW((R**2+h**2)**0.5,True)} \\\\')
+    lsg.append(f'M\\ &=\\ {strNW(math.pi*R*(R**2+h**2)**0.5,True)} ~\\mbox{{{einheit}}}^2\\\\')
+    fuegeEinfachenUntersrichEin(lsg)
+    lsg.append(f'O\\ &=\\ {strNW(math.pi*R**2,True)} + {strNW(math.pi*R*(R**2+h**2)**0.5,True)} \\\\')
+    lsg.append(f'O\\ &=\\ {strNW(math.pi*R**2+math.pi*R*(R**2+h**2)**0.5,True)} ~\\mbox{{{einheit}}}^3\\\\')
+    fuegeDoppelUntersrichEin(lsg)
+    lsg.append('\\end{aligned}$};')
+    lsg.append('\\end{tikzpicture}')
+    lsg.append('\\endgroup')
+    aufg.append('}')
+    return [aufg,lsg,[]]
+
+
+
 def umfangsFormeln():
 #Ich schreibe vor jeder Variable "vari", da man beim suche und ersetzen von a durch eine Zahl z.B. h_2,34 erhält.
 #Durch das Vari wird es eindeutig. Hinterher muss das vari entfernt werden.
@@ -323,8 +375,8 @@ def flaechenFormeln():
     flaeche={'Trapez':['variA=(varia+varic)*variStrh_a/2',['varia','varic','variStrh_a']]}
     flaeche['Rechteck']=['variA=varia*varib',['varia','varib']]
     flaeche['Dreieck']=['variA=varic*variStrh_c/2',['varic','variStrh_c']]
-    flaeche['Sechseck']=['variA=2*(varia+varic)*variStrh_a/2',['varia','varic','variStrh_a']]
-    flaeche['Haus']=['variA=varia*varib+varia*variStrh_a/2',['varia','varib','variStrh_a']]
+#    flaeche['Sechseck']=['variA=2*(varia+varic)*variStrh_a/2',['varia','varic','variStrh_a']]
+#    flaeche['Haus']=['variA=varia*varib+varia*variStrh_a/2',['varia','varib','variStrh_a']]
     return flaeche
 def prismaVolumenFormeln():
     prismaVolumen={'Allgemeinen':['variV=variG*variStrh_K',['variG','variStrh_K']]}

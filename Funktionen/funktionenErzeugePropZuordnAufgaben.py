@@ -170,7 +170,12 @@ def erzeugeAntiProportionaleDreisatzRechnungen(einfach=False,komma=False,mitText
     maxWert=9 if einfach else 20
     antiPaar=[['Anzahl Arbeiter','Arbeitsstunden h',[2,maxWert]],['Zeit h','Geschw. $\\frac{km}{h}$',[2,maxWert]],['Stuhlreihen Reihen','Anzahl Stühle',[2,maxWert]]]
     E = random.choice(antiPaar)
-    grundwert=random.randint(E[2][0]*100,E[2][1]*100)/100 if komma else random.randint(E[2][0],E[2][1])
+    grundwert=1000
+    if einfach:
+        while grundwert>100:
+            grundwert=random.randint(E[2][0],E[2][1])
+    else:
+        grundwert=random.randint(E[2][0]*100,E[2][1]*100)/100 if komma else random.randint(E[2][0],E[2][1])
     xStart,xZiel=1,1
     while xStart==xZiel:
         xStart=random.randint(10,maxWert*100)/100 if komma else random.randint(2,maxWert)
