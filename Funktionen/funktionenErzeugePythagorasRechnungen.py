@@ -19,7 +19,7 @@ def erzeugePythagorasBerechnen(seitenwahl='',mitBogen=True,mitText=True):
     einheit=random.choice(['mm','cm','dm','m','km'])
     seiten=['a','b','c']
     seitenAfg=list(seiten)
-    seitenwahl=seitenwahl if len(seitenwahl)>1 else random.choice(seiten)
+    seitenwahl=seitenwahl if seitenwahl in seiten else random.choice(seiten)
     seitenAfg.remove(seitenwahl)
     seitenOp=list(seitenAfg)
     if 'c' in seitenOp :

@@ -15,7 +15,7 @@ def mehrereZylinder(mitText=True):
     werte={}
     h=0
     for w in [f'{x}_{i+1}' for x in ['r','h'] for i in range(n) ]:
-        exec(f'werte["{w}"]={random.randint(10,25)/5 if w[0]=="r" else random.randint(10,maxH*10)/10}')
+        exec(f'werte["{w}"]={random.randint(10,25)/10 if w[0]=="r" else random.randint(10,maxH*10)/10}')
     radien=[werte[key] for key in list(werte.keys()) if key[0]=='r']
     hoehen=[werte[key] for key in list(werte.keys()) if key[0]=='h']
     afgText=[F'Bestimme das Volumen und die Oberfläche von:']
