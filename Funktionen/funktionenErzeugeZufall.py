@@ -31,7 +31,8 @@ def aufgabenZufallsversuch(typ='Münzwurf',werte=['Kopf','Zahl',['1','1']],einst
     anzahl=[eval(x) for x in werte[-1]]
     wahrscheinlichkeiten=[F'{x}/{sum(anzahl)}' for x in anzahl]
     print(typ,werte,wahrscheinlichkeiten,anzahl)
-    anzahlVersuchsergebnisse=', '.join([F'{"" if anzahl[i]==1 else F"{anzahl[i]} mal "}{x}' for i,x in enumerate(werte[:-1])])
+#    anzahlVersuchsergebnisse=', '.join([F'{"" if anzahl[i]==1 else F"{anzahl[i]} mal "}{x}' for i,x in enumerate(werte[:-1])])
+    anzahlVersuchsergebnisse=', '.join([F'{anzahl[i]} mal {x}' for i,x in enumerate(werte[:-1])])
     if baumdia:
         afgText=F'Erstelle das Baumdiagramm für den {"" if einstufig else "zweistufigen "}Zufallsversuch'
     else:
