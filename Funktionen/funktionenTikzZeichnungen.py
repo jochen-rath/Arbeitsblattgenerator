@@ -10,18 +10,6 @@ import math
 import random
 
 
-def dreieckFuerFlaechenBer(g=4,h=2,drehung=30,dx=-1,mitBeschr=True):
-    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
-    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
-    tikzcommand.append(F'\\draw[thick,black] ({drehung}:{dx}) -- node{{{F"g={strNW(g)} cm" if mitBeschr else "" }}} ({drehung}:{dx+g});')
-    tikzcommand.append(F'\\draw[thick,black] ({drehung}:{dx})  -- ({drehung+90}:{h});')
-    tikzcommand.append(F'\\draw[thick,black] ({drehung}:{dx+g})  -- ({drehung+90}:{h});')
-    if mitBeschr:
-        tikzcommand.append(F'\\draw[dashed,black] (0,0)  -- node{{h={strNW(h)} cm}} ({drehung+90}:{h});')
-        tikzcommand.append(F'\\draw[dashed,black] (0,0)  -- ({drehung}:{dx});')
-    tikzcommand.append('\\end{tikzpicture}')
-    return tikzcommand
-
 
 
 

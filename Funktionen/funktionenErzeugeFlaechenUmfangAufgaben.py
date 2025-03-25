@@ -134,7 +134,7 @@ def erzeugeZusammengesetzRechteckeSchwer(n=3,gesamtlaenge=5,maxHoehe=8,mitText=T
 def erzeugeFlaechenDreieckAufgabe(mitText=True,mitBeschr=True):
     g=random.randint(20,50)/10
     h=random.randint(20,50)/10
-    drehung=random.randint(0,360)
+    drehung=random.randint(-90,90)
     dx=random.randint(0,int(g)+2)-g
     afg=['\\pbox{5cm}{']
     afg=afg+([F'Berechne den Flächeninhalt von:\\\\']  if mitText else [])
@@ -157,7 +157,7 @@ def erzeugeFlaechenDreieckAufgabe(mitText=True,mitBeschr=True):
 def erzeugeFlaechenParallelogrammAufgabe(mitText=True,mitBeschr=True):
     g=random.randint(20,50)/10
     h=random.randint(20,50)/10
-    drehung=random.randint(0,360)
+    drehung=random.randint(-90,90)
     dx=random.randint(0,30)/10
     afg=['\\pbox{5cm}{']
     afg=afg+([F'Berechne den Flächeninhalt von:\\\\']  if mitText else [])

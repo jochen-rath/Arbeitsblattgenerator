@@ -9,14 +9,29 @@
 import math
 import random
 
+
+def dreieckFuerFlaechenBer(g=4,h=2,drehung=30,dx=-1,mitBeschr=True):
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    tikzcommand.append(F'\\draw[thick,black,rotate={drehung}] (0,0) -- node[below,rotate={drehung}] {{{F"g={strNW(g)} cm" if mitBeschr else ""}}} ++({g},0) -- ++({dx},{h}) coordinate(C) --cycle;')
+#    tikzcommand.append(F'\\draw[thick,black] ({drehung}:{dx}) -- node{{{F"g={strNW(g)} cm" if mitBeschr else "" }}} ({drehung}:{dx+g});')
+#    tikzcommand.append(F'\\draw[thick,black] ({drehung}:{dx})  -- ({drehung+90}:{h});')
+#    tikzcommand.append(F'\\draw[thick,black] ({drehung}:{dx+g})  -- ({drehung+90}:{h});')
+    if mitBeschr:
+        tikzcommand.append(F'\\draw[dashed,black] (C)  -- node[rotate={drehung}]{{h={strNW(h)} cm}} ++({drehung-90}:{h}) coordinate(H);')
+        tikzcommand.append(F'\\draw[dashed,black] (H)  -- ++({drehung}:{-dx});')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+
+
 def dracheFuerFlaechenBer(e=4,f=2,dx=1,drehung=0,mitBeschr=True,mitEundF=True):
 #rotate in draw geht nur mit relativen Koordinaten und nicht, wenn die Koordinaten mit
 #\cordinate (A) at (0,0);vorher definiert werden.
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid]')
     if mitEundF:
-        tikzcommand.append(F'\\draw[thick,dashed,black,rotate={drehung}] (0,0) -- node{{{F"e={strNW(e)} cm" if mitBeschr else ""}}} ++({e},0);')
-        tikzcommand.append(F'\\draw[thick,dashed,rotate={drehung}] ({dx},{f/2}) -- node[above]{{{F"f={strNW(f)} cm" if mitBeschr else ""}}} ++(0,{-f});')
+        tikzcommand.append(F'\\draw[thick,dashed,black,rotate={drehung}] (0,0) -- node[rotate={drehung}]{{{F"e={strNW(e)} cm" if mitBeschr else ""}}} ++({e},0);')
+        tikzcommand.append(F'\\draw[thick,dashed,rotate={drehung}] ({dx},{f/2}) -- node[above,rotate={drehung}]{{{F"f={strNW(f)} cm" if mitBeschr else ""}}} ++(0,{-f});')
     tikzcommand.append(F'\\draw[thick,black,rotate={drehung}] (0,0) -- ++({dx},{f/2}) -- ++({e-dx},{-f/2}) -- ++({-e+dx},{-f/2}) --cycle;')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
@@ -27,9 +42,9 @@ def parallogrammFuerFlaechenBer(g=4,h=2,dx=2,drehung=0,mitBeschr=True):
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid]')
     tikzcommand.append(
-        F'\\draw[thick,black,rotate={drehung}] (0,0) -- node{{{F"g={strNW(g)} cm" if mitBeschr else ""}}} ++({g},0) -- ++({dx},{h}) -- ++({-g},0) --cycle;')
+        F'\\draw[thick,black,rotate={drehung}] (0,0) -- node[below,rotate={drehung}] {{{F"g={strNW(g)} cm" if mitBeschr else ""}}} ++({g},0) -- ++({dx},{h}) -- ++({-g},0) --cycle;')
     if mitBeschr:
-        tikzcommand.append(F'\\draw[dashed,black,rotate={drehung}] ({g/2},0)  -- node{{h={strNW(h)} cm}} ++(0,{h});')
+        tikzcommand.append(F'\\draw[dashed,black,rotate={drehung}] ({g/2},0)  -- node[right,rotate={drehung}]{{h={strNW(h)} cm}} ++(0,{h});')
         if dx>g/2:
             tikzcommand.append(F'\\draw[dashed,black,rotate={drehung},red] ({g/2},{h})  -- ++({dx-g/2},0);')
     tikzcommand.append('\\end{tikzpicture}')
@@ -40,9 +55,9 @@ def trapezFuerFlaechenBer(a=5,c=2,h=3,dx=1,drehung=0,mitBeschr=True):
 #\cordinate (A) at (0,0);vorher definiert werden.
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid]')
-    tikzcommand.append(F'\\draw[thick,black,rotate={drehung}] (0,0) -- node[below]{{{F"a={strNW(a)} cm" if mitBeschr else ""}}} ++({a},{0}) -- ++({-dx},{h}) --node[below]{{{F"c={strNW(c)} cm" if mitBeschr else ""}}} ++({-c},{0}) --cycle;')
+    tikzcommand.append(F'\\draw[thick,black,rotate={drehung}] (0,0) -- node[below,rotate={drehung}]{{{F"a={strNW(a)} cm" if mitBeschr else ""}}} ++({a},{0}) -- ++({-dx},{h}) --node[below]{{{F"c={strNW(c)} cm" if mitBeschr else ""}}} ++({-c},{0}) --cycle;')
     if mitBeschr:
-        tikzcommand.append(F'\\draw[thick,black,rotate={drehung}] ({a-c-dx},0) --node[left]{{{F"h={strNW(h)} cm" if mitBeschr else ""}}}  ++(0,{h});')
+        tikzcommand.append(F'\\draw[thick,black,rotate={drehung}] ({a-c-dx},0) --node[left,rotate={drehung}]{{{F"h={strNW(h)} cm" if mitBeschr else ""}}}  ++(0,{h});')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 def pfeilFlaechenBer(a=4,b=1.4,g=2.8,h=2,z=0.7,lsg=False):
