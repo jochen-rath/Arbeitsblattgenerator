@@ -42,8 +42,8 @@ def erkenneProzent(mitText=True):
     lsg=lsg+['}']
     return [afg,lsg,[laenge,prozent]]
 
-def erkenneProzentKreis(mitText=True,bruch=False):
-    teile=random.choice([2,3,4,5,8,10,20,25])
+def erkenneProzentKreis(mitText=True,bruch=False,einfach=False):
+    teile=random.choice([2,4,5,10,20]) if einfach else random.choice([2,3,4,5,8,10,20,25])
     anzahl=random.randint(0,teile)
     if mitText:
         afg=[F'\\pbox{{5cm}}{{{"Wieviel Prozent sind schraffiert?" if not bruch else "Gib den Bruch an:"} \\\\']

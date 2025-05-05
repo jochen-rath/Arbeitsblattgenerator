@@ -26,6 +26,11 @@ def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,
             a='\n'.join(a)
         if isinstance(l,list):
             l='\n'.join(l)
+        while a in [x[1] for x in afg]:
+            if isinstance(a,list):
+                a='\n'.join(a)
+            if isinstance(l,list):
+                l='\n'.join(l)       
         afg.append([aufgabenNummern[i]+')',a])
         lsg.append([aufgabenNummern[i]+')',l])
     tabAfg=erzeugeEinfacheTabelle(afg,anzSpalten[0],nurThermometerAufgaben)

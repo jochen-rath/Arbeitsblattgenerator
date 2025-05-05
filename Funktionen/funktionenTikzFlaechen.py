@@ -55,7 +55,7 @@ def trapezFuerFlaechenBer(a=5,c=2,h=3,dx=1,drehung=0,mitBeschr=True):
 #\cordinate (A) at (0,0);vorher definiert werden.
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid]')
-    tikzcommand.append(F'\\draw[thick,black,rotate={drehung}] (0,0) -- node[below,rotate={drehung}]{{{F"a={strNW(a)} cm" if mitBeschr else ""}}} ++({a},{0}) -- ++({-dx},{h}) --node[below]{{{F"c={strNW(c)} cm" if mitBeschr else ""}}} ++({-c},{0}) --cycle;')
+    tikzcommand.append(F'\\draw[thick,black,rotate={drehung}] (0,0) -- node[below,rotate={drehung}]{{{F"a={strNW(a)} cm" if mitBeschr else ""}}} ++({a},{0}) -- ++({-dx},{h}) --node[below,rotate={drehung}]{{{F"c={strNW(c)} cm" if mitBeschr else ""}}} ++({-c},{0}) --cycle;')
     if mitBeschr:
         tikzcommand.append(F'\\draw[thick,black,rotate={drehung}] ({a-c-dx},0) --node[left,rotate={drehung}]{{{F"h={strNW(h)} cm" if mitBeschr else ""}}}  ++(0,{h});')
     tikzcommand.append('\\end{tikzpicture}')

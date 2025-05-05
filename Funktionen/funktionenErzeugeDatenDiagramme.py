@@ -28,7 +28,7 @@ def datenliste(anzahl=6):
 def erzeugeDatenKennwerteBestimmen(mitText=True,RS=True):
     auswahl, werte, eigenschaften = datenliste(anzahl=random.randint(10,20))
     anzahl=len(werte[0])
-    afgText=[F'Bestimme das Maximum, Minimun, die Spannweite{", den Mittelwert und die Quartilwerte" if RS else " und den Mittelwert"} folgender Daten:\\\\']
+    afgText=[F'Bestimme das Maximum, Minimun, die Spannweite, den Mittelwert{", den Zentralwert (Median) und die Quartilwerte" if RS else " und den Zentralwert (Median)"} folgender Daten:\\\\']
     afg = ['\\pbox{15 cm}{']
     if mitText:
         afg=afg+afgText
@@ -58,14 +58,14 @@ def erzeugeDatenKennwerteBestimmen(mitText=True,RS=True):
     lsg.append(F'\\item Spannweite = {werteLsg[1][-1]}-{werteLsg[1][0]}={werteLsg[1][-1] -werteLsg[1][0]} {eigenschaften[2]}')
     lsg.append(F'\\item Mittelwert:')
     lsg.append(F'\\ $$\\mu = \\frac{{\\mbox{{Summe der Werte}}}} {{\\mbox{{Anzahl der Werte}}}}=\\frac{{{"+".join([strNW(x) for x in werteLsg[1][0:4]])}{"+..." if len(werteLsg[0])>4 else ""}}}{{{len(werteLsg[0])}}}=\\frac{{{sum(werteLsg[1])}}}{{{len(werteLsg[0])}}}={strNW(sum(werteLsg[1])/len(werteLsg[0]),2)}\\mbox{{ {eigenschaften[2]}}}$$')
+    lsg.append(F'\\item Zentralwert, Median (genau der mittlere Wert): ')
+    n1=int(len(werteLsg[0])/2)-1
+    if len(werte[0])%2 <1:
+        lsg.append(F' Zwischen {werteLsg[1][n1]} und {werteLsg[1][n1+1]}')
+        lsg.append(F'$$\\rightarrow Z=\\frac{{1}}{{2}}\\cdot ({strNW(werteLsg[1][n1])}+{strNW(werteLsg[1][n1+1])})={strNW((werteLsg[1][n1]+werteLsg[1][n1+1])/2)}\\mbox{{ {eigenschaften[2]}}}$$')
+    else:
+        lsg.append(F'$$\\rightarrow Z={werteLsg[1][n1+1]}$$')
     if RS:
-        lsg.append(F'\\item Zentralwert, Median (genau der mittlere Wert): ')
-        n1=int(len(werteLsg[0])/2)-1
-        if len(werte[0])%2 <1:
-            lsg.append(F' Zwischen {werteLsg[1][n1]} und {werteLsg[1][n1+1]}')
-            lsg.append(F'$$\\rightarrow Z=\\frac{{1}}{{2}}\\cdot ({strNW(werteLsg[1][n1])}+{strNW(werteLsg[1][n1+1])})={strNW((werteLsg[1][n1]+werteLsg[1][n1+1])/2)}\\mbox{{ {eigenschaften[2]}}}$$')
-        else:
-            lsg.append(F'$$\\rightarrow Z={werteLsg[1][n1+1]}$$')
         lsg.append(F'\\item Untere Quartil, Hälfte der unteren Hälfte:')
         if len(werte[0])%4 <2:
             n1,n2=int(len(werteLsg[0])/4)-1,int(len(werteLsg[0])/4)

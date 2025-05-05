@@ -180,7 +180,7 @@ def erzeugeFlaechenParallelogrammAufgabe(mitText=True,mitBeschr=True):
 def erzeugeFlaechenDrachenAufgabe(mitText=True,mitBeschr=True,mitEundF=True,istRaute=False):
     e=random.randint(20,50)/10
     f=random.randint(20,50)/10
-    drehung=random.randint(0,360)
+    drehung=random.randint(-90,90)
     dx=e/2 if istRaute else random.randint(5,int(e*10))/10
     afg=['\\pbox{5cm}{']
     afg=afg+([F'Berechne den Flächeninhalt von:\\\\']  if mitText else [])
@@ -202,9 +202,9 @@ def erzeugeFlaechenDrachenAufgabe(mitText=True,mitBeschr=True,mitEundF=True,istR
 
 def erzeugeFlaechenTrapezAufgabe(mitText=True,mitBeschr=True):
     a=random.randint(20,50)/10
-    c=random.randint(10,a*10)/10
+    c=random.randint(10,int(a)*10)/10
     h=random.randint(20,50)/10
-    drehung= random.randint(0,360)
+    drehung= random.randint(-90,90)
     dx=random.randint(0,int((a-c)*10))/10
     afg=['\\pbox{5cm}{']
     afg=afg+([F'Berechne den Flächeninhalt von:\\\\']  if mitText else [])

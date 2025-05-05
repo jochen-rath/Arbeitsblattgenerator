@@ -54,3 +54,6 @@ def erzeugeKlammerrechnungen(grenzen=[1e2,3e3]):
     del calc[klammerpos*2+1]
     return calc
     
+def klarmmerRechnungen():
+    term="a*(b+c)+d"
+    a={'Ohne':1, 'einfach':random.randint(2,10),'dezi':random.randint(1,10)/10,'bruch':f'{random.randint(1,10)}/{random.randint(2,10)}'}
