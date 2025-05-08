@@ -111,3 +111,14 @@ def erzeugeSaeulenStreifenKreisDiagramm(typ='ZeichnenUndBerechnen',mitText=True,
     afg=afg+['}']
     lsg=saeulenKreisStreifenDiagrammeZeichnen(werte=werte,typ='LSG',titel=auswahl,streifen=streifen)
     return [afg,lsg,[]]
+
+def erzeugeStreudiagramme(mitText=True):
+    xMax=5
+    v=random.randint(5,40)/10
+    f='s=v*t'
+    xWerte=list(range(1,5))
+    yWerte=[eval(f.split('=')[1].replace('v',str(v)).replace('t',str(x))) for x in xWerte]
+    yWerteStreu=[y+random.choice([1,-1])*random.randint(1,int(v*10))/(int(v*10)) for y in yWerte]
+    afg=diagrammTikzVorgBreiteHoehe(zuPlotten=[],koordinaten=[[x,yWerteStreu[i]] for i,x in enumerate(xWerte) ],xAchse=[0,max(xWerte),10],yAchse=[0,max(yWerte),10],xlabel='x',ylabel='y')
+    lsg=[]
+    return [afg,lsg,[]]
