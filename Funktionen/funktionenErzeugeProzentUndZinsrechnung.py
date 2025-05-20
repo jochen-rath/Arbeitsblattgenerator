@@ -111,7 +111,7 @@ def erzeugeProzentwertAufgabenFormel(ges='',HS=False):
     lsg=loeseFunktion(formel=formel,varis=varis,ges=ges,breite=5,kommaAusgabe=True)
     return [[ersetzePlatzhalterMitSymbolen(x) for x in [afg]],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
 def erzeugeProzentwertAufgaben(n=12,lsgMitDreisatz=True,bez=['Grundwert','Prozentsatz'],einheit='',HS=False):
-#Aufruf 
+#Aufruf
 #     ausgabe=erzeugeProzentsatzAufgaben(Anzahl)
 #
 #ausgabe=[rechnungen,lsgen]
@@ -125,7 +125,7 @@ def erzeugeProzentwertAufgaben(n=12,lsgMitDreisatz=True,bez=['Grundwert','Prozen
     return [rechnungen,lsgen,dezi]
 
 def erzeugeProzentsatzAufgaben(n=12,lsgMitDreisatz=True,bez=['Grundwert','Prozentwert'],einheit='',HS=False):
-#Aufruf 
+#Aufruf
 #     ausgabe=erzeugeProzentsatzAufgaben(Anzahl)
 #
 #ausgabe=[rechnungen,lsgen]
@@ -139,7 +139,7 @@ def erzeugeProzentsatzAufgaben(n=12,lsgMitDreisatz=True,bez=['Grundwert','Prozen
     return [rechnungen,lsgen,dezi]
 
 def erzeugeGrundwertAufgaben(n=12,lsgMitDreisatz=True,bez=['Prozentwert','Prozentsatz'],einheit='',HS=False):
-#Aufruf 
+#Aufruf
 #     ausgabe=erzeugeProzentsatzAufgaben(Anzahl)
 #
 #ausgabe=[rechnungen,lsgen]
@@ -176,25 +176,8 @@ def zufaelligeProzentaufgabe(HS=False):
     return eval(random.choice(aufgaben))
 
 
-def erzeugeVerminderteGrundwertAufgaben(n=12,lsgMitDreisatz=True):
-#Aufruf 
-#     ausgabe=erzeugeProzentsatzAufgaben(Anzahl)
-#
-#ausgabe=[rechnungen,lsgen]
-    rechnungen=[]
-    dezi=[]
-    for i in range(n):
-        r=erzeugeProzentRechnungen(E='\euro{}')
-        r=erzeugeProzentRechnungen(E='')
-        rechnungen.append('Grundwert~'+strNW(r[0])+'~'+r[3]+';  Verminderung~um~'+strNW(r[2])+'~\\%')
-        if lsgMitDreisatz:
-            lsgen=ausgabeVerminderteGrundwertBerechnenFuerTabelle(inhalte=[['',r[0],r[2],r[3]]],mitDreisatz=lsgMitDreisatz)
-        else:
-            lsgen=ausgabeVerminderteGrundwertAusgebenMitQ(inhalte=[['',r[0],r[2],r[3]]])
-    return [rechnungen,lsgen,dezi]
-
 def erzeugeTagesMonatsZinsberechnung(art='',gesucht='',einfach=False):
-#Aufruf 
+#Aufruf
 #     ausgabe=erzeugeTagesMonatsZinsberechnung(art='' oder 'Tageszinsen' oder 'Monatszinsen')
 #
 #ausgabe=[afg,lsg,[ K,Z,pP,zeit]]
@@ -202,7 +185,7 @@ def erzeugeTagesMonatsZinsberechnung(art='',gesucht='',einfach=False):
     gesucht=gesucht if len(gesucht)>0 else random.choice(['K','p','Z'])
     K,Z,pP,E=erzeugeProzentRechnungen(E='\euro{}',kapital=True)
     zeit=random.randint(1,11) if art=='Monatszinsen' else random.randint(1,359)
-    zeitEinheit=('Monate' if zeit > 1 else 'Monat') if art=='Monatszinsen' else ('Tage' if zeit > 1 else 'Tag') 
+    zeitEinheit=('Monate' if zeit > 1 else 'Monat') if art=='Monatszinsen' else ('Tage' if zeit > 1 else 'Tag')
     zeitAbk='m'if art=='Monatszinsen' else 'd'
     maxT=12if art=='Monatszinsen' else 360
     Z=round(Z*zeit/maxT,2)
@@ -218,14 +201,14 @@ def erzeugeTagesMonatsZinsberechnung(art='',gesucht='',einfach=False):
 
 
 def erzeugeTagesMonatsZinsberechnungKapitalGesucht(art=''):
-#Aufruf 
+#Aufruf
 #     ausgabe=erzeugeTagesMonatsZinsberechnungKapitalGesucht(art='' oder 'Tageszinsen' oder 'Monatszinsen')
 #
 #ausgabe=[afg,lsg,[ K,Z,pP,zeit]]
     K,Z,pP,E=erzeugeProzentRechnungen(E='\euro{}',kapital=True)
     art=art if len(art)>0 else random.choice(['Tageszinsen','Monatszinsen'])
     zeit=random.randint(1,11) if art=='Monatszinsen' else random.randint(1,359)
-    zeitEinheit=('Monate' if zeit > 1 else 'Monat') if art=='Monatszinsen' else ('Tage' if zeit > 1 else 'Tag') 
+    zeitEinheit=('Monate' if zeit > 1 else 'Monat') if art=='Monatszinsen' else ('Tage' if zeit > 1 else 'Tag')
     return [afg,lsg,[ K,Z,pP,zeit]]
 
 def einfachZinseszinsen(mitText=True,anzSpalten=2):
@@ -253,18 +236,36 @@ def loeseZinseszinsRechnung(Kwerte=[1100,1110,1111],pP=2,jahre=2,anzSpalten=2):
         lsg.append('\\end{aligned}$ \\\\')
     lsg.append('}')
     return lsg
-def erzeugeVermehrterGrundwertAufgaben(n=12,lsgMitDreisatz=True):
-#Aufruf 
+def erzeugeVermehrterGrundwertAufgaben(n=12,lsgMitDreisatz=True,HS=False,euro=True):
+#Aufruf
 #     ausgabe=erzeugeProzentsatzAufgaben(Anzahl)
 #
 #ausgabe=[rechnungen,lsgen]
     rechnungen=[]
     dezi=[]
     for i in range(n):
-        r=erzeugeProzentRechnungen(E='\euro{}')
+        r=erzeugeProzentRechnungen(E='\euro{}',HS=HS) if euro else  erzeugeProzentRechnungen(E='',HS=HS)
         rechnungen.append('Grundwert~'+strNW(r[0])+'~'+r[3]+';  Vermehrung~um~'+strNW(r[2])+'~\\%')
         if lsgMitDreisatz:
             lsgen=ausgabeVermehrterGrundwertBerechnenFuerTabelle(inhalte=[['',r[0],r[2],r[3]]],mitDreisatz=lsgMitDreisatz)
         else:
             lsgen=ausgabeVermehrterGrundwertAusgebenMitQ(inhalte=[['',r[0],r[2],r[3]]])
+    return [rechnungen,lsgen,dezi]
+
+
+
+def erzeugeVerminderteGrundwertAufgaben(n=12,lsgMitDreisatz=True,HS=False,euro=True):
+#Aufruf
+#     ausgabe=erzeugeProzentsatzAufgaben(Anzahl)
+#
+#ausgabe=[rechnungen,lsgen]
+    rechnungen=[]
+    dezi=[]
+    for i in range(n):
+        r=erzeugeProzentRechnungen(E='\euro{}',HS=HS) if euro else  erzeugeProzentRechnungen(E='',HS=HS)
+        rechnungen.append('Grundwert~'+strNW(r[0])+'~'+r[3]+';  Verminderung~um~'+strNW(r[2])+'~\\%')
+        if lsgMitDreisatz:
+            lsgen=ausgabeVerminderteGrundwertBerechnenFuerTabelle(inhalte=[['',r[0],r[2],r[3]]],mitDreisatz=lsgMitDreisatz)
+        else:
+            lsgen=ausgabeVerminderteGrundwertAusgebenMitQ(inhalte=[['',r[0],r[2],r[3]]])
     return [rechnungen,lsgen,dezi]

@@ -112,13 +112,21 @@ def erzeugeSaeulenStreifenKreisDiagramm(typ='ZeichnenUndBerechnen',mitText=True,
     lsg=saeulenKreisStreifenDiagrammeZeichnen(werte=werte,typ='LSG',titel=auswahl,streifen=streifen)
     return [afg,lsg,[]]
 
-def erzeugeStreudiagramme(mitText=True):
-    xMax=5
-    v=random.randint(5,40)/10
-    f='s=v*t'
-    xWerte=list(range(1,5))
-    yWerte=[eval(f.split('=')[1].replace('v',str(v)).replace('t',str(x))) for x in xWerte]
-    yWerteStreu=[y+random.choice([1,-1])*random.randint(1,int(v*10))/(int(v*10)) for y in yWerte]
-    afg=diagrammTikzVorgBreiteHoehe(zuPlotten=[],koordinaten=[[x,yWerteStreu[i]] for i,x in enumerate(xWerte) ],xAchse=[0,max(xWerte),10],yAchse=[0,max(yWerte),10],xlabel='x',ylabel='y')
-    lsg=[]
+def erzeugeStreudiagramme(linear=False,mitText=True,anzSpalten=[2,2]):
+    labelPaare=[['Zeit in s','Weg in m']]
+    labelPaar=random.choice(labelPaare)
+    xMax=5 if anzSpalten[0] == 2 else 12
+    xTickDist=10 if anzSpalten[0] == 2 else 20
+    M=random.randint(5,40)/10
+    b=random.randint(5,40)/10 if linear else 0
+    formel=f'{M}*x+{b}'
+    xWerte=list(range(1,xMax))
+    yWerte=[eval(formel.replace('x',str(x))) for x in xWerte]
+    yWerteStreu=[y+random.choice([1,-1])*random.randint(1,int(M*10))/(int(M*(5 if anzSpalten[0]==1 else 10))) for y in yWerte]
+    afg=[f'\\pbox{{\\linewidth}}{{{"Zeichne die Ausgleichsgerade in die Messwerte und bestimme die Geschwindigkeit.\\\\" if mitText else ""}']
+    afg=afg+diagrammTikzVorgBreiteHoehe(zuPlotten=[],koordinaten=[[x,yWerteStreu[i]] for i,x in enumerate(xWerte) ],xAchse=[0,max(xWerte),xTickDist],yAchse=[0,max(yWerte),xTickDist],xlabel=labelPaar[0],ylabel=labelPaar[1])
+    afg.append('}')
+    lsg=[f'\\pbox{{\\linewidth}}{{']
+    lsg=lsg+diagrammTikzVorgBreiteHoehe(zuPlotten=[formel,'red'],koordinaten=[[x,yWerteStreu[i]] for i,x in enumerate(xWerte) ],xAchse=[0,max(xWerte),xTickDist],yAchse=[0,max(yWerte),xTickDist],xlabel=labelPaar[0],ylabel=labelPaar[1])
+    lsg.append(f'Die Geschwindigkeit beträgt {v} $m/s$ }}')
     return [afg,lsg,[]]
