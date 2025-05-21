@@ -54,6 +54,38 @@ def erzeugeSenkrechteLinien(anzahlProEcke=2,mitText=True,anzSpalten=[2,2]):
     lsg=zeichneRechtwinklLinien(linienWinkel=winkel)
     return [afg,lsg,[]]
 
+def erzeugeStreckungsaufgaben(mitText=True,anzSpalten=[2,2],mitKoord=False):
+    xyMax=5 if anzSpalten[0]==2 else 12
+    n=random.randint(2,3)
+    art={2:'Gerade',3:'Dreieck',4:'Viereck'}
+    k=random.choice([0.5,2,3])
+    punkte={'Z':[random.randint(0,int(xyMax/2)),random.randint(0,int(xyMax/2))]}
+    for i in range(n):
+        exec(f'punkte[buchstabenGross[i]]=[random.randint(1,int(xyMax/2)),random.randint(1,int(xyMax/2))]')
+        while punkte[buchstabenGross[i]] in [punkte[x] for x in list(punkte.keys()) if not x==buchstabenGross[i]] or len(set([punkte[x][0] for x in list(punkte.keys())]))==1 or len(set([punkte[x][1] for x in list(punkte.keys())]))==1:
+            exec(f'punkte[buchstabenGross[i]]=[random.randint(1,int(xyMax/2)),random.randint(1,int(xyMax/2))]')
+    afg=[f'{f"Strecke folgende{"" if n==2 else"s" } {art[n]} mit den Punkten " if mitText else ""}{", ".join([f"{x}	({punkte[x][0]}|{punkte[x][1]})" for x in list(punkte.keys())])}{" und dem Faktor" if mitText else ","} k={k}']
+    if mitKoord:
+        afg=['\\pbox{\\linewidth}{']+ afg+['\\\\']+ diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=[0,xyMax,xyMax+1],yAchse=[0,xyMax,xyMax+1])+['}']
+    lsg=diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=[0,xyMax,xyMax+1],yAchse=[0,xyMax,xyMax+1])
+    for i,pkt in enumerate(list(punkte.keys())):
+#        lsg.insert(-1,f'\\node ({pkt}) at ({punkte[pkt][0]},{punkte[pkt][1]})  {{•}};')
+        lsg.insert(-1,f'\coordinate[label={315 if punkte[pkt][1]==0 else 270}:${pkt}$] ({pkt}) at ({punkte[pkt][0]},{punkte[pkt][1]}) ;')
+        lsg.insert(-1,f'\\fill[black] ({pkt}) circle (2pt);')
+        if not pkt=='Z':
+            lsg.insert(-1,f"\\coordinate[label={315 if punkte[pkt][1]==0 else 270}:${pkt}$'] ({pkt}2) at ($(Z)!{k}!({pkt})$);")
+            lsg.insert(-1,f'\\fill[red] ({pkt}2) circle (2pt);')
+    for i,pkt in enumerate(list(punkte.keys())):
+        if not pkt=='Z':
+            lsg.insert(-1,f'\\draw[blue] (Z) -- ({pkt});')
+            lsg.insert(-1,f'\\draw[red] ({pkt}) -- ({pkt}2);')
+            if i==len(list(punkte.keys()))-1:
+                lsg.insert(-1,f'\\draw[black] (A) -- ({pkt});')
+                lsg.insert(-1,f'\\draw[green] (A2) -- node[above,black,sloped]{{k={k}}} ({pkt}2);')
+            if n>2 and i<len(list(punkte.keys()))-1:
+                lsg.insert(-1,f'\\draw[black] ({pkt}) -- ({list(punkte.keys())[i+1]});')
+                lsg.insert(-1,f'\\draw[green] ({pkt}2) -- ({list(punkte.keys())[i+1]}2);')
+    return [afg,lsg,[]]
 
 def erzeugeStrahlensaetzeAufgaben(mitText=True,anzSpalten=[2,2]):
     k=random.randint(14,21)/10
