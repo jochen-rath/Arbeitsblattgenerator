@@ -123,7 +123,7 @@ def erzeugeStreudiagramme(linear=False,mitText=True,anzSpalten=[2,2]):
     xWerte=list(range(1,xMax))
     yWerte=[eval(formel.replace('x',str(x))) for x in xWerte]
     yWerteStreu=[y+random.choice([1,-1])*random.randint(1,int(M*10))/(int(M*(5 if anzSpalten[0]==1 else 10))) for y in yWerte]
-    afg=[f'\\pbox{{\\linewidth}}{{{"Zeichne die Ausgleichsgerade in die Messwerte und bestimme die Geschwindigkeit.\\\\" if mitText else ""}']
+    afg=[f'\\pbox{{\\linewidth}}{{{"Zeichne die Ausgleichsgerade in die Messwerte und bestimme die Geschwindigkeit.$$$$" if mitText else ""}'.replace('$$$$','\\\\')]
     afg=afg+diagrammTikzVorgBreiteHoehe(zuPlotten=[],koordinaten=[[x,yWerteStreu[i]] for i,x in enumerate(xWerte) ],xAchse=[0,max(xWerte),xTickDist],yAchse=[0,max(yWerte),xTickDist],xlabel=labelPaar[0],ylabel=labelPaar[1])
     afg.append('}')
     lsg=[f'\\pbox{{\\linewidth}}{{']

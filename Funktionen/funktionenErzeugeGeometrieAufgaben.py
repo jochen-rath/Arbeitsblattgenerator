@@ -56,7 +56,7 @@ def erzeugeSenkrechteLinien(anzahlProEcke=2,mitText=True,anzSpalten=[2,2]):
 
 def erzeugeStreckungsaufgaben(mitText=True,anzSpalten=[2,2],mitKoord=False):
     xyMax=5 if anzSpalten[0]==2 else 12
-    n=4 #random.randint(2,4)
+    n=random.randint(2,4)
     art={2:'Gerade',3:'Dreieck',4:'Viereck'}
     k=random.choice([0.5,2,3])
     punkte={'Z':[random.randint(0,int(xyMax/2)),random.randint(0,int(xyMax/2))]}
