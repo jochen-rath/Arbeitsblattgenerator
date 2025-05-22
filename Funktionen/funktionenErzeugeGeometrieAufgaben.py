@@ -71,7 +71,7 @@ def erzeugeStreckungsaufgaben(mitText=True,anzSpalten=[2,2],mitKoord=False):
             pkt=[pkt[0]+(1 if i<2 else -1)*random.randint(1,3),pkt[1]+(1 if i<2 else -1)*random.randint(1,3)]
             print(pkt)
             exec(f'punkte[buchstabenGross[i]]=pkt')
-    afg=[f'{f"Strecke folgende{"" if n==2 else"s" } {art[n]} mit den Punkten " if mitText else ""}{", ".join([f"{x}	({punkte[x][0]}|{punkte[x][1]})" for x in list(punkte.keys())])}{" und dem Faktor" if mitText else ","} k={k}']
+    afg=[f'{f"Strecke folgende{"" if n==2 else "s" } {art[n]} mit den Punkten " if mitText else ""}{", ".join([f"{x}	({punkte[x][0]}|{punkte[x][1]})" for x in list(punkte.keys())])}{" und dem Faktor" if mitText else ","} k={k}']
     if mitKoord:
         afg=['\\pbox{\\linewidth}{']+ afg+['\\\\']+ diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=[0,xyMax,xyMax+1],yAchse=[0,xyMax,xyMax+1])+['}']
     lsg=diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=[0,xyMax,xyMax+1],yAchse=[0,xyMax,xyMax+1])
