@@ -56,7 +56,7 @@ def erzeugeSenkrechteLinien(anzahlProEcke=2,mitText=True,anzSpalten=[2,2]):
 
 def erzeugeStreckungsaufgaben(mitText=True,anzSpalten=[2,2],mitKoord=False):
     xyMax=5 if anzSpalten[0]==2 else 12
-    n=random.randint(2,3)
+    n=4 #random.randint(2,4)
     art={2:'Gerade',3:'Dreieck',4:'Viereck'}
     k=random.choice([0.5,2,3])
     punkte={'Z':[random.randint(0,int(xyMax/2)),random.randint(0,int(xyMax/2))]}
@@ -64,6 +64,13 @@ def erzeugeStreckungsaufgaben(mitText=True,anzSpalten=[2,2],mitKoord=False):
         exec(f'punkte[buchstabenGross[i]]=[random.randint(1,int(xyMax/2)),random.randint(1,int(xyMax/2))]')
         while punkte[buchstabenGross[i]] in [punkte[x] for x in list(punkte.keys()) if not x==buchstabenGross[i]] or len(set([punkte[x][0] for x in list(punkte.keys())]))==1 or len(set([punkte[x][1] for x in list(punkte.keys())]))==1:
             exec(f'punkte[buchstabenGross[i]]=[random.randint(1,int(xyMax/2)),random.randint(1,int(xyMax/2))]')
+    if n==4:
+        pkt=[random.randint(0,int(2)),random.randint(0,int(2))]
+        punkte={'Z':pkt}
+        for i in range(n):
+            pkt=[pkt[0]+(1 if i<2 else -1)*random.randint(1,3),pkt[1]+(1 if i<2 else -1)*random.randint(1,3)]
+            print(pkt)
+            exec(f'punkte[buchstabenGross[i]]=pkt')
     afg=[f'{f"Strecke folgende{"" if n==2 else"s" } {art[n]} mit den Punkten " if mitText else ""}{", ".join([f"{x}	({punkte[x][0]}|{punkte[x][1]})" for x in list(punkte.keys())])}{" und dem Faktor" if mitText else ","} k={k}']
     if mitKoord:
         afg=['\\pbox{\\linewidth}{']+ afg+['\\\\']+ diagrammTikzVorgBreiteHoehe(zuPlotten=[],xAchse=[0,xyMax,xyMax+1],yAchse=[0,xyMax,xyMax+1])+['}']
