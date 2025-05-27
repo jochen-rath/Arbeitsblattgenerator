@@ -80,6 +80,49 @@ def ausgabeProzentwertBerechnenFuerTabelle(inhalte=[['2a',420,56,'\euro{}'],['2b
         latexcommand.append('\\endgroup')
     return latexcommand
     
+    
+    
+def ausgabeBruttoNetteLohnBerechnenFuerTabelle(afg=[420,56,'\euro{}'],bez=['G','W','p']):
+#Diese Funktion erzeugt eine Latex-Ausgabe, welche die Lösung einer gesuchten Prozentsatzaufgabe entspricht.
+#Die Ausgabe wird in einer Tikz-Zeichnung ausgegeben, damit man die Lösung in einer Tabelle zusammenfassen kann.
+#     latexcommand=prozentsatzBerechnen(inhalt)
+#
+#  inhalt=[[bez,G,pP,'Einheit']]
+#  inhalt=[['2a',125,50,'Schüler'],['2b',60,27,'km']]
+    latexcommand=['']
+    G=afg[0]
+    pP=afg[1]
+    W=G*pP/100
+    E=afg[2]
+    latexcommand.append('\\begingroup\\setlength{\\jot}{0.02cm}')
+    latexcommand.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')  
+    latexcommand.append('\\begin{tikzpicture}[show background grid]')  
+    latexcommand.append('\\node[left] at (0,-0.25) {Geg.: };')  
+    latexcommand.append('\\node[right] at (0,-0.25) {'+bez[0]+' = '+strNW(G,True)+' '+E+'};') 
+    latexcommand.append('\\node[right] at (0,-0.75) {'+bez[2]+'\\% = '+strNW(pP,True)+'\%};')  
+    latexcommand.append('\\node[left] at (0,-1.-0.25) {Ges.: };')  
+    latexcommand.append('\\node[right] at (0,-1.-0.25) { $W, G_{V-}$  = ? };')  
+    latexcommand.append('\\node[below right] at (0,-1.75) {')  
+    latexcommand.append('$\\begin{aligned}')  
+    latexcommand.append(''+bez[1]+'\\ &=\\ \\frac{'+bez[0]+'\\cdot '+bez[2]+'}{100} \\\\')
+    latexcommand.append(''+bez[1]+'\\ &=\\ \\frac{'+strNW(G,True)+'\\cdot '+strNW(pP,True)+'}{100}  \\\\')
+    latexcommand.append(''+bez[1]+'\\ &=\\ '+strNW(W,True)+'\ \\mbox{'+E+'} \\\\')
+    latexcommand.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + latexcommand[-1].replace('&', '').replace('^', '') + '$}}}')
+    latexcommand.append(' \\\\')
+    latexcommand.append(f'q\\ &=\\ 100 -p \\\\')
+    latexcommand.append(f'q\\ &=\\ 100 - {strNW(pP)} \\\\')
+    latexcommand.append(f'q\\ &=\\ {strNW(100-pP)} \\\\')
+    latexcommand.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + latexcommand[-1].replace('&', '').replace('^', '') + '$}}}')
+    latexcommand.append(' \\\\')
+    latexcommand.append(f'G_{{V-}}\\ &=\\ \\frac{{G \\cdot q}}{{100}} \\\\')
+    latexcommand.append(f'G_{{V-}}\\ &=\\ \\frac{{{G} \\cdot {100-pP}}}{{100}} \\\\')
+    latexcommand.append(f'G_{{V-}}\\ &=\\ {strNW(G*(100-pP)/100,True)} €\\\\')
+    latexcommand.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + latexcommand[-1].replace('&', '').replace('^', '') + '$}}}')
+    latexcommand.append('\\end{aligned}$};')
+    latexcommand.append('\\end{tikzpicture}')   
+    latexcommand.append('\\endgroup')
+    return latexcommand
+    
 def ausgabeProzentsatzBerechnenFuerTabelle(inhalte=[['2a',125,50,'Schüler'],['2b',60,27,'km']],mitDreisatz=True,bez=['G','W','p']):
 #Diese Funktion erzeugt eine Latex-Ausgabe, welche die Lösung einer gesuchten Prozentsatzaufgabe entspricht.
 #Die Ausgabe wird in einer Tikz-Zeichnung ausgegeben, damit man die Lösung in einer Tabelle zusammenfassen kann.

@@ -269,3 +269,10 @@ def erzeugeVerminderteGrundwertAufgaben(n=12,lsgMitDreisatz=True,HS=False,euro=T
         else:
             lsgen=ausgabeVerminderteGrundwertAusgebenMitQ(inhalte=[['',r[0],r[2],r[3]]])
     return [rechnungen,lsgen,dezi]
+
+def erzeugeBruttoNettoLohnRechnungen(mitText=True,HS=False):
+    r=erzeugeProzentRechnungen(E='\euro{}',HS=HS,G=True)
+    afgText=f'Der Bruttolohn  beträgt {r[0]} €. Es werden {r[2]} \\% abgezogen. Berechne die Abzüge und den Nettolon.'
+    afg=[afgText] if mitText else [f'Brutto: {r[0]} €, Abzüge: {r[2]} \\%. Gesucht: Nettolon und Abzüge.']
+    lsg=lsgen=ausgabeBruttoNetteLohnBerechnenFuerTabelle(afg=[r[0],r[2],'€'])
+    return [afg,lsg,[]]

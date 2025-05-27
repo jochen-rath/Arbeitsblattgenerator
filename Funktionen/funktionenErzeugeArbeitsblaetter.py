@@ -27,6 +27,7 @@ def erzeugeArbeitsblattTaeglicheUebungen(auswahl,title,lsgTitle,dateiName,datum,
         if isinstance(l,list):
             l='\n'.join(l)
         while a in [x[1] for x in afg]:
+            a,l,d=erzeuge10minRechnung(aus,mitText,anzSpalten[1],anzSpalten[0])
             if isinstance(a,list):
                 a='\n'.join(a)
             if isinstance(l,list):
