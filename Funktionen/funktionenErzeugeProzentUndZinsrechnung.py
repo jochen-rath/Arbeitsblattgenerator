@@ -110,7 +110,7 @@ def erzeugeProzentwertAufgabenFormel(ges='',HS=False):
         afg=F'{strNW(varis[geg[1]][0])} {varis[geg[1]][1]} von {strNW(varis[geg[0]][0])} {varis[geg[0]][1]}'
     lsg=loeseFunktion(formel=formel,varis=varis,ges=ges,breite=5,kommaAusgabe=True)
     return [[ersetzePlatzhalterMitSymbolen(x) for x in [afg]],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
-def erzeugeProzentwertAufgaben(n=12,lsgMitDreisatz=True,bez=['Grundwert','Prozentsatz'],einheit='',HS=False):
+def erzeugeProzentwertAufgaben(n=12,lsgMitDreisatz=False,bez=['Grundwert','Prozentsatz'],einheit='',HS=False):
 #Aufruf
 #     ausgabe=erzeugeProzentsatzAufgaben(Anzahl)
 #
@@ -274,5 +274,19 @@ def erzeugeBruttoNettoLohnRechnungen(mitText=True,HS=False):
     r=erzeugeProzentRechnungen(E='\euro{}',HS=HS,G=True)
     afgText=f'Der Bruttolohn  beträgt {r[0]} €. Es werden {r[2]} \\% abgezogen. Berechne die Abzüge und den Nettolon.'
     afg=[afgText] if mitText else [f'Brutto: {r[0]} €, Abzüge: {r[2]} \\%. Gesucht: Nettolon und Abzüge.']
-    lsg=lsgen=ausgabeBruttoNetteLohnBerechnenFuerTabelle(afg=[r[0],r[2],'€'])
+    lsg=ausgabeBruttoNetteLohnBerechnenFuerTabelle(afg=[r[0],r[2],'€'])
+    return [afg,lsg,[]]
+
+
+def erzeugeMehrwertsteuerRechnungen(mitText=True,HS=False):
+    p=random.choice([7,19])
+    n=random.randint(1,10)
+    gegenstand={7:[f'{n} {x} kosten' for x in ['Stück Gurken','kg Paprika','kg Tomaten','Stück Zucchinis']],19:[f'Ein {x} kostet' for x in ['Kleid','Hose','Rock','Hemd','Spiel']]}
+    if p==7:
+        G=random.randint(100,1000)/100 if not HS else random.randint(1,10)
+    else:
+        G=random.randint(100,1000) if not HS else random.choice(list(range(100,1100,100)))
+    afgText=f'{random.choice(gegenstand[p])} {strNW(G)} €. Berechne die Mehrwertsteuer und den Verkaufspreis.'
+    afg=[afgText] if mitText else [f'Brutto: {G} €, p \\&: {p} \\%. Gesucht: Mehrwertsteuer und Verkaufspreis.']
+    lsg=ausgabeBruttoNetteLohnBerechnenFuerTabelle(afg=[G,p,'€'],V='+')
     return [afg,lsg,[]]
