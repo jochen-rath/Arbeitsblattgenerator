@@ -251,7 +251,7 @@ def hilfeSeite():
     html.append('<li>Schneide alles aus mit STRG-X <a target="_blank" href="/static/images/Kahoot_03_Ausschneiden.png"> <img src ="/static/images/Kahoot_03_Ausschneiden.png"></a></li>')
     html.append('<li>Füge alles ein STRG-V <a target="_blank" href="/static/images/Kahoot_04_Einfuegen.png"> <img src ="/static/images/Kahoot_04_Einfuegen.png"></a></li>')
     html.append('</ul>')
-    html.append('<p>Da man dies für jede Frage machen muss, ist diese Art der Darstellung im Editor standardmäßig deaktiviert.</p>')
+    html.append('<p>Da man dies für jede Frage machen muss, ist diese Art der Darstellung im ABGenerator standardmäßig deaktiviert.</p>')
     html.append('<h2>Schiffe Versenken</h2>')
     html.append('<p>Erzeuge 2 Arbeitsblätter, dass immer 2 SuS gegeneinder spielen können. Im Aufgabenteil sind die Schiffe, die der Gegner finden muss. In der Lösung kann der Spieler seine Schüsse eintragen. </p>')
     html.append('<h2>Beschreibungen</h2>')
