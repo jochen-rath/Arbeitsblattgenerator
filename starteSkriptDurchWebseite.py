@@ -46,6 +46,7 @@ class Form(Form):
     erzeugeArbeit=BooleanField('Erzeuge eine Arbeitsvorlage.')
     texAusgabe=BooleanField('Gib eine LaTeX tex Datei mit aus.')
     pngAusgabe=BooleanField('Gib die Aufgaben als png-Bild Dateien mit aus.')
+    kahootFormel=BooleanField('Kahoot: Schöne Formeln')
     submit = SubmitField("Senden")
 
 @app.route('/', methods = ['GET', 'POST'])
@@ -82,6 +83,7 @@ def viewAuswahlRechnungen():
             erzeugeArbeit=F'erzArbeit-{form.erzeugeArbeit.data}'
             texAusgabe=F'texAusgabe-{form.texAusgabe.data}'
             pngAusgabe=F'pngAusgabe-{form.pngAusgabe.data}'
+            kahootFormel=F'kahootFormel-{form.kahootFormel.data}'
 #            seitenumbruch='Seitenumbruch-False'
 #            if form.aufgSeitenumbruch.data:
 #                seitenumbruch='Seitenumbruch-True'
@@ -117,12 +119,14 @@ def viewAuswahlRechnungen():
                 allesKorrekt=False
             if not bool(zugelassenZeichen.search(pngAusgabe)):
                 allesKorrekt=False
+            if not bool(zugelassenZeichen.search(kahootFormel)):
+                allesKorrekt=False
             if not bool(zugelassenZeichen.search(''.join(anzRech))):
                 allesKorrekt=False
 #Wenn alles Korrekt ist und auch ein paar Aufgaben gefwählt wurde, Starte das Skript.
             if len(anzRech)>0 and allesKorrekt:
                 warteZeit=300 if 'erzeugeAlleAtome' in anzRech else 90
-                parameterListe=[sys.executable,script, titel,beschreibung,datum, anzSpalten,mitText, karoBereich,extraKaroseite, agfLsgGetrennt,erzeugeArbeit,texAusgabe,pngAusgabe]+anzRech
+                parameterListe=[sys.executable,script, titel,beschreibung,datum, anzSpalten,mitText, karoBereich,extraKaroseite, agfLsgGetrennt,erzeugeArbeit,texAusgabe,pngAusgabe,kahootFormel]+anzRech
                 print(parameterListe)
                 filename,rc=run_command(['timeout',F'{warteZeit}'] + parameterListe)
                 print('Run')
@@ -239,6 +243,15 @@ def hilfeSeite():
     html.append('<li>Füge eine neue Frage hinzu und wähle Tabellenblatt importieren <a target="_blank" href="/static/images/kahoot03.png"> <img src ="/static/images/kahoot03.png"></a></li>')
     html.append('<li>Gehe auf Datei auswählen und suche die erstellte xlsx Datei. <a target="_blank" href="/static/images/kahoot04.png"> <img src ="/static/images/kahoot04.png"></a></li>')
     html.append('</ul>')
+    html.append('<h2>Kahoot Schöne Formeln</h2>')
+    html.append('<p>Kahoot kann Formeln und Gleichungen mit Latex Code schön darstellen. Leider funktioniert dies nicht, wenn man es direkt aus dem Tabellenblatt importiert. Man muss den Text erst ausschneiden und wieder einfügen, damit der Kahoot-Latex Editor zur Anwendung kommt:</p>')
+    html.append('<ul>')
+    html.append('<li>Wähle das Textfeld mit der Formel aus<a target="_blank" href="/static/images/Kahoot_01_TextfeldAuswaehlen.png"> <img src ="/static/images/Kahoot_01_TextfeldAuswaehlen.png"></a></li>')
+    html.append('<li>Markiere alles mit STRG-A <a target="_blank" href="/static/images/Kahoot_02_AllesMarkieren.png"> <img src ="/static/images/Kahoot_02_AllesMarkieren.png"></a></li>')
+    html.append('<li>Schneide alles aus mit STRG-X <a target="_blank" href="/static/images/Kahoot_03_Ausschneiden.png"> <img src ="/static/images/Kahoot_03_Ausschneiden.png"></a></li>')
+    html.append('<li>Füge alles ein STRG-V <a target="_blank" href="/static/images/Kahoot_04_Einfuegen.png"> <img src ="/static/images/Kahoot_04_Einfuegen.png"></a></li>')
+    html.append('</ul>')
+    html.append('<p>Da man dies für jede Frage machen muss, ist diese Art der Darstellung im Editor standardmäßig deaktiviert.</p>')
     html.append('<h2>Schiffe Versenken</h2>')
     html.append('<p>Erzeuge 2 Arbeitsblätter, dass immer 2 SuS gegeneinder spielen können. Im Aufgabenteil sind die Schiffe, die der Gegner finden muss. In der Lösung kann der Spieler seine Schüsse eintragen. </p>')
     html.append('<h2>Beschreibungen</h2>')
@@ -325,7 +338,7 @@ def htmlScriptAufrufSeite(anzahlAuswahl=4):
     if os.path.isfile(os.path.join(os.path.expanduser('~'), 'impressum.html')):
         html.append(F'    <p><a href="{{{{ url_for({chr(39)}impressum_form{chr(39)}) }}}}">Impressum</a></p>')
     if os.path.isfile('wasistneu.html'):
-        html.append(F'    <p><a href="{{{{ url_for({chr(39)}wasistneu_form{chr(39)}) }}}}">Was Ist Neu?</a> Letzte Änderung: 27.06.2025</p>')
+        html.append(F'    <p><a href="{{{{ url_for({chr(39)}wasistneu_form{chr(39)}) }}}}">Was Ist Neu?</a> Letzte Änderung: 30.06.2025</p>')
     html.append('</body>')
     return html
 
@@ -362,6 +375,7 @@ def htmlTabelle(anzahlAuswahl=4):
     tabelle.append('            {{ form.erzeugeArbeit.label }}: {{ form.erzeugeArbeit }}<br>')
     tabelle.append('            {{ form.texAusgabe.label }}: {{ form.texAusgabe }}<br>')
     tabelle.append('            {{ form.pngAusgabe.label }}: {{ form.pngAusgabe }}<br>')
+    tabelle.append('            {{ form.kahootFormel.label }}: {{ form.kahootFormel }}<br>')
     tabelle.append('         </fieldset>')
     return tabelle
 

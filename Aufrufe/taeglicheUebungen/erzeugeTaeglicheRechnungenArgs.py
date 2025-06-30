@@ -12,7 +12,7 @@ def main():
 #Setze Variablen:
     if False:
         with open("debug.txt", "w") as my_file:
-            for i in range(12):
+            for i in range(13):
                 my_file.write(F'{i}: {sys.argv[i]}\n')
     title,kuerzel=sys.argv[1].split('_')
     anfang=sys.argv[2]
@@ -28,16 +28,17 @@ def main():
     erzArbeit=eval(sys.argv[9].split('-')[1])
     texAusgabe=eval(sys.argv[10].split('-')[1])
     pngAusgabe=eval(sys.argv[11].split('-')[1])
+    kahootFormel=eval(sys.argv[12].split('-')[1])
     auswahl=[]
     anzahlRechnungen=26
-    startRechnungenIndex=12
+    startRechnungenIndex=13
 #    for arg in sys.argv[startRechnungenIndex:anzahlRechnungen+startRechnungenIndex]:
     for arg in sys.argv[startRechnungenIndex:]:
 #Soll ein Kahoot-Arbeitsblatt erzeugt werden?
         if 'kahoot' in arg:
             anzahl=len([x for x in sys.argv[startRechnungenIndex:] if 'kahoot' in x])
             anzahl=anzahl if anzahl>1 else anzahl
-            filename=erzeugeKahootTabellenInhalt(anzahl=anzahl,zeit=20,dateiName=dateiName,datum=datum,typ=arg.replace('kahoot',''))
+            filename=erzeugeKahootTabellenInhalt(anzahl=anzahl,zeit=20,dateiName=dateiName,datum=datum,formelSchoen=kahootFormel,typ=arg.replace('kahoot',''))
             print('Dateiname:'+filename)
             return 
         auswahl=auswahl+[arg]

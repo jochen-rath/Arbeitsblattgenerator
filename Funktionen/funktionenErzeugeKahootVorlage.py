@@ -131,6 +131,7 @@ def erzeugeKahootTermeKombiEinsetzen(zeit=10,HS=False):
 
 def erzeugeKahootTermeZusammenfassen(zeit=10,anzVari=1,anzKoeffProVari=2,HS=False,rekursion=False):
     alleVaris=['x','y','z','a','b']
+    random.shuffle(alleVaris)
     xStr=alleVaris[0:anzVari]+['']
     xes=[val for val in xStr for _ in range(anzKoeffProVari)]
     xesIndex={}
@@ -188,8 +189,51 @@ def erzeugeKahootTermeZusammenfassen(zeit=10,anzVari=1,anzKoeffProVari=2,HS=Fals
     return [f'Fasse zusammen: {term}']+results+[zeit,ergIndizes] if not rekursion else rekur
 
 
+def erzeugeKahootGleichungFehlendEintragen(zeit=10):
+    alleVaris=['x','y','z','a','b']
+    op=random.choice(['+','-','·',':'])
+    opGegen={'·':':',':':'·','+':'-','-':'+'}
+    erg,zahl=random.randint(1,50),random.randint(1,50)
+#    form=f'{zahl}{op}x = {erg}   |   {opGegen[op]} {zahl}' if not op=='/' else f'x{op}{zahl} = {erg}   |   {opGegen[op]} {zahl}'
+#Einsetzen:
+    einsetzen=['x',op,zahl,opGegen[op],zahl]
+    e=list(einsetzen)
+    auswahl=random.randint(0,len(einsetzen)-1)
+    e[auswahl]='◻'
+    form=f'{f"{e[0]}{e[1]}{e[2]}" if not op=='·' else f"{e[2]}{e[1]}{e[0]}"} = {erg}  |  {e[3]}{e[4]}'
+    del e[auswahl]
+    results=[einsetzen[auswahl]]+random.sample(e,3)
+    random.shuffle(results)
+    ergIndizes=','.join([str(i+1) for i, x in enumerate(results) if x == einsetzen[auswahl]])
+    return [f'Was fehlt: {form}']+results+[zeit,ergIndizes]
 
-def erzeugeKahootTabellenInhalt(anzahl=10,zeit=20,dateiName='newFile',datum='',typ=''):
+def erzeugeKahootGleichungFehlendEintragenKombi(zeit=10,formelSchoen=False):
+    alleVaris=['x','y','z','a','b']
+    op,op2=random.choice(['+','-']),random.choice([':','·'])
+    opGegen={'·':':',':':'·','+':'-','-':'+'}
+    erg,z1,z2=random.randint(1,50),random.randint(1,50),random.randint(1,50)
+    while z1==z2 or z1==erg or z2==erg:
+        erg,z1,z2=random.randint(1,50),random.randint(1,50),random.randint(1,50)
+#    gleichung=f'{f"{z1}x" if op2=="·" f"x:{z1}{"} {op}{z2} = {erg}   |   {opGegen[op]}{z2}' 
+#Einsetzen:
+    einsetzen=[f'{op}{z2}',f'{opGegen[op]}{z2}']
+    e=list(einsetzen)
+    auswahl=random.randint(0,len(einsetzen)-1)
+    e[auswahl]='◻'
+    gl=f'{f"{z1}x" if op2=="·" else f"x:{z1}"} {e[0]} = {erg}   |  {e[1]}'
+    if formelSchoen and op2==':': 
+        gl=f'\\frac{{x}}{{{z1}}} {e[0]} = {erg} | {e[1]}'
+    if formelSchoen: 
+        gl=gl.replace('◻','\\textcolor{red}{\square}').replace('|', '\\quad\\mid\\quad')
+    del e[auswahl]
+    results=[einsetzen[auswahl]]+[e[0]]+random.sample([f"{op}{z1}",f"{opGegen[op]}{z1}",f"{op}{erg}",f"{opGegen[op]}{erg}",f"{op2}{z1}",f"{opGegen[op2]}{z1}",f"{op2}{z2}",f"{opGegen[op2]}{z2}",f"{op2}{erg}",f"{opGegen[op2]}{erg}"],2)
+    random.shuffle(results)
+    ergIndizes=','.join([str(i+1) for i, x in enumerate(results) if x == einsetzen[auswahl]])
+    frage=f'$$\\text{{Was fehlt: \\quad}}{gl}$$' if formelSchoen else f'Was fehlt: {gl}'
+    return [frage]+results+[zeit,ergIndizes]
+
+
+def erzeugeKahootTabellenInhalt(anzahl=10,zeit=20,dateiName='newFile',datum='',formelSchoen=False,typ=''):
     aufgaben=[]
     for i in range(anzahl):
 #Die Funktionen werden in der For-Schleife gesetzt und nicht davor, da bei jeder neuen
@@ -203,8 +247,10 @@ def erzeugeKahootTabellenInhalt(anzahl=10,zeit=20,dateiName='newFile',datum='',t
                     'erzeugeKahootTermeKombiEinsetzen(zeit=zeit)',
                    'erzeugeKahootTermeZusammenfassen(zeit=zeit,HS=True)',
                    'erzeugeKahootTermeZusammenfassen(zeit=zeit,HS=False)',
-                   'erzeugeKahootTermeZusammenfassen(zeit=zeit,anzVari=2,HS=False)']
-        auswahl=list(kahootFkt)
+                   'erzeugeKahootTermeZusammenfassen(zeit=zeit,anzVari=2,HS=False)',
+                   'erzeugeKahootGleichungFehlendEintragen(zeit=zeit)',
+                   f'erzeugeKahootGleichungFehlendEintragenKombi(zeit=zeit,formelSchoen={formelSchoen})']
+        auswahl=list(kahootFkt)[0:3]
         if typ=='Kopf':
             auswahl=[kahootFkt[0]]
         if typ=='Grossezahlen':
@@ -225,6 +271,10 @@ def erzeugeKahootTabellenInhalt(anzahl=10,zeit=20,dateiName='newFile',datum='',t
             auswahl=[kahootFkt[8]]
         if typ=='TermeZusammenfassenNurXY':
             auswahl=[kahootFkt[9]] 
+        if typ=='GleichungFehlend':
+            auswahl=[kahootFkt[10]]
+        if typ=='GleichungFehlendKombi':
+            auswahl=[kahootFkt[11]]
         aufgaben.append(eval(random.choice(auswahl)))
     return erzeugeKahootXlsxDatei(aufgaben,dateiName=dateiName,datum=datum)
     
