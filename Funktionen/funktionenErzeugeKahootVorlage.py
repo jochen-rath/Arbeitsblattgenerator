@@ -61,7 +61,7 @@ def erzeugeKahootKopfrechnen(zeit=10):
         results.append(erg2)
     random.shuffle(results)
     kahootAfg=[F'Was ist {afg.replace("=","")}?'] +results  + [zeit] + [results.index(erg)+1]
-    return kahootAfg
+    return kahootAf
 
 def erzeugeKahootFachwoerter(zeit=10,art=''):
     z1,z2=random.randint(20,30),random.randint(5,19)
