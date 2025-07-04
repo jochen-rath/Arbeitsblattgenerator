@@ -29,20 +29,20 @@ def erzeugeKopfrechenAufgabe():
 def erzeugePlusMinusMalGeteiltAufgabe():
     operator=random.choice(['+','-','*','/'])
     if operator=='+':
-       calc=str(random.randint(1,1e3))+' + '+str(random.randint(1,1e3))
+       calc=str(random.randint(int(1),int(1000)))+' + '+str(random.randint(int(1),int(1000)))
        erg=eval(calc)
     if operator=='-':
-       differenz=random.randint(1,1e3)
-       subtrahend=random.randint(1,1e3)
+       differenz=random.randint(int(1),int(1e3))
+       subtrahend=random.randint(int(1),int(1e3))
        calc=str(differenz+subtrahend)+' - '+str(subtrahend)
        erg=differenz
     if operator=='*':
-       calc=str(random.randint(1,1e3))+' * '+str(random.randint(1,1e2))
+       calc=str(random.randint(int(1),int(1e3)))+' * '+str(random.randint(int(1),int(1e2)))
        erg=eval(calc)
        calc=calc.replace('*','·')
     if operator=='/':
-       quotient=random.randint(1,50)
-       divisor=random.randint(1,10)
+       quotient=random.randint(int(1),int(50))
+       divisor=random.randint(int(1),int(10))
        calc=str(quotient*divisor)+' : '+str(divisor)
        erg=quotient
     return [calc+' = ',calc+' = '+strNW(erg),erg]
