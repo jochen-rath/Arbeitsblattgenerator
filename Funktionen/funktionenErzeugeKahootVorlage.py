@@ -207,7 +207,7 @@ def erzeugeKahootGleichungFehlendEintragen(zeit=10,formelSchoen=False):
     e=list(einsetzen)
     auswahl=random.randint(0,len(einsetzen)-1)
     e[auswahl]='◻'
-    gl=f'{f"{e[0]}{e[1]}{e[2]}" if not op=='·' else f"{e[2]}{e[1]}{e[0]}"} = {erg}  |  {e[3]}{e[4]}'
+    gl=f'{f"{e[0]}{e[1]}{e[2]}" if not op=="·" else f"{e[2]}{e[1]}{e[0]}"} = {erg}  |  {e[3]}{e[4]}'
     if formelSchoen and op2==':': 
         gl=f'\\frac{{x}}{{{e[2]}}} = {erg} |  {e[3]}{e[4]}'
     if formelSchoen: 
