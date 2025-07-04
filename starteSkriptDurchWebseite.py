@@ -46,7 +46,7 @@ class Form(Form):
     erzeugeArbeit=BooleanField('Erzeuge eine Arbeitsvorlage.')
     texAusgabe=BooleanField('Gib eine LaTeX tex Datei mit aus.')
     pngAusgabe=BooleanField('Gib die Aufgaben als png-Bild Dateien mit aus.')
-    kahootFormel=BooleanField('Kahoot: Schöne Formeln')
+    kahootFormel=BooleanField('Kahoot: Schöne Formeln (Siehe Hilfe)')
     submit = SubmitField("Senden")
 
 @app.route('/', methods = ['GET', 'POST'])
@@ -243,7 +243,7 @@ def hilfeSeite():
     html.append('<li>Füge eine neue Frage hinzu und wähle Tabellenblatt importieren <a target="_blank" href="/static/images/kahoot03.png"> <img src ="/static/images/kahoot03.png"></a></li>')
     html.append('<li>Gehe auf Datei auswählen und suche die erstellte xlsx Datei. <a target="_blank" href="/static/images/kahoot04.png"> <img src ="/static/images/kahoot04.png"></a></li>')
     html.append('</ul>')
-    html.append('<h2>Kahoot Schöne Formeln</h2>')
+    html.append('<h2 id="KahootSchoeneFormeln">Kahoot Schöne Formeln</h2>')
     html.append('<p>Kahoot kann Formeln und Gleichungen mit Latex Code schön darstellen. Leider funktioniert dies nicht, wenn man es direkt aus dem Tabellenblatt importiert. Man muss den Text erst ausschneiden und wieder einfügen, damit der Kahoot-Latex Editor zur Anwendung kommt:</p>')
     html.append('<ul>')
     html.append('<li>Wähle das Textfeld mit der Formel aus<a target="_blank" href="/static/images/Kahoot_01_TextfeldAuswaehlen.png"> <img src ="/static/images/Kahoot_01_TextfeldAuswaehlen.png"></a></li>')
@@ -338,7 +338,7 @@ def htmlScriptAufrufSeite(anzahlAuswahl=4):
     if os.path.isfile(os.path.join(os.path.expanduser('~'), 'impressum.html')):
         html.append(F'    <p><a href="{{{{ url_for({chr(39)}impressum_form{chr(39)}) }}}}">Impressum</a></p>')
     if os.path.isfile('wasistneu.html'):
-        html.append(F'    <p><a href="{{{{ url_for({chr(39)}wasistneu_form{chr(39)}) }}}}">Was Ist Neu?</a> Letzte Änderung: 02.07.2025</p>')
+        html.append(F'    <p><a href="{{{{ url_for({chr(39)}wasistneu_form{chr(39)}) }}}}">Was Ist Neu?</a> Letzte Änderung: 04.07.2025</p>')
     html.append('</body>')
     return html
 
