@@ -55,13 +55,17 @@ def erkenneProzentKreis(mitText=True,bruch=False,einfach=False):
     return [afg,lsg,[teile,anzahl]]
 
 
+def erzeugeProzentEinheiten():
+    einheiten=['\euro{}','km','m','g','l','kg','cm','Schüler','Schülerinnen','Mädchen','Jungs','Autos','LKW','Bleistifte','Buntstifte','Knöpfe','Tickets']
+    return einheiten
+
 def erzeugeProzentRechnungen(E='',kapital=False,HS=False,G=False):
 #Diese Funktion erzeugt eine Aufgabe zur Prozentrechnung:
 #Aufruf:
 #         rechnung=erzeugeProzentRechnungen()
 #
 #      rechnung=[G,W,pP,Einheit]
-    einheiten=['\euro{}','km','m','g','l','kg','cm','Schüler','Schülerinnen','Mädchen','Jungs','Autos','LKW','Bleistifte','Buntstifte','Knöpfe','Tickets']
+    einheiten=erzeugeProzentEinheiten()
     E=E if len(E)>0 else random.choice(einheiten)
     E='€' if kapital else E
     G=1.1

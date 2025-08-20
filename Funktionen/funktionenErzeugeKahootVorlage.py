@@ -26,6 +26,8 @@ def erzeugeKahootXlsxDatei(aufgaben=[['']*7]*8,dateiName='newFile',datum=''):
     return F'{dateiName}.xlsx'
 
 
+def zufallAddSubSchaetzen(zeit=10):
+    return random.choice(['kahootAdditionSchaetzen(zeit=zeit)', 'kahootSubtraktionSchaetzen(zeit=zeit)'])
 
 def kahootAdditionSchaetzen(zeit=10):
     calc=str(random.randint(1000,9999))+' + '+str(random.randint(1000,9999))
@@ -61,7 +63,7 @@ def erzeugeKahootKopfrechnen(zeit=10):
         results.append(erg2)
     random.shuffle(results)
     kahootAfg=[F'Was ist {afg.replace("=","")}?'] +results  + [zeit] + [results.index(erg)+1]
-    return kahootAf
+    return kahootAfg
 
 def erzeugeKahootFachwoerter(zeit=10,art=''):
     z1,z2=random.randint(20,30),random.randint(5,19)
@@ -92,66 +94,36 @@ def erzeugeKahootFachwoerter(zeit=10,art=''):
     
 
 
-def erzeugeKahootTabellenInhalt(anzahl=10,zeit=20,dateiName='newFile',datum='',formelSchoen=False,typ=''):
+def erzeugeKahootTabellenInhalt(kahoots=['Grossezahlen','TermeEinsetzenHS'],zeit=20,dateiName='newFile',datum='',formelSchoen=False):
     aufgaben=[]
+    kahootFkt={'Kopf':'erzeugeKahootKopfrechnen(zeit=zeit)'}
+    kahootFkt['Grossezahlen']='zufallAddSubSchaetzen(zeit=zeit)'
+    kahootFkt['Fachwoerter']='erzeugeKahootFachwoerter(zeit=zeit)'
+    kahootFkt['BruechekuerzenHS']= f'erzeugeKahootBruecheKuerzenMitVorg(zeit=10,HS=True)'
+    kahootFkt['BruecheErweiternHS']= f'erzeugeKahootBruecheErweiternMitVorg(zeit=10,HS=True)'
+    kahootFkt['TermeEinsetzenHS']=f'erzeugeKahootTermeEinfachEinsetzen(zeit=zeit,HS=True,formelSchoen={formelSchoen})'
+    kahootFkt['TermeEinsetzen']=f'erzeugeKahootTermeEinfachEinsetzen(zeit=zeit,formelSchoen={formelSchoen})'
+    kahootFkt['TermeEinsetzenKombiHS']= f'erzeugeKahootTermeKombiEinsetzen(zeit=zeit,HS=True,formelSchoen={formelSchoen})'
+    kahootFkt['TermeEinsetzenKombi']=f'erzeugeKahootTermeKombiEinsetzen(zeit=zeit,formelSchoen={formelSchoen})'
+    kahootFkt['TermeZusammenfassenHS']= f'erzeugeKahootTermeZusammenfassen(zeit=zeit,HS=True)'
+    kahootFkt['TermeZusammenfassenNurX']=f'erzeugeKahootTermeZusammenfassen(zeit=zeit,HS=False)'
+    kahootFkt['TermeZusammenfassenNurXY']=f'erzeugeKahootTermeZusammenfassen(zeit=zeit,anzVari=2,HS=False)'
+    kahootFkt['GleichungFehlend']=f'erzeugeKahootGleichungFehlendEintragen(zeit=zeit)'
+    kahootFkt['GleichungFehlendKombi']=f'erzeugeKahootGleichungFehlendEintragenKombi(zeit=zeit,formelSchoen={formelSchoen})'
+    kahootFkt['RatAddSub']=f'erzeugeKahootRationaleZahlenAddSub(zeit=zeit)'
+    kahootFkt['RatAddSubHS']=f'erzeugeKahootRationaleZahlenAddSub(zeit=zeit,HS=True)'
+    kahootFkt['RatMulDiv']=f'erzeugeKahootRationaleZahlenMultiDiv(zeit=zeit)'
+    for typ in kahoots:
+        aufgaben.append(eval(kahootFkt[typ.replace('kahoot','')]))
+    random.shuffle(aufgaben)
+    return erzeugeKahootXlsxDatei(aufgaben,dateiName=dateiName,datum=datum)
+    
+    
+def kahootAenderung():
     for i in range(anzahl):
 #Die Funktionen werden in der For-Schleife gesetzt und nicht davor, da bei jeder neuen
 #Aufgabe zwischen + und - große Zahlen schätzen gewählt werden soll.
-        kahootFkt=['erzeugeKahootKopfrechnen(zeit=zeit)',
-                   random.choice(['kahootAdditionSchaetzen(zeit=zeit)', 'kahootSubtraktionSchaetzen(zeit=zeit)']),
-                   'erzeugeKahootFachwoerter(zeit=zeit)',
-                   f'erzeugeKahootBruecheKuerzenMitVorg(zeit=10,HS=True)',
-                    f'erzeugeKahootTermeEinfachEinsetzen(zeit=zeit,HS=True,formelSchoen={formelSchoen})',
-                    f'erzeugeKahootTermeEinfachEinsetzen(zeit=zeit,formelSchoen={formelSchoen})',
-                    f'erzeugeKahootTermeKombiEinsetzen(zeit=zeit,HS=True,formelSchoen={formelSchoen})',
-                    f'erzeugeKahootTermeKombiEinsetzen(zeit=zeit,formelSchoen={formelSchoen})',
-                   f'erzeugeKahootTermeZusammenfassen(zeit=zeit,HS=True)',
-                   f'erzeugeKahootTermeZusammenfassen(zeit=zeit,HS=False)',
-                   f'erzeugeKahootTermeZusammenfassen(zeit=zeit,anzVari=2,HS=False)',
-                   f'erzeugeKahootGleichungFehlendEintragen(zeit=zeit)',
-                   f'erzeugeKahootGleichungFehlendEintragenKombi(zeit=zeit,formelSchoen={formelSchoen})']
+
         auswahl=list(kahootFkt)[0:3]
-        i=0
-        if typ=='Kopf':
-            auswahl=[kahootFkt[i]]
-        i=i+1
-        if typ=='Grossezahlen':
-            auswahl=[kahootFkt[i]]
-        i=i+1
-        if typ=='Fachwoerter':
-            auswahl=[kahootFkt[i]]
-        i=i+1
-        if typ=='BruechekuerzenHS':
-            auswahl=[kahootFkt[i]]
-        i=i+1
-        if typ=='TermeEinsetzenHS':
-            auswahl=[kahootFkt[i]]
-        i=i+1
-        if typ=='TermeEinsetzen':
-            auswahl=[kahootFkt[i]]
-        i=i+1
-        if typ=='TermeEinsetzenKombiHS':
-            auswahl=[kahootFkt[i]]
-        i=i+1
-        if typ=='TermeEinsetzenKombi':
-            auswahl=[kahootFkt[i]]
-        i=i+1
-        if typ=='TermeZusammenfassenHS':
-            auswahl=[kahootFkt[i]]
-        i=i+1
-        if typ=='TermeZusammenfassenNurX':
-            auswahl=[kahootFkt[i]]
-        i=i+1
-        if typ=='TermeZusammenfassenNurXY':
-            auswahl=[kahootFkt[i]]
-        i=i+1 
-        if typ=='GleichungFehlend':
-            auswahl=[kahootFkt[i]]
-        i=i+1
-        if typ=='GleichungFehlendKombi':
-            auswahl=[kahootFkt[i]]
-        i=i+1
-        aufgaben.append(eval(random.choice(auswahl)))
     return erzeugeKahootXlsxDatei(aufgaben,dateiName=dateiName,datum=datum)
-    
     

@@ -36,9 +36,11 @@ def main():
     for arg in sys.argv[startRechnungenIndex:]:
 #Soll ein Kahoot-Arbeitsblatt erzeugt werden?
         if 'kahoot' in arg:
+            kahoots=[x for x in sys.argv[startRechnungenIndex:] if 'kahoot' in x]
             anzahl=len([x for x in sys.argv[startRechnungenIndex:] if 'kahoot' in x])
             anzahl=anzahl if anzahl>1 else anzahl
-            filename=erzeugeKahootTabellenInhalt(anzahl=anzahl,zeit=20,dateiName=dateiName,datum=datum,formelSchoen=kahootFormel,typ=arg.replace('kahoot',''))
+#            filename=erzeugeKahootTabellenInhalt(anzahl=anzahl,zeit=20,dateiName=dateiName,datum=datum,formelSchoen=kahootFormel,typ=arg.replace('kahoot',''))
+            filename=erzeugeKahootTabellenInhalt(kahoots=kahoots,zeit=20,dateiName=dateiName,datum=datum,formelSchoen=kahootFormel)
             print('Dateiname:'+filename)
             return 
         auswahl=auswahl+[arg]
