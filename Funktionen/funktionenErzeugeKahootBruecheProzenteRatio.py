@@ -87,7 +87,7 @@ def erzeugeKahootProzentwert(zeit=10):
         frage=F'{strNW(varis[geg[1]][0])} {varis[geg[1]][1]} von {strNW(varis[geg[0]][0])} {varis[geg[0]][1]}'
     einheiten=erzeugeProzentEinheiten()+['\\%']
     del einheiten[einheiten.index(varis[ges[0]][1])]
-    results=[F'{strNW(varis[ges[0]][0])} {varis[ges[0]][1]}',F'{strNW(varis[ges[0]][0])} {varis[geg[0]][1] if varis[ges[0]][1]=="\\%" else random.choice(einheiten)}']
+    results=[F'{strNW(varis[ges[0]][0])} {varis[ges[0]][1]}',F'{strNW(varis[ges[0]][0])} {varis[geg[0]][1] if varis[ges[0]][1]=="&&%" else random.choice(einheiten)}'.replace('&&','\\')]
     random.shuffle(results)
     ergIndizes=','.join([str(i+1) for i, x in enumerate(results) if x == F'{strNW(varis[ges[0]][0])} {varis[ges[0]][1]}'])
     return [frage]+results+[zeit,ergIndizes]
