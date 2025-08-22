@@ -60,11 +60,14 @@ def erzeugeKahootTermeZusammenfassen(zeit=10,anzVari=1,anzKoeffProVari=2,HS=Fals
     ergTerm=''
     while len(ergTerm)<2:
         koeffs=[(1 if bool(random.getrandbits(1)) or HS else -1) * random.randint(0,10) for i in range((anzVari+1)*anzKoeffProVari)]
+        print(koeffs)
         termList=[(f'{"+" if x>0 else ""}{x}{xes[i]}' if abs(x)>0 else '') for i,x in enumerate(koeffs)]
+        print(termList)
         random.shuffle(termList)
         term=''.join(termList)
         term=term[1:] if term[0]=='+' else term
-        ergKoeffs=[eval(''.join([f'{"+" if koeffs[x] >0 else "" }{koeffs[x]}' for x in xesIndex[k]])) for k in list(xesIndex.keys())]
+        ergKoeffs=[eval(''.join([f'{"+" if koeffs[x] >0 or koeffs[x]==0  else "" }{koeffs[x]}' for x in xesIndex[k]])) for k in list(xesIndex.keys())]
+        print(ergKoeffs)
         ergTermList=[(f'{"+" if x>0 else ""}{x}{xStr[i]}' if abs(x)>0 else '') for i,x in enumerate(ergKoeffs)]
         ergTerm=''.join(ergTermList)
     ergTerm=ergTerm[1:] if ergTerm[0]=='+' else ergTerm
@@ -81,7 +84,7 @@ def erzeugeKahootTermeZusammenfassen(zeit=10,anzVari=1,anzKoeffProVari=2,HS=Fals
     ergTermModi=''
     while len(ergTermModi)<2:
         ergKoeffsModi=[sum(x) for x in zip([(1 if bool(random.getrandbits(1)) else -1)*x for x in random.sample(range(0, 3), anzVari+1)],   ergKoeffs )]
-        ergTermListModi=[(f'{"+" if x>0 else ""}{x}{xStr[i]}' if abs(x)>0 else '') for i,x in enumerate(ergKoeffsModi)]
+        ergTermListModi=[(f'{"+" if x>0 or x==0 else ""}{x}{xStr[i]}' if abs(x)>0 else '') for i,x in enumerate(ergKoeffsModi)]
         ergTermModi=''.join(ergTermListModi)
     ergTermModi=ergTermModi[1:] if ergTermModi[0]=='+' else ergTermModi
     results.append(ergTermModi)
@@ -94,7 +97,7 @@ def erzeugeKahootTermeZusammenfassen(zeit=10,anzVari=1,anzKoeffProVari=2,HS=Fals
             ergKoeffsModi=list(reversed(ergKoeffs))
         else:
             ergKoeffsModi=[sum(x) for x in zip([(1 if bool(random.getrandbits(1)) else -1)*x for x in random.sample(range(0, 3), anzVari+1)],   ergKoeffs )]
-        ergTermListModi=[(f'{"+" if x>0 else ""}{x}{xStr[i]}' if abs(x)>0 else '') for i,x in enumerate(ergKoeffsModi)]
+        ergTermListModi=[(f'{"+" if x>0 or x==0  else ""}{x}{xStr[i]}' if abs(x)>0 else '') for i,x in enumerate(ergKoeffsModi)]
         ergTermModi=''.join(ergTermListModi)
         ergTermModi=ergTermModi[1:] if ergTermModi[0]=='+' else ergTermModi
         results[-1]=ergTermModi
