@@ -65,8 +65,7 @@ def erzeugeKahootRationaleZahlenMultiDiv(zeit=10,HS=False):
         results=[eval(term),eval(f'({pMlinks}{a})/({gegenPM[pMrechts]}{b})'),eval(term)+(1 if random.getrandbits(1) else -1),
              eval(f'({pMlinks}{a})/({gegenPM[pMrechts]}{b})')+(1 if random.getrandbits(1) else -1),]
     random.shuffle(results)
-    ergIndizes=','.join([str(i+1) for i, x in enumerate(results) if x == eval(term)])
-    
+    ergIndizes=','.join([str(i+1) for i, x in enumerate(results) if x == eval(term)])    
     return [frage.replace('/',':').replace('*','·')]+results+[zeit,ergIndizes]
 
 def erzeugeKahootProzentwert(zeit=10):
@@ -87,7 +86,7 @@ def erzeugeKahootProzentwert(zeit=10):
         frage=F'{strNW(varis[geg[1]][0])} {varis[geg[1]][1]} von {strNW(varis[geg[0]][0])} {varis[geg[0]][1]}'
     einheiten=erzeugeProzentEinheiten()+['\\%']
     del einheiten[einheiten.index(varis[ges[0]][1])]
-    results=[F'{strNW(varis[ges[0]][0])} {varis[ges[0]][1]}',F'{strNW(varis[ges[0]][0])} {varis[geg[0]][1] if varis[ges[0]][1]=="&&%" else random.choice(einheiten)}'.replace('&&','\\')]
+    results=[F'{ges}={strNW(varis[ges[0]][0])} {varis[ges[0]][1]}',F'{ges}={strNW(varis[ges[0]][0])} {varis[geg[0]][1] if varis[ges[0]][1]==chr(37) else "&&%"}'.replace('&&','\\')]
     random.shuffle(results)
-    ergIndizes=','.join([str(i+1) for i, x in enumerate(results) if x == F'{strNW(varis[ges[0]][0])} {varis[ges[0]][1]}'])
+    ergIndizes=','.join([str(i+1) for i, x in enumerate(results) if x == F'{ges}={strNW(varis[ges[0]][0])} {varis[ges[0]][1]}'])
     return [frage]+results+[zeit,ergIndizes]

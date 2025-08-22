@@ -27,7 +27,7 @@ def erzeugeKahootXlsxDatei(aufgaben=[['']*7]*8,dateiName='newFile',datum=''):
 
 
 def zufallAddSubSchaetzen(zeit=10):
-    return random.choice(['kahootAdditionSchaetzen(zeit=zeit)', 'kahootSubtraktionSchaetzen(zeit=zeit)'])
+    return random.choice([eval('kahootAdditionSchaetzen(zeit=zeit)'), eval('kahootSubtraktionSchaetzen(zeit=zeit)')])
 
 def kahootAdditionSchaetzen(zeit=10):
     calc=str(random.randint(1000,9999))+' + '+str(random.randint(1000,9999))

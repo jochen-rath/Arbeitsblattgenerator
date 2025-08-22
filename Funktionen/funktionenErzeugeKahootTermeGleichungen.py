@@ -25,7 +25,7 @@ def erzeugeKahootTermeEinfachEinsetzen(zeit=10,HS=False,formelSchoen=False):
     auswahl=random.sample(range(1, 5 if erg<10 else 10), 3)
     results=[erg,erg+(1 if bool(random.getrandbits(1)) else -1)*auswahl[0],erg+(1 if bool(random.getrandbits(1)) else -1)*auswahl[1],erg+(1 if bool(random.getrandbits(1)) else -1)*auswahl[2]]
     random.shuffle(results)
-    frage=f'$${vari}={x}~\\rightarrow~{term.replace("*","·").replace("/",":")}=?$$' if formelSchoen else f'x={x} → {term.replace("*","·").replace("/",":")}=?'
+    frage=f'$${vari}={x}~\\rightarrow~{term.replace("*","·").replace("/",":")}=?$$' if formelSchoen else f'{vari}={x} → {term.replace("*","·").replace("/",":")}=?'
     return [frage]+results+[zeit,results.index(erg)+1]
 
 def erzeugeKahootTermeKombiEinsetzen(zeit=10,HS=False,formelSchoen=False):
