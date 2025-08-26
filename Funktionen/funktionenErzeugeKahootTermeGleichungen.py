@@ -111,6 +111,29 @@ def erzeugeKahootTermeZusammenfassen(zeit=10,anzVari=1,anzKoeffProVari=2,HS=Fals
     ergIndizes=','.join([str(i+1) for i, x in enumerate(results) if x == ergTerm])
     return [f'Fasse zusammen: {term}']+results+[zeit,ergIndizes] if not rekursion else rekur
 
+def erzeugeKahootKlammerEinfachAufloesen(zeit=10):
+    gegenPM={'+':'-','-':'+'}
+    alleVaris=['x','y','z','a','b']
+    var=random.choice(alleVaris)
+    w=[random.randint(1,10) for x in range(3)]
+    while w[1]==w[2]:
+        w=[random.randint(1,10) for x in range(3)]
+    vZ=[random.choice(['-','+']) for x in range(3)]
+    vZd=['-' if x=='-' else '' for x in vZ]
+    varPos=random.randint(0,1)
+    vari=['','']
+    vari[varPos]=var
+    term=f'{vZd[0]}{w[0]}({vZd[1]}{w[1]}{vari[0]}{vZ[2]}{w[2]}{vari[1]})'   #Bsp: 5(3a+5)
+    erg=f'{eval(f"{vZ[0]}{w[0]}*{vZ[1]}{w[1]}")}{vari[0]}{"+" if vZ[0]==vZ[2] else ""}{eval(f"{vZ[0]}{w[0]}*{vZ[2]}{w[2]}")}{vari[1]}'
+    f1=f'{eval(f"{vZ[0]}{w[0]}*{vZ[1]}{w[1]}")}{vari[1]}{"+" if vZ[0]==vZ[2] else ""}{eval(f"{vZ[0]}{w[0]}*{vZ[2]}{w[2]}")}{vari[0]}'
+    f2=f'{eval(f"{vZ[0]}{w[0]}*{vZ[1]}{w[1]}")}{vari[0]}{"+" if gegenPM[vZ[0]]==vZ[2] else ""}{eval(f"{gegenPM[vZ[0]]}{w[0]}*{vZ[2]}{w[2]}")}{vari[1]}'    
+    alleVaris.remove(var)
+    vari[varPos]=random.choice(alleVaris)    
+    f3=f'{eval(f"{vZ[0]}{w[0]}*{vZ[1]}{w[1]}")}{vari[0]}{"+" if vZ[0]==vZ[2] else ""}{eval(f"{vZ[0]}{w[0]}*{vZ[2]}{w[2]}")}{vari[1]}'
+    results=[erg,f1,f2,f3]
+    random.shuffle(results)
+    ergIndizes=','.join([str(i+1) for i, x in enumerate(results) if x == erg])    
+    return [f'Löse die Klammer auf: {term}']+results+[zeit,ergIndizes]
 
 def erzeugeKahootGleichungFehlendEintragen(zeit=10,formelSchoen=False):
     alleVaris=['x','y','z','a','b']

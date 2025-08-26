@@ -108,6 +108,7 @@ def erzeugeKahootTabellenInhalt(kahoots=['Grossezahlen','TermeEinsetzenHS'],zeit
     kahootFkt['TermeZusammenfassenHS']= f'erzeugeKahootTermeZusammenfassen(zeit=zeit,HS=True)'
     kahootFkt['TermeZusammenfassenNurX']=f'erzeugeKahootTermeZusammenfassen(zeit=zeit,HS=False)'
     kahootFkt['TermeZusammenfassenNurXY']=f'erzeugeKahootTermeZusammenfassen(zeit=zeit,anzVari=2,HS=False)'
+    kahootFkt['TermeEinfKlammAufl']=f'erzeugeKahootKlammerEinfachAufloesen(zeit=zeit)'
     kahootFkt['GleichungFehlend']=f'erzeugeKahootGleichungFehlendEintragen(zeit=zeit)'
     kahootFkt['GleichungFehlendKombi']=f'erzeugeKahootGleichungFehlendEintragenKombi(zeit=zeit,formelSchoen={formelSchoen})'
     kahootFkt['RatAddSub']=f'erzeugeKahootRationaleZahlenAddSub(zeit=zeit)'
