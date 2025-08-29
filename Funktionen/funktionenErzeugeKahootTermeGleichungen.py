@@ -45,7 +45,7 @@ def erzeugeKahootTermeKombiEinsetzen(zeit=10,HS=False,formelSchoen=False):
     auswahl=random.sample(range(1, 5 if erg<10 else 10), 3)
     results=[erg,erg+(1 if bool(random.getrandbits(1)) else -1)*auswahl[0],erg+(1 if bool(random.getrandbits(1)) else -1)*auswahl[1],erg+(1 if bool(random.getrandbits(1)) else -1)*auswahl[2]]
     random.shuffle(results)
-    frage=f'$${vari}={x}~\\rightarrow~{term.replace("*","·").replace("/",":")}=?$$' if formelSchoen else f'x={x} → {term.replace("*","·").replace("/",":")}=?'
+    frage=f'$${vari}={x}~\\rightarrow~{term.replace("*","·").replace("/",":")}=?$$' if formelSchoen else f'{vari}={x} → {term.replace("*","·").replace("/",":")}=?'
     return [frage]+results+[zeit,results.index(erg)+1]
 
 
@@ -134,6 +134,31 @@ def erzeugeKahootKlammerEinfachAufloesen(zeit=10):
     random.shuffle(results)
     ergIndizes=','.join([str(i+1) for i, x in enumerate(results) if x == erg])    
     return [f'Löse die Klammer auf: {term}']+results+[zeit,ergIndizes]
+
+
+def erzeugeKahootEinfachAusklammern(zeit=10):
+    gegenPM={'+':'-','-':'+'}
+    alleVaris=['x','y','z','a','b']
+    var=random.choice(alleVaris)
+    w=[random.randint(1,10) for x in range(3)]
+    while ggt(w[1],w[2])>1:
+        w=[random.randint(1,10) for x in range(3)]
+    vZ=[random.choice(['-','+']) for x in range(3)]
+    vZd=['-' if x=='-' else '' for x in vZ]
+    varPos=random.randint(0,1)
+    vari=['','']
+    vari[varPos]=var
+    term=f'{eval(f"{vZd[0]}{w[0]}*{vZd[1]}{w[1]}")}{vari[0]}{"+" if vZ[0]==vZ[2] else ""}{eval(f"{vZd[0]}{w[0]}*{vZd[2]}{w[2]}")}{vari[1]}'   #Bsp: 5*3a+5*1)
+    erg=f'{vZd[0]}{w[0]}({vZd[1]}{w[1]}{vari[0]}{vZ[2]}{w[2]}{vari[1]})'
+    f1=f'{vZd[0]}{w[0]}{var}({vZd[1]}{w[1]}{vZ[2]}{w[2]})'
+    f2=f'{vZd[0]}{w[0]}({vZd[1]}{w[1]}{vari[0]}{gegenPM[vZ[2]]}{w[2]}{vari[1]})'
+    alleVaris.remove(var)
+    vari[varPos]=random.choice(alleVaris)
+    f3=f'{vZd[0]}{w[0]}({vZd[1]}{w[1]}{vari[0]}{vZ[2]}{w[2]}{vari[1]})'
+    results=[erg,f1,f2,f3]
+    random.shuffle(results)
+    ergIndizes=','.join([str(i+1) for i, x in enumerate(results) if x == erg])  
+    return [f'Klammer aus: {term}']+results+[zeit,ergIndizes]
 
 def erzeugeKahootGleichungFehlendEintragen(zeit=10,formelSchoen=False):
     alleVaris=['x','y','z','a','b']

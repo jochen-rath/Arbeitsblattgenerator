@@ -243,6 +243,23 @@ def erzeugeSummenAusmultiAuskl(n=2,ausKlammern=False,mitText=True):
         lsg.append(('\\end{aligned}$'))
     return [[ersetzePlatzhalterMitSymbolen(x)  for x in afg],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
 
+def erzeugeEinfacheKlammerAufloesen(mitText=True):
+    gegenPM={'+':'-','-':'+'}
+    alleVaris=['x','y','z','a','b']
+    var=random.choice(alleVaris)
+    w=[random.randint(1,10) for x in range(3)]
+    while w[1]==w[2]:
+        w=[random.randint(1,10) for x in range(3)]
+    vZ=[random.choice(['-','+']) for x in range(3)]
+    vZd=['-' if x=='-' else '' for x in vZ]
+    varPos=random.randint(0,1)
+    vari=['','']
+    vari[varPos]=var
+    term=f'{vZd[0]}{w[0]}({vZd[1]}{w[1]}{vari[0]}{vZ[2]}{w[2]}{vari[1]})'   #Bsp: 5(3a+5)
+    lsg = ['$\\begin{aligned}']
+    lsg.append(f'{term}&={vZd[0]}{w[0]}\\cdot {"(" if vZd[1]=="-" else ""}{vZd[1]}{w[1]}{")" if vZd[1]=="-" else ""}{vari[0]}{vZ[2]}{w[2]}{vari[1]}')
+    lsg.append(('\\end{aligned}$'))
+    
 def erzeugeKlammerAufloesenVereinfachen(mitText=True):
     variablen=['a','b','c','d','x','y','z']
     auswahl=random.choice(variablen)
@@ -279,6 +296,7 @@ def erzeugeKlammerAufloesenVereinfachen(mitText=True):
     lsg.append(F'=&{"".join(lsg3)} \\\\')
     lsg.append(('\\end{aligned}$'))
     return [[ersetzePlatzhalterMitSymbolen(afg)],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
+
 
 def erzeugeTermAufgaben(variablen='x y z',anzahl=3,variMaxAnzProUnterterm=3,mitKlammer=False,mitText=True):
 #Diese Funktion erezeugt einen Term, der umgeschrieben und vereinfacht werden soll. Ausgegeben wird auch eine Lösung:
