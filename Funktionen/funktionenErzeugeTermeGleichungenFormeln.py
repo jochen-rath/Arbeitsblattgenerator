@@ -202,10 +202,11 @@ def erzeugeZweiSummenAusmulti(nMax=2,nurEinBuchstabe=False,mitText=True):
     return [[ersetzePlatzhalterMitSymbolen(afg)],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
 
 
-def erzeugeSummenAusmultiAuskl(n=2,ausKlammern=False,mitText=True):
+def erzeugeSummenAusmultiAuskl(n=2,ausKlammern=False,mitText=True,nurZahlen=False):
+    n=2 if nurZahlen else n
     variablen=['a','b','c','d','x','y','z','']
-    auswahl=random.sample(variablen,n)
-    vorKlAus=random.choice(variablen)
+    auswahl=[random.choice(variablen[:-1]),''] if nurZahlen else random.sample(variablen,n)
+    vorKlAus='' if nurZahlen else random.choice(variablen)
     vorKl=F'{"" if ausKlammern else ("" if random.getrandbits(1) else "-")}{random.randint(2,9)}{F"*" if len(vorKlAus)>0 else  ""}{vorKlAus}'
     #terme=[F'{"+" if random.getrandbits(1) else "-"}{random.randint(1,9)}{F"*{x}" if random.randint(0,3)<3 else ""}' for x in auswahl]
     faktoren=random.sample([1,2,3,5,7,9,11],n) if ausKlammern else [random.randint(1,9) for x in auswahl]
@@ -234,7 +235,7 @@ def erzeugeSummenAusmultiAuskl(n=2,ausKlammern=False,mitText=True):
     lsg.append(('\\end{aligned}$'))
     if ausKlammern:
         afg='Klammer soweit wie möglich aus:\\\\'
-        afg=['\\pbox{\\linewidth}{']+[(afg if mitText else "")]+ [F'${"".join(lsg2)}$']+['}']
+        afg=['\\pbox{\\linewidth}{']+([afg] if mitText else [])+ [F'${"".join(lsg2)}$']+['}']
         lsg = ['$\\begin{aligned}']
         lsg.append(F'{lsg2[0]}&{"".join(lsg2[1:])} \\\\')
         lsg.append(F'=&{"".join(lsgRot)} \\\\')

@@ -13,13 +13,19 @@ def dreieckRechtw(k=[5,6],label=['5 dm','6 dm',''],punkte=['','',''],mitBogen=Tr
     ur=[random.randint(0,10)/10,random.randint(0,10)/10]
     hyp=(k[0]**2+k[1]**2)**0.5
     winkel=90
-    seitenPos={'a':'above,sloped','b':'above,sloped','c':'below,sloped'}
+    seitenPos={0:'below,sloped',1:'above,sloped',2:'above,sloped'}
+    if dR>90:
+        seitenPos={0:'above,sloped',1:'above,sloped',2:'above,sloped'}
+    if dR>179:
+        seitenPos={0:'above,sloped',1:'below,sloped',2:'above,sloped'}
+    if dR>169:
+        seitenPos={0:'below,sloped',1:'below,sloped',2:'above,sloped'}
 #l1 ist immer die Seite links von dem Winkel, gedreht gegen Uhrzeigersinn.
 #Beschriftungen
 #Dreieck zeichnen
     sL=['']*len(label)
     for i,l in enumerate(label):
-        sL[i]=f'node[above,sloped]{{{l}}}'
+        sL[i]=f'node[{seitenPos[i]}]{{{l}}}'
     pktLabel1=f"[label={dR-180}:{punkte[0]}]" if len(punkte[0])>0 else ""
     pktLabel2=f"[label={dR}:{punkte[1]}]" if len(punkte[1])>0 else ""
     pktLabel3=f"[label={90+dR}:{punkte[2]}]" if len(punkte[2])>0 else ""

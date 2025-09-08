@@ -18,9 +18,9 @@ linie='\\uline{\\qquad}'
 
 
 def erzeugePlusMinusDifferenziert(mitZahlen=False):
-    x=random.randint(-50,50)
-    a=random.randint(1,50)
+    x=random.randint(5,50)
     op=random.choice(['+','-'])
+    a=random.randint(1,50) if op=='+' else random.randint(1,x)
     b=eval(f'{x}{op}{a}')
     G=f'x{op}{a}={b}'
     afg=[f'x{op}{a} & ={b} & & \\mid {f"{invOp[op]}{a}" if mitZahlen else linie} \\\\[0.5cm]']
@@ -122,9 +122,14 @@ def schreibeMalPlusMinus(a=-2,b=-3,c=0,d=None,x=6,mitZahlen=False,mitLsg=False,u
 #mitDrin=mittenDrin,schMit=schreibeMittendrin: Die Zahl wird nicht geschrieben, wenn die Funktion
 #von einer anderen Lösungsfunktion aufgerufen wird.
 #    a*x+b=c*x+d
-    d=a*x+b-c*x if d==None else d
-    b=c*x+d-a*x if b==None else b
-    x=(b-d)/(a-c) if not (b==None or d==None) else x
+    print(a,b,c,d,x)
+    if d==None:
+        d=a*x+b-c*x
+    if b==None:
+        b=c*x+d-a*x
+#    if not (b==None or d==None):
+#        x=(b-d)/(a-c)
+    print(a,b,c,d,x)
     calc=[]
     L=f'{schMit(a,mitDrin,mitLsg)}x{vZ(b)}{schMit(abs(b),mitDrin,mitLsg)}'
     if not c==0:
@@ -195,10 +200,12 @@ def schreibeErstZusammenfassen(x=-13,wL=[6, 5, 37, -28],wR=[-1, -9, 35, -299],iL
     
 def erzeugeMalPlusMinusDifferenziert(mitZahlen=False,xRechts=False):
     op=random.choice(['+','-'])
-    x=random.randint(1,12) if random.randint(0,1)>0 else -random.randint(1,12) 
+    x=random.randint(2,12) #if random.randint(0,1)>0 else -random.randint(2,12) 
     a=random.choice([random.randint(-10,-2),random.randint(2,10)])
+    a=random.randint(2,10)
     b=random.choice([random.randint(-50,-1),random.randint(1,50)])
-    a,b,c,d=a,b,0,None if not xRechts else 0,None,a,b
+    b=random.randint(1,50) if op=='+' else -random.randint(1,a*x)
+    a,b,c,d= (a,b,0,None) if not xRechts else (0,None,a,b)
     afg=schreibeMalPlusMinus(a=a,b=b,c=0,d=d,x=x,mitZahlen=mitZahlen,mitLsg=False,umdrehen=xRechts)
     lsg=schreibeMalPlusMinus(a=a,b=b,c=0,d=d,x=x,mitZahlen=mitZahlen,mitLsg=True,umdrehen=xRechts)
     afg=erzeugeTikzAlignedUmrandung(afg)
