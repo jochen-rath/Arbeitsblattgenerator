@@ -152,9 +152,9 @@ def erzeugeKahootEinfachAusklammern(zeit=10):
     erg=f'{vZd[0]}{w[0]}({vZd[1]}{w[1]}{vari[0]}{vZ[2]}{w[2]}{vari[1]})'
     f1=f'{vZd[0]}{w[0]}{var}({vZd[1]}{w[1]}{vZ[2]}{w[2]})'
     f2=f'{vZd[0]}{w[0]}({vZd[1]}{w[1]}{vari[0]}{gegenPM[vZ[2]]}{w[2]}{vari[1]})'
-    alleVaris.remove(var)
-    vari[varPos]=random.choice(alleVaris)
-    f3=f'{vZd[0]}{w[0]}({vZd[1]}{w[1]}{vari[0]}{vZ[2]}{w[2]}{vari[1]})'
+#    alleVaris.remove(var)
+#    vari[varPos]=random.choice(alleVaris)
+    f3=f'{vZd[0]}{w[0]+(1 if bool(random.getrandbits(1)) else -1)}({vZd[1]}{w[1]}{vari[0]}{vZ[2]}{w[2]}{vari[1]})'
     results=[erg,f1,f2,f3]
     random.shuffle(results)
     ergIndizes=','.join([str(i+1) for i, x in enumerate(results) if x == erg])  

@@ -175,7 +175,7 @@ def schreibeMalPlusMinusBeideSeiten(a=-4,b=-6,c=7,x=5,d=None,mitZahlen=False,mit
     L=f'{schMit(a,mittenDrin,mitLsg)}x{vZ(b)}{schMit(abs(b),mittenDrin,mitLsg)}'
     R=f'{schMit(d,mittenDrin,mitLsg)}{vZ(c)}{schMit(abs(c),mittenDrin,mitLsg)}x' if gedreht else f'{schMit(abs(c),mittenDrin,mitLsg)}x{vZ(d)}{schMit(abs(d),mittenDrin,mitLsg)}'
     calc=[[f'{L}',f'={R}',' ',f' \\mid {lsgRot(invOp[vZ(c)]+str(abs(c))+"x",mitLsg) if mitZahlen or mitLsg else linie}']]
-    calc=calc+schreibeMalPlusMinus(a=a-c,b=b,x=x,mitZahlen=mitZahlen,mitLsg=mitLsg,mittenDrin=True)
+    calc=calc+schreibeMalPlusMinus(a=a-c,b=b,x=x,mitZahlen=mitZahlen,mitLsg=mitLsg,mitDrin=True)
     if mittenDrin:
         return calc
     calc.append([f'{L}',f'={R}',' ',' ',])    

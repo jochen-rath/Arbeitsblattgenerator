@@ -14,11 +14,15 @@ def dreieckRechtw(k=[5,6],label=['5 dm','6 dm',''],punkte=['','',''],mitBogen=Tr
     hyp=(k[0]**2+k[1]**2)**0.5
     winkel=90
     seitenPos={0:'below,sloped',1:'above,sloped',2:'above,sloped'}
+    if dR>39:
+        seitenPos={0:'below,sloped',1:'above,sloped',2:'below,sloped'}
     if dR>90:
-        seitenPos={0:'above,sloped',1:'above,sloped',2:'above,sloped'}
+        seitenPos={0:'above,sloped',1:'above,sloped',2:'below,sloped'}
     if dR>179:
+        seitenPos={0:'above,sloped',1:'below,sloped',2:'below,sloped'}
+    if dR>219:
         seitenPos={0:'above,sloped',1:'below,sloped',2:'above,sloped'}
-    if dR>169:
+    if dR>269:
         seitenPos={0:'below,sloped',1:'below,sloped',2:'above,sloped'}
 #l1 ist immer die Seite links von dem Winkel, gedreht gegen Uhrzeigersinn.
 #Beschriftungen
