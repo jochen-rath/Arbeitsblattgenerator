@@ -13,7 +13,6 @@ buchstabenKlein=[chr(i) for i in range(97,97+26)]
 einheiten=['\euro{}','km','m','g','l','kg','cm','Schüler','Schülerinnen','Mädchen','Jungs','Autos','LKW','Bleistifte','Buntstifte','Knöpfe','Tickets']
 nachnamen=['Müller','Schmidt','Schneider','Fischer','Weber','Meyer','Wagner','Becker','Schulz','Hoffmann','Schäfer','Bauer','Koch','Richter','Klein','Wolf','Schröder','Neumann','Schwarz','Braun','Hofmann','Zimmermann','Schmitt','Hartmann','Krüger','Schmid','Werner','Lange','Schmitz','Meier','Krause','Maier','Lehmann','Huber','Mayer','Herrmann','Köhler','Walter','König','Schulze','Fuchs','Kaiser','Lang','Weiß','Peters','Scholz','Jung','Möller','Hahn','Keller','Vogel','Schubert','Roth','Frank','Friedrich','Beck','Günther','Berger','Winkler','Lorenz','Baumann','Schuster','Kraus','Böhm','Simon','Franke','Albrecht','Winter','Ludwig','Martin','Krämer','Schumacher','Vogt','Jäger','Stein','Otto','Groß','Sommer','Haas','Graf']
 
-tikzFarben=['black','red','green','blue','cyan','magenta','olive','orange','pink','purple','brown','yellow','darkgray','gray','lightgray','lime','teal','violet','white']
 farbenTikzDeutsch={'Schwarz':'black','Rot':'red','Grün':'green','Blau':'blue','Cyan':'cyan','Magenta':'magenta','Olive':'olive','Orange':'orange','Pink':'pink','Lila':'purple','Braun':'brown','Gelb':'yellow','Dunkelgrün':'darkgray','Grau':'gray','Hellgrau':'lightgray','Lime':'lime','Blaugrün':'teal','violett':'violet','Weiß':'white'}
 zahlenWoerter=['Null','Eins','Zwei','Drei','Vier','Fuenf','Sechs','Sieben','Acht','Neun','Zehn','Elf','Zwoelf']
 

@@ -29,7 +29,7 @@ Als das Projekt entsprechend gewachsen war, wollte ich es meinen Kollegen zur Ve
 * Python 3.8 oder höher
 * xelatex
 * Python Module: numpy  matplotlib datetime sympy flask flask_wtf wtforms
-### Installation der Voraussetzungen:
+### Installation der Voraussetzungen für Ubuntu <24:
 ```
 sudo apt install texlive texlive-lang-german texlive-latex-extra texlive-xetex texlive-pstricks python3-pip libatlas-base-dev
 pip3 install -r requirements.txt
@@ -38,33 +38,32 @@ bzw.
 ```
 pip3 install numpy  matplotlib datetime sympy flask flask_wtf wtforms psutil openai
 ```
-### Probleme bei der Installation unter Ubuntu und python3.10
-Bei mir hat die Installation unter Ubuntu und python3.10 fehlgeschlagen. Ich musst noch zwei zusätzliche Befehle ausführen:
+
+### Pythonumgebung für Ubuntu >24:
+In Ubuntu 24 und später kann man mit pip keine Module mehr installieren. Dies geht nur in speziellen Umgebungen. Erzeuge deshalb erst eine Arbeitsblattgenerator-Umgebung und installiere dann die fehlenden Module:
 ```
-sudo apt-get install python3.10-distutils
+python3 -m venv ~/envPythonAbgen
+cd ~/abgen
+~/envPythonAbgen/bin/pip install -r requirements.txt 
 ```
-Und eine angepasste pip3 Version:
+Passe das Service Skript an. Z.B.:
+ExecStart=/home/ubuntu/envPythonAbgen/bin/python /home/ubuntu/abgen/starteSkriptDurchWebseite.py
+### Probleme bei der Installation unter Ubuntu ab python3.13
+Ab Python 3.13 wird das benötigte Paket bezier nicht mehr installiert. Verwende den Befehl:
 ```
-curl https://bootstrap.pypa.io/get-pip.py | sudo python3
-```
-Danach musste ich noch die "apt_pkg.so" wiederherstellen.
-```
-cd /usr/lib/python3/dist-packages
-sudo cp apt_pkg.cpython-38-x86_64-linux-gnu.so apt_pkg.so
-```
-Und 2 fehlende oder fehlerhafte Module nachinstallieren:
-```
-pip3 install -U --ignore-installed psutil
-pip3 install -U Pillow
+BEZIER_NO_EXTENSION="True" BEZIER_IGNORE_VERSION_CHECK="True" pip install bezier
 ```
 
 ### Installation des Skriptes
 Kopiere die gesamte Ordnerstruktur unter /home/pi/abgen.
-
 ## Mandalas
 Damit Mandalas genutzt werden können muss man RandomMandala und tikzplotlib installieren. Das Problem ist, dass tikzplotlib eine Version von webcolors nutzt, die wohl nicht mehr akutell ist. tikzplotlib ruft eine Funktion auf, die es nicht mehr gibt. Da wir eh nur Schwarz-Weiße Mandalas nutze, muss folgendes angepasst werden:
 ```
 vi .local/lib/python3.10/site-packages/tikzplotlib/_color.py 
+```
+Oder in der Pythonumgebung:
+```
+vi ~/envPythonAbgen/lib/python3.13/site-packages/tikzplotlib/_color.py
 ```
 Und füge folgendes ein:
 ```
@@ -73,7 +72,16 @@ def _get_closest_colour_name(rgb):
     mindiff = 1.0e15
     return 'black',0
 ```
-
+Außerdem muss die _axes.py angepasst werden:
+```
+vi ~/envPythonAbgen/lib/python3.13/site-packages/tikzplotlib/_axes.py
+```
+```
+ from matplotlib.backends.backend_pgf import (
+ #    common_texification as mpl_common_texification,
+     _tex_escape as mpl_common_texification,
+ )
+```
 ## Website
 Starte das Skript mit dem Befehl
 ```

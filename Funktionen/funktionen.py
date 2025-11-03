@@ -10,6 +10,8 @@
 #    
 #  funktionenpfad='/home/jochen/Schule/skripteArbeitsblaetter/Funktionen/'
 
+tikzFarben=['black','red','green','blue','cyan','magenta','olive','orange','pink','purple','brown','yellow','darkgray','gray','lightgray','lime','teal','violet','white']
+
 buchstabenKlein=[chr(i) for i in range(97,97+26)]
 grBuchst=[chr(i) for i in range(945,945+26)]
 funktionenpfad= 'Funktionen' if not 'funktionenpfad' in locals() else funktionenpfad
