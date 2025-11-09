@@ -269,9 +269,9 @@ def erzeuge10minRechnung(art,mitText=True,anzSpalten=2,anzSpaltenAfg=2):
         'einfacheGleichMitSummenKlammernGrZahlen':F'erzeugeGleichungMitSummenklammernAusmulti(mitText={mitText},ohneKomma=True,ergUnter10=False)',
         'einfacheGleichMitSummenKlammernSchwer':F'erzeugeGleichungMitSummenklammernAusmulti(mitText={mitText},ohneKomma=False,ergUnter10=False)',
 #Formeln:
-        'rechteckFormelnUmformen':f'erzeugeFlaecheFehlendeSeiteBerechnen(anzSpalten={anzSpaltenGesamt},auswahl="Rechteck")',
-        'dreieckFormelnUmformen':f'erzeugeFlaecheFehlendeSeiteBerechnen(anzSpalten={anzSpaltenGesamt},auswahl="Dreieck")',
-        'trapezFormelnUmformen':f'erzeugeFlaecheFehlendeSeiteBerechnen(anzSpalten={anzSpaltenGesamt},auswahl="Trapez")',
+        'rechteckFormelnUmformen':f'erzeugeFlaecheFehlendeSeiteBerechnen(anzSpalten={anzSpaltenGesamt},auswahl="Rechteck",mitText={mitText})',
+        'dreieckFormelnUmformen':f'erzeugeFlaecheFehlendeSeiteBerechnen(anzSpalten={anzSpaltenGesamt},auswahl="Dreieck",mitText={mitText})',
+        'trapezFormelnUmformen':f'erzeugeFlaecheFehlendeSeiteBerechnen(anzSpalten={anzSpaltenGesamt},auswahl="Trapez",mitText={mitText})',
         'einfacheFormelUmformen':F'erzeugeEinfacheFormelnUmformen(anzSpalten={anzSpaltenGesamt})',
         'flaechenFormelUmformenAnwenden':F'erzeugeFlaechenFormelUmformenUndAnwenden(auswahl="",mitText={mitText})',
 #Funktionen

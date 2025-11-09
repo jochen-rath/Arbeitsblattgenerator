@@ -48,9 +48,12 @@ def erzeugeFlaecheFehlendeSeiteBerechnen(anzSpalten=[2,2],auswahl='',mitText=Tru
     varis[F'vari{AoU}']=eval(calc)
     afgText=F'Benenne die Seiten in der Skizze und berechne die fehlende Seite: &&&&'
     groesse='{17 cm}' if anzSpalten[0] == 1 else '{7 cm}'
-    aufg=[f'\\pbox{groesse}{{']
-    aufg=aufg+[(afgText if mitText else F"").replace('&&&&','\\\\')]
-    aufg=aufg+flaechenFuerFehlendeSeite(s=seiten,AoU=f'{AoU}={strNW(eval(calc))} cm',typ=auswahl)
+    if mitText:
+        aufg=[f'\\pbox{groesse}{{']
+        aufg=aufg+[afgText.replace('&&&&','\\\\')]
+        aufg=aufg+flaechenFuerFehlendeSeite(s=seiten,AoU=f'{AoU}={strNW(eval(calc))} cm',typ=auswahl)
+    else:
+        aufg=flaechenFuerFehlendeSeite(s=seiten,AoU=f'{AoU}={strNW(eval(calc))} cm',typ=auswahl)
     lsg=[f'\\pbox{groesse}{{']
     lsg=lsg+flaechenFuerFehlendeSeite(s=seitenLSG,AoU=f'{AoU}={strNW(eval(calc))} cm',typ=auswahl)
     lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
@@ -82,7 +85,8 @@ def erzeugeFlaecheFehlendeSeiteBerechnen(anzSpalten=[2,2],auswahl='',mitText=Tru
     lsg.append('\\end{tikzpicture}')
     lsg.append('\\endgroup')
     lsg.append('}')
-    aufg.append('}')
+    if mitText:
+        aufg.append('}')
     return [[ersetzePlatzhalterMitSymbolen(x) for x in aufg],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
 
 
