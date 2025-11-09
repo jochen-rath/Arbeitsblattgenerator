@@ -8,6 +8,86 @@ import random
 #       exec(open("Funktionen/funktionen.py").read())
 
 
+def umfangFlaechenFormeln():
+#Ich schreibe vor jeder Variable "vari", da man beim suche und ersetzen von a durch eine Zahl z.B. h_2,34 erhält.
+#Durch das Vari wird es eindeutig. Hinterher muss das vari entfernt werden.
+    fUFormel={}
+    fUFormel['Dreieck']={'u':['variu=varia+varib+varic',['varia','varib','varic']],'A':['variA=varig*varih/2',['varig','varih']]}
+    fUFormel['Rechteck']={'u':['variu=varia+varib+varia+varib',['varia','varib']],'A':['variA=varia*varib',['varia','varib']]}
+    fUFormel['Parallelogramm']={'u':['variu=varia+varib+varia+varib',['varia','varib']],'A':['variA=varig*varih',['varig','varih']]}
+    fUFormel['Trapez']={'u':['variu=varia+varib+varic+varid',['varia','varib','varic','varid']],'A':['variA=(varia+varic)*varih/2',['varia','varic','varih']]}
+    return fUFormel
+    
+
+
+def erzeugeFlaecheFehlendeSeiteBerechnen(anzSpalten=[2,2],auswahl='',mitText=True,AoU=''):
+    AoU= AoU if AoU in ['A','u'] else'A' if random.randint(0,1) >0 else 'u'
+    einheit='cm'
+    breite=6 if anzSpalten==2 else 14
+    fUFormel=umfangFlaechenFormeln()
+    auswahl=auswahl if auswahl in list(fUFormel.keys()) else random.choice(list(fUFormel.keys()))
+    aufgabe=fUFormel[auswahl][AoU]
+    formel=aufgabe[0]
+    varis={}
+    for v in aufgabe[1]:
+        varis[v]=random.randint(1,10)
+    calc=formel.split('=')[1]
+    for v in varis.keys():
+        calc=calc.replace(str(v),str(varis[v]))
+    gesText=random.choice(list(varis.keys()))
+    ges={gesText:varis[gesText]}
+    seitenLSG={}
+    for v in varis.keys():
+        seitenLSG[v.replace('vari','')]=f'\\textcolor{{red}}{{{v.replace("vari","")}=}}{varis[v]} cm'
+    seitenLSG[gesText.replace('vari','')]=f'\\textcolor{{red}}{{{gesText.replace("vari","")}={varis[gesText]} cm }}'
+    del varis[list(ges.keys())[0]]
+    seiten={}
+    for v in varis.keys():
+        seiten[v.replace('vari','')]=f'{varis[v]} cm'
+    seiten[gesText.replace('vari','')]=gesText.replace('vari','')
+    varis[F'vari{AoU}']=eval(calc)
+    afgText=F'Benenne die Seiten in der Skizze und berechne die fehlende Seite: &&&&'
+    groesse='{17 cm}' if anzSpalten[0] == 1 else '{7 cm}'
+    aufg=[f'\\pbox{groesse}{{']
+    aufg=aufg+[(afgText if mitText else F"").replace('&&&&','\\\\')]
+    aufg=aufg+flaechenFuerFehlendeSeite(s=seiten,AoU=f'{AoU}={strNW(eval(calc))} cm',typ=auswahl)
+    lsg=[f'\\pbox{groesse}{{']
+    lsg=lsg+flaechenFuerFehlendeSeite(s=seitenLSG,AoU=f'{AoU}={strNW(eval(calc))} cm',typ=auswahl)
+    lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
+    lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
+    lsg.append('\\begin{tikzpicture}[show background grid]')
+    lsg.append('\\node[left] at (0,-0.25) {Geg.: };')
+    nLsg=len(lsg)
+    for x in list(varis.keys()):
+        lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-nLsg)}) {{${x}={strNW(varis[x],2)}~{einheit}{"^2" if x=="variA" else ""}$}};')
+    lsg.append(F'\\node[left] at (0,{-0.25-0.5*(len(lsg)-nLsg)}) {{Ges.: }};')
+    nLsg = nLsg+1
+    lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-nLsg)}) {{${list(ges.keys())[0]}  = ?~cm$}};')
+    lsg.append(F'\\node[below right] at (0,{-0.25-0.5*(len(lsg)-nLsg)}) {{')
+    lsg.append('$\\begin{aligned}')
+    lsg.append(F'{formel.split("=")[0]}&={formel.split("=")[1]} & &§§mid~\\mbox{{Einsetzen}} \\\\')
+    for x in list(varis.keys()):
+        formelStrNw=formel.replace(x,strNW(varis[x],2).replace('.',''))
+        formel=formel.replace(x,str(varis[x]))
+    if not str(sympy.sympify(formel.split("=")[1]))==formelStrNw.split("=")[1]:
+        lsg.append(F'{formelStrNw.split("=")[0]}&={formelStrNw.split("=")[1]} & &§§mid~\\mbox{{Zusammenfassen}} \\\\')
+    lsg.append(F'{formelStrNw.split("=")[0]}&={str(sympy.sympify(formel.split("=")[1]))} & &§§mid~\\mbox{{Umdrehen}} \\\\')
+    glLsg = loeseGleichungEinfachMitEinerVariabel(G=F'{sympy.sympify(formel.split("=")[1])} = {formelStrNw.split("=")[0].replace(".","").replace(",",".")}', variable=list(ges.keys())[0], latexAusgabe=True)
+    glLsg=glLsg[5:-3]
+#Einheit in die Lösung einbauen:
+    glLsg[-1]=F'{glLsg[-1].split("&")[0]}&{glLsg[-1].split("&")[1]}~{einheit}&{glLsg[-1].split("&")[2]}&{glLsg[-1].split("&")[3]}'
+    lsg=lsg+glLsg     
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg.append('\\end{aligned}$};')
+    lsg.append('\\end{tikzpicture}')
+    lsg.append('\\endgroup')
+    lsg.append('}')
+    aufg.append('}')
+    return [[ersetzePlatzhalterMitSymbolen(x) for x in aufg],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
+
+
+
+
 def erzeugeRechteck():
     a=random.randint(1,4)
     b=random.randint(1,4)

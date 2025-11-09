@@ -10,6 +10,31 @@ import math
 import random
 
 
+def flaechenFuerFehlendeSeite(s={'a':'3 cm','b':'4 cm'},AoU='A=12 cm$^2$',typ='Rechteck'):
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    tikzcommand.append(f'\\node at (1.5,2.25) {{{AoU}}};')
+    if typ=='Rechteck':
+        tikzcommand.append(f'\\draw[thick,black] (0,0) --node[below]{{{s["a"]}}} ++(3,0) -- ++(0,2) --++(-3,0) -- node[left]{{{s["b"]}}} cycle;')
+    if typ=='Dreieck':
+        tikzcommand.append(f'\\draw[thick,black] (0,0) coordinate(A)  ++(3,0) coordinate(B) ++(-1.5,2) coordinate(C);')
+        if 'A' in AoU:
+            tikzcommand.append(f'\\draw[thick,black] (A) -- node[below]{{{s["g"]}}} (B) -- (C) -- cycle;')
+            tikzcommand.append(f'\\draw[dashed,thick,black] (C) --node[left]{{{s["h"]}}} ++(0,-2) coordinate(C2);')
+            tikzcommand.append(f'\\pic [dashed,draw,thick, -,angle radius=0.6cm, "."] {{angle =  C--C2--A}};')            
+        else:
+            tikzcommand.append(f'\\draw[thick,black] (A) -- node[below]{{{s["c"]}}} (B) --node[right]{{{s["a"]}}} (C) --node[left]{{{s["b"]}}} cycle;')                
+    if typ=='Trapez':
+        tikzcommand.append(f'\\draw[thick,black] (0,0) coordinate(A)  ++(5,0) coordinate(B) ++(-0.5,2) coordinate(C) ++(-2.5,0) coordinate(D);')
+        if 'A' in AoU:
+            tikzcommand.append(f'\\draw[thick,black] (A) -- node[below]{{{s["a"]}}} (B) -- (C) --node[below]{{{s["c"]}}} (D) -- cycle;')
+            tikzcommand.append(f'\\draw[dashed,thick,black] (D) --node[left]{{{s["h"]}}} ++(0,-2) coordinate(D2);')
+            tikzcommand.append(f'\\pic [dashed,draw,thick, -,angle radius=0.6cm, "."] {{angle =  D--D2--A}};')            
+        else:
+            tikzcommand.append(f'\\draw[thick,black] (A) -- node[below]{{{s["a"]}}} (B) --node[right]{{{s["b"]}}} (C) --node[below]{{{s["c"]}}} (D) --node[left]{{{s["d"]}}}  cycle;')                
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+
 def dreieckFuerFlaechenBer(g=4,h=2,drehung=30,dx=-1,mitBeschr=True):
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid]')
