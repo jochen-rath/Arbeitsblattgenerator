@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # coding: utf8
 
-
+#Aufruf:
+#		import os
+#		os.chdir(f'{os.path.expanduser("~")}/Schule/Arbeitsblattgenerator')
+#       exec(open("Funktionen/funktionen.py").read())
 #Aufruf:
 #       exec(open("Funktionen/funktionenErzeugeGeometrieAufgaben.py").read())
 #Diese Skript stellte verschiedene Figuren bereit, die Zeichnungen mit dem Latex-Paket Tikz erzeugen
@@ -170,9 +173,19 @@ def erzeugeStrahlensaetzeAufgaben(mitText=True,anzSpalten=[2,2]):
     lsg=lsg+['}']
     return [afg,lsg,[]]
 
-def erzeugeMittelsenkrechteAufgabe(mitText=True):
-    laenge=random.randint(30,90)/10
-    afg=F'Zeichne die Mittelsenkrechte durch eine Linie der Länge von {strNW(laenge)} cm' if mitText else F'l={strNW(laenge)} cm'
+def erzeugeMittelsenkrechteAufgabe(anzSpalten=[2,2],mitText=True,mitLinie=True):
+    breite=6 if anzSpalten[0]==2 else 14
+    laenge=random.randint(30,50 if anzSpalten[0]==2 else 90 )/10
+    if mitLinie:
+        if mitText:
+            afg=[f'\\pbox{{{breite}cm}}{{']
+            afg.append('Zeichne auf folgende Strecke die Mittelsenkrechte:\\\\')
+            afg=afg+einfacheLinie(l=laenge)
+            afg.append('}')
+        else:
+            afg=einfacheLinie(l=laenge)
+    else:
+        afg=F'Zeichne die Mittelsenkrechte durch eine Linie der Länge von {strNW(laenge)} cm' if mitText else F'l={strNW(laenge)} cm'
     lsg=mittelsenkrechte(laenge)
     return [afg,lsg,[]]
 

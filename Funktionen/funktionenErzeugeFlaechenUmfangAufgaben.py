@@ -23,7 +23,7 @@ def umfangFlaechenFormeln():
 def erzeugeFlaecheFehlendeSeiteBerechnen(anzSpalten=[2,2],auswahl='',mitText=True,AoU=''):
     AoU= AoU if AoU in ['A','u'] else'A' if random.randint(0,1) >0 else 'u'
     einheit='cm'
-    breite=6 if anzSpalten==2 else 14
+    breite=6 if anzSpalten[0]==2 else 14
     fUFormel=umfangFlaechenFormeln()
     auswahl=auswahl if auswahl in list(fUFormel.keys()) else random.choice(list(fUFormel.keys()))
     aufgabe=fUFormel[auswahl][AoU]

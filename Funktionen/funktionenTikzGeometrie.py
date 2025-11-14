@@ -10,6 +10,18 @@ import random
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
 
+def einfacheLinie(l=4,breite=6):
+    rot=random.randint(0,359)
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    tikzcommand.append(F'\\draw[thick,black,rotate={rot},|-|] (0,0) node[left]{{A}} -- ({l},0) node[right] {{B}};')
+    tikzcommand.append(F'\\node at ({breite/2},{breite/2}) {{}};')
+    tikzcommand.append(F'\\node at ({-breite/2},{-breite/2}) {{}};')
+    
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+    
+
 def scheitelNebenStufenWechselWinkel(w1='0',w2='0',laenge=5):
     import numbers
     w1=w1 if isinstance(w1, numbers.Number) else random.randint(-44,44)
