@@ -43,19 +43,20 @@ def erzeugeFlaecheFehlendeSeiteBerechnen(anzSpalten=[2,2],auswahl='',mitText=Tru
     del varis[list(ges.keys())[0]]
     seiten={}
     for v in varis.keys():
-        seiten[v.replace('vari','')]=f'{varis[v]} cm'
+        seiten[v.replace('vari','')]=f'${varis[v]}~cm{"^2" if varis[v]=="A" else ""}$'
     seiten[gesText.replace('vari','')]=gesText.replace('vari','')
     varis[F'vari{AoU}']=eval(calc)
     afgText=F'Benenne die Seiten in der Skizze und berechne die fehlende Seite: &&&&'
     groesse='{17 cm}' if anzSpalten[0] == 1 else '{7 cm}'
+    AoUText=f'{AoU}=${strNW(eval(calc))} cm{"^2" if AoU=="A" else ""}$'
     if mitText:
         aufg=[f'\\pbox{groesse}{{']
         aufg=aufg+[afgText.replace('&&&&','\\\\')]
-        aufg=aufg+flaechenFuerFehlendeSeite(s=seiten,AoU=f'{AoU}={strNW(eval(calc))} cm',typ=auswahl)
+        aufg=aufg+flaechenFuerFehlendeSeite(s=seiten,AoU=AoUText,typ=auswahl)
     else:
-        aufg=flaechenFuerFehlendeSeite(s=seiten,AoU=f'{AoU}={strNW(eval(calc))} cm',typ=auswahl)
+        aufg=flaechenFuerFehlendeSeite(s=seiten,AoU=AoUText,typ=auswahl)
     lsg=[f'\\pbox{groesse}{{']
-    lsg=lsg+flaechenFuerFehlendeSeite(s=seitenLSG,AoU=f'{AoU}={strNW(eval(calc))} cm',typ=auswahl)
+    lsg=lsg+flaechenFuerFehlendeSeite(s=seitenLSG,AoU=AoUText,typ=auswahl)
     lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
     lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
     lsg.append('\\begin{tikzpicture}[show background grid]')

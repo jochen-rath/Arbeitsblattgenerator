@@ -179,13 +179,13 @@ def erzeugeMittelsenkrechteAufgabe(anzSpalten=[2,2],mitText=True,mitLinie=True):
     if mitLinie:
         if mitText:
             afg=[f'\\pbox{{{breite}cm}}{{']
-            afg.append('Zeichne auf folgende Strecke die Mittelsenkrechte:\\\\')
+            afg.append('Konstruiere auf folgende Strecke die Mittelsenkrechte:\\\\')
             afg=afg+einfacheLinie(l=laenge)
             afg.append('}')
         else:
             afg=einfacheLinie(l=laenge)
     else:
-        afg=F'Zeichne die Mittelsenkrechte durch eine Linie der Länge von {strNW(laenge)} cm' if mitText else F'l={strNW(laenge)} cm'
+        afg=F'Konstruiere die Mittelsenkrechte durch eine Linie der Länge von {strNW(laenge)} cm' if mitText else F'l={strNW(laenge)} cm'
     lsg=mittelsenkrechte(laenge)
     return [afg,lsg,[]]
 
@@ -193,9 +193,38 @@ def erzeugeWinkelhalbbierendeAufgabe(mitText=True,anzSpalten=[2,2]):
     alpha=random.randint(20,160)
     groesse='{17 cm}' if anzSpalten[1] == 1 else '{7 cm}'
     afg=[f'\\pbox{groesse}{{']
-    afg=afg+([F'Zeichne die Winkelhalbierende für:\\\\']  if mitText else [])
+    afg=afg+([F'Konstruiere die Winkelhalbierende für:\\\\']  if mitText else [])
     afg=afg+winkelhalbierende(winkel=alpha,mitLsg=False)+['}']
     lsg=winkelhalbierende(alpha)
+    return [afg,lsg,[]]
+
+def erzeugeDreieckUmkreisAufgabe(mitText=True,anzSpalten=[2,2]):
+    alphaAussen,beta=random.randint(0,90),random.randint(20,60)
+    a,c=[random.randint(30,50)/10 for i in range(2)]
+    breite=6 if anzSpalten[0]==2 else 14
+    if mitText:
+        afg=[f'\\pbox{{{breite}cm}}{{']
+        afg.append('Konstruiere den Umkreis für folgendes Dreieck:\\\\')
+        afg=afg+dreieckUmkreis(alphaAussen=alphaAussen,beta=beta,c=c,a=a,mitLsg=False)
+        afg.append('}')
+    else:
+        afg=dreieckUmkreis(alphaAussen=alphaAussen,beta=beta,c=c,a=a,mitLsg=False)
+    lsg=dreieckUmkreis(alphaAussen=alphaAussen,beta=beta,c=c,a=a,mitLsg=True)
+    return [afg,lsg,[]]
+
+def erzeugeDreieckInnenAufgabe(mitText=True,anzSpalten=[2,2]):
+    alpha,b=random.randint(20,80),random.randint(30,50)
+    a=random.randint(b,60)
+    a,b=a/10,b/10
+    breite=6 if anzSpalten[0]==2 else 14
+    if mitText:
+        afg=[f'\\pbox{{{breite}cm}}{{']
+        afg.append('Konstruiere den Umkreis für folgendes Dreieck:\\\\')
+        afg=afg+dreieckInnenkreis(alpha=alpha,a=a,b=b,mitLsg=False)
+        afg.append('}')
+    else:
+        afg=dreieckInnenkreis(alpha=alpha,a=a,b=b,mitLsg=False)
+    lsg=dreieckInnenkreis(alpha=alpha,a=a,b=b,mitLsg=True)
     return [afg,lsg,[]]
 
 def erzeugeDreieckWSWKonstrukt(planfigur=False,mitHilfe=False,mitText=True,anzSpalten=[2,2]):
