@@ -1,15 +1,19 @@
 #!/usr/bin/env python
 # coding: utf8
+#Aufruf:
+#		import os
+#		os.chdir(f'{os.path.expanduser("~")}/Schule/Arbeitsblattgenerator')
+#       exec(open("Funktionen/funktionen.py").read())
 
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
 
-def erzeugeParabelFkt(hoehe=12,mitB=False,mitC=True):
+def erzeugeParabelFkt(hoehe=12,mitB=False,mitC=True,aGleich1=False):
     yMax=1000
     yMin=1000
-    a=0
+    a=0 if not aGleich1 else 1
     while (a==0) or abs(yMax)>hoehe or abs(yMin)>hoehe:
-        a=random.randint(-20,20)/10
+        a=random.randint(-20,20)/10 if not aGleich1 else 1
         b=random.randint(5,15)/10 if mitB else 0
         c=random.randint(-30,30)/10  if mitC else 0
         xMax=3 if  hoehe>8 else 2
@@ -49,21 +53,23 @@ def erzeugeQuadFunkTabDiaAfg(diagrammVorgegeben=True,mitText=True,nurText=False,
     lsg=tabelleLsg[:-1]+diagramm+[tabelle[-1]]
     return [afg,lsg,[a,b,c]]
 
-def erzeugeQuadVariAuslesen(mitB=False,mitC=False,mitText=True,anzSpalten=[1,1]):
-    a,b,c,fktStr,xWerte,yWerte,xMin,xMax,yMin,yMax=erzeugeParabelFkt(hoehe=(12 if  anzSpalten[0] <2 else 8),mitB=mitB,mitC=mitC)
+def erzeugeQuadVariAuslesen(mitB=False,mitC=False,erkenneBC=False,mitText=True,anzSpalten=[1,1]):
+    if erkenneBC:
+        mitB,mitC=True,True
+    a,b,c,fktStr,xWerte,yWerte,xMin,xMax,yMin,yMax=erzeugeParabelFkt(hoehe=(12 if  anzSpalten[0] <2 else 8),mitB=mitB,mitC=mitC,aGleich1=erkenneBC)
     diagramm=diagrammTikzVorgBreiteHoehe(zuPlotten=[[F'{a}*(x+{b})*(x+{b})+{c}','black']],xAchse=[xMin,xMax,(xMax-xMin)+1],yAchse=[yMin,yMax,(yMax-yMin)+1],xlabel='x',ylabel='y')
     term='a*(x+b)**2+c'
     afg=[F'\\parbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
-    bestimme=f'a{", b" if mitB else ""}{", c" if mitC else ""}'
-    gleichung=f'a\cdot {"(x+b)^2" if mitB else "x^2"}{"+c" if mitC else ""}'
+    bestimme=f'{"a" if not erkenneBC else ""}{(", " if not erkenneBC else "")+"b" if mitB else ""}{", c" if mitC else ""}'
+    gleichung=f'{"a\cdot " if not erkenneBC else ""}{"(x+b)^2" if mitB else "x^2"}{"+c" if mitC else ""}'
     afg=afg+[f'Bestimme {bestimme} der Parabelgleichung ${gleichung}$ für die Parabel \\']
     afg=afg+diagramm
     afg=afg+['}']
     lsg=[F'\\parbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
-    lsg=lsg+[f'a={strNW(a)}{f", b={strNW(b)}" if not b==0 else ""}{f", c={strNW(c)}" if not c==0 else ""}']
-    aBest=[2]+[[[-b,c],[-b+1,c],[-b+1,c+a]]]
-    beschr=[[-b+1,c+a/2,f'a={strNW(a)}','right']]
-    beschr=beschr+[[-b+0.5,c,f'+1','below' if a<0 else 'above']]
+    lsg=lsg+[f'{f"a={strNW(a)}" if not erkenneBC else ""}{(", " if not erkenneBC else "")+f"b={strNW(b)}" if not b==0 else ""}{f", c={strNW(c)}" if not c==0 else ""}']
+    aBest=[2]+[[[-b,c],[-b+1,c],[-b+1,c+a]]] if not erkenneBC else [2]
+    beschr=[[-b+1,c+a/2,f'a={strNW(a)}','right']]  if not erkenneBC else []
+    beschr=beschr+[[-b+0.5,c,f'+1','below' if a<0 else 'above']]   if not erkenneBC else []
     if mitC:
         aBest=aBest+[[[-b,c],[-b,0]]]
         beschr=beschr+[[-b,c/2,f'c={strNW(c)}','right']]

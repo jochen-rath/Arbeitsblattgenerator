@@ -219,7 +219,7 @@ def erzeugeDreieckInnenAufgabe(mitText=True,anzSpalten=[2,2]):
     breite=6 if anzSpalten[0]==2 else 14
     if mitText:
         afg=[f'\\pbox{{{breite}cm}}{{']
-        afg.append('Konstruiere den Umkreis für folgendes Dreieck:\\\\')
+        afg.append('Konstruiere den Inkreis für folgendes Dreieck:\\\\')
         afg=afg+dreieckInnenkreis(alpha=alpha,a=a,b=b,mitLsg=False)
         afg.append('}')
     else:
