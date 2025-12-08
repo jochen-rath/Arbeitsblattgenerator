@@ -60,7 +60,9 @@ def spliteSeiteAddSub(S):
 def gebePolynomVarisAus(poly='2*(x-2)**2-5',x='x'):
 #Keine Klammern
 #Polynom expandieren und sortieren
-    S=str(sympy.expand(poly))
+    S=str(sympy.expand(poly))    
+    if not S[0].isnumeric():
+        S=f'1*{S}'
     if not (S[0]=='-' or S[0]=='+'):
         S='+'+S
     power=re.findall('\*\*\d',S)

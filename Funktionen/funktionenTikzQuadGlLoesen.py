@@ -17,7 +17,8 @@ def quadFktnullStellenBerechPQFormel(fkt='2*(x-2)**2-5',vari='x',mitTikzUmrandun
         latexcommand.append('$\\begin{aligned}')
     latexcommand.append(F'{ersetzePlatzhalterMitSymbolen(str(fkt).replace(".",","))}&=0 & \quad & \\mid \\mbox{{Vereinfachen}} \\\\')
     fkt=str(sympy.expand(fkt))
-    latexcommand.append(F'{ersetzePlatzhalterMitSymbolen(setzePolyListeZusammenLatexAusgabe(pL))}&=0 & \quad & \\mid~:{"" if pL[0][0]=="+" else "("}{pL[0][1:] if pL[0][0]=="+" else pL[0]}{"" if pL[0][0]=="+" else ")"} \\\\')
+    if not eval(pL[0])==1:
+        latexcommand.append(F'{ersetzePlatzhalterMitSymbolen(setzePolyListeZusammenLatexAusgabe(pL))}&=0 & \quad & \\mid~:{"" if pL[0][0]=="+" else "("}{pL[0][1:].replace(".",",") if pL[0][0]=="+" else pL[0].replace(".",",")}{"" if pL[0][0]=="+" else ")"} \\\\')
 #p,q Formel
     pL=[str(eval(F'{x}/{pL[0]}')) for x in pL]
     latexcommand.append(F'{ersetzePlatzhalterMitSymbolen(setzePolyListeZusammenLatexAusgabe(pL))}&=0 & \quad & \\mid \\mbox{{p,q Formel}}\\\\')

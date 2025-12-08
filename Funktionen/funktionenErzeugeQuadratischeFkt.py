@@ -81,12 +81,14 @@ def erzeugeQuadVariAuslesen(mitB=False,mitC=False,erkenneBC=False,mitText=True,a
     lsg=lsg+['}']
     return [afg,lsg,[a,b,c]]
 
-def erzeugeFindNullstellenQuaFkt(mitB=True,mitC=True,mitText=True,anzSpalten=[1,1]):
+def erzeugeFindNullstellenQuaFkt(mitA=True,mitB=True,mitC=True,mitText=True,anzSpalten=[1,1]):
     a,c= 1,1
     while (a>0 and c>0) or (a<0 and c<0):
-        a,b,c,fktStr,xWerte,yWerte,xMin,xMax,yMin,yMax=erzeugeParabelFkt(hoehe=(12 if  anzSpalten[0] <2 else 8),mitB=mitB,mitC=mitC)
+        a,b,c,fktStr,xWerte,yWerte,xMin,xMax,yMin,yMax=erzeugeParabelFkt(hoehe=(12 if  anzSpalten[0] <2 else 8),mitB=mitB,mitC=mitC,aGleich1=not mitA)
         if random.randint(0,6)>5:
             break
+    if fktStr.split('y=')[1].startswith('1\\cdot'):
+        fktStr=f'y={fktStr.split("y=")[1][7:]}'
     afg=[f'{"Bestimme die Nullstellen der Funktion " if mitText else ""}${fktStr}$']
     term=f'{f"{a}*" if not a==1 else ""}{f"(x+{b})" if mitB else "x"}**2{"+" if c>0 else ""}{f"{c}" if mitC else ""}'
     textNode=[]
