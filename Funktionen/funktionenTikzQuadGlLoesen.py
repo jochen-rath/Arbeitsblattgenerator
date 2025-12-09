@@ -6,7 +6,7 @@
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
 
-def quadFktnullStellenBerechPQFormel(fkt='2*(x-2)**2-5',vari='x',mitTikzUmrandung=True):
+def quadFktnullStellenBerechPQFormel(fkt='2*(x-2)**2-5',vari='x',mitTikzUmrandung=True,scheitelform=True):
     pL=gebePolynomVarisAus(poly=fkt,x=vari)
     latexcommand=[]
     if mitTikzUmrandung:
@@ -15,7 +15,8 @@ def quadFktnullStellenBerechPQFormel(fkt='2*(x-2)**2-5',vari='x',mitTikzUmrandun
         latexcommand.append('\\begin{tikzpicture}[show background grid]')  
         latexcommand.append('\\node[below right] at (0,0.1) {')  
         latexcommand.append('$\\begin{aligned}')
-    latexcommand.append(F'{ersetzePlatzhalterMitSymbolen(str(fkt).replace(".",","))}&=0 & \quad & \\mid \\mbox{{Vereinfachen}} \\\\')
+    if scheitelform:
+        latexcommand.append(F'{ersetzePlatzhalterMitSymbolen(str(fkt).replace(".",","))}&=0 & \quad & \\mid \\mbox{{Vereinfachen}} \\\\')
     fkt=str(sympy.expand(fkt))
     if not eval(pL[0])==1:
         latexcommand.append(F'{ersetzePlatzhalterMitSymbolen(setzePolyListeZusammenLatexAusgabe(pL))}&=0 & \quad & \\mid~:{"" if pL[0][0]=="+" else "("}{pL[0][1:].replace(".",",") if pL[0][0]=="+" else pL[0].replace(".",",")}{"" if pL[0][0]=="+" else ")"} \\\\')

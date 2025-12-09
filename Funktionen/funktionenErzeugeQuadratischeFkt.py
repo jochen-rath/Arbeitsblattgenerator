@@ -8,7 +8,7 @@
 #Aufruf:
 #       exec(open("Funktionen/funktionen.py").read())
 
-def erzeugeParabelFkt(hoehe=12,mitB=False,mitC=True,aGleich1=False):
+def erzeugeParabelFkt(hoehe=12,mitB=False,mitC=True,aGleich1=False,scheitelform=True):
     yMax=1000
     yMin=1000
     a=0 if not aGleich1 else 1
@@ -23,14 +23,15 @@ def erzeugeParabelFkt(hoehe=12,mitB=False,mitC=True,aGleich1=False):
             xWerte=xWerte+[-b]
             xWerte=list(set(xWerte))
             xWerte.sort()
-        yWerte=[a*(x+b)**2+c for x in xWerte]
+        yWerte=[a*(x+b)**2+c for x in xWerte] if scheitelform else [a*x**2+b*x+c for x in xWerte]
         yMax=max(yWerte) if max(yWerte)>0 else 0
         yMin=min(yWerte) if min(yWerte)<0 else 0
-    fktStr= f'y={strNW(a)}\cdot x^2'
+    
+    fktStr= f'y={strNW(a)}\\cdot x^2'
     if not b==0:
-        fktStr= f'y={strNW(a)}\cdot (x{"+" if b>0 else "-"}{strNW(abs(b))})^2'
+        fktStr= f'y={strNW(a)}\\cdot (x{"+" if b>0 else "-"}{strNW(abs(b))})^2'  if scheitelform else f'{fktStr}+{strNW(b)}\cdot x'
     if not c==0:
-        fktStr=f'{fktStr}{"+" if c>0 else "-"}{strNW(abs(c))}'
+        fktStr=f'{fktStr}{"+" if c>0 else "-"}{strNW(abs(c))}' if scheitelform else f'{fktStr}+{strNW(c)}'
     return a,b,c,fktStr,xWerte,yWerte,xMin,xMax,yMin,yMax
 
 def erzeugeQuadFunkTabDiaAfg(diagrammVorgegeben=True,mitText=True,nurText=False,mitB=False,mitC=True,anzSpalten=[1,1]):
@@ -81,10 +82,10 @@ def erzeugeQuadVariAuslesen(mitB=False,mitC=False,erkenneBC=False,mitText=True,a
     lsg=lsg+['}']
     return [afg,lsg,[a,b,c]]
 
-def erzeugeFindNullstellenQuaFkt(mitA=True,mitB=True,mitC=True,mitText=True,anzSpalten=[1,1]):
+def erzeugeFindNullstellenQuaFkt(mitA=True,mitB=True,mitC=True,mitText=True,scheitelform=True,anzSpalten=[1,1]):
     a,c= 1,1
     while (a>0 and c>0) or (a<0 and c<0):
-        a,b,c,fktStr,xWerte,yWerte,xMin,xMax,yMin,yMax=erzeugeParabelFkt(hoehe=(12 if  anzSpalten[0] <2 else 8),mitB=mitB,mitC=mitC,aGleich1=not mitA)
+        a,b,c,fktStr,xWerte,yWerte,xMin,xMax,yMin,yMax=erzeugeParabelFkt(hoehe=(12 if  anzSpalten[0] <2 else 8),mitB=mitB,mitC=mitC,aGleich1=not mitA,scheitelform=scheitelform)
         if random.randint(0,6)>5:
             break
     if fktStr.split('y=')[1].startswith('1\\cdot'):
@@ -97,7 +98,7 @@ def erzeugeFindNullstellenQuaFkt(mitA=True,mitB=True,mitC=True,mitText=True,anzS
     lsgUmB=[F'\\parbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
     lsgUmE=['}']
     if (a>0 and c<0) or (a<0 and c>0):
-        lsg=quadFktnullStellenBerechPQFormel(fkt=term,mitTikzUmrandung=True)
+        lsg=quadFktnullStellenBerechPQFormel(fkt=term,mitTikzUmrandung=True,scheitelform=scheitelform)
         p,q=[2*b,b**2+c/a]
         x1=-p/2+((p/2)**2-q)**0.5
         x2=-p/2-((p/2)**2-q)**0.5
