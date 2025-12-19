@@ -170,6 +170,33 @@ def planfigur(urspr=[0,0],markieren=['alpha','b','gamma']):
         tikzcommand.append(dreieckMarkieren(m))
     return tikzcommand
 
+
+def planfigurRWSinusKosinus(urspr=[0,0],rW='B',wBez=[],ges='',markieren=[],mitTikzUmrandung=True):
+    tikzcommand=[]
+    wBez=random.sample(list(abcZuGr.keys()),3) if len(wBez)==0 else wBez
+    gesNr=wBez.index(ges) if ges.lower() in wBez else -1
+    if mitTikzUmrandung:
+        tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+        tikzcommand.append('\\begin{tikzpicture}[show background grid]')
+    seitenPkte={wBez[0]:'(B) -- (C)',wBez[1]:'(A) -- (C)',wBez[2]:'(A) -- (B)'}
+    coords={wBez[0].upper():['(0,0)','(4,0)','(0,3)','•',f'${abcZuGr[wBez[1]]}$',f'${abcZuGr[wBez[2]]}$','(B) -- (C)']}
+    coords[wBez[1].upper()]=['(0,0)','(4,0)','(4,3)',f'${abcZuGr[wBez[0]]}$','•',f'${abcZuGr[wBez[2]]}$','(A) -- (C)']
+    coords[wBez[2].upper()]=['(0,0)','(5,0)',f'({math.degrees(math.asin(4/5))}:3)',f'${abcZuGr[wBez[0]]}$',f'${abcZuGr[wBez[1]]}$','•','(B) -- (A)']
+    tikzcommand.append(f'\\draw[thick,black] {coords[rW][0]} coordinate(A) -- node[below,sloped]{{{wBez[2]}}} {coords[rW][1]} coordinate(B) -- node[above,sloped]{{{wBez[0]}}} {coords[rW][2]} coordinate(C) -- node[above,sloped]{{{wBez[1]}}} cycle; ')
+    tikzcommand.append(f'\\node[left] at (A)  {{{wBez[0].upper()}}};')
+    tikzcommand.append(f'\\node[right] at (B) {{{wBez[1].upper()}}};')
+    tikzcommand.append(f'\\node[above] at (C) {{{wBez[2].upper()}}};')
+    tikzcommand.append(F'\\pic [draw,thick, {"red" if gesNr==0 else "black"},angle radius=0.7cm, "{coords[rW][3]}"] {{angle = B--A--C}};')
+    tikzcommand.append(F'\\pic [draw,thick, {"red" if gesNr==1 else "black"},angle radius=0.7cm, "{coords[rW][4]}"] {{angle = C--B--A}};')
+    tikzcommand.append(F'\\pic [draw,thick, {"red" if gesNr==2 else "black"},angle radius=0.7cm, "{coords[rW][5]}"] {{angle = A--C--B}};')
+    for m in markieren:
+        tikzcommand.append(F'\\draw[thick,red] {seitenPkte[m]};')
+    if mitTikzUmrandung:
+        tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+
+
+
 def dreieckWSWKonstr(werte=[40,5,80],seite='b',mitLsg=True,zeichnePlanfigur=True,mitHilfe=False):
     markieren={'a':['beta','a','gamma'],'b':['gamma','b','alpha'],'c':['alpha','c','beta']}
     urspr={'c':[-3,0],'a':[-6,0],'b':[-4,-3]}
