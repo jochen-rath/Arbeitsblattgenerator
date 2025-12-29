@@ -171,7 +171,7 @@ def planfigur(urspr=[0,0],markieren=['alpha','b','gamma']):
     return tikzcommand
 
 
-def planfigurRWSinusKosinus(urspr=[0,0],rW='B',wBez=[],ges='',markieren=[],mitTikzUmrandung=True):
+def planfigurRWSinusKosinus(urspr=[0,0],rW='B',wBez=[],ges='',markieren=[],laengenBez=[],coordinaten=[],mitTikzUmrandung=True):
     tikzcommand=[]
     wBez=random.sample(list(abcZuGr.keys()),3) if len(wBez)==0 else wBez
     gesNr=wBez.index(ges) if ges.lower() in wBez else -1
@@ -182,7 +182,11 @@ def planfigurRWSinusKosinus(urspr=[0,0],rW='B',wBez=[],ges='',markieren=[],mitTi
     coords={wBez[0].upper():['(0,0)','(4,0)','(0,3)','•',f'${abcZuGr[wBez[1]]}$',f'${abcZuGr[wBez[2]]}$','(B) -- (C)']}
     coords[wBez[1].upper()]=['(0,0)','(4,0)','(4,3)',f'${abcZuGr[wBez[0]]}$','•',f'${abcZuGr[wBez[2]]}$','(A) -- (C)']
     coords[wBez[2].upper()]=['(0,0)','(5,0)',f'({math.degrees(math.asin(4/5))}:3)',f'${abcZuGr[wBez[0]]}$',f'${abcZuGr[wBez[1]]}$','•','(B) -- (A)']
-    tikzcommand.append(f'\\draw[thick,black] {coords[rW][0]} coordinate(A) -- node[below,sloped]{{{wBez[2]}}} {coords[rW][1]} coordinate(B) -- node[above,sloped]{{{wBez[0]}}} {coords[rW][2]} coordinate(C) -- node[above,sloped]{{{wBez[1]}}} cycle; ')
+    if len(coordinaten)>0:
+        for bez in wBez:
+            for i,c in enumerate(coordinaten):
+                coords[bez.upper()][i]=c
+    tikzcommand.append(f'\\draw[thick,black] {coords[rW][0]} coordinate(A) -- node[below,sloped]{{{wBez[2] if len(laengenBez)==0 else laengenBez[2]}}} {coords[rW][1]} coordinate(B) -- node[above,sloped]{{{wBez[0] if len(laengenBez)==0 else laengenBez[0]}}} {coords[rW][2]} coordinate(C) -- node[above,sloped]{{{wBez[1] if len(laengenBez)==0 else laengenBez[1]}}} cycle; ')
     tikzcommand.append(f'\\node[left] at (A)  {{{wBez[0].upper()}}};')
     tikzcommand.append(f'\\node[right] at (B) {{{wBez[1].upper()}}};')
     tikzcommand.append(f'\\node[above] at (C) {{{wBez[2].upper()}}};')
