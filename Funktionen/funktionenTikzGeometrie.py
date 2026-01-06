@@ -171,7 +171,7 @@ def planfigur(urspr=[0,0],markieren=['alpha','b','gamma']):
     return tikzcommand
 
 
-def planfigurRWSinusKosinus(urspr=[0,0],rW='B',wBez=[],ges='',markieren=[],laengenBez=[],coordinaten=[],mitTikzUmrandung=True):
+def planfigurRWSinusKosinus(urspr=[0,0],rW='B',wBez=[],ges='',markieren=[],laengenBez=[],coordinaten=[],winkelWerte=['','',''],mitTikzUmrandung=True):
     tikzcommand=[]
     wBez=random.sample(list(abcZuGr.keys()),3) if len(wBez)==0 else wBez
     gesNr=wBez.index(ges) if ges.lower() in wBez else -1
@@ -190,9 +190,9 @@ def planfigurRWSinusKosinus(urspr=[0,0],rW='B',wBez=[],ges='',markieren=[],laeng
     tikzcommand.append(f'\\node[left] at (A)  {{{wBez[0].upper()}}};')
     tikzcommand.append(f'\\node[right] at (B) {{{wBez[1].upper()}}};')
     tikzcommand.append(f'\\node[above] at (C) {{{wBez[2].upper()}}};')
-    tikzcommand.append(F'\\pic [draw,thick, {"red" if gesNr==0 else "black"},angle radius=0.7cm, "{coords[rW][3]}"] {{angle = B--A--C}};')
-    tikzcommand.append(F'\\pic [draw,thick, {"red" if gesNr==1 else "black"},angle radius=0.7cm, "{coords[rW][4]}"] {{angle = C--B--A}};')
-    tikzcommand.append(F'\\pic [draw,thick, {"red" if gesNr==2 else "black"},angle radius=0.7cm, "{coords[rW][5]}"] {{angle = A--C--B}};')
+    tikzcommand.append(F'\\pic [draw,thick, {"red" if gesNr==0 else "black"},angle radius=0.7cm, "{winkelWerte[0] if len(winkelWerte[0])>0 else coords[rW][3]}"] {{angle = B--A--C}};')
+    tikzcommand.append(F'\\pic [draw,thick, {"red" if gesNr==1 else "black"},angle radius=0.7cm, "{winkelWerte[1] if len(winkelWerte[1])>0 else coords[rW][4]}"] {{angle = C--B--A}};')
+    tikzcommand.append(F'\\pic [draw,thick, {"red" if gesNr==2 else "black"},angle radius=0.7cm, "{winkelWerte[2] if len(winkelWerte[2])>0 else coords[rW][5]}"] {{angle = A--C--B}};')
     for m in markieren:
         tikzcommand.append(F'\\draw[thick,red] {seitenPkte[m]};')
     if mitTikzUmrandung:

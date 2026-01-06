@@ -73,3 +73,60 @@ def erzeugeSinussatzRechtwBerechnen(sinKosTan='',mitWinkel=True,mitText=True,anz
     lsg=lsg+planfigurRWSinusKosinus(rW=rechterWinkelBei,wBez=wBez,ges=gesucht[0],markieren=[loesung[gesucht[1]][2],loesung[gesucht[1]][1]],laengenBez=laengenBez,coordinaten=coordinaten)
     lsg=lsg+['}']    
     return [afg,lsg,[]]
+
+
+def erzeugeSinussatzSeitenRechtwBerechnen(sinKosTan='',mitWinkel=True,mitText=True,anzSpalten=[2,2]):
+    wBez=random.sample(list(abcZuGr.keys()),3)    #3 kleine Buchstaben
+    werte={}
+    laengenBez=[]
+    for s in wBez:
+        werte[s]=random.randint(20,50)/10
+    rechtWinkelNr=random.randint(0,2)
+    seiten=list(wBez)
+    rechterWinkelBei=wBez[rechtWinkelNr].upper()
+    hyp=wBez[rechtWinkelNr].lower()
+    del seiten[rechtWinkelNr]
+    gesucht=[random.choice(seiten),random.choice(['Sinus','Kosinus','Tangens']) if len(sinKosTan)<1 else sinKosTan]
+    gesNr=wBez.index(gesucht[0])
+    gegKat=gesucht[0].lower()
+    del seiten[seiten.index(gegKat)]
+    anKat=seiten[0]
+    werte[hyp]=(werte[anKat]**2+werte[gegKat]**2)**0.5
+    coordinaten=[(0,0)]*3
+    coordinaten[1]=f'({werte[wBez[2]]},0)'
+    if rechtWinkelNr==0:
+        coordinaten[2]=f'(0,{werte[wBez[1]]})'
+    if rechtWinkelNr==1:
+        coordinaten[2]=f'({werte[wBez[2]]},{werte[wBez[0]]})'
+    if rechtWinkelNr==2:
+        coordinaten[2]=f'({math.degrees(math.asin(werte[wBez[0]]/werte[wBez[2]]))}:{werte[wBez[1]]})'
+    for s in wBez:
+        laengenBez.append(f'{s}={strNW(werte[s],2)} cm')
+    winkelBerechnung={'Sinus':['\\sin',gegKat,hyp],'Kosinus':['\\cos',anKat,hyp],'Tangens':['\\tan',gegKat,anKat]}
+    loesung=winkelBerechnung
+    sZurBerech=list(winkelBerechnung[gesucht[1]][1:])
+    sGes=random.choice(sZurBerech)
+    del sZurBerech[sZurBerech.index(sGes)]
+    sGeg=sZurBerech[0]
+    laengenBez=[(x if x==f'{sGeg}={strNW(werte[sGeg],2)} cm' else x.split('=')[0]) for x in laengenBez]
+    winkelWerte=['','','']
+    gegWinkel=strNW(eval(f"math.degrees(math.a{loesung[gesucht[1]][0][1:]}({werte[loesung[gesucht[1]][1]]/werte[loesung[gesucht[1]][2]]}))"),0)
+    winkelWerte[gesNr]=f'${abcZuGr[gesucht[0]]}={gegWinkel}^\\circ$'
+    afgText=f'Berechne die Seite {sGes} mit dem {gesucht[1]} des gegebenen Winkels. Überprüfe die Werte mit einer Messung.\\\\'
+    afg=['\\pbox{\\linewidth}{']+([afgText] if mitText else [f'{sGes}, {gesucht[1]}:\\\\'])
+    afg=afg+planfigurRWSinusKosinus(rW=rechterWinkelBei,wBez=wBez,ges=gesucht[0],laengenBez=laengenBez,coordinaten=coordinaten,winkelWerte=winkelWerte)
+    afg=afg+['}']
+    lsg=['\\pbox{\\linewidth}{']+['$\\begin{aligned}']
+    lsg.append(f'{loesung[gesucht[1]][0]}({abcZuGr[gesucht[0]]})&=\\frac{{{loesung[gesucht[1]][1]}}}{{{loesung[gesucht[1]][2]}}} & &\\\\')
+    if not gesucht[1]=='Tangens':
+        operator=strNW(werte[sGeg],2) if sGeg==hyp else sGes
+    else:
+        operator=strNW(werte[sGeg],2) if sGeg==anKat else sGes
+    lsg.append(f'{loesung[gesucht[1]][0]}({gegWinkel}^\\circ)&=\\frac{{{loesung[gesucht[1]][1].replace(sGeg,f"{strNW(werte[sGeg],2)}")}}}{{{loesung[gesucht[1]][2].replace(sGeg,f"{strNW(werte[sGeg],2)}")}}} &\\mid \\cdot {operator} &  \\\\')
+    op2='' if operator.replace(',','').isnumeric() else f'\\mid : {strNW(werte[loesung[gesucht[1]][1]]/werte[loesung[gesucht[1]][2]],2)}'
+    lsg.append(f'{strNW(werte[loesung[gesucht[1]][1]]/werte[loesung[gesucht[1]][2]],2)} \\cdot {operator}&= {(loesung[gesucht[1]][1].replace(sGeg,f"{strNW(werte[sGeg],2)}")+loesung[gesucht[1]][2].replace(sGeg,f"{strNW(werte[sGeg],2)}")).replace(operator,"")} & {op2} &\\\\')
+    lsg.append(f'{sGes}&={strNW(werte[sGes],2)}~cm& &\\\\')
+    lsg.append('\\end{aligned}$')
+    lsg=lsg+planfigurRWSinusKosinus(rW=rechterWinkelBei,wBez=wBez,ges=gesucht[0],markieren=[loesung[gesucht[1]][2],loesung[gesucht[1]][1]],laengenBez=laengenBez,coordinaten=coordinaten,winkelWerte=winkelWerte)
+    lsg=lsg+['}']    
+    return [afg,lsg,[]]
