@@ -4,6 +4,9 @@ import random
 
 
 #Aufruf:
+#import os
+#		import os
+#		os.chdir(f'{os.path.expanduser("~")}/Schule/Arbeitsblattgenerator')
 #       exec(open("Funktionen/funktionen.py").read())
 
 def erzeugeSchraegbilderAfg(typ='Trapez',anzSpalten=2,mitText=True):
@@ -19,6 +22,8 @@ def erzeugeSchraegbilderAfg(typ='Trapez',anzSpalten=2,mitText=True):
         werte[v]=random.randint(15,10*min(8,breite))/10
         #Auf 0.5 Runden:
         werte[v]=0.5 * round((werte[v]+0.01) / 0.5)
+        if v=='h_K':
+            werte[v]=random.randint(3,7)
     werte["l"]=werte['l']/2
     h_K=werte['h_K']
     aufg=[F'\\pbox{{{breite } cm}}{{{F"Vervollständige das Schrägbild mit der Körperhöhe $h_K={strNW(h_K)} cm$: &&&&" if mitText else F"$h_K={strNW(h_K)}  cm$&&&&"}'.replace('&&&&','\\\\')]
@@ -75,12 +80,12 @@ def erzeugeQuaderOberVolBerech(maxDim=14,einheit='cm',mitText=True,anzSpalten=[2
     #lsg.append('}')
     return [aufg,lsg,[]]
 
-def erzeugeQuaderFehlSeiteBerech(anzSpalten=2,mitText=True):
+def erzeugeQuaderFehlSeiteBerech(anzSpalten=2,VO='',mitText=True):
 #Diese Funktion erzeugt eine Aufgabe und Lösung zum Addieren und Subtrahieren von Dezimalzahlen
 #Ausgabe: [aufg,lsg]=erzeugeQuaderOberVolBerech(breitePbox)
     breitePbox=7 if anzSpalten==2 else 14
     einheit=random.choice(['mm','cm','dm','m','km'])
-    VO=['V','O']
+    VO=VO if len(VO)>0 else ['V','O']
     seiten=['a','b','c']
     a,b,c=[random.randint(1,30) for i in range(3)]
     ges=random.choice(seiten)
@@ -146,8 +151,7 @@ def erzeugeDreiecksPrismaOberVolBerech(breitePbox='\\textwidth',maxDim=14,mitTex
     lsg.append(F'\\node[right] at (0,{(len(lsg)-l1)*(-0.5)-0.25}) {{a = {strNW(a,True)} {einheit}}};')
     lsg.append(F'\\node[right] at (0,{(len(lsg)-l1)*(-0.5)-0.25}) {{b = {strNW(b,True)} {einheit}}};')
     lsg.append(F'\\node[right] at (0,{(len(lsg)-l1)*(-0.5)-0.25}) {{c = {strNW(c,True)} {einheit}}};')
-    lsg.append(F'\\node[right] at (0,{(len(lsg)-l1)*(-0.5)-0.25}) {{g = {strNW(g,True)} {einheit}}};')
-    lsg.append(F'\\node[right] at (0,{(len(lsg)-l1)*(-0.5)-0.25}) {{h = {strNW(h,True)} {einheit}}};')
+    lsg.append(F'\\node[right] at (0,{(len(lsg)-l1)*(-0.5)-0.25}) {{$h_c$ = {strNW(h,True)} {einheit}}};')
     lsg.append(F'\\node[right] at (0,{(len(lsg)-l1)*(-0.5)-0.25}) {{$h_K$ = {strNW(hK,True)} {einheit}}};')
     lsg.append(F'\\node[left] at (0,{(len(lsg)-l1)*(-0.5)-0.25}) {{Ges.: }};')
     lsg.append(F'\\node[right] at (0,{(len(lsg)-l1)*(-0.5)-0.25}) {{V  = ? }};')
@@ -155,21 +159,25 @@ def erzeugeDreiecksPrismaOberVolBerech(breitePbox='\\textwidth',maxDim=14,mitTex
     lsg.append(F'\\node[below right] at (0,{(len(lsg)-l1)*(-0.5)-0.25}) {{')
     lsg.append('$\\begin{aligned}')
     lsg.append('V\\ &=\\ G\\cdot h_K\\\\')
-    lsg.append('O\\ &=\\ u\\cdot h_K+2\\cdot G\\\\')
-    lsg.append('G\\ &=\\ g\\cdot h/2\\\\')
+    lsg.append('O\\ &=\\ M+2\\cdot G\\\\')
+    lsg.append('G\\ &=\\ c\\cdot h_c/2\\\\')
     lsg.append(F'G\\ &=\\ {strNW(g,True)}\\cdot {strNW(h,True)}/2\\\\')
     lsg.append(F'\makebox[0pt][l]{{\\uline{{\\phantom{{G\\ =\\ {strNW(g*h/2,True)} \\mbox{{{einheit}2}}}}}}}}')
     lsg.append(F'G\\ &=\\ {strNW(g*h/2,True)}~{einheit}^2\\\\')
-    lsg.append('u\\ &=\\ a+b+c\\\\')
-    lsg.append(F'u\\ &=\\ {strNW(a,True)}+{strNW(b,True)}+{strNW(c,True)}\\\\')
-    lsg.append(F'\makebox[0pt][l]{{\\uline{{\\phantom{{u\\ =\\ {strNW(a+b+c,True)} \\mbox{{{einheit}2}}}}}}}}')
-    lsg.append(F'u\\ &=\\ {strNW(a+b+c,True)}~{einheit}\\\\')
     lsg.append(F'V\\ &=\\ G\\cdot h_K\\\\')
     lsg.append(F'V\\ &=\\ {strNW(g*h/2,True)}\\cdot {strNW(hK,True)}\\\\')
     lsg.append(F'\makebox[0pt][l]{{\\uuline{{\\phantom{{V\\ =\\ {strNW(g*hK,True)} \\mbox{{{einheit}2}}}}}}}}')
     lsg.append(F'V\\ &=\\ {strNW(g*h/2*hK,True)}~{einheit}^3\\\\')
-    lsg.append(F'O\\ &=\\ u\\cdot h_K+2G\\\\')
-    lsg.append(F'O\\ &=\\ {strNW(a+b+c,True)}\\cdot {strNW(hK,True)}+2\\cdot {strNW(g*h/2,True)}\\\\')
+    lsg.append(F'M\\ &=\\ u\\cdot h_K\\\\')
+    lsg.append('u\\ &=\\ a+b+c\\\\')
+    lsg.append(F'u\\ &=\\ {strNW(a,True)}+{strNW(b,True)}+{strNW(c,True)}\\\\')
+    lsg.append(F'\makebox[0pt][l]{{\\uline{{\\phantom{{u\\ =\\ {strNW(a+b+c,True)} \\mbox{{{einheit}2}}}}}}}}')
+    lsg.append(F'u\\ &=\\ {strNW(a+b+c,True)}~{einheit}\\\\')
+    lsg.append(F'M\\ &=\\ {strNW(a+b+c,True)}\\cdot {strNW(hK,True)}/2\\\\')
+    lsg.append(F'\makebox[0pt][l]{{\\uline{{\\phantom{{G\\ =\\ {strNW(g*h/2,True)} \\mbox{{{einheit}2}}}}}}}}')
+    lsg.append(F'M\\ &=\\ {strNW((a+b+c)*hK,True)}~{einheit}^2\\\\')
+    lsg.append(F'O\\ &=\\ M+2G\\\\')
+    lsg.append(F'O\\ &=\\ {strNW((a+b+c)*hK,True)}+2\\cdot {strNW(g*h/2,True)}\\\\')
     lsg.append(F'\makebox[0pt][l]{{\\uuline{{\\phantom{{V\\ =\\ {strNW((a+b+c)*hK,True)} \\mbox{{{einheit}2}}}}}}}}')
     lsg.append(F'O\\ &=\\ {strNW((a+b+c)*hK+2*g*h/2,True)}~{einheit}^2\\\\')
     lsg.append('\\end{aligned}$};')
@@ -203,21 +211,25 @@ def erzeugeTrapezPrismaOberVolBerech(anzSpalten=2,mitText=True,messen=False,einh
     lsg.append(F'\\node[below right] at (0,{(len(lsg)-l1)*(-0.5)-0.25}) {{')
     lsg.append('$\\begin{aligned}')
     lsg.append('V\\ &=\\ G\\cdot h_K\\\\')
-    lsg.append('O\\ &=\\ u\\cdot h_K+2\\cdot G\\\\')
+    lsg.append('O\\ &=\\ M+2\\cdot G\\\\')
     lsg.append('G\\ &=\\ g\\cdot h/2\\\\')
     lsg.append(F'G\\ &=\\ {strNW(g,True)}\\cdot {strNW(h,True)}/2\\\\')
     lsg.append(F'\makebox[0pt][l]{{\\uline{{\\phantom{{G\\ =\\ {strNW(g*h/2,True)} \\mbox{{{einheit}2}}}}}}}}')
     lsg.append(F'G\\ &=\\ {strNW(g*h/2,True)}~{einheit}^2\\\\')
-    lsg.append('u\\ &=\\ a+b+c\\\\')
-    lsg.append(F'u\\ &=\\ {strNW(a,True)}+{strNW(b,True)}+{strNW(c,True)}\\\\')
-    lsg.append(F'\makebox[0pt][l]{{\\uline{{\\phantom{{u\\ =\\ {strNW(a+b+c,True)} \\mbox{{{einheit}2}}}}}}}}')
-    lsg.append(F'u\\ &=\\ {strNW(a+b+c,True)}~{einheit}\\\\')
     lsg.append(F'V\\ &=\\ G\\cdot h_K\\\\')
     lsg.append(F'V\\ &=\\ {strNW(g*h/2,True)}\\cdot {strNW(hK,True)}\\\\')
     lsg.append(F'\makebox[0pt][l]{{\\uuline{{\\phantom{{V\\ =\\ {strNW(g*hK,True)} \\mbox{{{einheit}2}}}}}}}}')
     lsg.append(F'V\\ &=\\ {strNW(g*h/2*hK,True)}~{einheit}^3\\\\')
-    lsg.append(F'O\\ &=\\ u\\cdot h_K+2G\\\\')
-    lsg.append(F'O\\ &=\\ {strNW(a+b+c,True)}\\cdot {strNW(hK,True)}+2\\cdot {strNW(g*h/2,True)}\\\\')
+    lsg.append('M\\ &=\\ u\\cdot h_K\\\\')
+    lsg.append('u\\ &=\\ a+b+c\\\\')
+    lsg.append(F'u\\ &=\\ {strNW(a,True)}+{strNW(b,True)}+{strNW(c,True)}\\\\')
+    lsg.append(F'\makebox[0pt][l]{{\\uline{{\\phantom{{u\\ =\\ {strNW(a+b+c,True)} \\mbox{{{einheit}2}}}}}}}}')
+    lsg.append(F'u\\ &=\\ {strNW(a+b+c,True)}~{einheit}\\\\')
+    lsg.append(F'M\\ &=\\ {strNW(a+b+c,True)}\\cdot {strNW(hK,True)}/2\\\\')
+    lsg.append(F'\makebox[0pt][l]{{\\uline{{\\phantom{{G\\ =\\ {strNW(g*h/2,True)} \\mbox{{{einheit}2}}}}}}}}')
+    lsg.append(F'M\\ &=\\ {strNW((a+b+c)*hK,True)}~{einheit}^2\\\\')
+    lsg.append(F'O\\ &=\\ M+2G\\\\')
+    lsg.append(F'O\\ &=\\ {strNW((a+b+c)*hK,True)}+2\\cdot {strNW(g*h/2,True)}\\\\')
     lsg.append(F'\makebox[0pt][l]{{\\uuline{{\\phantom{{V\\ =\\ {strNW((a+b+c)*hK,True)} \\mbox{{{einheit}2}}}}}}}}')
     lsg.append(F'O\\ &=\\ {strNW((a+b+c)*hK+2*g*h/2,True)}~{einheit}^2\\\\')
     lsg.append('\\end{aligned}$};')
@@ -245,19 +257,19 @@ def erzeugeZylinderOberVolBerech(einheit='cm',mitText=True,anzSpalten=[2,2]):
     lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
     lsg.append('\\begin{tikzpicture}[show background grid]')
     lsg.append('\\node[left] at (0,-0.25) {Geg.: };')
-    lsg.append('\\node[right] at (0,-0.25) {r = '+strNW(R,True)+' '+einheit+'};')
-    lsg.append('\\node[right] at (0,-0.75) {h = '+strNW(h,True)+' '+einheit+'};')
+    lsg.append('\\node[right] at (0,-0.25) {$r = '+strNW(R,True)+' '+einheit+'$};')
+    lsg.append('\\node[right] at (0,-0.75) {$h_K = '+strNW(h,True)+' '+einheit+'$};')
     lsg.append('\\node[left] at (0,-1.75) {Ges.: };')
     lsg.append('\\node[right] at (0,-1.75) {V  = ? };')
     lsg.append('\\node[right] at (0,-2.25) {O  = ? };')
     lsg.append('\\node[below right] at (0,-2.75) {')
     lsg.append('$\\begin{aligned}')
-    lsg.append('V\\ &=\\ \\pi\\cdot r^2\\cdot h \\\\')
+    lsg.append('V\\ &=\\ \\pi\\cdot r^2\\cdot h_K \\\\')
     lsg.append('V\\ &=\\ \\pi\\cdot '+strNW(R**2,True)+' \\cdot '+strNW(h,True)+'\\\\')
     lsg.append('\makebox[0pt][l]{\\uuline{\\phantom{V\\ =\\ '+strNW(math.pi*R**2*h,True)+'\ \\mbox{'+einheit+'3}}}}')
     lsg.append('V\\ &=\\ '+strNW(math.pi*R**2*h,True)+'\ \\mbox{'+einheit+'}^3\\\\')
     lsg.append('O\\ &=\\ 2\\cdot G + M\\\\')
-    lsg.append('O\\ &=\\ 2\\pi r^2+2\\pi r \\cdot h \\\\')
+    lsg.append('O\\ &=\\ 2\\pi r^2+2\\pi r \\cdot h_K \\\\')
     lsg.append('O\\ &=\\ 2\\pi \\cdot '+strNW(R,True)+'^2+2\\pi \\cdot '+strNW(R,True)+' \\cdot '+strNW(h,True)+' \\\\')
     lsg.append('\makebox[0pt][l]{\\uuline{\\phantom{V\\ =\\ '+strNW(2*math.pi*R**2+2*math.pi*R*h,True)+'\ \\mbox{'+einheit+'2}}}}')
     lsg.append('O\\ &=\\ '+strNW(2*math.pi*R**2+2*math.pi*R*h,True)+'\ \\mbox{'+einheit+'}^2\\\\')
@@ -284,19 +296,19 @@ def erzeugeZylinderOberVolBerech(einheit='cm',mitText=True,anzSpalten=[2,2]):
     lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
     lsg.append('\\begin{tikzpicture}[show background grid]')
     lsg.append('\\node[left] at (0,-0.25) {Geg.: };')
-    lsg.append('\\node[right] at (0,-0.25) {r = '+strNW(R,True)+' '+einheit+'};')
-    lsg.append('\\node[right] at (0,-0.75) {h = '+strNW(h,True)+' '+einheit+'};')
+    lsg.append('\\node[right] at (0,-0.25) {$r = '+strNW(R,True)+' '+einheit+'$};')
+    lsg.append('\\node[right] at (0,-0.75) {$h_K = '+strNW(h,True)+' '+einheit+'$};')
     lsg.append('\\node[left] at (0,-1.75) {Ges.: };')
     lsg.append('\\node[right] at (0,-1.75) {V  = ? };')
     lsg.append('\\node[right] at (0,-2.25) {O  = ? };')
     lsg.append('\\node[below right] at (0,-2.75) {')
     lsg.append('$\\begin{aligned}')
-    lsg.append('V\\ &=\\ \\pi\\cdot r^2\\cdot h \\\\')
+    lsg.append('V\\ &=\\ \\pi\\cdot r^2\\cdot h_K \\\\')
     lsg.append('V\\ &=\\ \\pi\\cdot '+strNW(R**2,True)+' \\cdot '+strNW(h,True)+'\\\\')
     lsg.append('\makebox[0pt][l]{\\uuline{\\phantom{V\\ =\\ '+strNW(math.pi*R**2*h,True)+'\ \\mbox{'+einheit+'3}}}}')
     lsg.append('V\\ &=\\ '+strNW(math.pi*R**2*h,True)+'\ \\mbox{'+einheit+'}^3\\\\')
     lsg.append('O\\ &=\\ 2\\cdot G + M\\\\')
-    lsg.append('O\\ &=\\ 2\\pi r^2+2\\pi r \\cdot h \\\\')
+    lsg.append('O\\ &=\\ 2\\pi r^2+2\\pi r \\cdot h_K \\\\')
     lsg.append('O\\ &=\\ 2\\pi \\cdot '+strNW(R,True)+'^2+2\\pi \\cdot '+strNW(R,True)+' \\cdot '+strNW(h,True)+' \\\\')
     lsg.append('\makebox[0pt][l]{\\uuline{\\phantom{V\\ =\\ '+strNW(2*math.pi*R**2+2*math.pi*R*h,True)+'\ \\mbox{'+einheit+'2}}}}')
     lsg.append('O\\ &=\\ '+strNW(2*math.pi*R**2+2*math.pi*R*h,True)+'\ \\mbox{'+einheit+'}^2\\\\')
@@ -357,6 +369,53 @@ def erzeugeKegelOberVolBerech(einheit='cm',mitText=True,anzSpalten=[2,2]):
     aufg.append('}')
     return [aufg,lsg,[]]
 
+def erzeugePyramideOberVolBerech(einheit='cm',quadratisch=False,mitText=True,anzSpalten=[2,2]):
+#Ausgabe: [aufg,lsg]=erzeugeQuaderOberVolBerech(breitePbox)
+    maxDim=14 if anzSpalten[0] == 1 else 5
+    breitePbox='\\hsize'
+    groesse='{17 cm}' if anzSpalten[0] == 1 else '{7 cm}'
+    aufg=[f'\\pbox{groesse}{{']
+    aufg=aufg+(['Berechne das Volumen und die Oberfläche von:\\\\'] if mitText else [] )
+    lsg=[]
+    #lsg=['\\pbox{'+str(breitePbox)+('' if 'textwidth' in str(breitePbox) else 'cm')+'}{']
+    a,b,hK=[random.randint(1,maxDim) for i in range(2)]
+    b=a if quadratisch else b
+    aufg=aufg+pyramide3D(a=a,b=b, hK=hK,einheit='cm',messen=False)
+    lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
+    lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
+    lsg.append('\\begin{tikzpicture}[show background grid]')
+    lsg.append('\\node[left] at (0,-0.25) {Geg.: };')
+    lsg.append('\\node[right] at (0,-0.25) {$a = '+strNW(a,True)+' '+einheit+'$};')
+    lsg.append('\\node[right] at (0,-0.25) {$b = '+strNW(b,True)+' '+einheit+'$};')
+    lsg.append('\\node[right] at (0,-0.75) {$h_k = '+strNW(hK,True)+' '+einheit+'$};')
+    lsg.append('\\node[left] at (0,-1.75) {Ges.: };')
+    lsg.append('\\node[right] at (0,-1.75) {V  = ? };')
+    lsg.append('\\node[right] at (0,-2.25) {O  = ? };')
+    lsg.append('\\node[below right] at (0,-2.75) {')
+    lsg.append('$\\begin{aligned}')
+    lsg.append(f'V\\ &=\\ \\frac{1}{3}a{"^2" if quadratisch else "\\cdot b"} \\cdot h_k \\\\')
+    lsg.append(f'V\\ &=\\ \\frac{1}{3}{strNW(a,True)}{"^2" if quadratisch else f"\\cdot {strNW(b,True)}"}   \\cdot {strNW(hK,True)}\\\\')
+    lsg.append('V\\ &=\\ '+strNW(1/3*a*b*hK,True)+'\ \\mbox{'+einheit+'}^3\\\\')
+    fuegeDoppelUntersrichEin(lsg)
+    lsg.append('G\\ &=\\ \\pi\\cdot r^2 \\\\')
+    lsg.append(f'G\\ &=\\ \\pi\\cdot {strNW(R,True)}^2 \\\\')
+    lsg.append(f'G\\ &=\\ {strNW(math.pi*R**2,True)}~\\mbox{{{einheit}}}^2 \\\\')
+    fuegeEinfachenUntersrichEin(lsg)
+    lsg.append('s\\ &=\\ \\sqrt{{r^2+h_k^2}} \\\\')
+    lsg.append(f's\\ &=\\ \\sqrt{{{strNW(R,True)}^2+{strNW(h,True)}^2}} \\\\')
+    lsg.append(f's\\ &=\\ {strNW((R**2+h**2)**0.5,True)} ~\\mbox{{'+einheit+'}\\\\')
+    fuegeEinfachenUntersrichEin(lsg)
+    lsg.append(f'M\\ &=\\ \\pi\\cdot {strNW(R,True)}\\cdot {strNW((R**2+h**2)**0.5,True)} \\\\')
+    lsg.append(f'M\\ &=\\ {strNW(math.pi*R*(R**2+h**2)**0.5,True)} ~\\mbox{{{einheit}}}^2\\\\')
+    fuegeEinfachenUntersrichEin(lsg)
+    lsg.append(f'O\\ &=\\ {strNW(math.pi*R**2,True)} + {strNW(math.pi*R*(R**2+h**2)**0.5,True)} \\\\')
+    lsg.append(f'O\\ &=\\ {strNW(math.pi*R**2+math.pi*R*(R**2+h**2)**0.5,True)} ~\\mbox{{{einheit}}}^3\\\\')
+    fuegeDoppelUntersrichEin(lsg)
+    lsg.append('\\end{aligned}$};')
+    lsg.append('\\end{tikzpicture}')
+    lsg.append('\\endgroup')
+    aufg.append('}')
+    return [aufg,lsg,[]]
 
 
 def umfangsFormeln():
@@ -400,7 +459,7 @@ def prismaOberflaechenFormeln():
         prismaOberfl[name]=[F'variO=2*{"(" if mitKlammer else ""}{flaechen[art][0].split("=")[1]}{")" if mitKlammer else  ""}+{"(" if mitKlammerU else ""}{umfaenge[art][0].split("=")[1]}{")" if mitKlammerU else  ""}*{hoehe}',list(set(flaechen[art][1]+umfaenge[art][1]+[hoehe]))[::-1]]
     return prismaOberfl
 
-def erzeugePrismaFehlendeSeiteBerechnen(anzSpalten=[2,2],auswahl='',mitText=True,VoO=''):
+def erzeugePrismaFehlendeSeiteBerechnen(anzSpalten=[2,2],auswahl='',nurVhK=False,mitText=True,VoO='',nurOGM=False):
     VoO= VoO if VoO in ['V','O'] else'V' if random.randint(0,1) >0 else 'O'
     einheit='cm'
     breite=6 if anzSpalten==2 else 14
@@ -410,6 +469,12 @@ def erzeugePrismaFehlendeSeiteBerechnen(anzSpalten=[2,2],auswahl='',mitText=True
         auswahl=f'{random.choice(["Allgemeinen","Quader","Dreieck"])}'
     else:
         auswahl=auswahl if len(auswahl)>0 else random.choice(list(prismaVolumen.keys()))
+    if nurVhK:
+        auswahl="Allgemeinen"
+        VoO='V'
+    if nurOGM:
+        auswahl="Allgemeinen"
+        VoO='O'
     prisma=prismaVolumen[auswahl] if VoO=='V' else prismaOberfl[auswahl]
     formel=prisma[0]
     varis={}

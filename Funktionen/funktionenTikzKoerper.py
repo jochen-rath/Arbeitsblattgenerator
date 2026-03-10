@@ -303,7 +303,7 @@ def dreiecksPrimsa(Ax=3,Bx=2,Cx=4,Cy=2,hK=4,ursprung=[0,0],messen=False):
     tikzcommand.append(F'\\draw ({ursprung[0]-Ax},{ursprung[1]}) -- node[below]{{$c{"" if messen else F"={strNW(c,True)} cm"}$}} ({ursprung[0]+Bx},{ursprung[1]});')
     tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot})-- node[above,sloped]{{$b{"" if messen else F"={strNW(b,True)} cm"}$}}({ursprung[0]-Ax},{ursprung[1]});')
     tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot})-- node[above,sloped]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}}({ursprung[0]+Bx},{ursprung[1]});')
-    tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]},{ursprung[1]})node[above] {{$h{"" if messen else F"={strNW(h,True)} cm"}$}}  -- ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot});')
+    tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]},{ursprung[1]})node[above] {{$h_c{"" if messen else F"={strNW(h,True)} cm"}$}}  -- ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot});')
     tikzcommand.append(F'\\draw ({ursprung[0]-Ax},{ursprung[1]+hK}) -- ({ursprung[0]+Bx},{ursprung[1]+hK});')
     tikzcommand.append(F'\\draw  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot+hK})--({ursprung[0]-Ax},{ursprung[1]+hK});')
     tikzcommand.append(F'\\draw  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot+hK})--({ursprung[0]+Bx},{ursprung[1]+hK});')
@@ -376,6 +376,22 @@ def kegel3D(R=3, h_k=4,einheit='cm'):
     tikzcommand.append(F"\\end{{tikzpicture}}")
     return tikzcommand
 
+def pyramide3D(a=3,b=5, hK=4,einheit='cm',messen=False):
+#Diese Funktion erzeugt einen Tikz-code mit dem man einen Zylinder darstellen.
+#Aufruf:
+#        tikzcommand=zylinder3D(R, h_k)
+#
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
+    tikzcommand.append(F'\\draw  (0,0,0) -- node[below]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ({a},0,0) -- node[right]{{$b{"" if messen else F"={strNW(b,True)} cm"}$}} ({a},0,{b});')
+    tikzcommand.append(F'\\draw[dashed] ({a},0,{b}) -- (0,0,{b}) -- (0,0,0) ;')
+    tikzcommand.append(F'\\draw  (0,0,0) -- ({a/2},{hK},{b/2});')
+    tikzcommand.append(F'\\draw  ({a},0,{0}) -- ({a/2},{hK},{b/2});')
+    tikzcommand.append(F'\\draw  ({a},0,{b}) -- ({a/2},{hK},{b/2});')
+    tikzcommand.append(F'\\draw[dashed]  ({0},0,{b}) -- ({a/2},{hK},{b/2});')
+    tikzcommand.append(F'\\draw[dashed]  ({a/2},0,{b/2}) -- node[left]{{$h_K{"" if messen else F"={strNW(hK,True)} cm"}$}}  ({a/2},{hK},{b/2});')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
 
 def quaderMitLoch(a=6, b=4, c=9,R=1.5, ursprung=[0,0],buchstabe='Q',aName='a',bName='b',cName='c',rName='r'):
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']

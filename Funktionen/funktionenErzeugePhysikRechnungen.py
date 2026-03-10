@@ -27,8 +27,8 @@ def erzeugeGeschwindigkeitsBerechnungen(typ='',einheit='m/s',umrechnen=False,ein
     while zukleinOderZuGross:
         laenge=random.choice(einheiten['laengen']) if umrechnen else ('m' if einheit=='m/s' else 'km')
         zeit=random.choice(einheiten['zeit'][2:]) if umrechnen else ('s' if einheit=='m/s' else 'h')
-        t=random.randint(1,1e3) if umrechnen else random.randint(1,12)
-        s=random.randint(1,1e3) if umrechnen else  (((t*random.randint(1,20)) if einfach else  (t+random.randint(50,500)/10.0)) * (1 if typ== 'm/s' else random.randint(1,4)))
+        t=random.randint(1,int(1e3)) if umrechnen else random.randint(1,12)
+        s=random.randint(1,int(1e3)) if umrechnen else  (((t*random.randint(1,20)) if einfach else  (t+random.randint(50,500)/10.0)) * (1 if typ== 'm/s' else random.randint(1,4)))
         if hauptschule:
             t=random.randint(2,10)
             s=t*random.randint(2,5)
