@@ -391,7 +391,23 @@ def pyramide3D(a=3,b=5, hK=4,ha=4.27,einheit='cm',messen=False):
     tikzcommand.append(F'\\draw[dashed]  ({0},0,{b}) -- ({a/2},{hK},{b/2});')
     tikzcommand.append(F'\\draw[dashed]  ({a/2},0,{b/2}) -- node[left]{{$h_K{"" if messen else F"={strNW(hK,True)} cm"}$}}  ({a/2},{hK},{b/2});')
     if ha>0:
-        tikzcommand.append(F'\\draw[dashed]  ({a},0,{b/2}) -- node[right]{{$h_a{"" if messen else F"={strNW(hK,True)} cm"}$}}  ({a/2},{hK},{b/2});')
+        tikzcommand.append(F'\\draw[dashed]  ({a},0,{b/2}) -- node[right]{{$h_a{"" if messen  else F"={strNW(hK,True)} cm"}$}}  ({a/2},{hK},{b/2});')
+    tikzcommand.append('\\end{tikzpicture}')
+    return tikzcommand
+
+
+def kugel(r=5,einheit='cm',messen=False):
+#Diese Funktion erzeugt einen Tikz-code mit dem man einen Zylinder darstellen.
+#Aufruf:
+#        tikzcommand=zylinder3D(R, h_k)
+#
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
+    tikzcommand.append(F'\\draw  (0,0) circle ({r} cm);')
+    tikzcommand.append(F'\\begin{{scope}}[canvas is xz plane at y=0]')
+    tikzcommand.append(F'\\draw[fill=gray!30,dashed] (0,0) circle ({0.94*r} cm);')
+    tikzcommand.append(F"\\draw[thick] (0,0) -- node[below] {{r={strNW(r)} {einheit}}} (25:{0.94*r} cm); ")
+    tikzcommand.append(F'\\end{{scope}}')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 

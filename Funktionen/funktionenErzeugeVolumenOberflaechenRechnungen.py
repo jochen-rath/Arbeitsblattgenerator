@@ -427,6 +427,41 @@ def erzeugePyramideOberVolBerech(einheit='cm',haBerechnen=False,quadratisch=True
     return [aufg,lsg,[]]
 
 
+def erzeugeKugelOberVolBerech(einheit='cm',mitText=True,anzSpalten=[2,2]):
+#Ausgabe: [aufg,lsg]=erzeugeQuaderOberVolBerech(breitePbox)
+    maxDim=70 if anzSpalten[0] == 1 else 25
+    breitePbox='\\hsize'
+    groesse='{17 cm}' if anzSpalten[0] == 1 else '{7 cm}'
+    aufg=[f'\\pbox{groesse}{{']
+    aufg=aufg+(['Berechne das Volumen und die Oberfläche von:\\\\'] if mitText else [] )
+    lsg=[]
+    #lsg=['\\pbox{'+str(breitePbox)+('' if 'textwidth' in str(breitePbox) else 'cm')+'}{']
+    r=random.randint(10,maxDim)/10
+    aufg=aufg+kugel(r=r)
+    lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
+    lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
+    lsg.append('\\begin{tikzpicture}[show background grid]')
+    lsg.append('\\node[left] at (0,-0.25) {Geg.: };')
+    lsg.append('\\node[right] at (0,-0.25) {$r = '+strNW(r,True)+' '+einheit+'$};')
+    lsg.append('\\node[left] at (0,-0.75) {Ges.: };')
+    lsg.append('\\node[right] at (0,-1.25) {V  = ? };')
+    lsg.append('\\node[right] at (0,-1.75) {O  = ? };')
+    lsg.append('\\node[below right] at (0,-2.25) {')
+    lsg.append('$\\begin{aligned}')
+    lsg.append(f'V\\ &=\\ \\frac{4}{3} \\cdot \\pi\\cdot r^3\\\\')
+    lsg.append(f'V\\ &=\\ \\frac{4}{3}\\cdot \\pi\\cdot {strNW(r,True)}\\\\')
+    lsg.append('V\\ &=\\ '+strNW(4/3*r**3*math.pi,True)+'\ \\mbox{'+einheit+'}^3\\\\')
+    fuegeDoppelUntersrichEin(lsg)
+    lsg.append('O\\ &=\\ 4 \\cdot \\pi\\cdot r^2 \\\\')
+    lsg.append(f'O\\ &=\\ 4 \\cdot \\pi\\cdot{strNW(r**2,True)} \\\\')
+    lsg.append(f'O\\ &=\\ {strNW(4*math.pi*r**2,True)} ~\\mbox{{{einheit}}}^2\\\\')
+    fuegeDoppelUntersrichEin(lsg)
+    lsg.append('\\end{aligned}$};')
+    lsg.append('\\end{tikzpicture}')
+    lsg.append('\\endgroup')
+    aufg.append('}')
+    return [aufg,lsg,[]]
+
 def umfangsFormeln():
 #Ich schreibe vor jeder Variable "vari", da man beim suche und ersetzen von a durch eine Zahl z.B. h_2,34 erhält.
 #Durch das Vari wird es eindeutig. Hinterher muss das vari entfernt werden.
