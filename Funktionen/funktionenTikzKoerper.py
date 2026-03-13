@@ -376,20 +376,22 @@ def kegel3D(R=3, h_k=4,einheit='cm'):
     tikzcommand.append(F"\\end{{tikzpicture}}")
     return tikzcommand
 
-def pyramide3D(a=3,b=5, hK=4,einheit='cm',messen=False):
+def pyramide3D(a=3,b=5, hK=4,ha=4.27,einheit='cm',messen=False):
 #Diese Funktion erzeugt einen Tikz-code mit dem man einen Zylinder darstellen.
 #Aufruf:
 #        tikzcommand=zylinder3D(R, h_k)
 #
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid, x=1.0cm,y=1.0cm,z=0.3536cm]')
-    tikzcommand.append(F'\\draw  (0,0,0) -- node[below]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ({a},0,0) -- node[right]{{$b{"" if messen else F"={strNW(b,True)} cm"}$}} ({a},0,{b});')
+    tikzcommand.append(F'\\draw  (0,0,0) -- node[below]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}} ({a},0,0) --  ({a},0,{b});')
     tikzcommand.append(F'\\draw[dashed] ({a},0,{b}) -- (0,0,{b}) -- (0,0,0) ;')
     tikzcommand.append(F'\\draw  (0,0,0) -- ({a/2},{hK},{b/2});')
     tikzcommand.append(F'\\draw  ({a},0,{0}) -- ({a/2},{hK},{b/2});')
     tikzcommand.append(F'\\draw  ({a},0,{b}) -- ({a/2},{hK},{b/2});')
     tikzcommand.append(F'\\draw[dashed]  ({0},0,{b}) -- ({a/2},{hK},{b/2});')
     tikzcommand.append(F'\\draw[dashed]  ({a/2},0,{b/2}) -- node[left]{{$h_K{"" if messen else F"={strNW(hK,True)} cm"}$}}  ({a/2},{hK},{b/2});')
+    if ha>0:
+        tikzcommand.append(F'\\draw[dashed]  ({a},0,{b/2}) -- node[right]{{$h_a{"" if messen else F"={strNW(hK,True)} cm"}$}}  ({a/2},{hK},{b/2});')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 

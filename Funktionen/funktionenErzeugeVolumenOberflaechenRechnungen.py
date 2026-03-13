@@ -369,7 +369,7 @@ def erzeugeKegelOberVolBerech(einheit='cm',mitText=True,anzSpalten=[2,2]):
     aufg.append('}')
     return [aufg,lsg,[]]
 
-def erzeugePyramideOberVolBerech(einheit='cm',quadratisch=False,mitText=True,anzSpalten=[2,2]):
+def erzeugePyramideOberVolBerech(einheit='cm',haBerechnen=False,quadratisch=True,mitText=True,anzSpalten=[2,2]):
 #Ausgabe: [aufg,lsg]=erzeugeQuaderOberVolBerech(breitePbox)
     maxDim=14 if anzSpalten[0] == 1 else 5
     breitePbox='\\hsize'
@@ -378,38 +378,47 @@ def erzeugePyramideOberVolBerech(einheit='cm',quadratisch=False,mitText=True,anz
     aufg=aufg+(['Berechne das Volumen und die Oberfläche von:\\\\'] if mitText else [] )
     lsg=[]
     #lsg=['\\pbox{'+str(breitePbox)+('' if 'textwidth' in str(breitePbox) else 'cm')+'}{']
-    a,b,hK=[random.randint(1,maxDim) for i in range(2)]
+    a,b,hK=[random.randint(1,maxDim) for i in range(3)]
+    ha=((a/2)**2+hK**2)**0.5
+    hb=((b/2)**2+hK**2)**0.5
     b=a if quadratisch else b
-    aufg=aufg+pyramide3D(a=a,b=b, hK=hK,einheit='cm',messen=False)
+    aufg=aufg+pyramide3D(a=a,b=b, hK=hK,ha=0 if haBerechnen else ha,einheit='cm',messen=False)
     lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
     lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
     lsg.append('\\begin{tikzpicture}[show background grid]')
     lsg.append('\\node[left] at (0,-0.25) {Geg.: };')
     lsg.append('\\node[right] at (0,-0.25) {$a = '+strNW(a,True)+' '+einheit+'$};')
-    lsg.append('\\node[right] at (0,-0.25) {$b = '+strNW(b,True)+' '+einheit+'$};')
-    lsg.append('\\node[right] at (0,-0.75) {$h_k = '+strNW(hK,True)+' '+einheit+'$};')
+    if not haBerechnen:
+        lsg.append('\\node[right] at (0,-0.75) {$h_a = '+strNW(ha,True)+' '+einheit+'$};')
+    if not quadratisch:
+        lsg.append('\\node[right] at (0,-1.25) {$b = '+strNW(b,True)+' '+einheit+'$};')
+        lsg.append('\\node[right] at (0,-1.75) {$h_b = '+strNW(hb,True)+' '+einheit+'$};')
+    lsg.append('\\node[right] at (0,-1.25) {$h_K = '+strNW(hK,True)+' '+einheit+'$};')
     lsg.append('\\node[left] at (0,-1.75) {Ges.: };')
     lsg.append('\\node[right] at (0,-1.75) {V  = ? };')
     lsg.append('\\node[right] at (0,-2.25) {O  = ? };')
     lsg.append('\\node[below right] at (0,-2.75) {')
     lsg.append('$\\begin{aligned}')
-    lsg.append(f'V\\ &=\\ \\frac{1}{3}a{"^2" if quadratisch else "\\cdot b"} \\cdot h_k \\\\')
+    lsg.append(f'V\\ &=\\ \\frac{1}{3}a{"^2" if quadratisch else "\\cdot b"} \\cdot h_K \\\\')
     lsg.append(f'V\\ &=\\ \\frac{1}{3}{strNW(a,True)}{"^2" if quadratisch else f"\\cdot {strNW(b,True)}"}   \\cdot {strNW(hK,True)}\\\\')
     lsg.append('V\\ &=\\ '+strNW(1/3*a*b*hK,True)+'\ \\mbox{'+einheit+'}^3\\\\')
     fuegeDoppelUntersrichEin(lsg)
-    lsg.append('G\\ &=\\ \\pi\\cdot r^2 \\\\')
-    lsg.append(f'G\\ &=\\ \\pi\\cdot {strNW(R,True)}^2 \\\\')
-    lsg.append(f'G\\ &=\\ {strNW(math.pi*R**2,True)}~\\mbox{{{einheit}}}^2 \\\\')
+    lsg.append('O\\ &=\\ G~+~M\\\\')
+    lsg.append('G\\ &=\\ a^2 \\\\')
+    lsg.append(f'G\\ &=\\ {strNW(a,True)}^2\\\\')
+    lsg.append(f'G\\ &=\\ {strNW(a**2,True)}~\\mbox{{{einheit}}}^2\\\\')
     fuegeEinfachenUntersrichEin(lsg)
-    lsg.append('s\\ &=\\ \\sqrt{{r^2+h_k^2}} \\\\')
-    lsg.append(f's\\ &=\\ \\sqrt{{{strNW(R,True)}^2+{strNW(h,True)}^2}} \\\\')
-    lsg.append(f's\\ &=\\ {strNW((R**2+h**2)**0.5,True)} ~\\mbox{{'+einheit+'}\\\\')
+    lsg.append(f'M\\ &=\\ 2\\cdot a \\cdot h_a\\\\')
+    if haBerechnen:
+        lsg.append(f'h_a\\ &=\\ \sqrt{{ \\left (\\frac{{a}}{{2}}\\right)^2+h_K^2 }}\\\\')
+        lsg.append(f'h_a\\ &=\\ \sqrt{{ \\left (\\frac{{{strNW(a,True)}}}{{2}}\\right)^2+{strNW(hK,True)}^2}}\\\\')
+        lsg.append(f'h_a\\ &=\\ {strNW(ha,True)}~\\mbox{{{einheit}}}\\\\')
+        fuegeEinfachenUntersrichEin(lsg)
+    lsg.append(f'M\\ &=\\ 2\\cdot {strNW(a,True)} \\cdot {strNW(ha,True)}\\\\')
+    lsg.append(f'M\\ &=\\  {strNW(2*a*ha,True)}~\\mbox{{{einheit}}}^2 \\\\')
     fuegeEinfachenUntersrichEin(lsg)
-    lsg.append(f'M\\ &=\\ \\pi\\cdot {strNW(R,True)}\\cdot {strNW((R**2+h**2)**0.5,True)} \\\\')
-    lsg.append(f'M\\ &=\\ {strNW(math.pi*R*(R**2+h**2)**0.5,True)} ~\\mbox{{{einheit}}}^2\\\\')
-    fuegeEinfachenUntersrichEin(lsg)
-    lsg.append(f'O\\ &=\\ {strNW(math.pi*R**2,True)} + {strNW(math.pi*R*(R**2+h**2)**0.5,True)} \\\\')
-    lsg.append(f'O\\ &=\\ {strNW(math.pi*R**2+math.pi*R*(R**2+h**2)**0.5,True)} ~\\mbox{{{einheit}}}^3\\\\')
+    lsg.append(f'O\\ &=\\ {strNW(a**2,True)} + {strNW(2*a*ha,True)} \\\\')
+    lsg.append(f'O\\ &=\\ {strNW(a**2+2*a*ha,True)} ~\\mbox{{{einheit}}}^2\\\\')
     fuegeDoppelUntersrichEin(lsg)
     lsg.append('\\end{aligned}$};')
     lsg.append('\\end{tikzpicture}')
@@ -630,6 +639,8 @@ def erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten=[2,2],typ='Sechseck',
     aufg.append('}')
     #lsg.append('}')
     return [[ersetzePlatzhalterMitSymbolen(x) for x in aufg],[ersetzePlatzhalterMitSymbolen(x) for x in lsg],[]]
+
+
 def erzeugeQuaderMitLochBerech(breitePbox='\\textwidth',maxDim=14,einheit='cm',werte=[],namen=[]):
 #Diese Funktion erzeugt eine Aufgabe und Lösung zum Addieren und Subtrahieren von Dezimalzahlen
 #Ausgabe: [aufg,lsg,zahlen]=erzeugeQuaderMitLochBerech(breitePbox,maxDim,einheit,werte)
