@@ -33,6 +33,27 @@ def erzeugeSinussatzRechtwBenennen(sinKosTan='',mitText=True,anzSpalten=[2,2]):
     lsg=lsg+['}']    
     return [afg,lsg,[]]
 
+def erzeugeSinussatzBelWinkelBenennen(mitText=True,anzSpalten=[2,2]):
+    drehung=random.randint(0,180)
+    wBez=random.sample(list(abcZuGr.keys()),3)
+    farben=['red','blue','green']
+    labels={'a':[wBez[0],farben[0]],'b':[wBez[1],farben[1]],'c':[wBez[2],farben[2]]}
+    seiten=list(wBez)
+    a,b,c=6,1,1
+    abc=[1,1,1]
+    while a+b<c or b+c<a or a+c<b:
+        abc=[random.randint(20,50)/10 for i in range(3)]
+        a,b,c=abc
+    afgText=f'Formuliere den Sinussatz, markiere die Seiten, Winkel und Formulierung in gleicher Farbe\\\\'
+    afg=['\\pbox{\\linewidth}{']+([afgText] if mitText else [f'{gesucht[1]}:\\\\'])
+    afg=afg+dreieckSinusSatz(abc=abc,labels=labels,drehung=drehung,lsg=False)
+    afg=afg+['}']
+    lsg=['\\pbox{\\linewidth}{']
+    lsg=lsg+dreieckSinusSatz(abc=abc,labels=labels,drehung=drehung,lsg=True)
+    lsg=lsg+['\\\\']+[f'$ \\color{{{labels["a"][1]}}}{{\\frac{{{labels["a"][0]}}}{{\\sin({abcZuGr[labels["a"][0]]})}}}}\\color{{black}}{{=}}\\color{{{labels["b"][1]}}}{{\\frac{{{labels["b"][0]}}}{{\\sin({abcZuGr[labels["b"][0]]})}}}}\\color{{black}}{{=}}	\\color{{{labels["c"][1]}}}{{\\frac{{{labels["c"][0]}}}{{\\sin({abcZuGr[labels["c"][0]]})}}}}$\\\\']
+    lsg=lsg+['}']
+    return [afg,lsg,[]]
+
 def erzeugeSinussatzRechtwBerechnen(sinKosTan='',mitWinkel=True,mitText=True,anzSpalten=[2,2]):
     wBez=random.sample(list(abcZuGr.keys()),3)    #3 kleine Buchstaben
     werte={}
