@@ -612,7 +612,7 @@ def erzeugePrismaErstmessenDannBerechnenAufgabe(anzSpalten=[2,2],typ='Sechseck',
     geg=auswahl[typ][2]
     groesse='{17 cm}' if anzSpalten[0] == 1 else '{7 cm}'
     aufg=[f'\\pbox{groesse}{{']
-    aufg=aufg+[("Messe die Seiten und Berechne dann das Volumen und die Oberfläche von: &&&&" if mitText else "").replace('&&&&','\\\\')]
+    aufg=aufg+([("Messe die Seiten und Berechne dann das Volumen und die Oberfläche von: &&&&" ).replace('&&&&','\\\\')] if mitText else [])
     groesse='{17 cm}' if anzSpalten[1] == 1 else '{7 cm}'
     lsg=[] #[f'\\pbox{groesse}{{']
     lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')

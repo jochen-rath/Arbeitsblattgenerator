@@ -6,8 +6,9 @@ import random
 #Diese Datei enthält verschiedene Funktionen, zur Erzeugung von Aufgaben zur Prozentrechnung
 
 #Aufruf:
+#		import os
+#		os.chdir(f'{os.path.expanduser("~")}/Schule/Arbeitsblattgenerator')
 #       exec(open("Funktionen/funktionen.py").read())
-
 
 def erzeugeProzentzeichnen(mitVorgabe=False,mitText=True):
     laenge=random.randint(3,5 if mitVorgabe else 10)
@@ -283,6 +284,7 @@ def erzeugeBruttoNettoLohnRechnungen(mitText=True,HS=False):
 
 
 def erzeugeMehrwertsteuerRechnungen(mitText=True,HS=False):
+    breitePbox='\\hsize'
     p=random.choice([7,19])
     n=random.randint(1,10)
     gegenstand={7:[f'{n} {x} kosten' for x in ['Stück Gurken','kg Paprika','kg Tomaten','Stück Zucchinis']],19:[f'Ein {x} kostet' for x in ['Kleid','Hose','Rock','Hemd','Spiel']]}
@@ -294,3 +296,99 @@ def erzeugeMehrwertsteuerRechnungen(mitText=True,HS=False):
     afg=[afgText] if mitText else [f'Brutto: {G} €, p \\&: {p} \\%. Gesucht: Mehrwertsteuer und Verkaufspreis.']
     lsg=ausgabeBruttoNetteLohnBerechnenFuerTabelle(afg=[G,p,'€'],V='+')
     return [afg,lsg,[]]
+
+def zinsrechnungen(ges='',einfach=False):
+    K=random.choice([random.randint(1000,10000),random.randint(10000,30000)])
+    p=random.randint(5,80)/10
+    Z=K*p/100
+    if einfach:
+        K,Z,p,E=erzeugeProzentRechnungen(kapital=True,HS=True,G=True)
+    varis=['K','Z','p']
+    ges=ges if len(ges)>0 else random.choice(varis)
+    geg=list(varis)
+    geg.remove(ges)
+    einheiten={'K':'~€','Z':'~€','p':'~\\%'}
+    prozent={'K':'','Z':'','p':'~\\%'}
+    aufgaben={'K':f'{strNW(p)}\\% sind {strNW(Z,2)} €'}
+    aufgaben['Z']=f'{strNW(p)}\\% von {strNW(K)} €'
+    aufgaben['p']=f'{strNW(Z,2)} € von {strNW(K)} €'
+    aufg=aufgaben[ges]
+    lsg=[]
+    scope = locals()
+    lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
+    lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
+    lsg.append('\\begin{tikzpicture}[show background grid]')
+    lsg.append('\\node[left] at (0,0.25) {Geg.: };')
+    for x in geg:
+        lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-5)}) {{${x}{prozent[x]}={strNW(eval(x),2)} {einheiten[x]}$}};')
+    lsg.append(F'\\node[left] at (0,{-0.25-0.5*(len(lsg)-5)}) {{Ges.: }};')
+    lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-6)}) {{{ges}{prozent[ges]}  = ? {einheiten[ges]} }};')
+    lsg.append(F'\\node[below right] at (0,{-0.25-0.5*(len(lsg)-6)}) {{')
+    lsg.append('$\\begin{aligned}')
+    formel='{{Z}}={{K}}\\cdot \\frac{{{{p}}}}{{100}}'
+    lsg.append(F'{formel.split("=")[0]}&={formel.split("=")[1]}& & \\\\')
+    for x in geg:
+        formel = formel.replace(f'{{{x}}}',f'{{{strNW(eval(x),2)}}}')
+    lsg.append(F'{formel.split("=")[0]}&={formel.split("=")[1]}& & \\\\')
+    if not ges=='Z':
+        geg.remove('Z')
+        lsg.append(F'{strNW(Z,2)}&={strNW(eval(geg[0])/100)}\\cdot {strNW(ges)}&\\mid : {strNW(eval(geg[0])/100)}& \\\\')
+    lsg.append(F'{ges}{prozent[ges]}&={strNW(eval(ges),2)}{einheiten[ges]}& & \\\\')
+#Ergebniss doppelt unterstreichen
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg.append('\\end{aligned}$};')
+    lsg.append('\\end{tikzpicture}')
+    lsg.append('\\endgroup')
+    return [aufg,lsg,[]]
+
+
+def zinseszinsrechnungen(ges=''):
+    K_0=random.choice([random.randint(1000,10000),random.randint(10000,30000)])
+    p=random.randint(5,80)/10
+    q=1+p/100
+    n=random.choice([random.randint(2,10),random.randint(10,30)])
+    K_n=K_0*(1+p/100)**n
+    varis=['K_0','K_n','p','n']
+    ges='K_n'
+    geg=list(varis)
+    geg.remove(ges)
+    einheiten={'K_0':'~€','K_n':'~€','q':'~','p':'~\\%','n':'~\\mbox{Jahre}'}
+    prozent={'K_0':'','K_n':'','p':'~\\%','n':''}
+    aufgaben={'K_0':f'{strNW(K_n,2)} € Kapital bei {strNW(K_0,2)} \\% nach {strNW(n)} Jahre'}
+    aufgaben['K_n']=f'{strNW(p)}\\% von {strNW(K_0)} € für {strNW(n)} Jahre'
+    aufg=aufgaben[ges]
+    lsg=[]
+    scope = locals()
+    lsg.append('\\begingroup\\setlength{\\jot}{0.02cm}')
+    lsg.append('\\tikzstyle{background grid}=[draw, black!15,step=.5cm]')
+    lsg.append('\\begin{tikzpicture}[show background grid]')
+    lsg.append('\\node[left] at (0,0.25) {Geg.: };')
+    for x in geg:
+        lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-5)}) {{${x}{prozent[x]}={strNW(eval(x),2)} {einheiten[x]}$}};')
+    lsg.append(F'\\node[left] at (0,{-0.25-0.5*(len(lsg)-5)}) {{Ges.: }};')
+    lsg.append(F'\\node[right] at (0,{-0.25-0.5*(len(lsg)-6)}) {{${ges}{prozent[ges]}  = ? {einheiten[ges]} $}};')
+    lsg.append(F'\\node[below right] at (0,{-0.25-0.5*(len(lsg)-6)}) {{')
+    lsg.append('$\\begin{aligned}')
+    geg.append('q')
+    qformel='{{q}}=1+\\frac{{{{p}}}}{{100}}'
+    lsg.append(F'{qformel.split("=")[0]}&={qformel.split("=")[1]}& & \\\\')
+    qformel = qformel.replace('{{p}}',f'{{{strNW(p,2)}}}')
+    lsg.append(F'{qformel.split("=")[0]}&={qformel.split("=")[1]}& & \\\\')
+    lsg.append(F'q&={strNW(q,2)}& & \\\\')
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}') 
+    formel='{{K_n}}={{K_n}}\\cdot {{q}}^{{n}}'
+    lsg.append(F'{formel.split("=")[0]}&={formel.split("=")[1]}& & \\\\')
+    for x in geg:
+        formel = formel.replace(f'{{{x}}}',f'{{{strNW(eval(x),2)}}}')
+    lsg.append(F'{formel.split("=")[0]}&={formel.split("=")[1]}& & \\\\')
+    if not ges=='K_n':
+        geg.remove('K_n')
+        lsg.append(F'{strNW(Z,2)}&={strNW(eval(geg[0])/100)}\\cdot {strNW(ges)}&\\mid : {strNW(eval(geg[0])/100)}& \\\\')
+    lsg.append(F'{ges}{prozent[ges]}&={strNW(eval(ges),2)}{einheiten[ges]}& & \\\\')
+#Ergebniss doppelt unterstreichen
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg.append('\\end{aligned}$};')
+    lsg.append('\\end{tikzpicture}')
+    lsg.append('\\endgroup')
+    return [aufg,lsg,[]]
+

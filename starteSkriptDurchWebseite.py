@@ -56,7 +56,7 @@ def viewAuswahlRechnungen():
     global anzahlAuswahl
     form=Form()
     globaleMitteilung=''
-    zugelassenZeichen=re.compile(r'^[A-Za-z0-9.,!?ö:äüÖÄÜ_ -]+$')
+    zugelassenZeichen=re.compile(r'^[A-Za-z0-9.,!?ö:äüÖÄÜ_ -ß]+$')
     if request.method== 'POST':
 #Führe validet_on_submit aus, um auf Fehler zu schecken.
 #Packe diesen Befehl aber nicht in die if-Abfrage, da die dynamische Erzeugung der Auswahlfelder zu falschen Fehlermeldung führen.
@@ -338,7 +338,7 @@ def htmlScriptAufrufSeite(anzahlAuswahl=4):
     if os.path.isfile(os.path.join(os.path.expanduser('~'), 'impressum.html')):
         html.append(F'    <p><a href="{{{{ url_for({chr(39)}impressum_form{chr(39)}) }}}}">Impressum</a></p>')
     if os.path.isfile('wasistneu.html'):
-        html.append(F'    <p><a href="{{{{ url_for({chr(39)}wasistneu_form{chr(39)}) }}}}">Was Ist Neu?</a> Letzte Änderung: 18.03.2026</p>')
+        html.append(F'    <p><a href="{{{{ url_for({chr(39)}wasistneu_form{chr(39)}) }}}}">Was Ist Neu?</a> Letzte Änderung: 12.05.2026</p>')
     html.append('</body>')
     return html
 

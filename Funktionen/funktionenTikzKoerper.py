@@ -90,8 +90,8 @@ def quader(a=6, b=4, c=9,ursprung=[0,0],buchstabe='Q',aName='a',bName='b',cName=
         tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
-def trapezprismaLiegend(Bx=5,Cx=4,Cy=3,Dx=2,hK=5,messen=False):
-#Diese Funktion erzeugt ein liegendes Trapezprisma. A liegt im Ursprung und B auf y=0.
+def trapezprismastehend(Bx=5,Cx=4,Cy=3,Dx=2,hK=5,messen=False):
+#Diese Funktion erzeugt ein stehendes Trapezprisma. A liegt im Ursprung und B auf y=0.
 #Dy=Cy
     a=Bx
     b=((Bx-Cx)**2+Cy**2)**0.5
@@ -132,7 +132,7 @@ def dreiecksPrimsa3D(a=5,b=3,c=4,hK=5,messen=False,schraegbild=False):
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
-def trapezPrismaLiegend3D(a=5,c=3,h_T=4,h_K=5,messen=False,nurVorderseite=False,schraegbild=False):
+def trapezPrismastehend3D(a=5,c=3,h_T=4,h_K=5,messen=False,nurVorderseite=False,schraegbild=False):
     dx=(a-c)/2
 #Erzeuge die Seitenbeschriftungen: Beispie: texta='a=5 cm', oder texth_T='h_T=3 cm'
     text={}
@@ -159,7 +159,7 @@ def trapezPrismaLiegend3D(a=5,c=3,h_T=4,h_K=5,messen=False,nurVorderseite=False,
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
 
-def dreiecksPrimsa3DLiegend(g=5,h_D=5,h_K=6,dg=0,messen=False,nurVorderseite=False,schraegbild=False):
+def dreiecksPrimsa3Dstehend(g=5,h_D=5,h_K=6,dg=0,messen=False,nurVorderseite=False,schraegbild=False):
     dg=dg if dg>0 else random.randint(10,int(g)*10)/10
     c=g
     h_c=h_D
@@ -278,7 +278,7 @@ def sternPrisma(l=5,h_K=6,nurVorderseite=False):
     return tikzcommand
 
 
-def dreiecksPrimsa(Ax=3,Bx=2,Cx=4,Cy=2,hK=4,ursprung=[0,0],messen=False):
+def dreiecksPrimsa(Ax=3,Bx=2,Cx=4,Cy=2,hK=4,ursprung=[0,0],messen=False,ohneBuchstaben=False):
 #Diese Funktion erzeugt einen Tikz-code mit dem man einen Zylinder darstellen.
 #Aufruf:
 #        tikzcommand=dreiecksPrimsa(g, h,hK,ursprung)
@@ -300,15 +300,15 @@ def dreiecksPrimsa(Ax=3,Bx=2,Cx=4,Cy=2,hK=4,ursprung=[0,0],messen=False):
     Cyrot=Cy/(2**0.5)/2
     tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
     tikzcommand.append('\\begin{tikzpicture}[show background grid]')
-    tikzcommand.append(F'\\draw ({ursprung[0]-Ax},{ursprung[1]}) -- node[below]{{$c{"" if messen else F"={strNW(c,True)} cm"}$}} ({ursprung[0]+Bx},{ursprung[1]});')
-    tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot})-- node[above,sloped]{{$b{"" if messen else F"={strNW(b,True)} cm"}$}}({ursprung[0]-Ax},{ursprung[1]});')
-    tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot})-- node[above,sloped]{{$a{"" if messen else F"={strNW(a,True)} cm"}$}}({ursprung[0]+Bx},{ursprung[1]});')
-    tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]},{ursprung[1]})node[above] {{$h_c{"" if messen else F"={strNW(h,True)} cm"}$}}  -- ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot});')
+    tikzcommand.append(F'\\draw ({ursprung[0]-Ax},{ursprung[1]}) -- node[below]{{${"" if ohneBuchstaben else "c"}{"" if ohneBuchstaben or messen else "="}{"" if messen else F"{strNW(c,True)} cm"}$}} ({ursprung[0]+Bx},{ursprung[1]});')
+    tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot})-- node[above,sloped]{{${"" if ohneBuchstaben else "b"}{"" if ohneBuchstaben or messen else "="}{"" if messen else F"{strNW(b,True)} cm"}$}}({ursprung[0]-Ax},{ursprung[1]});')
+    tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot})-- node[above,sloped]{{${"" if ohneBuchstaben else "a"}{"" if ohneBuchstaben or messen else "="}{"" if messen else F"{strNW(a,True)} cm"}$}}({ursprung[0]+Bx},{ursprung[1]});')
+    tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]},{ursprung[1]})node[above] {{${"" if ohneBuchstaben else "h_c"}{"" if ohneBuchstaben or messen else "="}{"" if messen else F"{strNW(h,True)} cm"}$}}  -- ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot});')
     tikzcommand.append(F'\\draw ({ursprung[0]-Ax},{ursprung[1]+hK}) -- ({ursprung[0]+Bx},{ursprung[1]+hK});')
     tikzcommand.append(F'\\draw  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot+hK})--({ursprung[0]-Ax},{ursprung[1]+hK});')
     tikzcommand.append(F'\\draw  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot+hK})--({ursprung[0]+Bx},{ursprung[1]+hK});')
     tikzcommand.append(F'\\draw ({ursprung[0]-Ax},{ursprung[1]}) -- ({ursprung[0]-Ax},{ursprung[1]+hK});')
-    tikzcommand.append(F'\\draw ({ursprung[0]+Bx},{ursprung[1]}) -- node[anchor=south west]{{$h_K{"" if messen else F"={strNW(hK,True)} cm"}$}}({ursprung[0]+Bx},{ursprung[1]+hK});')
+    tikzcommand.append(F'\\draw ({ursprung[0]+Bx},{ursprung[1]}) -- node[anchor=south west]{{${"" if ohneBuchstaben else "h_K"}{"" if ohneBuchstaben or messen else "="}{"" if messen else F"{strNW(hK,True)} cm"}$}}({ursprung[0]+Bx},{ursprung[1]+hK});')
     tikzcommand.append(F'\\draw[dashed]  ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot})-- ({ursprung[0]+Cxrot},{ursprung[0]+Cyrot+hK});')
     tikzcommand.append('\\end{tikzpicture}')
     return tikzcommand
@@ -472,3 +472,36 @@ def mehrereZylinder3D(radien=[3,2,3], hoehen=[2,3,4],einheit='cm'):
     tikzcommand.append(F"\\end{{tikzpicture}}")
     return tikzcommand
 
+
+def prismenNichtMassstab(typ='Dreieck',varis={'a':4,'b':6,'c':3,'h_c':3.7,'h_K':5},stehend=False):
+    #G={typ:[koordinaten,{seiten mit Punkten},Eigenschaften h_c oder h_a, Seite nicht sichtbar, Seite nicht sichtbar stehend
+    hK=3 if stehend else 6
+    G={'Dreieck':[[f'(0,0,0)',f'(4.5,0,0)','(0.5,3,0)'],{'a':['B','C'],'b':['C','A'],'c':['A','B']},['C',['A','B']],['A2B2','A2C2','AA2'],['BC','AC','CC2']]}
+    G['Trapez']=[[f'(0,0,0)',f'(4.5,0,0)','(3.5,3,0)','(1,3,0)'],{'a':['A','B'],'b':['B','C'],'c':['C','D'],'d':['D','A']},['D',['A','B']],['A2B2','A2D2','AA2'],['CD','AC','DD2']]
+    if stehend:
+        koord=[x.replace('(','').replace(')','') for x in G[typ][0]]
+        koord=[x.split(',') for x in koord]
+        G[typ][0]=[f'({",".join([x[0],x[2],f"-{x[1]}"])})'  for x in koord]
+    koord2=[x.replace(',0,',f',{"" if stehend else "-"}{hK},') if stehend else x.replace(',0)',f',-{hK})') for x in G[typ][0]]
+    hKpos=random.choice([buchstabenGross[i] for i,x in  enumerate(G[typ][0]) ])
+    tikzcommand=['\\tikzstyle{background grid}=[draw, black!15,step=.5cm]']
+    tikzcommand.append(F"\\begin{{tikzpicture}}[show background grid]")
+    tikzcommand.append(F'\\draw  {" ".join([f"{x} coordinate({buchstabenGross[i]})" for i,x in enumerate(G[typ][0])])} ;')
+    tikzcommand.append(F'\\draw  {" ".join([f"{x} coordinate({buchstabenGross[i]}2)" for i,x in enumerate(koord2)])} ;')
+    for seite in list(G[typ][1].keys()):
+        p1,p2=G[typ][1][seite]
+        nichtSichtbar=G[typ][4 if stehend else 3]
+        node=f'node[below,sloped]{{{strNW(varis[seite],2)} cm}}' if bool(random.getrandbits(1)) else ''
+        tikzcommand.append(F'\\draw[thick{",dashed" if (f"{p1}{p2}" in nichtSichtbar or f"{p2}{p1}" in nichtSichtbar) else ""}] ({p1}) -- {node}  ({p2});')
+        node=f'node[below,sloped]{{{strNW(varis[seite],2)} cm}}' if len(node)==0 else ''
+        tikzcommand.append(F'\\draw[thick{",dashed" if (f"{p1}2{p2}2" in nichtSichtbar or f"{p2}2{p1}2" in nichtSichtbar) else ""}] ({p1}2) -- {node} ({p2}2);')
+    if [x for x in list(varis.keys()) if ('h' in x and not x=='h_K')]:
+        h=[x for x in list(varis.keys()) if ('h' in x and not x=='h_K')][0]
+        p1,line=G[typ][2]
+        p1oder2='' if stehend else random.choice(['','2'])
+        tikzcommand.append(F'\\draw[thick,gray,dashed] ($({line[0]}{p1oder2})!({p1}{p1oder2})!({line[1]}{p1oder2})$) -- node[below,sloped]{{{strNW(varis[h],2)} cm}} ({p1}{p1oder2});')
+    for pkt in [buchstabenGross[i] for i,x in enumerate(G[typ][0])]:
+        node=f'node[below,sloped]{{{strNW(varis["h_K"],2)} cm}}' if pkt==hKpos else ""
+        tikzcommand.append(F'\\draw[thick{",dashed" if f"{pkt}{pkt}2" in nichtSichtbar else ""}] ({pkt}) --{node} ({pkt}2);')
+    tikzcommand.append(F"\\end{{tikzpicture}}")
+    return tikzcommand
