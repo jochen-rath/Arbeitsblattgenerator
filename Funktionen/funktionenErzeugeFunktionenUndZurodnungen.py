@@ -29,14 +29,14 @@ def erzeugeUmfangsFunktion(typ='Dreieck',mitText=True):
 
 def erzeugeLineareFunktion(art='linear',steigung='bruch',maxM=5):
 #Diese Funktion erzeugt eine lineare Funktion. 
-    m=random.randint(1,maxM)
+    m=(1 if bool(random.getrandbits(1)) else -1)*random.randint(1,maxM)
     if steigung=='bruch':
-        m=[random.randint(1,2*maxM),random.randint(1,maxM)]
-        while ((m[0]/m[1]>maxM) or (m[0]==m[1]) or (m[0]/m[1]<0.2)):
-            m=[random.randint(1,5),random.randint(1,5)]
+        m=[(1 if bool(random.getrandbits(1)) else -1)*random.randint(1,2*maxM),random.randint(1,maxM)]
+        while ((abs(m[0])/m[1]>maxM) or (abs(m[0])==m[1]) or (abs(m[0])/m[1]<0.2)):
+            m=[(1 if bool(random.getrandbits(1)) else -1)*random.randint(1,5),random.randint(1,5)]
             print('m='+str(m))
     if steigung=='dezi':
-        m=random.randint(1,maxM*10)*0.1
+        m=(1 if bool(random.getrandbits(1)) else -1)*random.randint(1,maxM*10)*0.1
     b=0
     if art=='linear':
         b=random.choice([-1,1])*random.randint(1,5)
@@ -89,7 +89,7 @@ def erzeugeAfgLineareFktErkennen(art='linear',steigung='bruch',anzSpalten=[2,2],
         while nichtPassend:
             nichtPassend=False
             [m,b]=erzeugeLineareFunktion(art=art,steigung=steigung,maxM=(maxX if maxM==None else maxM))            
-            if m[1]>maxX or m[0]/m[1]> (1.5 if anzSpalten[0]==2 else 3):
+            if m[1]>maxX or abs(m[0])/m[1]> (1.5 if anzSpalten[0]==2 else 3):
                 nichtPassend=True
     else:
         [m, b] = erzeugeLineareFunktion(art=art, steigung=steigung, maxM=(maxX if maxM == None else maxM))
@@ -125,7 +125,7 @@ def erzeugeAfgLinearFktWertetabelle(variabel='x',wertTab=3,achsenlaenge=10):
     return [afg,lsg,werte]
 
 def erzeugeFunkTabDiaAfg(diagrammVorgegeben=True,mitText=True,nurText=False,anzSpalten=[1,1]):
-    m=random.randint(5,20)/10
+    m=(1 if bool(random.getrandbits(1)) else -1)*random.randint(5,20)/10
     b=random.randint(-30,30)/10
     afg=[F'\\pbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
     afg=afg+([F'Übertrage die Werte der Funktion $y={strNW(m)}\cdot x{"+" if b>0 else "-"}{strNW(abs(b))}$ in die Tabelle und zeichne die Funktion.'] if mitText else [F'$y={strNW(m)}\cdot x{"+" if b>0 else "-"}{strNW(abs(b))}$'])

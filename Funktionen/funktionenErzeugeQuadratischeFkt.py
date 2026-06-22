@@ -62,7 +62,7 @@ def erzeugeQuadVariAuslesen(mitB=False,mitC=False,erkenneBC=False,mitText=True,a
     term='a*(x+b)**2+c'
     afg=[F'\\parbox{{{14 if  anzSpalten[0]<2 else 7}cm}}{{\\raggedright ']
     bestimme=f'{"a" if not erkenneBC else ""}{(", " if not erkenneBC else "")+"b" if mitB else ""}{", c" if mitC else ""}'
-    gleichung=f'{"a\cdot " if not erkenneBC else ""}{"(x+b)^2" if mitB else "x^2"}{"+c" if mitC else ""}'
+    gleichung=(f'{"a&&cdot " if not erkenneBC else ""}{"(x+b)^2" if mitB else "x^2"}{"+c" if mitC else ""}').replace('&&','\\')
     afg=afg+[f'Bestimme {bestimme} der Parabelgleichung ${gleichung}$ für die Parabel \\']
     afg=afg+diagramm
     afg=afg+['}']

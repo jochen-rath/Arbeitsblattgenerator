@@ -58,7 +58,7 @@ def quaderLoesungsskizze(a=3,b=4,c=3,einheit='cm',LSG=False):
     struktur.append('\\endgroup')
     return struktur
 
-def erzeugePrismaVolOMitVorgabe(typ="Dreieck",einheit='cm',ganzeZahlen=True,mitFormeln=True,stehend=True,mitText=True,anzSpalten=[2,2]):
+def erzeugePrismaVolOMitVorgabe(typ="Dreieck",einheit='cm',ganzeZahlen=True,mitFormeln=True,stehend=False,mitText=True,anzSpalten=[2,2]):
     breitePbox=6.5 if anzSpalten==2 else 13
     maxDim=14 if anzSpalten[0] == 1 else 5
     seitenFormeln={'Dreieck':[['a','b','c','h_c','h_K'],['{c}*{h_c}/2','\\frac{{c}\\cdot{h_c}}{2}'],['{a}+{b}+{c}','{a}+{b}+{c}']]}
@@ -66,16 +66,23 @@ def erzeugePrismaVolOMitVorgabe(typ="Dreieck",einheit='cm',ganzeZahlen=True,mitF
     varis={}
     for seite in seitenFormeln[typ][0]:
         varis[seite]=random.randint(3,50)*(1 if ganzeZahlen else 1/10)
-    if typ=='Dreieck':
+    if typ=='Dreieck' or typ=='Trapez':
         while varis['a']+varis['b']<varis['c'] or varis['c']+varis['b']<varis['a'] or varis['a']+varis['c']<varis['b']:
             for seite in seitenFormeln[typ][0]:
                 varis[seite]=random.randint(3,50)*(1 if ganzeZahlen else 1/10)
         alpha=math.acos((varis['a']**2-varis['b']**2-varis['c']**2)/(-2*varis['b']*varis['c']))
-        varis['h_c']=varis['b']*math.sin(alpha)
+        h='h_c' if typ=='Dreieck' else 'h_a'
+        varis[h]=varis['b']*math.sin(alpha)
     if typ=='Trapez':
-        varis['h_a']=min([varis['b'],varis['d']])*random.randint(7,9)/10
+        #Umbauen das Dreiecks zum Trapez, damit die Höhe stimmt.
+        varis['d']=varis['b']
+        varis['b']=varis['a']
+        varis['a']=varis['c']
+        varis['c']=random.randint(3,50)*(1 if ganzeZahlen else 1/10)
+        varis['a']=varis['a']+varis['c']
+        varis['a'],varis['c']=(varis['a'],varis['c']) if bool(random.getrandbits(1)) else (varis['c'],varis['a'])
     varisLsg=dict(varis)
-    aufg=[F'\\pbox{{{breitePbox}{"cm"}}}{{Berechne das Volumen und die Oberfläche:\\\\'] if mitText else []
+    aufg=[F'\\pbox{{{breitePbox}{"cm"}}}{{{"Berechne das Volumen und die Oberfläche:"  if mitText else "\\phantom{M}"}\\\\']
     aufg=aufg+prismenNichtMassstab(typ=typ,varis=varis,stehend=stehend)
     aufg=aufg+['\\\\']
     aufg=aufg+prismaLsgSchema(varis=varis,G=seitenFormeln[typ][1],u_G=seitenFormeln[typ][2],mitLSG=False,mitFormeln=mitFormeln)

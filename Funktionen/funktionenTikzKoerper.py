@@ -477,7 +477,7 @@ def prismenNichtMassstab(typ='Dreieck',varis={'a':4,'b':6,'c':3,'h_c':3.7,'h_K':
     #G={typ:[koordinaten,{seiten mit Punkten},Eigenschaften h_c oder h_a, Seite nicht sichtbar, Seite nicht sichtbar stehend
     hK=3 if stehend else 6
     G={'Dreieck':[[f'(0,0,0)',f'(4.5,0,0)','(0.5,3,0)'],{'a':['B','C'],'b':['C','A'],'c':['A','B']},['C',['A','B']],['A2B2','A2C2','AA2'],['BC','AC','CC2']]}
-    G['Trapez']=[[f'(0,0,0)',f'(4.5,0,0)','(3.5,3,0)','(1,3,0)'],{'a':['A','B'],'b':['B','C'],'c':['C','D'],'d':['D','A']},['D',['A','B']],['A2B2','A2D2','AA2'],['CD','AC','DD2']]
+    G['Trapez']=[[f'(0,0,0)',f'(4.5,0,0)','(3.5,3,0)','(1,3,0)'],{'a':['A','B'],'b':['B','C'],'c':['C','D'],'d':['D','A']},['$(D)!0.1!(C)$',['A','B']],['A2B2','A2D2','AA2'],['CD','AD','DD2']]
     if stehend:
         koord=[x.replace('(','').replace(')','') for x in G[typ][0]]
         koord=[x.split(',') for x in koord]
@@ -499,7 +499,10 @@ def prismenNichtMassstab(typ='Dreieck',varis={'a':4,'b':6,'c':3,'h_c':3.7,'h_K':
         h=[x for x in list(varis.keys()) if ('h' in x and not x=='h_K')][0]
         p1,line=G[typ][2]
         p1oder2='' if stehend else random.choice(['','2'])
-        tikzcommand.append(F'\\draw[thick,gray,dashed] ($({line[0]}{p1oder2})!({p1}{p1oder2})!({line[1]}{p1oder2})$) -- node[below,sloped]{{{strNW(varis[h],2)} cm}} ({p1}{p1oder2});')
+        if p1oder2:
+            p1=p1.replace(')','2)') if '$' in p1 else f'{p1}2'
+        tikzcommand.append(F'\\coordinate (H) at ({p1});')
+        tikzcommand.append(F'\\draw[thick,gray,dashed] ($({line[0]}{p1oder2})!(H)!({line[1]}{p1oder2})$) -- node[below,sloped]{{{strNW(varis[h],2)} cm}} (H);')
     for pkt in [buchstabenGross[i] for i,x in enumerate(G[typ][0])]:
         node=f'node[below,sloped]{{{strNW(varis["h_K"],2)} cm}}' if pkt==hKpos else ""
         tikzcommand.append(F'\\draw[thick{",dashed" if f"{pkt}{pkt}2" in nichtSichtbar else ""}] ({pkt}) --{node} ({pkt}2);')
