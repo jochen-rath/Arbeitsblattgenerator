@@ -19,7 +19,7 @@ def variabelErsetzen(mitText=True):
     if mitText:
 #       afg=F'Setze für die Variable {vari} den Wert {wert} ein und berechne die Lösung für y:'
         afg=['\\pbox{\\linewidth}{']
-        afg.append(F'Setze für die Variabel {vari} den Wert {wert} ein und berechne den Wert des Terms:\\\\')
+        afg.append(F'Setze für die Variable {vari} den Wert {wert} ein und berechne den Wert des Terms:\\\\')
         afg.append(F'${term}$'.replace("*"," \\cdot ").replace('XX','\\'))
         afg.append('}')
     else:
@@ -90,7 +90,7 @@ def erzeugeEinfacheFormelnUmformen(formel='',gesucht='',anzSpalten=[2,2]):
     G=Formeln[formel][0]
     gesucht=gesucht if len(gesucht)>0 else random.choice(Formeln[formel][1])
     L,R=G.split('=')
-    afg='Forme die '+formel+' $'+ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(L))+' ='+ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(R))+'$ nach $'+ersetzePlatzhalterMitSymbolen(gesucht)+'$ um.'    
+    afg='Forme die '+formel+' $'+ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(L))+' ='+ersetzePlatzhalterMitSymbolen(erzeugeLatexFracAusdruck(R))+'$ nach $'+ersetzePlatzhalterMitSymbolen(gesucht)+'$ um.'
     groesse='{6 cm}{!}' if anzSpalten[1] == 2 else '{!}{!}'
     lsg=[f'\\resizebox{groesse}{{']+formeEinfacheFormelNachVorgabenUm(G=G,gesucht=gesucht)+['}']
     return [afg,lsg,G]
@@ -260,7 +260,7 @@ def erzeugeEinfacheKlammerAufloesen(mitText=True):
     lsg = ['$\\begin{aligned}']
     lsg.append(f'{term}&={vZd[0]}{w[0]}\\cdot {"(" if vZd[1]=="-" else ""}{vZd[1]}{w[1]}{")" if vZd[1]=="-" else ""}{vari[0]}{vZ[2]}{w[2]}{vari[1]}')
     lsg.append(('\\end{aligned}$'))
-    
+
 def erzeugeKlammerAufloesenVereinfachen(mitText=True):
     variablen=['a','b','c','d','x','y','z']
     auswahl=random.choice(variablen)
@@ -400,7 +400,7 @@ def erzeugeGleichungMitSummenklammernAusmulti(mitText=True,ohneKomma=False,ergUn
 def erzeugeEinfacheGleichung(variabel='x',mitKlammer=False,mitQuadrat=False,ohneKomma=False,mitText=True):
 #Diese Funktion erzeugt eine Gleichung mit einem x ohne Potenz.
 #
-#Aufruf 
+#Aufruf
 #           [afg,lsg,G]=erzeugeEinfacheGleichung(variabel)
 #
 #   variabel= Variabel der Gleichung, x oder y oder a usw.
@@ -442,7 +442,7 @@ def erzeugeEinfacheGleichung(variabel='x',mitKlammer=False,mitQuadrat=False,ohne
             if ('.' in erg) or ('/' in erg) or int(erg.split('=')[1])==0:
                 lsg='Error'
     return [[afg],[x for x in lsg],[]]
-    
+
 
 
 def erzeugeFlaechenFormelUmformenUndAnwenden(auswahl='',mitText=True):
