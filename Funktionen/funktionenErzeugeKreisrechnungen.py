@@ -108,7 +108,7 @@ def umfangDreieckMitHalbkreis(mitText=True):
     kx=random.randint(20,50)/10.0
     ky=random.randint(20,50)/10.0
     c = (kx ** 2 + ky ** 2) ** 0.5
-    tikz=dreieckMitHalbkreis(kx=0.6*kx,ky=0.6*ky,seiten=['',F'{strNW(ky,True)} {einheit}',F'{strNW(kx,True)} {einheit}'],ohneHyp=True)
+    tikz=dreieckMitHalbkreis(kx=0.6*kx,ky=0.6*ky,seiten=['',F'{strNW(ky,True)} {einheit}',F'{strNW(kx,True)} {einheit}'],ohneHyp=True,hypRot=False)
     if mitText:      
         afg=['\\pbox{\\linewidth}{']+['Berechne den Umfang und die Fläche von ']+tikz+['}']
     else:
@@ -126,19 +126,22 @@ def umfangDreieckMitHalbkreis(mitText=True):
     lsg.append(F'A_1&=\\frac{{{strNW(kx)}·{strNW(ky)}}}2 & & \\\\')
     lsg.append(F'A_1&={strNW(kx*ky/2,True)}~{einheit}^2 & & \\\\')
     lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
-    lsg.append(F'A_2&=\\pi·r^2 & & \\\\')
+    lsg.append(F'A_2&=\\frac{{1}}2·\\pi·r^2 & & \\\\')
     lsg.append(F'r&=d/2 & & \\\\')
     lsg.append(F'd^2&={{g^2+h^2}} & & \\\\')
     lsg.append(F'd^2&={{{strNW(kx)}^2+{strNW(ky)}^2}} & & \\mid \\sqrt{{~}}\\\\')
     lsg.append(F'd&={strNW((kx**2+ky**2)**0.5,True)}~{einheit}\\\\')
     lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
-    lsg.append(F'A_2&=\\pi·r^2 & & \\\\')
-    lsg.append(F'A_2&=\\pi·{strNW(c/2,True)}^2 & & \\\\')
-    lsg.append(F'A_2&={strNW(math.pi*(c/2)**2,True)}~{einheit}^2 & & \\\\')
+    lsg.append(F'r&={strNW(c,True)}/2 & & \\\\')
+    lsg.append(F'r&={strNW(c/2,True)} & & \\\\')
+    lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
+    lsg.append(F'A_2&=\\frac{{1}}2·\\pi·r^2 & & \\\\')
+    lsg.append(F'A_2&=\\frac{{1}}2·\\pi·{strNW(c/2,True)}^2 & & \\\\')
+    lsg.append(F'A_2&={strNW(0.5*math.pi*(c/2)**2,True)}~{einheit}^2 & & \\\\')
     lsg.insert(-1,'\\makebox[0pt][l]{\\uline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
     lsg.append(F'A&=A_1+A_2 & & \\\\')
-    lsg.append(F'A&={strNW(kx*ky/2,True)}+{strNW(math.pi*(c/2)**2,True)} & & \\\\')
-    lsg.append(F'A&={strNW(kx*ky/2+math.pi*(c/2)**2,True)} & & \\\\')
+    lsg.append(F'A&={strNW(kx*ky/2,True)}+{strNW(0.5*math.pi*(c/2)**2,True)} & & \\\\')
+    lsg.append(F'A&={strNW(kx*ky/2+0.5*math.pi*(c/2)**2,True)} & & \\\\')
     lsg.insert(-1,'\\makebox[0pt][l]{\\uuline{\\phantom{$' + lsg[-1].replace('&', '') + '$}}}')
     lsg.append(F'u&=h+g+u_{{HK}} & & \\mbox{{HK: Halbkreis}} \\\\')
     lsg.append(F'u_{{HK}}&=\\frac{{1}}2 · 2\\pi r& & \\\\')

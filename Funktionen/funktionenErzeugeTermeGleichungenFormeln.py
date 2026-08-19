@@ -17,7 +17,7 @@ def variabelErsetzen(mitText=True):
     while not vari in term:
         term=erzeugeTerm(variablen=vari, anzahl=2, variMaxAnzProUnterterm=1)
     if mitText:
-#       afg=F'Setze für die Variabel {vari} den Wert {wert} ein und berechne die Lösung für y:'
+#       afg=F'Setze für die Variable {vari} den Wert {wert} ein und berechne die Lösung für y:'
         afg=['\\pbox{\\linewidth}{']
         afg.append(F'Setze für die Variabel {vari} den Wert {wert} ein und berechne den Wert des Terms:\\\\')
         afg.append(F'${term}$'.replace("*"," \\cdot ").replace('XX','\\'))
