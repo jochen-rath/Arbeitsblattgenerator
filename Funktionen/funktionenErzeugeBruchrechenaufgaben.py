@@ -2,8 +2,20 @@
 # coding: utf8
 
 #Aufruf:
+#		import os
+#		os.chdir(f'{os.path.expanduser("~")}/Schule/Arbeitsblattgenerator')
 #       exec(open("Funktionen/funktionen.py").read())
 
+def bruchVonZahlAufgaben(mitVorgabe=False,zaehler=0):
+    nenner=random.randint(2,10)
+    zaehler=zaehler if zaehler>0 else random.randint(1,nenner-1)
+    zahl=random.randint(2,10)*nenner
+    afg=f'$\\frac{{{zaehler}}}{{{nenner}}}$ von ${zahl} = $'
+    if mitVorgabe:
+        afg=afg+f'\\rule{{1cm}}{{0.5pt}} , denn ${zahl}:{nenner}=$\\rule{{1cm}}{{0.5pt}}{f" und \\rule{{1cm}}{{0.5pt}}$\\cdot {zaehler}=$\\rule{{1cm}}{{0.5pt}}" if zaehler>1 else ""}.'
+    lsg=f'$\\frac{{{zaehler}}}{{{nenner}}}$ von ${zahl} = \\textcolor{{red}}{{{strNW(zahl/nenner*zaehler)}}}$, denn ${zahl}:{nenner}=\\textcolor{{red}}{{{strNW(zahl/nenner)}}}${f" und $\\textcolor{{red}}{{{strNW(zahl/nenner)}}}\\cdot {zaehler}=\\textcolor{{red}}{{{strNW(zahl/nenner*zaehler)}}}$" if zaehler>1 else ""}.'
+    return [afg,lsg,[]]
+    
 
 def erzeugeKgv():
 #Erzeugt eine Aufgabe zur Berechnung des kleinsten gemeinsamen Vielfachens
